@@ -1,11 +1,11 @@
 # Project 2: TNCMCU
 
-## Project Members: 
+Project Members: 
 - David C.
 - Kobe K.
 - Kaleb L.
 
-## Project Mentors: 
+Project Mentors: 
 - Nolan E.
 - Rizwan M.
 - Nick P.
