@@ -38,9 +38,13 @@ Ideally, this team would be composed of 2 students able to put at least 8 hours 
 
 ## Repo notes
 *Not a permanent structures, very flexible!*
+
 Darby Stuff - Generally anything we need for assignments or papers can be put here
+
 Hardware Specs - Documentation for any hardware used in the project. Renaming the file to something interpretable is preferred, I.E. don't download from mouser and have the file named file001.pdf.
+
 Presentations - This is where we'll keep presentations for mentors or Dr. Darby. Please preceed file name with date of presentation.
+
 Protocol Documentation - This is where any relevant information about AX.25/KISS/HDLC/etc... can go. Same process with the hardware specs, useful naming means useful people.
 
 hehe put your shit here but organize plz
