@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="TNC MCU Design Flow" company="" webLink="http://" view-date="2020-07-19" view-index="0" gantt-divider-location="332" resource-divider-location="300" version="2.8.10" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="TNC MCU Design Flow" company="" webLink="http://" view-date="2020-02-02" view-index="0" gantt-divider-location="413" resource-divider-location="300" version="2.8.10" locale="en_US">
     <description><![CDATA[This is a Gantt Outline for Senior Design Project 2: TNC MCU]]></description>
-    <view zooming-state="default:6" id="gantt-chart">
-        <field id="tpd3" name="Name" width="208" order="0"/>
-        <field id="tpd5" name="End date" width="105" order="1"/>
+    <view zooming-state="default:5" id="gantt-chart">
+        <field id="tpd3" name="Name" width="248" order="0"/>
+        <field id="tpd5" name="End date" width="146" order="1"/>
         <option id="color.recent"><![CDATA[#ff0033 #ffff33 #f4f4f4]]></option>
     </view>
     <view id="resource-table">
@@ -34,9 +34,9 @@
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
         <task id="0" name="Mentor Meeting 1" color="#8cb6ce" meeting="false" start="2020-02-03" duration="1" complete="0" thirdDate="2020-02-03" thirdDate-constraint="1" expand="true"/>
-        <task id="67" name="Protocol Research" color="#ffff33" meeting="false" start="2020-02-05" duration="5" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
+        <task id="67" name="Protocol Research - Kobe" color="#ffff33" meeting="false" start="2020-02-05" duration="5" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="4" name="Mentor Meeting 2" color="#8cb6ce" meeting="false" start="2020-02-12" duration="1" complete="0" thirdDate="2020-02-17" thirdDate-constraint="0" expand="true"/>
-        <task id="71" name="PTT Circuit Design" color="#ffff33" meeting="false" start="2020-02-17" duration="1" complete="0" thirdDate="2020-01-27" thirdDate-constraint="0" expand="true"/>
+        <task id="71" name="PTT Circuit Design - David" color="#ffff33" meeting="false" start="2020-02-17" duration="1" complete="0" thirdDate="2020-01-27" thirdDate-constraint="0" expand="true"/>
         <task id="74" name="Weekly Status Report 1" color="#ff0033" meeting="false" start="2020-02-14" duration="3" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="35" name="Assignment 1" color="#ff0033" meeting="false" start="2020-02-13" duration="4" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
         <task id="6" name="Mentor Meeting 3" color="#8cb6ce" meeting="false" start="2020-02-18" duration="1" complete="0" thirdDate="2019-12-30" thirdDate-constraint="0" expand="true"/>
@@ -47,31 +47,37 @@
         <task id="39" name="Assignment 1B" color="#ff0033" meeting="false" start="2020-02-26" duration="5" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
         <task id="42" name="Assignment 1C" color="#ff0033" meeting="false" start="2020-02-26" duration="5" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
         <task id="17" name="Mentor Meeting 5" color="#8cb6ce" meeting="false" start="2020-03-03" duration="1" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
-        <task id="55" name="Documentation Checkup 1" color="#ffff33" meeting="false" start="2020-03-05" duration="2" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
-        <task id="174" name="Hardware Testing 1" color="#ffff33" meeting="false" start="2020-03-02" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="55" name="Documentation Checkup 1 - Kaleb" color="#ffff33" meeting="false" start="2020-03-05" duration="2" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="174" name="Hardware Testing 1 - David" color="#ffff33" meeting="false" start="2020-03-02" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="228" name="Software Testing 1 - David" color="#ffff33" meeting="false" start="2020-03-02" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
         <task id="85" name="Weekly Status Report 4" color="#ff0033" meeting="false" start="2020-03-06" duration="3" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="21" name="Mentor Meeting 6" color="#8cb6ce" meeting="false" start="2020-03-10" duration="1" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
         <task id="87" name="Weekly Status Report 5" color="#ff0033" meeting="false" start="2020-03-13" duration="3" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="45" name="Assignment 2" color="#ff0033" meeting="false" start="2020-03-11" duration="5" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
         <task id="24" name="Mentor Meeting 7" color="#8cb6ce" meeting="false" start="2020-03-17" duration="1" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
-        <task id="178" name="Hardware Testing 2" color="#ffff33" meeting="false" start="2020-03-16" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="178" name="Hardware Testing 2 - Kobe" color="#ffff33" meeting="false" start="2020-03-16" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="231" name="Software Testing 2 - Kaleb" color="#ffff33" meeting="false" start="2020-03-16" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
         <task id="93" name="Weekly Status Report 6" color="#ff0033" meeting="false" start="2020-03-20" duration="3" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="26" name="Mentor Meeting 8" color="#8cb6ce" meeting="false" start="2020-03-24" duration="1" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
-        <task id="60" name="Documentation Checkup 2" color="#ffff33" meeting="false" start="2020-03-26" duration="2" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
-        <task id="182" name="Hardware Testing 3" color="#ffff33" meeting="false" start="2020-03-23" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="60" name="Documentation Checkup 2 - Kaleb" color="#ffff33" meeting="false" start="2020-03-26" duration="2" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="182" name="Hardware Testing 3 - David" color="#ffff33" meeting="false" start="2020-03-23" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="234" name="Software Testing 3 - Kobe" color="#ffff33" meeting="false" start="2020-03-23" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
         <task id="90" name="Weekly Status Report 7" color="#ff0033" meeting="false" start="2020-03-27" duration="3" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="47" name="Assignment 2A" color="#ff0033" meeting="false" start="2020-03-25" duration="5" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
         <task id="30" name="Mentor Meeting 9" color="#8cb6ce" meeting="false" start="2020-03-31" duration="1" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
-        <task id="185" name="Hardware Testing 4" color="#ffff33" meeting="false" start="2020-03-30" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="185" name="Hardware Testing 4 - Kobe" color="#ffff33" meeting="false" start="2020-03-30" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="236" name="Software Testing 4 - Kaleb" color="#ffff33" meeting="false" start="2020-03-30" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
         <task id="98" name="Weekly Status Report 8" color="#ff0033" meeting="false" start="2020-04-03" duration="3" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="49" name="Assignment 2B" color="#ff0033" meeting="false" start="2020-04-01" duration="5" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true"/>
         <task id="51" name="Assignment 2C" color="#ff0033" meeting="false" start="2020-04-01" duration="5" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true"/>
         <task id="32" name="Mentor Meeting 10" color="#8cb6ce" meeting="false" start="2020-04-07" duration="1" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
-        <task id="188" name="Hardware Testing 5" color="#ffff33" meeting="false" start="2020-04-06" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="188" name="Hardware Testing 5 - Kaleb" color="#ffff33" meeting="false" start="2020-04-06" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="238" name="Softaware Testing 5 - David" color="#ffff33" meeting="false" start="2020-04-06" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
         <task id="101" name="Weekly Status Report 9" color="#ff0033" meeting="false" start="2020-04-10" duration="3" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="9" name="Mentor Meeting 11" color="#8cb6ce" meeting="false" start="2020-04-14" duration="1" complete="0" thirdDate="2020-02-03" thirdDate-constraint="0" expand="true"/>
-        <task id="63" name="Documentation Checkup 3" color="#ffff33" meeting="false" start="2020-04-16" duration="2" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
-        <task id="191" name="Hardware Testing 6" color="#ffff33" meeting="false" start="2020-04-13" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="63" name="Documentation Checkup 3 - David" color="#ffff33" meeting="false" start="2020-04-16" duration="2" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="191" name="Hardware Testing 6 - Kobe" color="#ffff33" meeting="false" start="2020-04-13" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
+        <task id="240" name="Software Testing 6 - Kaleb" color="#ffff33" meeting="false" start="2020-04-13" duration="5" complete="0" thirdDate="2020-03-16" thirdDate-constraint="0" expand="true"/>
         <task id="105" name="Weekly Status Report 10" color="#ff0033" meeting="false" start="2020-04-17" duration="3" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         <task id="53" name="Assignement 3" color="#ff0033" meeting="false" start="2020-04-15" duration="5" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true"/>
         <task id="113" name="Mentor Meeting 12" color="#8cb6ce" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2020-08-25" duration="1" complete="0" thirdDate="2020-04-06" thirdDate-constraint="0" expand="true"/>
