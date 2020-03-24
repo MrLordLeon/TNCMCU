@@ -8,7 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
+-include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include subdir.mk
@@ -24,24 +24,24 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Serial\ Echo.elf \
+PWM-PLZ.elf \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Serial\ Echo.list \
+PWM-PLZ.list \
 
 OBJCOPY_BIN += \
-Serial\ Echo.bin \
+PWM-PLZ.bin \
 
 
 # All Target
-all: Serial\ Echo.elf secondary-outputs
+all: PWM-PLZ.elf secondary-outputs
 
 # Tool invocations
-Serial\ Echo.elf: $(OBJS) $(USER_OBJS) C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code\ Playground\L4746RG\Serial\ Echo\STM32L476RGTX_FLASH.ld
-	arm-none-eabi-gcc -o "Serial Echo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code Playground\L4746RG\Serial Echo\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Serial Echo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+PWM-PLZ.elf: $(OBJS) $(USER_OBJS) C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code\ Playground\PWM-PLZ\STM32F446RETX_FLASH.ld
+	arm-none-eabi-gcc -o "PWM-PLZ.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code Playground\PWM-PLZ\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PWM-PLZ.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -50,13 +50,13 @@ default.size.stdout: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Serial\ Echo.list: $(EXECUTABLES)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Serial Echo.list"
+PWM-PLZ.list: $(EXECUTABLES)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "PWM-PLZ.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Serial\ Echo.bin: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "Serial Echo.bin"
+PWM-PLZ.bin: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "PWM-PLZ.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
