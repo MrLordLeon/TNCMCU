@@ -36,7 +36,7 @@
 
 //Default values for PWM_OBJECT s
 #define DEFAULTWIDTH 100
-#define DEFAULTSTEP 10
+#define DEFAULTSTEP 2
 #define DEFAULTDIR 1
 #define PWMDLY 50
 /* USER CODE END PTD */
@@ -91,6 +91,7 @@ int main(void)
 	PWM1.widthStep = DEFAULTSTEP;
 	PWM1.PWMValue = DEFAULTWIDTH;
 	PWM1.dir = DEFAULTDIR;
+	bool button;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -124,8 +125,15 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  doPWM(&PWM1);
-	  HAL_Delay(PWMDLY);
+	  button = HAL_GPIO_ReadPin(GPIOC,B1_Pin);
+
+	  if(!button)
+	  {
+		  HAL_GPIO_WritePin(GPIOA, LD2_Pin, GPIO_PIN_SET);
+		  doPWM(&PWM1);
+		  HAL_Delay(PWMDLY);
+	  }
+	  else HAL_GPIO_WritePin(GPIOA, LD2_Pin, GPIO_PIN_RESET);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
