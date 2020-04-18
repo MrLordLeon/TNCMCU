@@ -3,6 +3,7 @@
   * @file           : main.c
   * @brief          : Main program body
   ******************************************************************************
+<<<<<<< HEAD
   * @attention
   *
   * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
@@ -12,6 +13,9 @@
   *
   * CURRENT FOCUS:
   * So for one we still need
+=======
+  * @attention this code is now messed up.
+>>>>>>> letsChangeIt
   *
   ******************************************************************************
   */
