@@ -12,10 +12,7 @@
   * This is the main program for ULL Fall 2020, TNCMCU Design Team 2
   *
   * CURRENT FOCUS:
-  * So for one we still need
-=======
-  * @attention this code is now messed up.
->>>>>>> letsChangeIt
+  * So for one we still need a program to get packets into the controller.
   *
   ******************************************************************************
   */
