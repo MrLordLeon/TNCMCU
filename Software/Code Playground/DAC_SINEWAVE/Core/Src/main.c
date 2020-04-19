@@ -24,21 +24,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "math.h"
-/* USER CODE END Includes */
 
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
+#define PI 3.1415926
+#define LOWF	166
+#define HIGHF	90
 
 /* Private variables ---------------------------------------------------------*/
 DAC_HandleTypeDef hdac;
@@ -56,22 +45,18 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_DAC_Init(void);
 static void MX_TIM2_Init(void);
-/* USER CODE BEGIN PFP */
 
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
 
 //output voltage
 float value = 0.2;
 
 uint32_t var;
 
-//stores 100 samples for sinewave
+//Sine Arrays
 uint32_t sine_val[100];
 
-#define PI 3.1415926
+uint32_t lowFrequency[LOWF];
+uint32_t highFrequency[HIGHF];
 
 //does conversion
 void get_sineval(){
@@ -80,7 +65,23 @@ void get_sineval(){
 		sine_val[i] = ((sin(i*2*PI/100)+1)*(4096/2));
 	}
 }
-uint32_t sine_wave[100];
+
+void edit_sineval(uint32_t *sinArray,int arraySize){
+	for (int i=0;i<arraySize;i++){
+		//formula in DAC Document
+		sinArray[i] = ((sin(i*2*PI/arraySize)+1.1)*(4096/4));
+	}
+}
+//HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
+void bitToAudio(uint32_t *bitStream, int arraySize){
+	for (int i=0;i<arraySize;i++){
+		if(bitStream[i]==1) HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,lowFrequency,LOWF,DAC_ALIGN_12B_R);
+
+		else HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
+		HAL_Delay(100);
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -120,27 +121,15 @@ int main(void)
   HAL_TIM_Base_Start(&htim2);
 
   get_sineval();
-
-  HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,sine_val,100,DAC_ALIGN_12B_R);
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+  edit_sineval(lowFrequency,LOWF);
+  edit_sineval(highFrequency,HIGHF);
+  uint32_t bitStream[10];
+  for(int i = 0;i<=10;i++){
+	  bitStream[i] = rand(1);
+  }
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-	//var = value*(0xfff + 1)/3.3; //DOR
-	//HAL_DAC_SetValue(&hdac,DAC_CHANNEL_1,DAC_ALIGN_12B_R,var);
-
-	//value += 0.5;
-
-	//HAL_Delay(2000);
-
-	//if(value>3){
-	//	value =0.2;
-	//}
+	  bitToAudio(&bitStream,10);
   }
   /* USER CODE END 3 */
 }
@@ -253,7 +242,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 90-1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = (900/108)-1;
+  htim2.Init.Period = 5-1;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
