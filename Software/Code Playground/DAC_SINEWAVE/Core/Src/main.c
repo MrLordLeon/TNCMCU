@@ -20,7 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include <stdbool.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "math.h"
@@ -73,12 +73,13 @@ void edit_sineval(uint32_t *sinArray,int arraySize){
 	}
 }
 //HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
-void bitToAudio(uint32_t *bitStream, int arraySize){
+void bitToAudio(bool *bitStream, int arraySize){
 	for (int i=0;i<arraySize;i++){
-		if(bitStream[i]==1) HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,lowFrequency,LOWF,DAC_ALIGN_12B_R);
+		if(bitStream[i]) HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,lowFrequency,LOWF,DAC_ALIGN_12B_R);
 
 		else HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
-		HAL_Delay(100);
+		HAL_Delay(2);
+		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 	}
 }
 
@@ -123,10 +124,21 @@ int main(void)
   get_sineval();
   edit_sineval(lowFrequency,LOWF);
   edit_sineval(highFrequency,HIGHF);
-  uint32_t bitStream[10];
-  for(int i = 0;i<=10;i++){
-	  bitStream[i] = rand(1);
-  }
+  bool bitStream[10];
+
+  bitStream[0] = 1;
+  bitStream[1] = 0;
+  bitStream[2] = 1;
+  bitStream[3] = 0;
+  bitStream[4] = 1;
+  bitStream[5] = 0;
+  bitStream[6] = 1;
+  bitStream[7] = 0;
+  bitStream[8] = 1;
+  bitStream[9] = 0;
+  HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
+  HAL_Delay(500);
+  HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
   while (1)
   {
 	  bitToAudio(&bitStream,10);
