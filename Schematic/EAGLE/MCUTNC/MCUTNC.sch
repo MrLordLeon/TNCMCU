@@ -1330,6 +1330,110 @@ Warning: This is the KIT version of this package. This package has a smaller dia
 </deviceset>
 </devicesets>
 </library>
+<library name="SparkFun-Connectors">
+<description>&lt;h3&gt;SparkFun Connectors&lt;/h3&gt;
+This library contains electrically-functional connectors. 
+&lt;br&gt;
+&lt;br&gt;
+We've spent an enormous amount of time creating and checking these footprints and parts, but it is &lt;b&gt; the end user's responsibility&lt;/b&gt; to ensure correctness and suitablity for a given componet or application. 
+&lt;br&gt;
+&lt;br&gt;If you enjoy using this library, please buy one of our products at &lt;a href=" www.sparkfun.com"&gt;SparkFun.com&lt;/a&gt;.
+&lt;br&gt;
+&lt;br&gt;
+&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
+&lt;br&gt;
+&lt;br&gt;
+You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
+<packages>
+<package name="AUDIO_JACK_3.5MM_TRRS_SMD_RA">
+<description>&lt;h3&gt;TRRS 3.5MM Right Angle Stereo Jack - SMT&lt;/h3&gt;
+&lt;p&gt;Specifications:
+&lt;ul&gt;&lt;li&gt;Pin count: 4&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=”http://cdn.sparkfun.com/datasheets/Prototyping/20153.pdf”&gt;Datasheet referenced for footprint&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Example device(s):
+&lt;ul&gt;&lt;li&gt;AUDIO_JACK_TRRS&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;</description>
+<wire x1="0.5" y1="-3.3" x2="10.5" y2="-3.3" width="0.254" layer="21"/>
+<wire x1="12.2" y1="3.3" x2="12.2" y2="-3.3" width="0.254" layer="21"/>
+<wire x1="12.2" y1="3.3" x2="11" y2="3.3" width="0.254" layer="21"/>
+<wire x1="0.5" y1="3.3" x2="0" y2="3.3" width="0.254" layer="51"/>
+<wire x1="0" y1="3.3" x2="0" y2="2.8" width="0.254" layer="51"/>
+<wire x1="0" y1="2.8" x2="0" y2="-2.8" width="0.254" layer="51"/>
+<wire x1="0" y1="-2.8" x2="0" y2="-3.3" width="0.254" layer="51"/>
+<wire x1="0" y1="-3.3" x2="0.5" y2="-3.3" width="0.254" layer="51"/>
+<wire x1="0" y1="2.8" x2="-2" y2="2.8" width="0.254" layer="51"/>
+<wire x1="-2" y1="2.8" x2="-2" y2="-2.8" width="0.254" layer="51"/>
+<wire x1="-2" y1="-2.8" x2="0" y2="-2.8" width="0.254" layer="51"/>
+<smd name="TIP" x="10.2" y="3.25" dx="1.2" dy="2.5" layer="1"/>
+<smd name="EARTH" x="11.3" y="-3.25" dx="1.2" dy="2.5" layer="1"/>
+<smd name="RING1" x="6.2" y="3.25" dx="1.2" dy="2.5" layer="1"/>
+<smd name="RING2" x="3.2" y="3.25" dx="1.2" dy="2.5" layer="1" rot="R180"/>
+<hole x="1.6" y="0" drill="1.2"/>
+<hole x="8.6" y="0" drill="1.2"/>
+<wire x1="7" y1="3.3" x2="9.4" y2="3.3" width="0.254" layer="21"/>
+<wire x1="4" y1="3.3" x2="5.4" y2="3.3" width="0.254" layer="21"/>
+<wire x1="0.5" y1="3.3" x2="2.4" y2="3.3" width="0.254" layer="21"/>
+<text x="3.175" y="0.127" size="0.6096" layer="25" font="vector" ratio="20">&gt;NAME</text>
+<text x="3.175" y="-1.397" size="0.6096" layer="27" font="vector" ratio="20">&gt;VALUE</text>
+</package>
+</packages>
+<symbols>
+<symbol name="AUDIO-JACK3-TRRS">
+<description>&lt;h3&gt; Audio Jack &lt;/h3&gt;
+&lt;p&gt;   Audio Jack with TRRS&lt;/p&gt;</description>
+<wire x1="-3.81" y1="-5.08" x2="-2.54" y2="-3.81" width="0.1524" layer="94"/>
+<wire x1="-2.54" y1="-3.81" x2="-1.27" y2="-5.08" width="0.1524" layer="94"/>
+<wire x1="-1.27" y1="-5.08" x2="2.54" y2="-5.08" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="2.54" x2="0" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="0" y1="2.54" x2="-1.27" y2="1.27" width="0.1524" layer="94"/>
+<wire x1="-1.27" y1="1.27" x2="-2.54" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="5.08" x2="-5.08" y2="5.08" width="0.1524" layer="94"/>
+<text x="-5.08" y="5.588" size="1.778" layer="95" font="vector">&gt;NAME</text>
+<text x="-5.08" y="-7.62" size="1.778" layer="96" font="vector">&gt;VALUE</text>
+<rectangle x1="-6.35" y1="-5.08" x2="-5.08" y2="5.08" layer="94"/>
+<pin name="RING1" x="5.08" y="2.54" visible="off" length="short" rot="R180"/>
+<pin name="RING2" x="5.08" y="-5.08" visible="off" length="short" rot="R180"/>
+<pin name="EARTH" x="5.08" y="5.08" visible="off" length="short" rot="R180"/>
+<pin name="TIP" x="5.08" y="-2.54" visible="off" length="short" rot="R180"/>
+<wire x1="-1.27" y1="-2.54" x2="0" y2="-1.27" width="0.1524" layer="94"/>
+<wire x1="0" y1="-1.27" x2="1.27" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="-2.54" x2="2.54" y2="-2.54" width="0.1524" layer="94"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="AUDIO_JACK_TRRS" prefix="J">
+<description>&lt;h3&gt;Audio Jack - 3.5mm TRRS (SMD)&lt;/h3&gt;
+&lt;p&gt;This is a 3.5mm TRRS SMD audio jack. 
+&lt;br&gt;TRRS connectors are the audio-style connectors that you see on some phones, MP3 players and development boards. 
+&lt;br&gt;TRRS stands for “tip, ring, ring, sleeve,” which reflects that this  has three conductors and a ground. &lt;/p&gt;
+&lt;p&gt;&lt;b&gt;SparkFun Products:&lt;/b&gt;
+&lt;ul&gt;&lt;li&gt;&lt;a href=”https://www.sparkfun.com/products/12639”&gt;Audio Jack&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.sparkfun.com/products/12968"&gt;mbed Starter Kit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=”https://www.sparkfun.com/products/11570&gt;SparkFun TRRS 3.5mm Jack Breakout&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;</description>
+<gates>
+<gate name="G$1" symbol="AUDIO-JACK3-TRRS" x="0" y="0"/>
+</gates>
+<devices>
+<device name="SMD_RA" package="AUDIO_JACK_3.5MM_TRRS_SMD_RA">
+<connects>
+<connect gate="G$1" pin="EARTH" pad="EARTH"/>
+<connect gate="G$1" pin="RING1" pad="RING1"/>
+<connect gate="G$1" pin="RING2" pad="RING2"/>
+<connect gate="G$1" pin="TIP" pad="TIP"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PROD_ID" value="CONN-10676" constant="no"/>
+<attribute name="SF_ID" value="PRT-12639" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -1339,6 +1443,11 @@ Warning: This is the KIT version of this package. This package has a smaller dia
 <class number="0" name="default" width="0" drill="0">
 </class>
 </classes>
+<groups>
+<schematic_group name="STM32"/>
+<schematic_group name="AUDIO_CIRCUIT"/>
+<schematic_group name="3.5MM_JACK"/>
+</groups>
 <parts>
 <part name="U1" library="NUCLEO-F446RE" deviceset="NUCLEO-F446RE" device=""/>
 <part name="R1" library="SparkFun-Resistors" deviceset="10KOHM" device="-HORIZ-1/6W-5%" value="10k"/>
@@ -1347,6 +1456,7 @@ Warning: This is the KIT version of this package. This package has a smaller dia
 <part name="R2" library="SparkFun-Resistors" deviceset="10KOHM" device="-HORIZ-1/6W-5%" value="1.5k"/>
 <part name="R3" library="SparkFun-Resistors" deviceset="10KOHM" device="-HORIZ-1/6W-5%" value="220"/>
 <part name="C2" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" deviceset="0.1UF" device="-KIT-EZ-50V-20%" package3d_urn="urn:adsk.eagle:package:37428/1" value="0.1uF"/>
+<part name="J1" library="SparkFun-Connectors" deviceset="AUDIO_JACK_TRRS" device="SMD_RA"/>
 </parts>
 <sheets>
 <sheet>
@@ -1365,41 +1475,44 @@ Warning: This is the KIT version of this package. This package has a smaller dia
 <attribute name="NAME" x="193.04" y="204.47" size="1.778" layer="95"/>
 <attribute name="VALUE" x="193.04" y="179.07" size="1.778" layer="96" rot="MR180"/>
 </instance>
-<instance part="U1" gate="G$4" x="33.02" y="20.32" smashed="yes">
-<attribute name="NAME" x="27.94" y="34.29" size="1.778" layer="95"/>
-<attribute name="VALUE" x="27.94" y="6.35" size="1.778" layer="96" rot="MR180"/>
+<instance part="U1" gate="G$4" x="17.78" y="17.78" smashed="yes" rot="R180" grouprefs="STM32">
+<attribute name="NAME" x="22.86" y="3.81" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="22.86" y="31.75" size="1.778" layer="96" rot="MR0"/>
 </instance>
-<instance part="U1" gate="G$5" x="33.02" y="53.34" smashed="yes">
-<attribute name="NAME" x="27.94" y="62.23" size="1.778" layer="95"/>
-<attribute name="VALUE" x="27.94" y="41.91" size="1.778" layer="96" rot="MR180"/>
+<instance part="U1" gate="G$5" x="17.78" y="55.88" smashed="yes" rot="R180" grouprefs="STM32">
+<attribute name="NAME" x="22.86" y="46.99" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="22.86" y="67.31" size="1.778" layer="96" rot="MR0"/>
 </instance>
 <instance part="U1" gate="G$6" x="223.52" y="144.78" smashed="yes">
 <attribute name="NAME" x="213.36" y="161.29" size="1.778" layer="95"/>
 <attribute name="VALUE" x="213.36" y="125.73" size="1.778" layer="96" rot="MR180"/>
 </instance>
-<instance part="R1" gate="G$1" x="91.44" y="55.88" smashed="yes">
-<attribute name="NAME" x="91.44" y="57.404" size="1.778" layer="95" font="vector" align="bottom-center"/>
-<attribute name="VALUE" x="91.44" y="54.356" size="1.778" layer="96" font="vector" align="top-center"/>
+<instance part="R1" gate="G$1" x="91.44" y="15.24" smashed="yes" grouprefs="AUDIO_CIRCUIT">
+<attribute name="NAME" x="91.44" y="16.764" size="1.778" layer="95" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="91.44" y="13.716" size="1.778" layer="96" font="vector" align="top-center"/>
 </instance>
-<instance part="Q1" gate="D" x="104.14" y="55.88" smashed="yes">
-<attribute name="NAME" x="101.6" y="60.96" size="1.778" layer="95"/>
-<attribute name="VALUE" x="93.98" y="60.96" size="1.778" layer="96"/>
+<instance part="Q1" gate="D" x="104.14" y="15.24" smashed="yes" grouprefs="AUDIO_CIRCUIT">
+<attribute name="NAME" x="101.6" y="20.32" size="1.778" layer="95"/>
+<attribute name="VALUE" x="93.98" y="20.32" size="1.778" layer="96"/>
 </instance>
-<instance part="C1" gate="G$1" x="114.3" y="55.88" smashed="yes">
-<attribute name="NAME" x="115.824" y="58.801" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="115.824" y="53.721" size="1.778" layer="96" font="vector"/>
+<instance part="C1" gate="G$1" x="114.3" y="17.78" smashed="yes" grouprefs="AUDIO_CIRCUIT">
+<attribute name="NAME" x="115.824" y="20.701" size="1.778" layer="95" font="vector"/>
+<attribute name="VALUE" x="115.824" y="15.621" size="1.778" layer="96" font="vector"/>
 </instance>
-<instance part="R2" gate="G$1" x="99.06" y="17.78" smashed="yes">
-<attribute name="NAME" x="99.06" y="19.304" size="1.778" layer="95" font="vector" align="bottom-center"/>
-<attribute name="VALUE" x="99.06" y="16.256" size="1.778" layer="96" font="vector" align="top-center"/>
+<instance part="R2" gate="G$1" x="101.6" y="55.88" smashed="yes" grouprefs="AUDIO_CIRCUIT">
+<attribute name="NAME" x="101.6" y="57.404" size="1.778" layer="95" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="101.6" y="54.356" size="1.778" layer="96" font="vector" align="top-center"/>
 </instance>
-<instance part="R3" gate="G$1" x="104.14" y="12.7" smashed="yes" rot="R90">
-<attribute name="NAME" x="102.616" y="12.7" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
-<attribute name="VALUE" x="105.664" y="12.7" size="1.778" layer="96" font="vector" rot="R90" align="top-center"/>
+<instance part="R3" gate="G$1" x="111.76" y="50.8" smashed="yes" rot="R90" grouprefs="AUDIO_CIRCUIT">
+<attribute name="NAME" x="110.236" y="50.8" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="113.284" y="50.8" size="1.778" layer="96" font="vector" rot="R90" align="top-center"/>
 </instance>
-<instance part="C2" gate="G$1" x="119.38" y="17.78" smashed="yes" rot="R270">
-<attribute name="NAME" x="122.301" y="16.256" size="1.778" layer="95" font="vector" rot="R270"/>
-<attribute name="VALUE" x="117.221" y="16.256" size="1.778" layer="96" font="vector" rot="R270"/>
+<instance part="C2" gate="G$1" x="121.92" y="55.88" smashed="yes" rot="R270" grouprefs="AUDIO_CIRCUIT">
+<attribute name="NAME" x="124.841" y="54.356" size="1.778" layer="95" font="vector" rot="R270"/>
+<attribute name="VALUE" x="119.761" y="54.356" size="1.778" layer="96" font="vector" rot="R270"/>
+</instance>
+<instance part="J1" gate="G$1" x="220.98" y="50.8" smashed="yes" rot="R180" grouprefs="3.5MM_JACK">
+<attribute name="NAME" x="226.06" y="45.212" size="1.778" layer="95" font="vector" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -1408,85 +1521,108 @@ Warning: This is the KIT version of this package. This package has a smaller dia
 <net name="AUDIO_IN" class="0">
 <segment>
 <pinref part="U1" gate="G$4" pin="D7"/>
-<wire x1="22.86" y1="10.16" x2="15.24" y2="10.16" width="0.1524" layer="91"/>
-<label x="15.24" y="10.16" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="27.94" y1="27.94" x2="35.56" y2="27.94" width="0.1524" layer="91" grouprefs="STM32"/>
+<label x="35.56" y="27.94" size="1.778" layer="95" xref="yes" grouprefs="STM32"/>
+</segment>
+<segment>
+<pinref part="J1" gate="G$1" pin="TIP"/>
+<wire x1="215.9" y1="53.34" x2="205.74" y2="53.34" width="0.1524" layer="91" grouprefs="3.5MM_JACK"/>
+<label x="205.74" y="53.34" size="1.778" layer="95" rot="R180" xref="yes" grouprefs="3.5MM_JACK"/>
 </segment>
 </net>
 <net name="N$1" class="0">
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <pinref part="Q1" gate="D" pin="B"/>
-<wire x1="96.52" y1="55.88" x2="101.6" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="15.24" x2="101.6" y2="15.24" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
 </segment>
 </net>
 <net name="GND" class="0">
 <segment>
 <pinref part="Q1" gate="D" pin="C"/>
-<wire x1="106.68" y1="50.8" x2="106.68" y2="40.64" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="40.64" x2="114.3" y2="40.64" width="0.1524" layer="91"/>
-<label x="119.38" y="40.64" size="1.778" layer="95" xref="yes"/>
+<wire x1="106.68" y1="10.16" x2="106.68" y2="2.54" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<wire x1="106.68" y1="2.54" x2="114.3" y2="2.54" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<label x="119.38" y="2.54" size="1.778" layer="95" xref="yes" grouprefs="AUDIO_CIRCUIT"/>
 <pinref part="C1" gate="G$1" pin="2"/>
-<wire x1="114.3" y1="40.64" x2="119.38" y2="40.64" width="0.1524" layer="91"/>
-<wire x1="114.3" y1="53.34" x2="114.3" y2="40.64" width="0.1524" layer="91"/>
-<junction x="114.3" y="40.64"/>
+<wire x1="114.3" y1="2.54" x2="119.38" y2="2.54" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<wire x1="114.3" y1="15.24" x2="114.3" y2="2.54" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<junction x="114.3" y="2.54" grouprefs="AUDIO_CIRCUIT"/>
 </segment>
 <segment>
 <pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="104.14" y1="7.62" x2="104.14" y2="2.54" width="0.1524" layer="91"/>
-<wire x1="104.14" y1="2.54" x2="106.68" y2="2.54" width="0.1524" layer="91"/>
-<label x="106.68" y="2.54" size="1.778" layer="95" xref="yes"/>
+<wire x1="111.76" y1="45.72" x2="111.76" y2="43.18" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<wire x1="111.76" y1="43.18" x2="114.3" y2="43.18" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<label x="114.3" y="43.18" size="1.778" layer="95" xref="yes" grouprefs="AUDIO_CIRCUIT"/>
+</segment>
+<segment>
+<pinref part="J1" gate="G$1" pin="EARTH"/>
+<wire x1="215.9" y1="45.72" x2="205.74" y2="45.72" width="0.1524" layer="91" grouprefs="3.5MM_JACK"/>
+<label x="205.74" y="45.72" size="1.778" layer="95" rot="R180" xref="yes" grouprefs="3.5MM_JACK"/>
 </segment>
 </net>
 <net name="PTT_15V" class="0">
 <segment>
 <pinref part="Q1" gate="D" pin="E"/>
-<wire x1="106.68" y1="60.96" x2="106.68" y2="71.12" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="71.12" x2="114.3" y2="71.12" width="0.1524" layer="91"/>
-<label x="119.38" y="71.12" size="1.778" layer="95" xref="yes"/>
+<wire x1="106.68" y1="20.32" x2="106.68" y2="27.94" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<wire x1="106.68" y1="27.94" x2="114.3" y2="27.94" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<label x="119.38" y="27.94" size="1.778" layer="95" xref="yes" grouprefs="AUDIO_CIRCUIT"/>
 <pinref part="C1" gate="G$1" pin="1"/>
-<wire x1="114.3" y1="71.12" x2="119.38" y2="71.12" width="0.1524" layer="91"/>
-<wire x1="114.3" y1="60.96" x2="114.3" y2="71.12" width="0.1524" layer="91"/>
-<junction x="114.3" y="71.12"/>
+<wire x1="114.3" y1="22.86" x2="114.3" y2="27.94" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<wire x1="114.3" y1="27.94" x2="119.38" y2="27.94" width="0.1524" layer="91"/>
+<junction x="114.3" y="27.94"/>
+</segment>
+<segment>
+<pinref part="J1" gate="G$1" pin="RING1"/>
+<wire x1="215.9" y1="48.26" x2="190.5" y2="48.26" width="0.1524" layer="91" grouprefs="3.5MM_JACK"/>
+<label x="190.5" y="48.26" size="1.778" layer="95" rot="R180" xref="yes" grouprefs="3.5MM_JACK"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
 <pinref part="R2" gate="G$1" pin="2"/>
-<wire x1="104.14" y1="17.78" x2="116.84" y2="17.78" width="0.1524" layer="91"/>
-<junction x="104.14" y="17.78"/>
+<wire x1="111.76" y1="55.88" x2="119.38" y2="55.88" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<junction x="111.76" y="55.88" grouprefs="AUDIO_CIRCUIT"/>
 <pinref part="C2" gate="G$1" pin="2"/>
+<wire x1="111.76" y1="55.88" x2="106.68" y2="55.88" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
 </segment>
 </net>
 <net name="AUDIO_0V5_OUT" class="0">
 <segment>
 <pinref part="C2" gate="G$1" pin="1"/>
-<wire x1="124.46" y1="17.78" x2="134.62" y2="17.78" width="0.1524" layer="91"/>
-<label x="134.62" y="17.78" size="1.778" layer="95" xref="yes"/>
+<wire x1="127" y1="55.88" x2="137.16" y2="55.88" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<label x="137.16" y="55.88" size="1.778" layer="95" xref="yes" grouprefs="AUDIO_CIRCUIT"/>
 </segment>
 </net>
 <net name="AUDIO_3V3_OUT" class="0">
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
-<wire x1="93.98" y1="17.78" x2="86.36" y2="17.78" width="0.1524" layer="91"/>
-<label x="86.36" y="17.78" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="96.52" y1="55.88" x2="88.9" y2="55.88" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<label x="88.9" y="55.88" size="1.778" layer="95" rot="R180" xref="yes" grouprefs="AUDIO_CIRCUIT"/>
 </segment>
 <segment>
-<wire x1="22.86" y1="53.34" x2="15.24" y2="53.34" width="0.1524" layer="91"/>
-<label x="15.24" y="53.34" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="27.94" y1="55.88" x2="35.56" y2="55.88" width="0.1524" layer="91" grouprefs="STM32"/>
+<label x="35.56" y="55.88" size="1.778" layer="95" xref="yes" grouprefs="STM32"/>
 <pinref part="U1" gate="G$5" pin="A2"/>
 </segment>
 </net>
 <net name="!PTT_3V3!" class="0">
 <segment>
 <pinref part="U1" gate="G$4" pin="D2"/>
-<wire x1="22.86" y1="22.86" x2="15.24" y2="22.86" width="0.1524" layer="91"/>
-<label x="15.24" y="22.86" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="27.94" y1="15.24" x2="35.56" y2="15.24" width="0.1524" layer="91" grouprefs="STM32"/>
+<label x="35.56" y="15.24" size="1.778" layer="95" xref="yes" grouprefs="STM32"/>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
-<wire x1="86.36" y1="55.88" x2="81.28" y2="55.88" width="0.1524" layer="91"/>
-<label x="81.28" y="55.88" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="86.36" y1="15.24" x2="81.28" y2="15.24" width="0.1524" layer="91" grouprefs="AUDIO_CIRCUIT"/>
+<label x="81.28" y="15.24" size="1.778" layer="95" rot="R180" xref="yes" grouprefs="AUDIO_CIRCUIT"/>
+</segment>
+</net>
+<net name="AUIDO_0V5_OUT" class="0">
+<segment>
+<pinref part="J1" gate="G$1" pin="RING2"/>
+<wire x1="215.9" y1="55.88" x2="190.5" y2="55.88" width="0.1524" layer="91" grouprefs="3.5MM_JACK"/>
+<label x="190.5" y="55.88" size="1.778" layer="95" rot="R180" xref="yes" grouprefs="3.5MM_JACK"/>
 </segment>
 </net>
 </nets>
@@ -1509,6 +1645,11 @@ will not be understood (or retained) with this version.
 Since Version 8.3, EAGLE supports the association of 3D packages
 with devices in libraries, schematics, and board files. Those 3D
 packages will not be understood (or retained) with this version.
+</note>
+<note version="9.5" severity="warning">
+Since Version 9.5, EAGLE supports persistent groups with
+schematics, and board files. Those persistent groups
+will not be understood (or retained) with this version.
 </note>
 </compatibility>
 </eagle>
