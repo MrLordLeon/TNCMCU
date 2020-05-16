@@ -25,9 +25,12 @@
 /* USER CODE BEGIN Includes */
 #include "math.h"
 
+#define DEBUG true
+
 #define PI 3.1415926
-#define LOWF	166
-#define HIGHF	90
+#define LOWF	166 //This is the sample count for the low frequency , as configured maps to 1200Hz
+#define HIGHF	90	//This is the sample count for the high frequency, as configured maps to 2200Hz
+
 
 /* Private variables ---------------------------------------------------------*/
 DAC_HandleTypeDef hdac;
@@ -69,16 +72,18 @@ void get_sineval(){
 void edit_sineval(uint32_t *sinArray,int arraySize){
 	for (int i=0;i<arraySize;i++){
 		//formula in DAC Document
-		sinArray[i] = ((sin(i*2*PI/arraySize)+1.1)*(4096/4));
+		sinArray[i] = ((sin((i-45)*2*PI/arraySize)+1.1)*(4096/4));
 	}
 }
-//HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
 void bitToAudio(bool *bitStream, int arraySize){
 	for (int i=0;i<arraySize;i++){
+		if(DEBUG){
+			if(bitStream[i])HAL_GPIO_WritePin(GPIOA, LD2_Pin, GPIO_PIN_SET);
+			else 			HAL_GPIO_WritePin(GPIOA, LD2_Pin, GPIO_PIN_RESET);
+		}
 		if(bitStream[i]) HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,lowFrequency,LOWF,DAC_ALIGN_12B_R);
-
 		else HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
-		HAL_Delay(2);
+		HAL_Delay(0.5);
 		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 	}
 }
@@ -127,14 +132,14 @@ int main(void)
   bool bitStream[10];
 
   bitStream[0] = 1;
-  bitStream[1] = 0;
+  bitStream[1] = 1;
   bitStream[2] = 1;
   bitStream[3] = 0;
-  bitStream[4] = 1;
+  bitStream[4] = 0;
   bitStream[5] = 0;
   bitStream[6] = 1;
   bitStream[7] = 0;
-  bitStream[8] = 1;
+  bitStream[8] = 0;
   bitStream[9] = 0;
   HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
   HAL_Delay(500);
