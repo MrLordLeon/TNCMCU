@@ -26,6 +26,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <assert.h>
 #include "math.h"
 /* USER CODE END Includes */
 
@@ -46,6 +47,7 @@
 /* Private variables ---------------------------------------------------------*/
 DAC_HandleTypeDef hdac;
 
+TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 
 UART_HandleTypeDef huart2;
@@ -60,32 +62,64 @@ static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_DAC_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t increment, freq;
+void blink(){
+	htim2.Instance->CNT = 0;
+	while((htim2.Instance->CNT) < 1000){
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+	}
+	//HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_RESET);
+	htim2.Instance->CNT = 0;
+	while((htim2.Instance->CNT) < 1000){
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
+	}
+	//HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_RESET);
+}
 char uartData[3000];
-void read_freq (void)
+uint32_t current;
+bool flag = false;
+
+typedef struct Data {
+	uint32_t flag_start;
+	uint32_t address;
+	uint32_t info;
+	uint32_t fcs;
+	uint32_t flag_end;
+} Data;
+
+void read_freq (Data *bits, int count)
 {
-	htim2.Instance->CNT = 0;  // set the count to 0
+	uint32_t increment = 0;
+	uint32_t freq[count];
+	for(int i = 0;i < count; i++){
 
-	while ((htim2.Instance->CNT) < 1000)  // while the count is less than 1000 ms
-	{
-		while (!(HAL_GPIO_ReadPin (GPIOA, GPIO_PIN_0)));  // wait for the pin to go high
-
-		while ((HAL_GPIO_ReadPin (GPIOA, GPIO_PIN_0)));  // wait for the pin to go low
-
-		increment++;  // increment the variable
+		GPIO_PinState current_logic = 0;
+		GPIO_PinState Prev_logic = 0;
+		htim2.Instance->CNT = 0;  // set the count to 0
+		while ((htim2.Instance->CNT) < 1000)  // while the count is less than 1000000 us
+		{
+			//makes sure to start at a hysterisis voltage
+			Prev_logic = current_logic;
+			current_logic = HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
+			if(!Prev_logic && current_logic){
+				increment++;
+			}
+		}
+		freq[i] = increment;
+		increment = 0;
 	}
 
-	freq = increment;  // freq = number of times pin goes high and low in  second
-	sprintf(uartData,"Frequency = %hu\r\n",freq);
-	HAL_UART_Transmit(&huart2,uartData,strlen(uartData),10);
-
-	increment = 0;
+	bits->flag_start = freq[0];
+	bits->address = freq[1];
+	bits->info = freq[2];
+	bits->fcs = freq[3];
+	bits->flag_end = freq[4];
 }
 /* USER CODE END 0 */
 
@@ -96,7 +130,8 @@ void read_freq (void)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  //gets a raw memory block,suitable for a Data Type, and sets as memory address
+  Data *bitstream = malloc(sizeof(Data));
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -120,8 +155,10 @@ int main(void)
   MX_TIM2_Init();
   MX_USART2_UART_Init();
   MX_DAC_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim2);
+  HAL_TIM_Base_Start(&htim1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -131,10 +168,20 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  sprintf(uartData,"\r\n Reading Frequency \r\n");
+	  read_freq(bitstream,5);
 	  HAL_UART_Transmit(&huart2,uartData,strlen(uartData),10);
-	  read_freq();
+	  sprintf(uartData,"flag_start = %hu\r\n",bitstream->flag_start);
+	  HAL_UART_Transmit(&huart2,uartData,strlen(uartData),10);
+      sprintf(uartData,"address = %hu\r\n",bitstream->address);
+      HAL_UART_Transmit(&huart2,uartData,strlen(uartData),10);
+	  sprintf(uartData,"info = %hu\r\n",bitstream->info);
+	  HAL_UART_Transmit(&huart2,uartData,strlen(uartData),10);
+	  sprintf(uartData,"fcs = %hu\r\n",bitstream->fcs);
+	  HAL_UART_Transmit(&huart2,uartData,strlen(uartData),10);
+	  sprintf(uartData,"flag_end = %hu\r\n",bitstream->flag_end);
+	  HAL_UART_Transmit(&huart2,uartData,strlen(uartData),10);
 
+	  //blink();
   }
   /* USER CODE END 3 */
 }
@@ -180,7 +227,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;//2
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
@@ -223,6 +270,52 @@ static void MX_DAC_Init(void)
   /* USER CODE BEGIN DAC_Init 2 */
 
   /* USER CODE END DAC_Init 2 */
+
+}
+
+/**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 45000-1;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 0xffffffff;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_ENABLE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
 
 }
 
@@ -318,16 +411,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5|GPIO_PIN_9, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  /*Configure GPIO pins : PA0 PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pins : PA5 PA9 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
