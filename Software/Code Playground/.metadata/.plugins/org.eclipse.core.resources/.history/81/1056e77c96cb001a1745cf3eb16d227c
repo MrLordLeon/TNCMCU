@@ -1,0 +1,43 @@
+/*
+ * FreqIO.c
+ *
+ *  Created on: Jul 21, 2020
+ *      Author: monke
+ */
+#include "FreqIO.h"
+
+DAC_HandleTypeDef hdac;
+TIM_HandleTypeDef htim2;
+UART_HandleTypeDef huart2;
+
+char uartData[3000];
+bool first = false;
+uint32_t period;
+
+/*
+ *Function to convert freq to bitstream:
+ *	returns 1 if detect higher freq within threshold
+ *	returns 1 if detect lower freq within threshold
+ */
+int freqtobit(){
+	int freq = PCONVERT / period;
+	if( (LOWFREQ-FREQDEV < freq) && (freq < LOWFREQ+FREQDEV) )
+		return 1;
+	if( (HIGHFREQ-FREQDEV < freq) && (freq < HIGHFREQ+FREQDEV) )
+		return 0;
+	else
+		return -1;
+}
+
+//Hardware setup
+void FreqCounterPinEXTI(){
+	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
+	if(!first){
+		htim2.Instance->CNT = 0;
+		first = true;
+	}
+	else {
+		period = htim2.Instance->CNT;
+		first = false;
+	}
+}
