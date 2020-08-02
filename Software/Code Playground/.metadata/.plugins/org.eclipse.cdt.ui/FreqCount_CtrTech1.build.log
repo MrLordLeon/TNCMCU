@@ -1,10 +1,39 @@
-22:48:51 **** Incremental Build of configuration Debug for project FreqCount_CtrTech1 ****
+23:04:50 **** Incremental Build of configuration Debug for project FreqCount_CtrTech1 ****
 make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+In file included from ../Core/Src/main.c:26:0:
+../Core/Src/freqIO.h:17:0: warning: "DEBUG" redefined
+ #define DEBUG true
+ 
+<command-line>:0:0: note: this is the location of the previous definition
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:136:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/main.c:22:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/main.c:108:7: warning: variable 'bitStream' set but not used [-Wunused-but-set-variable]
+  bool bitStream[10];
+       ^~~~~~~~~
+arm-none-eabi-gcc -o "FreqCount_CtrTech1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code Playground\FreqCount_CtrTech1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FreqCount_CtrTech1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: FreqCount_CtrTech1.elf
+ 
+arm-none-eabi-objdump -h -S  FreqCount_CtrTech1.elf  > "FreqCount_CtrTech1.list"
+arm-none-eabi-objcopy  -O binary  FreqCount_CtrTech1.elf  "FreqCount_CtrTech1.bin"
 arm-none-eabi-size   FreqCount_CtrTech1.elf 
    text	   data	    bss	    dec	    hex	filename
-  16128	    120	   5008	  21256	   5308	FreqCount_CtrTech1.elf
+  24992	    120	   5928	  31040	   7940	FreqCount_CtrTech1.elf
 Finished building: default.size.stdout
  
+Finished building: FreqCount_CtrTech1.bin
+ 
+Finished building: FreqCount_CtrTech1.list
+ 
 
-22:48:51 Build Finished. 0 errors, 0 warnings. (took 236ms)
+23:04:51 Build Finished. 0 errors, 3 warnings. (took 923ms)
 

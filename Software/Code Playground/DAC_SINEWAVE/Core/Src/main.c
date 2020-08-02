@@ -1,42 +1,53 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include <stdbool.h>
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "math.h"
+#include "freqIO.h"
+/* USER CODE END Includes */
 
-#define DEBUG true
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
 
-#define PI 3.1415926
-#define LOWF	84 //This is the sample count for the low frequency , as configured maps to 1200Hz
-#define HIGHF	46	//This is the sample count for the high frequency, as configured maps to 2200Hz
+/* USER CODE END PTD */
 
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 DAC_HandleTypeDef hdac;
 DMA_HandleTypeDef hdma_dac1;
 
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
+
+UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
@@ -48,46 +59,14 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_DAC_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_USART2_UART_Init(void);
+static void MX_TIM3_Init(void);
+/* USER CODE BEGIN PFP */
 
+/* USER CODE END PFP */
 
-//output voltage
-float value = 0.2;
-
-uint32_t var;
-
-//Sine Arrays
-uint32_t sine_val[100];
-
-uint32_t lowFrequency[LOWF];
-uint32_t highFrequency[HIGHF];
-
-//does conversion
-void get_sineval(){
-	for (int i=0;i<100;i++){
-		//formula in DAC Document
-		sine_val[i] = ((sin(i*2*PI/100)+1)*(4096/2));
-	}
-}
-
-void edit_sineval(uint32_t *sinArray,int arraySize){
-	for (int i=0;i<arraySize;i++){
-		//formula in DAC Document
-		sinArray[i] = ((sin((i-45)*2*PI/arraySize)+1.1)*(4096/4));
-	}
-}
-void bitToAudio(bool *bitStream, int arraySize){
-	for (int i=0;i<arraySize;i++){
-		if(DEBUG){
-			if(bitStream[i])HAL_GPIO_WritePin(GPIOA, LD2_Pin, GPIO_PIN_SET);
-			else 			HAL_GPIO_WritePin(GPIOA, LD2_Pin, GPIO_PIN_RESET);
-		}
-		if(bitStream[i]) HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,lowFrequency,LOWF,DAC_ALIGN_12B_R);
-		else HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
-		HAL_Delay(0.5);
-		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-	}
-}
-
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
 /* USER CODE END 0 */
 
 /**
@@ -97,7 +76,7 @@ void bitToAudio(bool *bitStream, int arraySize){
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	//gets a raw memory block,suitable for a Data Type, and sets as memory address
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -121,33 +100,48 @@ int main(void)
   MX_DMA_Init();
   MX_DAC_Init();
   MX_TIM2_Init();
+  MX_USART2_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  //HAL_DAC_Start(&hdac,DAC_CHANNEL_1);
+	HAL_TIM_Base_Start(&htim2);
+	HAL_TIM_Base_Start_IT(&htim3);
 
-  HAL_TIM_Base_Start(&htim2);
+	get_sineval();
+	edit_sineval(lowFrequency, LOWF);
+	edit_sineval(highFrequency, HIGHF);
+	bool bitStream[10];
 
-  get_sineval();
-  edit_sineval(lowFrequency,LOWF);
-  edit_sineval(highFrequency,HIGHF);
-  bool bitStream[10];
+	bitStream[0] = 1;
+	bitStream[1] = 1;
+	bitStream[2] = 1;
+	bitStream[3] = 0;
+	bitStream[4] = 0;
+	bitStream[5] = 0;
+	bitStream[6] = 1;
+	bitStream[7] = 0;
+	bitStream[8] = 0;
+	bitStream[9] = 0;
+	HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF,
+			DAC_ALIGN_12B_R);
+	HAL_Delay(500);
+	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
+  /* USER CODE END 2 */
 
-  bitStream[0] = 1;
-  bitStream[1] = 1;
-  bitStream[2] = 1;
-  bitStream[3] = 0;
-  bitStream[4] = 0;
-  bitStream[5] = 0;
-  bitStream[6] = 1;
-  bitStream[7] = 0;
-  bitStream[8] = 0;
-  bitStream[9] = 0;
-  HAL_DAC_Start_DMA(&hdac,DAC_CHANNEL_1,highFrequency,HIGHF,DAC_ALIGN_12B_R);
-  HAL_Delay(500);
-  HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-  while (1)
-  {
-	  bitToAudio(&bitStream,10);
-  }
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+	while (1) {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+		/*
+		for (int i = 0; i < BUFFERSIZE; i++) {
+			sprintf(uartData, "Bit value for index %d = %d\r\n", i,
+					freqtobit(periodBuffer[i]));
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+		*/
+		bitToAudio(&bitStream,10);
+	}
   /* USER CODE END 3 */
 }
 
@@ -253,7 +247,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 9-1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 100-1;
+  htim2.Init.Period = 100 - 1;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -274,6 +268,84 @@ static void MX_TIM2_Init(void)
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 45-1;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 0xffff;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
 
 }
 
@@ -316,14 +388,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : USART_TX_Pin USART_RX_Pin */
-  GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LD2_Pin PA8 */
   GPIO_InitStruct.Pin = LD2_Pin|GPIO_PIN_8;

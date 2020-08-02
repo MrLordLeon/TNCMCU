@@ -1,17 +1,51 @@
-22:47:25 **** Incremental Build of configuration Debug for project FreqIO ****
+23:14:32 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
-arm-none-eabi-gcc -o "FreqIO.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code Playground\FreqIO\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FreqIO.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Core/Src/stm32f4xx_hal_msp.o: In function `HAL_DAC_MspInit':
-C:/Users/monke/Documents/GitHub/TNCMCU/Software/Code Playground/FreqIO/Debug/../Core/Src/stm32f4xx_hal_msp.c:133: undefined reference to `hdma_dac1'
-Core/Src/stm32f4xx_it.o: In function `DMA1_Stream5_IRQHandler':
-C:/Users/monke/Documents/GitHub/TNCMCU/Software/Code Playground/FreqIO/Debug/../Core/Src/stm32f4xx_it.c:212: undefined reference to `hdma_dac1'
-collect2.exe: error: ld returned 1 exit status
-make: *** [makefile:50: FreqIO.elf] Error 1
-"make -j8 all" terminated with exit code 2. Build might be incomplete.
-22:48:51 **** Incremental Build of configuration Debug for project FreqCount_CtrTech1 ****
-make -j8 all 
-arm-none-eabi-size   FreqCount_CtrTech1.elf 
+arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  16128	    120	   5008	  21256	   5308	FreqCount_CtrTech1.elf
+  21600	     20	   6004	  27624	   6be8	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+23:14:34 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21600	     20	   6004	  27624	   6be8	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+23:15:18 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+In file included from ../Core/Src/main.c:26:0:
+../Core/Src/freqIO.h:17:0: warning: "DEBUG" redefined
+ #define DEBUG true
+ 
+<command-line>:0:0: note: this is the location of the previous definition
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:143:14: warning: passing argument 1 of 'bitToAudio' from incompatible pointer type [-Wincompatible-pointer-types]
+   bitToAudio(&bitStream,10);
+              ^
+In file included from ../Core/Src/main.c:26:0:
+../Core/Src/freqIO.h:48:6: note: expected '_Bool *' but argument is of type '_Bool (*)[10]'
+ void bitToAudio(bool *bitStream, int arraySize);
+      ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21600	     20	   6004	  27624	   6be8	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+23:15:41 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21600	     20	   6004	  27624	   6be8	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
  
