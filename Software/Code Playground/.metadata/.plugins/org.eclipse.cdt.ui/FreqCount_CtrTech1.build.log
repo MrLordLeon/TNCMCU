@@ -1,10 +1,10 @@
-18:45:54 **** Incremental Build of configuration Debug for project FreqCount_CtrTech1 ****
+22:48:51 **** Incremental Build of configuration Debug for project FreqCount_CtrTech1 ****
 make -j8 all 
 arm-none-eabi-size   FreqCount_CtrTech1.elf 
    text	   data	    bss	    dec	    hex	filename
-  16176	    120	   5008	  21304	   5338	FreqCount_CtrTech1.elf
+  16128	    120	   5008	  21256	   5308	FreqCount_CtrTech1.elf
 Finished building: default.size.stdout
  
 
-18:45:54 Build Finished. 0 errors, 0 warnings. (took 856ms)
+22:48:51 Build Finished. 0 errors, 0 warnings. (took 236ms)
 
