@@ -1,6 +1,9 @@
-FreqIO.c:24:6:get_sineval	24	static
-FreqIO.c:30:6:edit_sineval	32	static
-FreqIO.c:36:6:bitToAudio	32	static
-FreqIO.c:47:5:freqtobit	24	static
-FreqIO.c:58:6:FreqCounterPinEXTI	4	static
-FreqIO.c:70:6:Tim3IT	4	static
+FreqIO.c:22:6:toggleMode	8	static
+FreqIO.c:50:6:get_sineval	24	static
+FreqIO.c:56:6:edit_sineval	32	static
+FreqIO.c:62:6:bitToAudio	32	static
+FreqIO.c:76:6:generateBitstream	4	static
+FreqIO.c:88:6:initOUTData	8	static
+FreqIO.c:102:5:freqtobit	24	static
+FreqIO.c:113:6:FreqCounterPinEXTI	4	static
+FreqIO.c:124:6:Tim3IT	4	static

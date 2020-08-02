@@ -104,26 +104,8 @@ int main(void) {
 	/* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
+	initOUTData();
 
-	get_sineval();
-	edit_sineval(lowFrequency, LOWF);
-	edit_sineval(highFrequency, HIGHF);
-	bool bitStream[10];
-
-	bitStream[0] = 1;
-	bitStream[1] = 1;
-	bitStream[2] = 1;
-	bitStream[3] = 0;
-	bitStream[4] = 0;
-	bitStream[5] = 0;
-	bitStream[6] = 1;
-	bitStream[7] = 0;
-	bitStream[8] = 0;
-	bitStream[9] = 0;
-	HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF,
-	DAC_ALIGN_12B_R);
-	HAL_Delay(500);
-	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -132,17 +114,24 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		htim2.Instance->ARR = 10000 - 1;
-		for (int i = 0; i < BUFFERSIZE; i++) {
-			sprintf(uartData, "Bit value for index %d = %d\r\n", i,
-					freqtobit(periodBuffer[i]));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		}
 
-		/*
-		 htim2.Instance->ARR = 100-1;
-		 bitToAudio(&bitStream,10);
-		 */
+
+		if (mode) {
+			for (int i = 0; i < BUFFERSIZE; i++) {
+				//sprintf(uartData, "Bit value for index %d = %d\r\n", i,
+						//freqtobit(periodBuffer[i]));
+				//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			}
+		} else {
+			for(int i = 0; i<10;i++){
+				sprintf(uartData, "Reload period: Generating audio: %d\r\n",i);
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				bitToAudio(&bitStream, 10);
+			}
+		}
+		int curPeriod = htim2.Instance->ARR;
+		sprintf(uartData, "Reload period: %d\r\n",curPeriod);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	/* USER CODE END 3 */
 }
@@ -392,6 +381,9 @@ static void MX_GPIO_Init(void) {
 	HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
+	HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -404,6 +396,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == GPIO_PIN_0) {
 		FreqCounterPinEXTI();
+	}
+	if (GPIO_Pin == B1_Pin) {
+		toggleMode();
 	} else
 		__NOP();
 }
