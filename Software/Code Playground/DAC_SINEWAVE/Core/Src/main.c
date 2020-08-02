@@ -104,8 +104,8 @@ int main(void) {
 	/* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
-	initOUTData();
-
+	initController();
+	toggleMode();
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -114,9 +114,7 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		sprintf(uartData, "Mode %d\r\n",mode);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		HAL_Delay(500);
+		tx_rx();
 	}
 	/* USER CODE END 3 */
 }

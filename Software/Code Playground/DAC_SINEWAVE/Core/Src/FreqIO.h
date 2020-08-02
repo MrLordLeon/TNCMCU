@@ -20,6 +20,7 @@
 //****************************************************************************************************************
 extern DAC_HandleTypeDef hdac;
 extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart2;
 //Connectivity
 //****************************************************************************************************************
@@ -35,11 +36,13 @@ extern char uartData[3000];
  */
 extern bool mode;
 
+void initController();
 void toggleMode();
+void tx_rx();
 
 //GENERATING FREQ
 //****************************************************************************************************************
-#define AUTORELOAD_TX	100 - 1
+#define AUTORELOAD_TX	100
 //Autoreload for recieve mode
 #define PI 3.1415926
 #define LOWF	84 						//This is the sample count for the low frequency , as configured maps to 1200Hz
@@ -59,7 +62,7 @@ void initOUTData();
 
 //READING FREQ
 //****************************************************************************************************************
-#define AUTORELOAD_RX	10000 - 1	//Autoreload for receive mode
+#define AUTORELOAD_RX	10000		//Autoreload for receive mode
 #define PCONVERT 		10000000	//f = 1/T, used for converting period to frequency
 #define HIGHFREQ 		2200		//Higher freq to detect w/ afsk
 #define LOWFREQ			1200		//Lower freq to detect w/ afsk
@@ -79,7 +82,7 @@ extern bool first;
  *		returns 0 if detect lower freq within threshold
  *		return if frequency is outside afsk set range
  */
-int freqtobit(uint32_t inputPeriod);
+int pertobit(uint32_t inputPeriod);
 
 /*
  * 	Function to be ran at external trigger.
