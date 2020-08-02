@@ -10,32 +10,22 @@
 //****************************************************************************************************************
 DAC_HandleTypeDef hdac;
 TIM_HandleTypeDef htim2;
-
+UART_HandleTypeDef huart2;
 //Connectivity
 //****************************************************************************************************************
 char uartData[3000];
 
 //General Program
 //****************************************************************************************************************
-bool mode = false;
+bool mode = true;
 
 void toggleMode() {
-	//Changing to RX mode, need to disable TX vars
-	if (mode) {
-		//Shutdown TX
-		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-
-		//Init RX
-		htim2.Instance->ARR = AUTORELOAD_RX;
-
-	//Changing to TX mode, need to disable RX vars
-	} else {
-		//Shutdown RX
-
-		//Init TX
-		htim2.Instance->ARR = AUTORELOAD_TX;
-	}
 	mode = !mode;
+	if (mode) {
+		htim2.Instance->ARR = AUTORELOAD_TX;
+	} else {
+		htim2.Instance->ARR = AUTORELOAD_RX;
+	}
 	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 }
 
@@ -61,8 +51,6 @@ void edit_sineval(uint32_t *sinArray, int arraySize) {
 }
 void bitToAudio(bool *bitStream, int arraySize) {
 	for (int i = 0; i < arraySize; i++) {
-		//if(bitStream[i])HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5, GPIO_PIN_SET);
-		//else 			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5, GPIO_PIN_RESET);
 		if (bitStream[i])
 			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF,
 			DAC_ALIGN_12B_R);
