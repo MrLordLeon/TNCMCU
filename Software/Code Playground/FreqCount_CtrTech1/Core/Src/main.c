@@ -118,7 +118,7 @@ int main(void) {
 	bitStream[8] = 0;
 	bitStream[9] = 0;
 	HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF,
-			DAC_ALIGN_12B_R);
+	DAC_ALIGN_12B_R);
 	HAL_Delay(500);
 	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 	/* USER CODE END 2 */

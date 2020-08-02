@@ -1613,7 +1613,7 @@ int main(void) {
  80011be:	2100      	movs	r1, #0
  80011c0:	4819      	ldr	r0, [pc, #100]	; (8001228 <main+0xdc>)
  80011c2:	f000 fd8f 	bl	8001ce4 <HAL_DAC_Start_DMA>
-			DAC_ALIGN_12B_R);
+	DAC_ALIGN_12B_R);
 	HAL_Delay(500);
  80011c6:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
  80011ca:	f000 fc35 	bl	8001a38 <HAL_Delay>

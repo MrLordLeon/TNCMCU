@@ -14,8 +14,6 @@
 #include <assert.h>
 #include "math.h"
 
-#define DEBUG true
-
 #define PI 3.1415926
 #define LOWF	84 //This is the sample count for the low frequency , as configured maps to 1200Hz
 #define HIGHF	46	//This is the sample count for the high frequency, as configured maps to 2200Hz
