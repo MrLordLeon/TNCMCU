@@ -10,6 +10,7 @@
 //****************************************************************************************************************
 DAC_HandleTypeDef hdac;
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart2;
 //Connectivity
 //****************************************************************************************************************
@@ -19,15 +20,40 @@ char uartData[3000];
 //****************************************************************************************************************
 bool mode = true;
 
-void toggleMode() {
-	mode = !mode;
-	if (mode) {
+void initController(){
+	initOUTData();
+	if(mode) {
 		htim2.Instance->ARR = AUTORELOAD_TX;
 	} else {
 		htim2.Instance->ARR = AUTORELOAD_RX;
 	}
+	sprintf(uartData, "Init controller complete\r\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+}
+void toggleMode() {
+	mode = !mode;
+	if (mode) {
+		HAL_NVIC_DisableIRQ(EXTI0_IRQn);
+		HAL_TIM_Base_Stop(&htim3);
+		htim2.Instance->ARR = AUTORELOAD_TX;
+	} else {
+		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+		HAL_TIM_Base_Start_IT(&htim3);
+		htim2.Instance->ARR = AUTORELOAD_RX;
+	}
+	sprintf(uartData, "Set mode to %d\r\n",mode);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+}
+void tx_rx(){
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5,mode);
+	if(mode){
+		bitToAudio(&bitStream,10);
+	} else{
+		sprintf(uartData, "periodBuffer[%d] = %d\r\n",0,pertobit(periodBuffer[0]));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		HAL_Delay(500);
+	}
 
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 }
 
 //GENERATING FREQ
@@ -53,11 +79,10 @@ void edit_sineval(uint32_t *sinArray, int arraySize) {
 void bitToAudio(bool *bitStream, int arraySize) {
 	for (int i = 0; i < arraySize; i++) {
 		if (bitStream[i])
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF,
-			DAC_ALIGN_12B_R);
+			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF,DAC_ALIGN_12B_R);
 		else
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF,
-			DAC_ALIGN_12B_R);
+			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF,DAC_ALIGN_12B_R);
+
 		HAL_Delay(0.5);
 		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 	}
@@ -88,7 +113,7 @@ uint16_t buffLoadCount = 0;
 bool first = false;
 uint32_t period;
 
-int freqtobit(uint32_t inputPeriod) {
+int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / period;
 	//return freq;
 	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV))
@@ -111,9 +136,13 @@ void FreqCounterPinEXTI() {
 }
 
 void Tim3IT() {
+	if(mode){
+
+	} else {
 	//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
 	periodBuffer[buffLoadCount] = period;
 	buffLoadCount++;
 	if (buffLoadCount >= BUFFERSIZE)
 		buffLoadCount = 0;
+	}
 }
