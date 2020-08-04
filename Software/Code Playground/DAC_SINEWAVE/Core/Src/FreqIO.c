@@ -61,7 +61,7 @@ void toggleMode() {
 }
 void tx_rx() {
 	if (mode) {
-		bitToAudio(&bitStream, 2);
+		bitToAudio(&bitStream[0], 10);
 	} else {
 		sprintf(uartData, "periodBuffer[%d] = %d\r\n", 0,
 				pertobit(periodBuffer[0]));
@@ -88,19 +88,17 @@ void edit_sineval(uint32_t *sinArray, int arraySize, int waves) {
 void bitToAudio(bool *bitStream, int arraySize) {
 	for (int i = 0; i < arraySize; i++) {
 		if (bitStream[i]){
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,DAC_ALIGN_12B_R);
-
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
 			htim3.Instance->CNT = 0;
+			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,DAC_ALIGN_12B_R);
 			HAL_TIM_Base_Start_IT(&htim3);
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
 			midbit = true;
 		}
 		else{
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,DAC_ALIGN_12B_R);
-
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
 			htim3.Instance->CNT = 0;
+			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,DAC_ALIGN_12B_R);
 			HAL_TIM_Base_Start_IT(&htim3);
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
 			midbit = true;
 		}
 
@@ -111,16 +109,15 @@ void bitToAudio(bool *bitStream, int arraySize) {
 void generateBitstream() {
 	bitStream[0] = 1;
 	bitStream[1] = 0;
-	/*
 	bitStream[2] = 1;
 	bitStream[3] = 0;
 	bitStream[4] = 0;
 	bitStream[5] = 0;
 	bitStream[6] = 1;
 	bitStream[7] = 0;
-	bitStream[8] = 0;
-	bitStream[9] = 0;
-	*/
+	bitStream[8] = 1;
+	bitStream[9] = 1;
+
 }
 void initOUTData() {
 	edit_sineval(lowFrequency, 2*LOWF_SAMP,2);
