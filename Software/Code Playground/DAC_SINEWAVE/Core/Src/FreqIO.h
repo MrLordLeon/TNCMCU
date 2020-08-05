@@ -37,9 +37,17 @@ extern char uartData[3000];
  */
 extern bool mode;
 
-void initController();
+void initProgram();
 void toggleMode();
 void tx_rx();
+/*
+ * 	Function to be ran at Tim3 interrupt
+ */
+void Tim3IT();
+/*
+ * 	Function to be ran at external trigger.
+ */
+void FreqCounterPinEXTI();
 
 //GENERATING FREQ
 //****************************************************************************************************************
@@ -66,20 +74,20 @@ void initOUTData();
 //READING FREQ
 //****************************************************************************************************************
 #define TIM2_AUTORELOAD_RX	10000		//Timer2 period, used for determining frequency
-#define TIM3_AUTORELOAD_RX	65535		//Timer3 period, used to trigger periodBuffer fill
+#define TIM3_AUTORELOAD_RX	209			//Timer3 period, used to trigger periodBuffer fill
 
 #define PCONVERT 		10000000		//f = 1/T, used for converting period to frequency
 #define HIGHFREQ 		2200			//Higher freq to detect w/ afsk
 #define LOWFREQ			1200			//Lower freq to detect w/ afsk
 #define FREQDEV			50				//Max potential deviation in target frequency to detect
 
-#define BUFFERPERIOD	416				//Period for timer3, this should sample input fast enough to receive @1200Hz.
 #define BUFFERSIZE		50
 
 extern uint32_t periodBuffer[BUFFERSIZE];
 extern uint16_t buffLoadCount;
 extern uint32_t period;
 extern bool first;
+extern bool periodFound;
 
 /*
  *	Function to convert freq to bitstream:
@@ -88,15 +96,5 @@ extern bool first;
  *		return if frequency is outside afsk set range
  */
 int pertobit(uint32_t inputPeriod);
-
-/*
- * 	Function to be ran at external trigger.
- */
-void FreqCounterPinEXTI();
-
-/*
- * 	Function to be ran at Tim3 interrupt
- */
-void Tim3IT();
 
 #endif /* SRC_FREQIO_H_ */

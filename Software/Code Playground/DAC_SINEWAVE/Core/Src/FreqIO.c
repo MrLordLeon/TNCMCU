@@ -22,7 +22,7 @@ char uartData[3000];
 bool mode = false;
 bool midbit = false;
 
-void initController() {
+void initProgram() {
 	initOUTData();
 	if (mode) {
 		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
@@ -63,12 +63,39 @@ void tx_rx() {
 	if (mode) {
 		bitToAudio(&bitStream[0], 10);
 	} else {
-		sprintf(uartData, "periodBuffer[%d] = %d\r\n", 0,
-				pertobit(periodBuffer[0]));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		HAL_Delay(500);
+		for(int i = 0;i<BUFFERSIZE;i++){
+			sprintf(uartData, "periodBuffer[%d] = %d\r\n", i,pertobit(periodBuffer[i]));
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
 	}
 
+}
+void Tim3IT() {
+	if (mode) {
+		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
+		midbit = false;
+	} else {
+		//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
+		if(periodFound)
+			periodBuffer[buffLoadCount] = period;
+		else
+			periodBuffer[buffLoadCount] = 0;
+
+		periodFound = false;
+		buffLoadCount++;
+		if (buffLoadCount >= BUFFERSIZE)
+			buffLoadCount = 0;
+	}
+}
+void FreqCounterPinEXTI() {
+	if (!first) {
+		htim2.Instance->CNT = 0;
+		first = true;
+	} else {
+		period = htim2.Instance->CNT;
+		first = false;
+		periodFound = true;
+	}
 }
 
 //GENERATING FREQ
@@ -129,8 +156,9 @@ void initOUTData() {
 //****************************************************************************************************************
 uint32_t periodBuffer[BUFFERSIZE];
 uint16_t buffLoadCount = 0;
-bool first = false;
 uint32_t period;
+bool first = false;
+bool periodFound = false;
 
 int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / period;
@@ -143,25 +171,4 @@ int pertobit(uint32_t inputPeriod) {
 		return -1;
 }
 
-void FreqCounterPinEXTI() {
-	if (!first) {
-		htim2.Instance->CNT = 0;
-		first = true;
-	} else {
-		period = htim2.Instance->CNT;
-		first = false;
-	}
-}
-
-void Tim3IT() {
-	if (mode) {
-		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-		midbit = false;
-	} else {
-		//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-		periodBuffer[buffLoadCount] = period;
-		buffLoadCount++;
-		if (buffLoadCount >= BUFFERSIZE)
-			buffLoadCount = 0;
-	}
-}
+//void readperiodBuffer
