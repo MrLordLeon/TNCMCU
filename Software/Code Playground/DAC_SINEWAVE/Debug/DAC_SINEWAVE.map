@@ -3711,7 +3711,7 @@ OUTPUT(DAC_SINEWAVE.elf elf32-littlearm)
  .debug_line    0x00000000000071cd     0x1958 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o
  .debug_line    0x0000000000008b25      0xcf5 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o
 
-.debug_str      0x0000000000000000    0xcdf70
+.debug_str      0x0000000000000000    0xcdfc3
  .debug_str     0x0000000000000000    0xcb34c Core/Src/main.o
                                       0xcb77d (size before relaxing)
  .debug_str     0x00000000000cb34c       0x84 Core/Src/stm32f4xx_hal_msp.o
@@ -3720,29 +3720,28 @@ OUTPUT(DAC_SINEWAVE.elf elf32-littlearm)
                                       0xc734f (size before relaxing)
  .debug_str     0x00000000000cb4a5       0xc4 Core/Src/system_stm32f4xx.o
                                       0xc70d9 (size before relaxing)
- .debug_str     0x00000000000cb569       0x36 Core/Startup/startup_stm32f446retx.o
-                                         0x89 (size before relaxing)
- .debug_str     0x00000000000cb59f      0x58d Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
+ .debug_str     0x00000000000cb569       0x89 Core/Startup/startup_stm32f446retx.o
+ .debug_str     0x00000000000cb5f2      0x58d Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
                                       0xc7be7 (size before relaxing)
- .debug_str     0x00000000000cbb2c      0x399 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o
+ .debug_str     0x00000000000cbb7f      0x399 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o
                                       0xc79b1 (size before relaxing)
- .debug_str     0x00000000000cbec5      0x1cd Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.o
+ .debug_str     0x00000000000cbf18      0x1cd Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.o
                                       0xc74d8 (size before relaxing)
- .debug_str     0x00000000000cc092      0x164 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.o
+ .debug_str     0x00000000000cc0e5      0x164 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.o
                                       0xc7408 (size before relaxing)
- .debug_str     0x00000000000cc1f6      0x325 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o
+ .debug_str     0x00000000000cc249      0x325 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o
                                       0xc74c9 (size before relaxing)
- .debug_str     0x00000000000cc51b      0x20c Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o
+ .debug_str     0x00000000000cc56e      0x20c Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o
                                       0xc7318 (size before relaxing)
- .debug_str     0x00000000000cc727      0x12d Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o
+ .debug_str     0x00000000000cc77a      0x12d Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o
                                       0xc72bc (size before relaxing)
- .debug_str     0x00000000000cc854      0x259 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o
+ .debug_str     0x00000000000cc8a7      0x259 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o
                                       0xc74cb (size before relaxing)
- .debug_str     0x00000000000ccaad      0x31c Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o
+ .debug_str     0x00000000000ccb00      0x31c Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o
                                       0xc751d (size before relaxing)
- .debug_str     0x00000000000ccdc9      0xd05 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o
+ .debug_str     0x00000000000cce1c      0xd05 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o
                                       0xc81c0 (size before relaxing)
- .debug_str     0x00000000000cdace      0x4a2 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o
+ .debug_str     0x00000000000cdb21      0x4a2 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o
                                       0xc79c0 (size before relaxing)
 
 .comment        0x0000000000000000       0x7b

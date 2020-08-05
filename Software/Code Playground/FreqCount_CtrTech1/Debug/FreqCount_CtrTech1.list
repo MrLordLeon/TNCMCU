@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  17 .debug_line   0000a98e  00000000  00000000  00054a68  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    000d17fd  00000000  00000000  0005f3f6  2**0
+ 18 .debug_str    000d1856  00000000  00000000  0005f3f6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00130bf3  2**0
+ 19 .comment      0000007b  00000000  00000000  00130c4c  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003a6c  00000000  00000000  00130c70  2**2
+ 20 .debug_frame  00003a6c  00000000  00000000  00130cc8  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -423,24 +423,15 @@ Disassembly of section .text:
  80005be:	bf00      	nop
 
 080005c0 <freqtobit>:
-uint16_t buffLoadCount = 0;
-bool first = false;
-uint32_t period;
-
-
-int freqtobit(uint32_t inputPeriod){
  80005c0:	b480      	push	{r7}
  80005c2:	b085      	sub	sp, #20
  80005c4:	af00      	add	r7, sp, #0
  80005c6:	6078      	str	r0, [r7, #4]
-	int freq = PCONVERT / period;
  80005c8:	4b12      	ldr	r3, [pc, #72]	; (8000614 <freqtobit+0x54>)
  80005ca:	681b      	ldr	r3, [r3, #0]
  80005cc:	4a12      	ldr	r2, [pc, #72]	; (8000618 <freqtobit+0x58>)
  80005ce:	fbb2 f3f3 	udiv	r3, r2, r3
  80005d2:	60fb      	str	r3, [r7, #12]
-	//return freq;
-	if( (HIGHFREQ-FREQDEV < freq) && (freq < HIGHFREQ+FREQDEV) )
  80005d4:	68fb      	ldr	r3, [r7, #12]
  80005d6:	f640 0266 	movw	r2, #2150	; 0x866
  80005da:	4293      	cmp	r3, r2
@@ -449,10 +440,8 @@ int freqtobit(uint32_t inputPeriod){
  80005e0:	f640 02c9 	movw	r2, #2249	; 0x8c9
  80005e4:	4293      	cmp	r3, r2
  80005e6:	dc01      	bgt.n	80005ec <freqtobit+0x2c>
-		return 1;
  80005e8:	2301      	movs	r3, #1
  80005ea:	e00d      	b.n	8000608 <freqtobit+0x48>
-	if( (LOWFREQ-FREQDEV < freq) && (freq < LOWFREQ+FREQDEV) )
  80005ec:	68fb      	ldr	r3, [r7, #12]
  80005ee:	f240 427e 	movw	r2, #1150	; 0x47e
  80005f2:	4293      	cmp	r3, r2
@@ -461,13 +450,9 @@ int freqtobit(uint32_t inputPeriod){
  80005f8:	f240 42e1 	movw	r2, #1249	; 0x4e1
  80005fc:	4293      	cmp	r3, r2
  80005fe:	dc01      	bgt.n	8000604 <freqtobit+0x44>
-		return 0;
  8000600:	2300      	movs	r3, #0
  8000602:	e001      	b.n	8000608 <freqtobit+0x48>
-	else
-		return -1;
  8000604:	f04f 33ff 	mov.w	r3, #4294967295
-}
  8000608:	4618      	mov	r0, r3
  800060a:	3714      	adds	r7, #20
  800060c:	46bd      	mov	sp, r7
@@ -477,45 +462,30 @@ int freqtobit(uint32_t inputPeriod){
  8000618:	000f4240 	.word	0x000f4240
 
 0800061c <FreqCounterPinEXTI>:
-
-void FreqCounterPinEXTI(){
  800061c:	b480      	push	{r7}
  800061e:	af00      	add	r7, sp, #0
-	//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-	if(!first){
  8000620:	4b0d      	ldr	r3, [pc, #52]	; (8000658 <FreqCounterPinEXTI+0x3c>)
  8000622:	781b      	ldrb	r3, [r3, #0]
  8000624:	f083 0301 	eor.w	r3, r3, #1
  8000628:	b2db      	uxtb	r3, r3
  800062a:	2b00      	cmp	r3, #0
  800062c:	d007      	beq.n	800063e <FreqCounterPinEXTI+0x22>
-		htim2.Instance->CNT = 0;
  800062e:	4b0b      	ldr	r3, [pc, #44]	; (800065c <FreqCounterPinEXTI+0x40>)
  8000630:	681b      	ldr	r3, [r3, #0]
  8000632:	2200      	movs	r2, #0
  8000634:	625a      	str	r2, [r3, #36]	; 0x24
-		first = true;
  8000636:	4b08      	ldr	r3, [pc, #32]	; (8000658 <FreqCounterPinEXTI+0x3c>)
  8000638:	2201      	movs	r2, #1
  800063a:	701a      	strb	r2, [r3, #0]
-	}
-	else {
-		period = htim2.Instance->CNT;
-		first = false;
-	}
-}
  800063c:	e007      	b.n	800064e <FreqCounterPinEXTI+0x32>
-		period = htim2.Instance->CNT;
  800063e:	4b07      	ldr	r3, [pc, #28]	; (800065c <FreqCounterPinEXTI+0x40>)
  8000640:	681b      	ldr	r3, [r3, #0]
  8000642:	6a5b      	ldr	r3, [r3, #36]	; 0x24
  8000644:	4a06      	ldr	r2, [pc, #24]	; (8000660 <FreqCounterPinEXTI+0x44>)
  8000646:	6013      	str	r3, [r2, #0]
-		first = false;
  8000648:	4b03      	ldr	r3, [pc, #12]	; (8000658 <FreqCounterPinEXTI+0x3c>)
  800064a:	2200      	movs	r2, #0
  800064c:	701a      	strb	r2, [r3, #0]
-}
  800064e:	bf00      	nop
  8000650:	46bd      	mov	sp, r7
  8000652:	f85d 7b04 	ldr.w	r7, [sp], #4
@@ -525,12 +495,8 @@ void FreqCounterPinEXTI(){
  8000660:	20000d30 	.word	0x20000d30
 
 08000664 <Tim3IT>:
-
-void Tim3IT(){
  8000664:	b480      	push	{r7}
  8000666:	af00      	add	r7, sp, #0
-	//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-	periodBuffer[buffLoadCount] = period;
  8000668:	4b0c      	ldr	r3, [pc, #48]	; (800069c <Tim3IT+0x38>)
  800066a:	881b      	ldrh	r3, [r3, #0]
  800066c:	4619      	mov	r1, r3
@@ -538,23 +504,19 @@ void Tim3IT(){
  8000670:	681b      	ldr	r3, [r3, #0]
  8000672:	4a0c      	ldr	r2, [pc, #48]	; (80006a4 <Tim3IT+0x40>)
  8000674:	f842 3021 	str.w	r3, [r2, r1, lsl #2]
-	buffLoadCount++;
  8000678:	4b08      	ldr	r3, [pc, #32]	; (800069c <Tim3IT+0x38>)
  800067a:	881b      	ldrh	r3, [r3, #0]
  800067c:	3301      	adds	r3, #1
  800067e:	b29a      	uxth	r2, r3
  8000680:	4b06      	ldr	r3, [pc, #24]	; (800069c <Tim3IT+0x38>)
  8000682:	801a      	strh	r2, [r3, #0]
-	if(buffLoadCount>=BUFFERSIZE)
  8000684:	4b05      	ldr	r3, [pc, #20]	; (800069c <Tim3IT+0x38>)
  8000686:	881b      	ldrh	r3, [r3, #0]
  8000688:	2b31      	cmp	r3, #49	; 0x31
  800068a:	d902      	bls.n	8000692 <Tim3IT+0x2e>
-		buffLoadCount = 0;
  800068c:	4b03      	ldr	r3, [pc, #12]	; (800069c <Tim3IT+0x38>)
  800068e:	2200      	movs	r2, #0
  8000690:	801a      	strh	r2, [r3, #0]
-}
  8000692:	bf00      	nop
  8000694:	46bd      	mov	sp, r7
  8000696:	f85d 7b04 	ldr.w	r7, [sp], #4
