@@ -56,9 +56,9 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
-static void MX_TIM3_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_DAC_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -95,12 +95,32 @@ int main(void) {
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
 	MX_TIM2_Init();
-	MX_TIM3_Init();
 	MX_USART2_UART_Init();
 	MX_DAC_Init();
+	MX_TIM3_Init();
 	/* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
+
+	get_sineval();
+	edit_sineval(lowFrequency, LOWF);
+	edit_sineval(highFrequency, HIGHF);
+	bool bitStream[10];
+
+	bitStream[0] = 1;
+	bitStream[1] = 1;
+	bitStream[2] = 1;
+	bitStream[3] = 0;
+	bitStream[4] = 0;
+	bitStream[5] = 0;
+	bitStream[6] = 1;
+	bitStream[7] = 0;
+	bitStream[8] = 0;
+	bitStream[9] = 0;
+	HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF,
+	DAC_ALIGN_12B_R);
+	HAL_Delay(500);
+	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -109,10 +129,14 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		for(int i = 0;i<BUFFERSIZE;i++){
-			sprintf(uartData, "Bit value for index %d = %d\r\n", i, freqtobit(periodBuffer[i]));
+
+		for (int i = 0; i < BUFFERSIZE; i++) {
+			sprintf(uartData, "Bit value for index %d = %d\r\n", i,
+					freqtobit(periodBuffer[i]));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
+
+		//bitToAudio(&bitStream,10);
 	}
 	/* USER CODE END 3 */
 }
@@ -149,8 +173,8 @@ void SystemClock_Config(void) {
 			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
 	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
 	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV4;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
 	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
 		Error_Handler();
@@ -210,9 +234,9 @@ static void MX_TIM2_Init(void) {
 
 	/* USER CODE END TIM2_Init 1 */
 	htim2.Instance = TIM2;
-	htim2.Init.Prescaler = 45 - 1;
+	htim2.Init.Prescaler = 9 - 1;
 	htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim2.Init.Period = 0xffffffff;
+	htim2.Init.Period = 10000 - 1;
 	htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	if (HAL_TIM_Base_Init(&htim2) != HAL_OK) {
@@ -233,6 +257,12 @@ static void MX_TIM2_Init(void) {
 	/* USER CODE END TIM2_Init 2 */
 
 }
+
+/**
+ * @brief TIM3 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM3_Init(void) {
 
 	/* USER CODE BEGIN TIM3_Init 0 */
@@ -248,7 +278,7 @@ static void MX_TIM3_Init(void) {
 	htim3.Instance = TIM3;
 	htim3.Init.Prescaler = 45 - 1;
 	htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim3.Init.Period = BUFFERPERIOD;
+	htim3.Init.Period = 0xffff;
 	htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	if (HAL_TIM_Base_Init(&htim3) != HAL_OK) {
@@ -269,14 +299,6 @@ static void MX_TIM3_Init(void) {
 	/* USER CODE END TIM3_Init 2 */
 
 }
-
-/**
- * @brief TIM3 Initialization Function
- * @param None
- * @retval None
- */
-
-
 
 /**
  * @brief USART2 Initialization Function
@@ -326,7 +348,7 @@ static void MX_GPIO_Init(void) {
 
 	/*Configure GPIO pin : PA0 */
 	GPIO_InitStruct.Pin = GPIO_PIN_0;
-	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -342,7 +364,6 @@ static void MX_GPIO_Init(void) {
 	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
 }
-
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -380,7 +401,7 @@ void Error_Handler(void) {
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
