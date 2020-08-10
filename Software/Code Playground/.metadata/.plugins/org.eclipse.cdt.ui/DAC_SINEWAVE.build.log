@@ -1,6 +1,7 @@
-02:03:35 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+20:38:42 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/FreqIO.c: In function 'tx_rx':
 ../Core/Src/FreqIO.c:82:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -20,7 +21,7 @@ arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
 arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
 arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  26224	    124	   6156	  32504	   7ef8	DAC_SINEWAVE.elf
+  26176	    124	   6164	  32464	   7ed0	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
  
 Finished building: DAC_SINEWAVE.bin
@@ -28,5 +29,5 @@ Finished building: DAC_SINEWAVE.bin
 Finished building: DAC_SINEWAVE.list
  
 
-02:03:36 Build Finished. 0 errors, 1 warnings. (took 968ms)
+20:38:43 Build Finished. 0 errors, 1 warnings. (took 1s.38ms)
 

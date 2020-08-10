@@ -89,6 +89,9 @@ extern uint16_t buffLoadCount;
 extern uint32_t period;
 extern bool first;
 extern bool periodFound;
+extern uint32_t period1;
+extern uint32_t period2;
+extern int edge_stamp;
 
 /*
  *	Function to convert freq to bitstream:

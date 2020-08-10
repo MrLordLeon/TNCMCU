@@ -101,6 +101,28 @@ void Tim3IT() {
 			buffLoadCount = 0;
 	}
 }
+/*
+void FreqCounterPinEXTI(){
+	//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
+	if(edge_stamp == 0){
+		//period1 = 0;
+		//period2 = 0;
+		htim2.Instance->CNT = 0;
+		edge_stamp++;
+//		first = true;
+	}
+	else if(edge_stamp == 1) {
+		period1 = htim2.Instance->CNT;
+		htim2.Instance->CNT = 0;
+		edge_stamp++;
+//		first = false;
+	}
+	else{
+		period2 = htim2.Instance->CNT;
+		edge_stamp = 0;
+	}
+}
+*/
 void FreqCounterPinEXTI() {
 	if (!first) {
 		htim2.Instance->CNT = 0;
@@ -111,6 +133,7 @@ void FreqCounterPinEXTI() {
 		periodFound = true;
 	}
 }
+
 
 //GENERATING FREQ
 //****************************************************************************************************************
@@ -174,9 +197,13 @@ uint32_t period;
 bool first = false;
 bool periodFound = false;
 
+uint32_t period1;
+uint32_t period2;
+int edge_stamp = 0;
+
 int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / period;
-	//return freq;
+	return freq;
 	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV))
 		return 1;
 	if ((LOWFREQ - FREQDEV < freq) && (freq < LOWFREQ + FREQDEV))
