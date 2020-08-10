@@ -109,7 +109,7 @@ uint32_t highFrequency[2*HIGHF_SAMP];
 void edit_sineval(uint32_t *sinArray, int arraySize, int waves) {
 	for (int i = 0; i < arraySize; i++) {
 		//formula in DAC Document
-		sinArray[i] = ((sin((i - 45) * 2 * PI / arraySize * waves) + 1.1) * (OUT_AMPL/ 4));
+		sinArray[i] = (sin((i+(.75*arraySize*waves)) * 2 * PI / arraySize * waves)+1) * (OUT_AMPL / 4);
 	}
 }
 void bitToAudio(bool *bitStream, int arraySize) {
