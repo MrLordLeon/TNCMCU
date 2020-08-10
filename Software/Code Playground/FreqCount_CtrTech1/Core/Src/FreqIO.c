@@ -14,7 +14,9 @@ char uartData[3000];
 uint32_t periodBuffer[BUFFERSIZE];
 uint16_t buffLoadCount = 0;
 bool first = false;
-uint32_t period;
+int edge_stamp = 0;
+uint32_t period1;
+uint32_t period2;
 
 //Sine Arrays
 uint32_t sine_val[100];
@@ -45,32 +47,43 @@ void bitToAudio(bool *bitStream, int arraySize){
 }
 
 int freqtobit(uint32_t inputPeriod){
-	int freq = PCONVERT / period;
-	//return freq;
-	if( (HIGHFREQ-FREQDEV < freq) && (freq < HIGHFREQ+FREQDEV) )
-		return 1;
-	if( (LOWFREQ-FREQDEV < freq) && (freq < LOWFREQ+FREQDEV) )
-		return 0;
-	else
-		return -1;
+	int freq = PCONVERT / (period1+period2);
+	return freq;
+//	if( (HIGHFREQ-FREQDEV < freq) && (freq < HIGHFREQ+FREQDEV) )
+//		return 1;
+//	if( (LOWFREQ-FREQDEV < freq) && (freq < LOWFREQ+FREQDEV) )
+//		return 0;
+//	else
+//		return -1;
+//	return freq;
 }
 
 void FreqCounterPinEXTI(){
 	//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-	if(!first){
+	if(edge_stamp == 0){
+		period1 = 0;
+		period2 = 0;
 		htim2.Instance->CNT = 0;
-		first = true;
+		edge_stamp++;
+//		first = true;
 	}
-	else {
-		period = htim2.Instance->CNT;
-		first = false;
+	else if(edge_stamp == 1) {
+		period1 = htim2.Instance->CNT;
+		htim2.Instance->CNT = 0;
+		edge_stamp++;
+//		first = false;
+	}
+	else{
+		period2 = htim2.Instance->CNT;
+		edge_stamp = 0;
 	}
 }
 
 void Tim3IT(){
 	//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-	periodBuffer[buffLoadCount] = period;
+	periodBuffer[buffLoadCount] = period1+period2;
 	buffLoadCount++;
-	if(buffLoadCount>=BUFFERSIZE)
+	if(buffLoadCount>=BUFFERSIZE){
 		buffLoadCount = 0;
+	}
 }
