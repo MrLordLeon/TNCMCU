@@ -89,7 +89,7 @@
                 <tags>categoryTag:General</tags>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_PgGOO9uZEeqaZO4n9ffPkQ" containerData="9000" selectedElement="_PgGOPNuZEeqaZO4n9ffPkQ">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_PgGOO9uZEeqaZO4n9ffPkQ" containerData="9000" selectedElement="_PgGOQtuZEeqaZO4n9ffPkQ">
               <children xsi:type="basic:PartSashContainer" xmi:id="_PgGOPNuZEeqaZO4n9ffPkQ" containerData="7500" selectedElement="_PgGOPduZEeqaZO4n9ffPkQ" horizontal="true">
                 <children xsi:type="advanced:Placeholder" xmi:id="_PgGOPduZEeqaZO4n9ffPkQ" elementId="org.eclipse.ui.editorss" containerData="8460" ref="_PgGPq9uZEeqaZO4n9ffPkQ"/>
                 <children xsi:type="basic:PartStack" xmi:id="_PgGOPtuZEeqaZO4n9ffPkQ" elementId="topRight" visible="false" containerData="1540" selectedElement="_PgGOP9uZEeqaZO4n9ffPkQ">
@@ -400,24 +400,24 @@
             <tags>org.eclipse.cdt.ui.editor.CEditor</tags>
           </children>
         </children>
-        <children xsi:type="basic:PartSashContainer" xmi:id="_PgGPstuZEeqaZO4n9ffPkQ" containerData="7523" selectedElement="_PgGPs9uZEeqaZO4n9ffPkQ" horizontal="true">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_PgGPstuZEeqaZO4n9ffPkQ" containerData="7523" selectedElement="_PgGPuNuZEeqaZO4n9ffPkQ" horizontal="true">
           <children xsi:type="basic:PartStack" xmi:id="_PgGPs9uZEeqaZO4n9ffPkQ" elementId="PartStack@3dceec83" containerData="5000" selectedElement="_PgGPtNuZEeqaZO4n9ffPkQ">
-            <tags>active</tags>
             <children xsi:type="basic:Part" xmi:id="_PgGPtNuZEeqaZO4n9ffPkQ" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="FreqIO.h" iconURI="platform:/plugin/org.eclipse.cdt.ui/icons/obj16/c_file_obj.gif" closeable="true">
               <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.cdt.ui.editor.CEditor&quot; name=&quot;FreqIO.h&quot; partName=&quot;FreqIO.h&quot; title=&quot;FreqIO.h&quot; tooltip=&quot;DAC_SINEWAVE/Core/Src/FreqIO.h&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/DAC_SINEWAVE/Core/Src/FreqIO.h&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;817&quot; selectionTopPixel=&quot;150&quot;/>&#xD;&#xA;&lt;/editor>"/>
               <tags>Editor</tags>
               <tags>removeOnHide</tags>
               <tags>org.eclipse.cdt.ui.editor.CEditor</tags>
-              <tags>active</tags>
-              <tags>activeOnClose</tags>
             </children>
           </children>
           <children xsi:type="basic:PartStack" xmi:id="_PgGPuNuZEeqaZO4n9ffPkQ" elementId="PartStack@6b56e8ee" containerData="5000" selectedElement="_PgGPuduZEeqaZO4n9ffPkQ">
+            <tags>active</tags>
             <children xsi:type="basic:Part" xmi:id="_PgGPuduZEeqaZO4n9ffPkQ" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="FreqIO.c" iconURI="platform:/plugin/org.eclipse.cdt.ui/icons/obj16/c_file_obj.gif" closeable="true">
-              <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.cdt.ui.editor.CEditor&quot; name=&quot;FreqIO.c&quot; partName=&quot;FreqIO.c&quot; title=&quot;FreqIO.c&quot; tooltip=&quot;DAC_SINEWAVE/Core/Src/FreqIO.c&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/DAC_SINEWAVE/Core/Src/FreqIO.c&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;4657&quot; selectionTopPixel=&quot;1995&quot;/>&#xD;&#xA;&lt;/editor>"/>
+              <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.cdt.ui.editor.CEditor&quot; name=&quot;FreqIO.c&quot; partName=&quot;FreqIO.c&quot; title=&quot;FreqIO.c&quot; tooltip=&quot;DAC_SINEWAVE/Core/Src/FreqIO.c&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/DAC_SINEWAVE/Core/Src/FreqIO.c&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1947&quot; selectionTopPixel=&quot;907&quot;/>&#xD;&#xA;&lt;/editor>"/>
               <tags>Editor</tags>
               <tags>removeOnHide</tags>
               <tags>org.eclipse.cdt.ui.editor.CEditor</tags>
+              <tags>active</tags>
+              <tags>activeOnClose</tags>
             </children>
           </children>
         </children>
@@ -742,7 +742,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PgGQfduZEeqaZO4n9ffPkQ" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_qjuBsNz7EeqaC_-1shjxrA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_PgHcpduZEeqaZO4n9ffPkQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_w8LmUN0AEeqxjYXU5nzS8w" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_PgHcpduZEeqaZO4n9ffPkQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PgGQjduZEeqaZO4n9ffPkQ" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -773,7 +773,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PgGQ19uZEeqaZO4n9ffPkQ" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_qjv24Nz7EeqaC_-1shjxrA" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_PgG6O9uZEeqaZO4n9ffPkQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_w8OCkt0AEeqxjYXU5nzS8w" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_PgG6O9uZEeqaZO4n9ffPkQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PgGQ5NuZEeqaZO4n9ffPkQ" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>

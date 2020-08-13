@@ -78,6 +78,7 @@ void tx_rx() {
 		bitToAudio(&bitStream[0], 10);
 	} else {
 		for(int i = 0;i<RX_BUFFERSIZE;i++){
+			if(changeMode) break;
 			sprintf(uartData, "periodBuffer[%d] = %d\r\n", i,pertobit(periodBuffer[i]));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
@@ -180,7 +181,7 @@ uint8_t	sampusecount = 0;
 
 int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / period;
-	return freq;
+	//return freq;
 	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV))
 		return 1;
 	if ((LOWFREQ - FREQDEV < freq) && (freq < LOWFREQ + FREQDEV))
