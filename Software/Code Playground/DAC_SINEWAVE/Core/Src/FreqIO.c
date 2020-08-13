@@ -77,7 +77,7 @@ void tx_rx() {
 	if (mode) {
 		bitToAudio(&bitStream[0], 10);
 	} else {
-		for(int i = 0;i<BUFFERSIZE;i++){
+		for(int i = 0;i<RX_BUFFERSIZE;i++){
 			sprintf(uartData, "periodBuffer[%d] = %d\r\n", i,pertobit(periodBuffer[i]));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
@@ -89,49 +89,30 @@ void Tim3IT() {
 		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 		midbit = false;
 	} else {
-		//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-		if(periodFound)
-			periodBuffer[buffLoadCount] = period;
+		if(sampusecount<SAMP_PER_BAUD)
+			sampusecount+=1;
 		else
-			periodBuffer[buffLoadCount] = 0;
+			period = 0;
 
-		periodFound = false;
+		periodBuffer[buffLoadCount] = period;
 		buffLoadCount++;
-		if (buffLoadCount >= BUFFERSIZE)
+		if (buffLoadCount >= RX_BUFFERSIZE)
 			buffLoadCount = 0;
 	}
 }
-/*
-void FreqCounterPinEXTI(){
-	//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-	if(edge_stamp == 0){
-		//period1 = 0;
-		//period2 = 0;
-		htim2.Instance->CNT = 0;
-		edge_stamp++;
-//		first = true;
-	}
-	else if(edge_stamp == 1) {
-		period1 = htim2.Instance->CNT;
-		htim2.Instance->CNT = 0;
-		edge_stamp++;
-//		first = false;
-	}
-	else{
-		period2 = htim2.Instance->CNT;
-		edge_stamp = 0;
-	}
-}
-*/
 void FreqCounterPinEXTI() {
+	period = period = htim2.Instance->CNT;
+	htim2.Instance->CNT = 0;
+	sampusecount= 0;
+	/*
 	if (!first) {
 		htim2.Instance->CNT = 0;
 		first = true;
+		sampusecount= 0;
 	} else {
-		period = htim2.Instance->CNT;
 		first = false;
-		periodFound = true;
 	}
+	*/
 }
 
 
@@ -191,15 +172,11 @@ void initOUTData() {
 
 //READING FREQ
 //****************************************************************************************************************
-uint32_t periodBuffer[BUFFERSIZE];
+uint32_t periodBuffer[RX_BUFFERSIZE];
 uint16_t buffLoadCount = 0;
 uint32_t period;
 bool first = false;
-bool periodFound = false;
-
-uint32_t period1;
-uint32_t period2;
-int edge_stamp = 0;
+uint8_t	sampusecount = 0;
 
 int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / period;

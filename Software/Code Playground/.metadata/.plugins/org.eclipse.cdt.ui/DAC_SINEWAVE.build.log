@@ -1,4 +1,4 @@
-20:38:42 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+19:52:40 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
@@ -14,6 +14,10 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
  HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
                    ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'FreqCounterPinEXTI':
+../Core/Src/FreqIO.c:104:9: warning: operation on 'period' may be undefined [-Wsequence-point]
+  period = period = htim2.Instance->CNT;
+  ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: DAC_SINEWAVE.elf
  
@@ -21,7 +25,7 @@ arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
 arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
 arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  26176	    124	   6164	  32464	   7ed0	DAC_SINEWAVE.elf
+  26152	    124	  10052	  36328	   8de8	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
  
 Finished building: DAC_SINEWAVE.bin
@@ -29,5 +33,5 @@ Finished building: DAC_SINEWAVE.bin
 Finished building: DAC_SINEWAVE.list
  
 
-20:38:43 Build Finished. 0 errors, 1 warnings. (took 1s.38ms)
+19:52:41 Build Finished. 0 errors, 2 warnings. (took 924ms)
 
