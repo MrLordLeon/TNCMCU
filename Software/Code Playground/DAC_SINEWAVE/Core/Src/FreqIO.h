@@ -74,24 +74,22 @@ void initOUTData();
 
 //READING FREQ
 //****************************************************************************************************************
+#define	SAMP_PER_BAUD		4			//Increase sample rate to detect higher frequencies.
 #define TIM2_AUTORELOAD_RX	10000		//Timer2 period, used for determining frequency
-#define TIM3_AUTORELOAD_RX	209			//Timer3 period, used to trigger periodBuffer fill
+#define TIM3_AUTORELOAD_RX	833/SAMP_PER_BAUD//Timer3 period, used to trigger periodBuffer fill,dont touch this one.
 
 #define PCONVERT 		10000000		//f = 1/T, used for converting period to frequency
 #define HIGHFREQ 		2200			//Higher freq to detect w/ afsk
 #define LOWFREQ			1200			//Lower freq to detect w/ afsk
 #define FREQDEV			50				//Max potential deviation in target frequency to detect
 
-#define BUFFERSIZE		50
+#define RX_BUFFERSIZE		1024
 
-extern uint32_t periodBuffer[BUFFERSIZE];
+extern uint32_t periodBuffer[RX_BUFFERSIZE];
 extern uint16_t buffLoadCount;
 extern uint32_t period;
 extern bool first;
-extern bool periodFound;
-extern uint32_t period1;
-extern uint32_t period2;
-extern int edge_stamp;
+extern uint8_t	sampusecount;
 
 /*
  *	Function to convert freq to bitstream:
