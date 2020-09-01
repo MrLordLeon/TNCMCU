@@ -14,7 +14,7 @@ using namespace std;
 
 double lowFrequency[LOWF_SAMP];
 double highFrequency[HIGHF_SAMP];
-bool bitstream[] = { 0,1,0,1,0,1,0,1,0,1 };
+bool bitstream[] = { 1,1,1,0,0,0,1,0,1,0};
 
 void genSine(double* sinArray, int arraySize) {
     for (int i = 0; i < arraySize; i++) {

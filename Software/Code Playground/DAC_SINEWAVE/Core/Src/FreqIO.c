@@ -49,7 +49,7 @@ void toggleMode() {
 	HAL_TIM_Base_Stop(&htim3);
 	htim3.Instance->CNT = 0;
 
-	if(mode){
+	if (mode) {
 		//Set Timer periods
 		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
 		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
@@ -68,8 +68,10 @@ void toggleMode() {
 
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
 }
+bool BuffRd = false;
+int printCnt = 0;
 void tx_rx() {
-	if(changeMode){
+	if (changeMode) {
 		changeMode = 0;
 		toggleMode();
 	}
@@ -77,78 +79,73 @@ void tx_rx() {
 	if (mode) {
 		bitToAudio(&bitStream[0], 10);
 	} else {
-		for(int i = 0;i<RX_BUFFERSIZE;i++){
-			if(changeMode) break;
-			sprintf(uartData, "periodBuffer[%d] = %d\r\n", i,pertobit(periodBuffer[i]));
+		readperiodBuffer();
+		for (int i = 0; i < RX_BUFFERSIZE; i++) {
+			sprintf(uartData, "bitBuffer[%d] bit value = %d\r\n", i, bitBuffer[i]);
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
 	}
 
+}
+void loadPeriodBuffer(int timerCnt) {
+	periodBuffer[buffLoadCount] = timerCnt;
+	buffLoadCount++;
+	if (buffLoadCount >= RX_BUFFERSIZE) {
+		buffLoadCount = 0;
+	}
 }
 void Tim3IT() {
 	if (mode) {
 		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 		midbit = false;
 	} else {
-		if(sampusecount<SAMP_PER_BAUD)
-			sampusecount+=1;
-		else
-			period = 0;
-
-		periodBuffer[buffLoadCount] = period;
-		buffLoadCount++;
-		if (buffLoadCount >= RX_BUFFERSIZE)
-			buffLoadCount = 0;
+		if(sampusecount>SAMP_PER_BAUD){
+			loadPeriodBuffer(0);
+		}
+		sampusecount++;
 	}
 }
 void FreqCounterPinEXTI() {
-	period = period = htim2.Instance->CNT;
+	loadPeriodBuffer(htim2.Instance->CNT);
 	htim2.Instance->CNT = 0;
-	sampusecount= 0;
-	/*
-	if (!first) {
-		htim2.Instance->CNT = 0;
-		first = true;
-		sampusecount= 0;
-	} else {
-		first = false;
-	}
-	*/
+	sampusecount = 0;
 }
-
 
 //GENERATING FREQ
 //****************************************************************************************************************
 bool bitStream[10];
 
-
-uint32_t lowFrequency[2*LOWF_SAMP];
-uint32_t highFrequency[2*HIGHF_SAMP];
+uint32_t lowFrequency[2 * LOWF_SAMP];
+uint32_t highFrequency[2 * HIGHF_SAMP];
 
 void edit_sineval(uint32_t *sinArray, int arraySize, int waves) {
 	for (int i = 0; i < arraySize; i++) {
 		//formula in DAC Document
-		sinArray[i] = (sin((i+(.75*arraySize*waves)) * 2 * PI / arraySize * waves)+1) * (OUT_AMPL / 4);
+		sinArray[i] = (sin(
+				(i + (.75 * arraySize * waves)) * 2 * PI / arraySize * waves)
+				+ 1) * (OUT_AMPL / 4);
 	}
 }
 void bitToAudio(bool *bitStream, int arraySize) {
 	for (int i = 0; i < arraySize; i++) {
-		if (bitStream[i]){
+		if (bitStream[i]) {
 			htim3.Instance->CNT = 0;
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,DAC_ALIGN_12B_R);
+			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,
+					DAC_ALIGN_12B_R);
 			HAL_TIM_Base_Start_IT(&htim3);
 			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
 			midbit = true;
-		}
-		else{
+		} else {
 			htim3.Instance->CNT = 0;
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,DAC_ALIGN_12B_R);
+			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,
+					DAC_ALIGN_12B_R);
 			HAL_TIM_Base_Start_IT(&htim3);
 			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
 			midbit = true;
 		}
 
-		while(midbit) __NOP();		//Just wait for timer3 IT to go off.
+		while (midbit)
+			__NOP();		//Just wait for timer3 IT to go off.
 	}
 	HAL_TIM_Base_Stop(&htim3);
 }
@@ -166,21 +163,22 @@ void generateBitstream() {
 
 }
 void initOUTData() {
-	edit_sineval(lowFrequency, 2*LOWF_SAMP,2);
-	edit_sineval(highFrequency, 2*HIGHF_SAMP,2);
+	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2);
+	edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2);
 	generateBitstream();
 }
 
 //READING FREQ
 //****************************************************************************************************************
 uint32_t periodBuffer[RX_BUFFERSIZE];
+uint32_t bitBuffer[RX_BUFFERSIZE];
 uint16_t buffLoadCount = 0;
-uint32_t period;
-bool first = false;
-uint8_t	sampusecount = 0;
+uint16_t bitLoadCount = 0;
+uint8_t sampusecount = 0;
+uint8_t	badbitcount = 0;
 
 int pertobit(uint32_t inputPeriod) {
-	int freq = PCONVERT / period;
+	int freq = PCONVERT / inputPeriod;
 	//return freq;
 	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV))
 		return 1;
@@ -190,4 +188,43 @@ int pertobit(uint32_t inputPeriod) {
 		return -1;
 }
 
-//void readperiodBuffer
+void readperiodBuffer() {
+	badbitcount = 0;
+	int currbit = 0;
+	int nextbit = 0;
+	for(int i = 0;i<RX_BUFFERSIZE;i++){
+		//Condition to exit bufferRead
+		if (changeMode)
+			break;
+
+		currbit = pertobit(periodBuffer[i]);
+
+		//Low frequency should have 1 bit per baud
+		if(currbit==0){
+			bitBuffer[bitLoadCount] = 0;
+		}
+
+		//High frequency should have 2 bits per baud
+		else if(currbit==1){
+			//Gather next bit
+			//ternary assign: var = (cond)?if_true:if_false;
+			nextbit = (i!=RX_BUFFERSIZE-1)?pertobit(periodBuffer[i+1]):pertobit(periodBuffer[0]);
+
+			if(nextbit==1){
+				//High frequency detected, skip next bit
+				i++;
+				bitBuffer[bitLoadCount] = 1;
+			}
+		}
+
+		//Invalid bit
+		else{
+			bitBuffer[bitLoadCount] = -1;
+			badbitcount++;
+		}
+
+		bitLoadCount++;
+		if (bitLoadCount >= RX_BUFFERSIZE)
+			bitLoadCount = 0;
+	}
+}

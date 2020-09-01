@@ -1,10 +1,10 @@
-20:04:44 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+00:13:17 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
 arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  26216	    124	  10052	  36392	   8e28	DAC_SINEWAVE.elf
+  26440	    124	   8004	  34568	   8708	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
  
 
-20:04:45 Build Finished. 0 errors, 0 warnings. (took 355ms)
+00:13:17 Build Finished. 0 errors, 0 warnings. (took 228ms)
 
