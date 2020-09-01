@@ -74,22 +74,27 @@ void initOUTData();
 
 //READING FREQ
 //****************************************************************************************************************
-#define	SAMP_PER_BAUD		4			//Increase sample rate to detect higher frequencies.
+#define	SAMP_PER_BAUD		2			//Increase sample rate to detect higher frequencies.
 #define TIM2_AUTORELOAD_RX	10000		//Timer2 period, used for determining frequency
 #define TIM3_AUTORELOAD_RX	833/SAMP_PER_BAUD//Timer3 period, used to trigger periodBuffer fill,dont touch this one.
 
 #define PCONVERT 		10000000		//f = 1/T, used for converting period to frequency
 #define HIGHFREQ 		2200			//Higher freq to detect w/ afsk
 #define LOWFREQ			1200			//Lower freq to detect w/ afsk
-#define FREQDEV			50				//Max potential deviation in target frequency to detect
+#define FREQDEV			400				//Max potential deviation in target frequency to detect
 
-#define RX_BUFFERSIZE		1024
+#define	BUFFER_SCALE		8			//Scalar for buffer base
+#define BIT_BUFF_BASE		16			//Base amount of bits to store
+#define RX_BUFFERSIZE		SAMP_PER_BAUD * BIT_BUFF_BASE * BUFFER_SCALE
 
-extern uint32_t periodBuffer[RX_BUFFERSIZE];
-extern uint16_t buffLoadCount;
-extern uint32_t period;
-extern bool first;
-extern uint8_t	sampusecount;
+#define MAX_POLL_CNT
+
+extern uint32_t periodBuffer[RX_BUFFERSIZE];	//Stores the period values from interrupt
+extern uint32_t bitBuffer[RX_BUFFERSIZE];		//Stores bitstream values
+extern uint8_t	sampusecount;					//Used to determine old data
+extern uint16_t periodSaveCount;				//Used to keep track of index to save period
+extern uint16_t trackBit;						//Used to keep track of bits being loaded into bit buffer
+extern uint16_t bitSaveCount;					//Used to keep track of bit saved to bit buffer
 
 /*
  *	Function to convert freq to bitstream:
