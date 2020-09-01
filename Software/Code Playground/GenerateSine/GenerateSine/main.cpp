@@ -6,15 +6,19 @@
 
 using namespace std;
 
-#define AMPLITUDE   3.3     //Amplitude of desired sine wave
-#define PI          3.14159 //Rounded value of PI
-#define LOWF_SAMP   84      //This is the sample count for the low frequency , as configured maps to 1200Hz
-#define HIGHF_SAMP  46		//This is the sample count for the high frequency, as configured maps to 2200Hz
-#define BITCOUNT    10      //Number of bits for the waveform
+#define AMPLITUDE   3.3             //Amplitude of desired sine wave
+#define PI          3.14159         //Rounded value of PI
+#define BIT_SAMP    200
+#define BITCOUNT    8               //Number of bits for the waveform
+
+#define LOWF_SAMP   BIT_SAMP                //This is the sample count for the low frequency , as configured maps to 1200Hz
+#define HIGHF_SAMP  int(BIT_SAMP/1.833)     //This is the sample count for the high frequency, as configured maps to 2200Hz
 
 double lowFrequency[LOWF_SAMP];
 double highFrequency[HIGHF_SAMP];
-bool bitstream[] = { 1,1,1,0,0,0,1,0,1,0};
+//bool bitstream[] = { 1,1,0,0,0,0,0,0 };
+//bool bitstream[] = { 1,1,1,1,1,1,1,0 };
+bool bitstream[] = { 1,0,1,0,1,0,1,0 };
 
 void genSine(double* sinArray, int arraySize) {
     for (int i = 0; i < arraySize; i++) {
@@ -31,20 +35,16 @@ void generateDatafile() {
     for (int i = 0; i < BITCOUNT; i++) {
         //Insert high frequency. Need 2 waveforms to approximate 1 bit length
         if (bitstream[i]) {
-            for (int i = 0; i < HIGHF_SAMP; i++)
+            for (int i = 0; i < BIT_SAMP; i++)
             {
-                outfile << highFrequency[i] << ",";
-            }
-            for (int i = 0; i < HIGHF_SAMP; i++)
-            {
-                outfile << highFrequency[i] << ",";
+                outfile << highFrequency[(i+15)%HIGHF_SAMP] << ",";
             }
         }   
         //Insert low frequency
         else {
             for (int i = 0; i < LOWF_SAMP; i++)
             {
-                outfile << lowFrequency[i] << ",";
+                outfile << lowFrequency[i % LOWF_SAMP] << ",";
             }
         }
     }
