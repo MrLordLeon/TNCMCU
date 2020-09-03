@@ -5,6 +5,7 @@
  *      Author: monke
  */
 #include "FreqIO.h"
+#include "AX.25.h"
 
 //Needed uController Objects
 //****************************************************************************************************************
@@ -166,10 +167,11 @@ int streamCheck() {
 		bit0 = loadBit();
 
 		//Detect 0xC
-		if((bit7==1)&&(bit6==1)&&(bit5==0)&&(bit4==0)){
+		if((bit7==0)&&(bit6==1)&&(bit5==1)&&(bit4==1)){
 			//Detect 0xC0
-			if((bit3==0)&&(bit2==0)&&(bit1==0)&&(bit0==0)){
-				sprintf(uartData, "C0 Detected\r\n");
+			if((bit3==1)&&(bit2==1)&&(bit1==1)&&(bit0==0)){
+				AX25_flag = !AX25_flag;
+				sprintf(uartData, "AX.25 Flag Detected\r\n");
 			}
 		}
 		else {
