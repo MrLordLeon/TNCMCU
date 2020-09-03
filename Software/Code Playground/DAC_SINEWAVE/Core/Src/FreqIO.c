@@ -169,12 +169,16 @@ int streamCheck() {
 		bit1 = bit0;
 		bit0 = loadBit();
 
-		//Detect 0xC
+		//Detect 0x7
 		if((bit7==0)&&(bit6==1)&&(bit5==1)&&(bit4==1)){
-			//Detect 0xC0
+			//Detect 0x7E
 			if((bit3==1)&&(bit2==1)&&(bit1==1)&&(bit0==0)){
 				AX25_flag = !AX25_flag;
 				sprintf(uartData, "AX.25 Flag Detected\r\n");
+				if (AX25_flag){
+					store_radio_bits(loadBit()); //start storing radio bits into AX25 Buffer
+					Packet_Validate(); //check if the packet is valid
+				}
 			}
 		}
 		else {
