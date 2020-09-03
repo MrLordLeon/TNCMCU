@@ -18,6 +18,82 @@ UART_HandleTypeDef huart2;
 //****************************************************************************************************************
 char uartData[3000];
 
+//General Program
+//****************************************************************************************************************
+bool mode = true;
+bool midbit = false;
+bool changeMode = false;
+
+void initProgram() {
+	initOUTData();
+	if (mode) {
+		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
+		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
+	} else {
+		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
+		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
+	}
+}
+void toggleMode() {
+	//Disable HW interrupt
+	HAL_NVIC_DisableIRQ(EXTI0_IRQn);
+
+	//Stop DAC
+	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
+
+	//Toggle mode
+	mode = !mode;
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, mode);
+	midbit = false;
+
+	//Stop timer and reset count
+	HAL_TIM_Base_Stop(&htim3);
+	htim3.Instance->CNT = 0;
+
+	if (mode) {
+		//Set Timer periods
+		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
+		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
+
+	} else {
+		//Set Timer Periods
+		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
+		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
+
+		//Enable tim3 interrupt
+		HAL_TIM_Base_Start_IT(&htim3);
+
+		//Enable HW interrupt
+		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+	}
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
+}
+
+void loadPeriodBuffer(int timerCnt) {
+	periodBuffer[periodSaveCount] = timerCnt;
+	periodSaveCount++;
+	if (periodSaveCount >= RX_BUFFERSIZE) {
+		periodSaveCount = 0;
+	}
+}
+void Tim3IT() {
+	if (mode) {
+		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
+		midbit = false;
+	} else {
+		if(sampusecount>SAMP_PER_BAUD){
+			loadPeriodBuffer(0);
+		}
+		sampusecount++;
+	}
+}
+void FreqCounterPinEXTI() {
+	loadPeriodBuffer(htim2.Instance->CNT);
+	htim2.Instance->CNT = 0;
+	sampusecount = 0;
+}
+
 //GENERATING FREQ
 //****************************************************************************************************************
 bool bitStream[10];
@@ -151,136 +227,52 @@ int loadBit(){
 
 /*
  *	Function to iterate through period buffer and find a wave start signal. (0xC0=1100 0000)
- *	returns the index of wave start including 0xC0
+ *	returns the index of wave start including 0xC0. Returns -1 if breaking without getting the
+ *	index.
  *
  */
 int streamCheck() {
-	int bit7,bit6,bit5,bit4,bit3,bit2,bit1,bit0;
-
+	int byteArray[8];
+	bool gotflag;
 	//Just do this unless we need to toggle
 	while(!changeMode){
-		//Slide bits
-		bit7 = bit6;
-		bit6 = bit5;
-		bit5 = bit4;
-		bit4 = bit3;
-		bit3 = bit2;
-		bit2 = bit1;
-		bit1 = bit0;
-		bit0 = loadBit();
+		gotflag = false;
 
-		//Detect 0xC
-		if((bit7==0)&&(bit6==1)&&(bit5==1)&&(bit4==1)){
-			//Detect 0xC0
-			if((bit3==1)&&(bit2==1)&&(bit1==1)&&(bit0==0)){
-				AX25_flag = !AX25_flag;
-				sprintf(uartData, "AX.25 Flag Detected\r\n");
+		//Slide bits
+		for(int i = 7;i>0;i--){
+			byteArray[i] = byteArray[i-1];
+		}
+		byteArray[0] = loadBit();
+
+		//Detect AX25 flag bytes
+		for(int i = 0;i < 8; i++){
+			//If the byte isn't lined up, break loop
+			if(byteArray[i]!=AX25TBYTE[i]) {
+				gotflag = false;
+				break;
+			}
+			//If the loop makes it to the last bit, the flag should be lined up
+			else if(i==7){
+				gotflag = true;
 			}
 		}
-		else {
-			sprintf(uartData, "Bits detected: %d %d %d %d %d %d %d %d\r\n",bit7,bit6,bit5,bit4,bit3,bit2,bit1,bit0);
+		//Got flag
+		if(gotflag){
+			AX25_flag = true;
+			sprintf(uartData, "AX.25 Flag Detected\r\n\n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+			//If flag detected, return the index of wave start
+			return bitSaveCount;
 		}
-
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	}
-	if(toggleMode)
-		return -1;
-}
-
-//General Program
-//****************************************************************************************************************
-bool mode = true;
-bool midbit = false;
-bool changeMode = false;
-
-void initProgram() {
-	initOUTData();
-	if (mode) {
-		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
-	} else {
-		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
-	}
-}
-void toggleMode() {
-	//Disable HW interrupt
-	HAL_NVIC_DisableIRQ(EXTI0_IRQn);
-
-	//Stop DAC
-	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-
-	//Toggle mode
-	mode = !mode;
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, mode);
-	midbit = false;
-
-	//Stop timer and reset count
-	HAL_TIM_Base_Stop(&htim3);
-	htim3.Instance->CNT = 0;
-
-	if (mode) {
-		//Set Timer periods
-		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
-
-	} else {
-		//Set Timer Periods
-		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
-
-		//Enable tim3 interrupt
-		HAL_TIM_Base_Start_IT(&htim3);
-
-		//Enable HW interrupt
-		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-	}
-
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
-}
-bool BuffRd = false;
-int printCnt = 0;
-void tx_rx() {
-	if (changeMode) {
-		changeMode = 0;
-		toggleMode();
-	}
-
-	if (mode) {
-		bitToAudio(&bitStream[0], 10);
-	} else {
-		streamCheck();
-
-		/*
-		for (int i = 0; i < RX_BUFFERSIZE; i++) {
-			//sprintf(uartData, "periodBuffer[%d] period value = %d\r\n", i, periodBuffer[i]);
-			sprintf(uartData, "periodBuffer[%d] bit value = %d\r\n", i, pertobit(periodBuffer[i]));
+		//Didn't get flag
+		else {
+			AX25_flag = false;
+			sprintf(uartData, "Bits detected: %d %d %d %d %d %d %d %d\r\n",byteArray[7],byteArray[6],byteArray[5],byteArray[4],byteArray[3],byteArray[2],byteArray[1],byteArray[0]);
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		*/
 	}
-
-}
-void loadPeriodBuffer(int timerCnt) {
-	periodBuffer[periodSaveCount] = timerCnt;
-	periodSaveCount++;
-	if (periodSaveCount >= RX_BUFFERSIZE) {
-		periodSaveCount = 0;
-	}
-}
-void Tim3IT() {
-	if (mode) {
-		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-		midbit = false;
-	} else {
-		if(sampusecount>SAMP_PER_BAUD){
-			loadPeriodBuffer(0);
-		}
-		sampusecount++;
-	}
-}
-void FreqCounterPinEXTI() {
-	loadPeriodBuffer(htim2.Instance->CNT);
-	htim2.Instance->CNT = 0;
-	sampusecount = 0;
+	//Break if mode needs to change
+	if(toggleMode)
+		return -1;
 }

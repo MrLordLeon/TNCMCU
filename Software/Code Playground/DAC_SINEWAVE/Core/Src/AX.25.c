@@ -8,9 +8,11 @@
 #include "FreqIO.h"
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
-bool AX25_flag = false; //indicates whether the TNC started reading for packets
-extern int AX25_temp_buffer[max_packet_count]; //temperary stores bits received from radio, before formatting into AX.25 format
-int packet_count = 0; //keeps count of the temp buffer index
+bool AX25_flag = false; 						//indicates whether the TNC started reading for packets
+extern int AX25_temp_buffer[AX25_PACKET_MAX]; 	//temperary stores bits received from radio, before formatting into AX.25 format
+int packet_count = 0; 							//keeps count of the temp buffer index
+
+int AX25TBYTE[8] = { 1, 1, 0, 0, 0, 0, 0, 0 };
 //*********************************************************************************************************************
 
 //*************** AX.25 Fields ******************************************************************************************
@@ -21,12 +23,33 @@ int Info[Info_len]; //only for information subfield
 int FCS[FCS_len];
 //***********************************************************************************************************************
 
+//General Program
+//****************************************************************************************************************
+void tx_rx() {
+	if (changeMode) {
+		changeMode = 0;
+		toggleMode();
+	}
+
+	if (mode) {
+		bitToAudio(&bitStream[0], 10);
+	} else {
+
+	}
+}
+
 
 //************* Handle bits received from Radio *************************************************************************
-//while the AX25_flag is true, start storing bits in temp buffer
-void store_radio_bits(int bit){
+
+void packetBit(){
+
+}
+//Until flag is true
+void loadPacket(){
+	AX25_flag = false;
+	if(AX25)
 	AX25_temp_buffer[packet_count] = bit;
-	if(packet_count < max_packet_count){
+	if(packet_count < AX25_PACKET_MAX){
 		packet_count++;
 	}
 	else{
@@ -50,7 +73,7 @@ bool Packet_Validate(){
 		curr_mem += address_len;
 		memcpy(control,curr_mem,control_len*sizeof(int));
 		curr_mem += control_len;
-		if(packet_count > max_packet_count - PID_len){ //information type packet
+		if(packet_count > AX25_PACKET_MAX - PID_len){ //information type packet
 			memcpy(PID,curr_mem,PID_len*sizeof(int));
 			curr_mem += PID_len;
 		}

@@ -15,11 +15,12 @@
 #include <stdbool.h>
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
-#define max_packet_count		2304//max bits in a packet, not including flags
+#define AX25_PACKET_MAX		2304					//max bits in a packet, not including flags
 
-extern bool AX25_flag; //indicates whether the TNC started reading for packets
-extern int AX25_temp_buffer[max_packet_count]; //temperary stores bits received from radio, before formatting into AX.25 format
-extern int packet_count; //keeps count of the temp buffer index
+extern bool AX25_flag; 								//indicates whether the TNC started reading for packets
+extern int AX25_temp_buffer[AX25_PACKET_MAX]; 		//temporary stores bits received from radio, before formatting into AX.25 format
+extern int packet_count; 							//keeps count of the temp buffer index
+extern int AX25TBYTE[8];							//Array to store AX.25 terminate flag in binary
 //*********************************************************************************************************************
 
 //*************** AX.25 Fields********************************************************************
@@ -36,9 +37,21 @@ extern int Info[Info_len];
 extern int FCS[FCS_len];
 //********************************************************************************************************
 
+//General Program
+//****************************************************************************************************************
+/*
+ * 	Function ran in main
+ */
+void tx_rx();
 
 //************* Handle bits received from Radio *************************************************************************
-void store_radio_bits(int bit); //while the AX25_flag is true, start storing bits in temp buffer
+/*
+ * 	Function that simply loads a bit into the packet. Should be called
+ * 	only after a start flag is detected
+ */
+void packetBit();
+void loadByte();
+void loadPacket(); //while the AX25_flag is true, start storing bits in temp buffer
 bool Packet_Validate();
 
 #endif /* SRC_AX_25_H_ */

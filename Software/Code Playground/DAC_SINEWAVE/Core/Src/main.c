@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "freqIO.h"
+#include "AX.25.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

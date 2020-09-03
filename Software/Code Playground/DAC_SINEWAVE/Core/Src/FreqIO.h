@@ -39,7 +39,7 @@ extern bool mode;
 
 void initProgram();
 void toggleMode();
-void tx_rx();
+
 /*
  * 	Function to be ran at Tim3 interrupt
  */
@@ -87,8 +87,6 @@ void initOUTData();
 #define BIT_BUFF_BASE		16			//Base amount of bits to store
 #define RX_BUFFERSIZE		SAMP_PER_BAUD * BIT_BUFF_BASE * BUFFER_SCALE
 
-#define MAX_POLL_CNT
-
 extern uint32_t periodBuffer[RX_BUFFERSIZE];	//Stores the period values from interrupt
 extern uint32_t bitBuffer[RX_BUFFERSIZE];		//Stores bitstream values
 extern uint8_t	sampusecount;					//Used to determine old data
@@ -103,5 +101,8 @@ extern uint16_t bitSaveCount;					//Used to keep track of bit saved to bit buffe
  *		return if frequency is outside afsk set range
  */
 int pertobit(uint32_t inputPeriod);
+int loadBit();
+int streamCheck();
+
 
 #endif /* SRC_FREQIO_H_ */
