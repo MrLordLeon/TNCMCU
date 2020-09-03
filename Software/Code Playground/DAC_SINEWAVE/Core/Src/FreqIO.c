@@ -127,6 +127,9 @@ int loadBit(){
 			trackBit++;
 			bitBuffer[bitSaveCount] = 1;
 		}
+		else {
+			bitBuffer[bitSaveCount] = -1;
+		}
 	}
 	//Invalid bit
 	else{
