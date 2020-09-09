@@ -37,6 +37,10 @@ extern char uartData[3000];
  */
 extern bool mode;
 
+/*
+ * 	Function ran in main
+ */
+void tx_rx();
 void initProgram();
 void toggleMode();
 
@@ -83,7 +87,7 @@ void initOUTData();
 #define LOWFREQ			1200			//Lower freq to detect w/ afsk
 #define FREQDEV			400				//Max potential deviation in target frequency to detect
 
-#define	BUFFER_SCALE		8			//Scalar for buffer base
+#define	BUFFER_SCALE		32			//Scalar for buffer base
 #define BIT_BUFF_BASE		16			//Base amount of bits to store
 #define RX_BUFFERSIZE		SAMP_PER_BAUD * BIT_BUFF_BASE * BUFFER_SCALE
 
@@ -102,7 +106,9 @@ extern uint16_t bitSaveCount;					//Used to keep track of bit saved to bit buffe
  */
 int pertobit(uint32_t inputPeriod);
 int loadBit();
+void loadByte();
 int streamCheck();
+void readStream();
 
 
 #endif /* SRC_FREQIO_H_ */

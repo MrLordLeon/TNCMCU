@@ -25,18 +25,6 @@ int FCS[FCS_len];
 
 //General Program
 //****************************************************************************************************************
-void tx_rx() {
-	if (changeMode) {
-		changeMode = 0;
-		toggleMode();
-	}
-
-	if (mode) {
-		bitToAudio(&bitStream[0], 10);
-	} else {
-
-	}
-}
 
 
 //************* Handle bits received from Radio *************************************************************************
@@ -47,8 +35,8 @@ void packetBit(){
 //Until flag is true
 void loadPacket(){
 	AX25_flag = false;
-	if(AX25)
-	AX25_temp_buffer[packet_count] = bit;
+	//if(AX25)
+	//AX25_temp_buffer[packet_count] = bit;
 	if(packet_count < AX25_PACKET_MAX){
 		packet_count++;
 	}

@@ -1,16 +1,344 @@
-00:42:14 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+00:10:07 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:243:24: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+     int* myPtr = (int*)malloc(8 * sizeof(int));
+                        ^~~~~~
+../Core/Src/FreqIO.c:243:24: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/FreqIO.c:243:24: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:285:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:294:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:298:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'readStream':
+../Core/Src/FreqIO.c:307:2: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  free(myPtr);
+  ^~~~
+../Core/Src/FreqIO.c:307:2: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/FreqIO.c:307:2: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/FreqIO.c:308:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:313:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:318:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	    156	  10052	  37448	   9248	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:10:10 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	    156	  10052	  37448	   9248	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+00:11:13 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/AX.25.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/AX.25.d" -MT"Core/Src/AX.25.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/AX.25.o"
 arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/AX.25.c: In function 'Packet_Validate':
-../Core/Src/AX.25.c:50:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+../Core/Src/AX.25.c:59:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
    int *curr_mem = &AX25_temp_buffer; //keep track of what address to copy from
                    ^
-../Core/Src/AX.25.c:68:1: warning: control reaches end of non-void function [-Wreturn-type]
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:243:24: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+     int* myPtr = (int*)malloc(8 * sizeof(int));
+                        ^~~~~~
+../Core/Src/FreqIO.c:243:24: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/FreqIO.c:243:24: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+../Core/Src/AX.25.c:77:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 ../Core/Src/FreqIO.c: In function 'streamCheck':
-../Core/Src/FreqIO.c:288:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+../Core/Src/FreqIO.c:285:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:294:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:298:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'readStream':
+../Core/Src/FreqIO.c:307:2: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  free(myPtr);
+  ^~~~
+../Core/Src/FreqIO.c:307:2: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/FreqIO.c:307:2: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/FreqIO.c:308:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:313:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:318:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	    156	  14148	  41544	   a248	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:12:31 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:243:24: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+     int* myPtr = (int*)malloc(8 * sizeof(int));
+                        ^~~~~~
+../Core/Src/FreqIO.c:243:24: warning: incompatible implicit declaration of built-in function 'malloc'
+../Core/Src/FreqIO.c:243:24: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:285:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:294:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:298:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'readStream':
+../Core/Src/FreqIO.c:307:2: warning: implicit declaration of function 'free' [-Wimplicit-function-declaration]
+  free(myPtr);
+  ^~~~
+../Core/Src/FreqIO.c:307:2: warning: incompatible implicit declaration of built-in function 'free'
+../Core/Src/FreqIO.c:307:2: note: include '<stdlib.h>' or provide a declaration of 'free'
+../Core/Src/FreqIO.c:308:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:313:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:318:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26792	    156	  14148	  41096	   a088	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:17:52 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/AX.25.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/AX.25.d" -MT"Core/Src/AX.25.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/AX.25.o"
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:40: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+     sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                       ~^                           ~~~~~~~~
+                                       %ls
+../Core/Src/FreqIO.c:248:43: warning: format '%d' expects argument of type 'int', but argument 4 has type 'int *' [-Wformat=]
+     sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                          ~^                                 ~~~~~~~~
+                                          %ls
+../Core/Src/AX.25.c: In function 'Packet_Validate':
+../Core/Src/FreqIO.c:248:46: warning: format '%d' expects argument of type 'int', but argument 5 has type 'int *' [-Wformat=]
+     sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                             ~^                                       ~~~~~~~~
+                                             %ls
+../Core/Src/FreqIO.c:248:49: warning: format '%d' expects argument of type 'int', but argument 6 has type 'int *' [-Wformat=]
+     sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                ~^                                             ~~~~~~~~
+                                                %ls
+../Core/Src/AX.25.c:59:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+   int *curr_mem = &AX25_temp_buffer; //keep track of what address to copy from
+                   ^
+../Core/Src/FreqIO.c:248:52: warning: format '%d' expects argument of type 'int', but argument 7 has type 'int *' [-Wformat=]
+     sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                   ~^                                                   ~~~~~~~~
+                                                   %ls
+../Core/Src/FreqIO.c:248:55: warning: format '%d' expects argument of type 'int', but argument 8 has type 'int *' [-Wformat=]
+     sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                      ~^                                                         ~~~~~~~~
+                                                      %ls
+../Core/Src/AX.25.c:77:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../Core/Src/FreqIO.c:248:58: warning: format '%d' expects argument of type 'int', but argument 9 has type 'int *' [-Wformat=]
+     sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                         ~^                                                               ~~~~~~~~
+                                                         %ls
+../Core/Src/FreqIO.c:248:61: warning: format '%d' expects argument of type 'int', but argument 10 has type 'int *' [-Wformat=]
+     sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                            ~^                                                                     ~~~~~~~~
+                                                            %ls
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
                                ^~~~~~~~
 In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
@@ -42,17 +370,940 @@ arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
 arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
 arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  26736	    156	   8004	  34896	   8850	DAC_SINEWAVE.elf
+  26928	    156	  14148	  41232	   a110	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
  
 Finished building: DAC_SINEWAVE.bin
  
 Finished building: DAC_SINEWAVE.list
  
-00:42:18 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+00:19:32 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:42: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+         sprintf(uartData, "Loading bit: %d\r\n",myPtr[7],myPtr[i]);
+                                         ~^      ~~~~~~~~
+                                         %ls
+../Core/Src/FreqIO.c:248:27: warning: too many arguments for format [-Wformat-extra-args]
+         sprintf(uartData, "Loading bit: %d\r\n",myPtr[7],myPtr[i]);
+                           ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:249:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:288:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:297:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:301:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
 arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  26736	    156	   8004	  34896	   8850	DAC_SINEWAVE.elf
+  26888	    156	  14148	  41192	   a0e8	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:21:00 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:42: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+         sprintf(uartData, "Loading bit: %d\r\n",myPtr[7],myPtr[i]);
+                                         ~^      ~~~~~~~~
+                                         %ls
+../Core/Src/FreqIO.c:248:27: warning: too many arguments for format [-Wformat-extra-args]
+         sprintf(uartData, "Loading bit: %d\r\n",myPtr[7],myPtr[i]);
+                           ^~~~~~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:249:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:288:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:300:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:304:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26896	    156	  14148	  41200	   a0f0	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:22:42 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:49: error: expected expression before ',' token
+         sprintf(uartData, "Loading bit: %d\r\n",,myPtr[i]);
+                                                 ^
+../Core/Src/FreqIO.c:249:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:288:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:300:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:304:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+make: *** [Core/Src/subdir.mk:41: Core/Src/FreqIO.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+00:22:54 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:42: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+         sprintf(uartData, "Loading bit: %d\r\n",myPtr[i]);
+                                         ~^      ~~~~~~~~
+                                         %ls
+../Core/Src/FreqIO.c:249:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:288:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:300:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:304:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26896	    156	  14148	  41200	   a0f0	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:25:18 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:42: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+         sprintf(uartData, "Loading bit: %d\r\n",myPtr[i]);
+                                         ~^      ~~~~~~~~
+                                         %ls
+../Core/Src/FreqIO.c:249:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:288:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:303:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:307:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26920	    156	  14148	  41224	   a108	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:27:46 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:33: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                ~^                           ~~~~~~~~
+                                %ls
+../Core/Src/FreqIO.c:248:36: warning: format '%d' expects argument of type 'int', but argument 4 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                   ~^                                 ~~~~~~~~
+                                   %ls
+../Core/Src/FreqIO.c:248:39: warning: format '%d' expects argument of type 'int', but argument 5 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                      ~^                                       ~~~~~~~~
+                                      %ls
+../Core/Src/FreqIO.c:248:42: warning: format '%d' expects argument of type 'int', but argument 6 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                         ~^                                             ~~~~~~~~
+                                         %ls
+../Core/Src/FreqIO.c:248:45: warning: format '%d' expects argument of type 'int', but argument 7 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                            ~^                                                   ~~~~~~~~
+                                            %ls
+../Core/Src/FreqIO.c:248:48: warning: format '%d' expects argument of type 'int', but argument 8 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                               ~^                                                         ~~~~~~~~
+                                               %ls
+../Core/Src/FreqIO.c:248:51: warning: format '%d' expects argument of type 'int', but argument 9 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                  ~^                                                               ~~~~~~~~
+                                                  %ls
+../Core/Src/FreqIO.c:248:54: warning: format '%d' expects argument of type 'int', but argument 10 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                     ~^                                                                     ~~~~~~~~
+                                                     %ls
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:304:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:308:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26952	    156	  14148	  41256	   a128	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:29:30 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:33: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                ~^                           ~~~~~~~~
+                                %ls
+../Core/Src/FreqIO.c:248:36: warning: format '%d' expects argument of type 'int', but argument 4 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                   ~^                                 ~~~~~~~~
+                                   %ls
+../Core/Src/FreqIO.c:248:39: warning: format '%d' expects argument of type 'int', but argument 5 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                      ~^                                       ~~~~~~~~
+                                      %ls
+../Core/Src/FreqIO.c:248:42: warning: format '%d' expects argument of type 'int', but argument 6 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                         ~^                                             ~~~~~~~~
+                                         %ls
+../Core/Src/FreqIO.c:248:45: warning: format '%d' expects argument of type 'int', but argument 7 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                            ~^                                                   ~~~~~~~~
+                                            %ls
+../Core/Src/FreqIO.c:248:48: warning: format '%d' expects argument of type 'int', but argument 8 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                               ~^                                                         ~~~~~~~~
+                                               %ls
+../Core/Src/FreqIO.c:248:51: warning: format '%d' expects argument of type 'int', but argument 9 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                  ~^                                                               ~~~~~~~~
+                                                  %ls
+../Core/Src/FreqIO.c:248:54: warning: format '%d' expects argument of type 'int', but argument 10 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                     ~^                                                                     ~~~~~~~~
+                                                     %ls
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:306:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:310:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26928	    156	  14148	  41232	   a110	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:30:37 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:33: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                ~^                           ~~~~~~~~
+                                %ls
+../Core/Src/FreqIO.c:248:36: warning: format '%d' expects argument of type 'int', but argument 4 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                   ~^                                 ~~~~~~~~
+                                   %ls
+../Core/Src/FreqIO.c:248:39: warning: format '%d' expects argument of type 'int', but argument 5 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                      ~^                                       ~~~~~~~~
+                                      %ls
+../Core/Src/FreqIO.c:248:42: warning: format '%d' expects argument of type 'int', but argument 6 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                         ~^                                             ~~~~~~~~
+                                         %ls
+../Core/Src/FreqIO.c:248:45: warning: format '%d' expects argument of type 'int', but argument 7 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                            ~^                                                   ~~~~~~~~
+                                            %ls
+../Core/Src/FreqIO.c:248:48: warning: format '%d' expects argument of type 'int', but argument 8 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                               ~^                                                         ~~~~~~~~
+                                               %ls
+../Core/Src/FreqIO.c:248:51: warning: format '%d' expects argument of type 'int', but argument 9 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                  ~^                                                               ~~~~~~~~
+                                                  %ls
+../Core/Src/FreqIO.c:248:54: warning: format '%d' expects argument of type 'int', but argument 10 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                     ~^                                                                     ~~~~~~~~
+                                                     %ls
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:307:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:311:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26952	    156	  14148	  41256	   a128	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:32:37 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:246:18: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         myPtr[i] = loadBit();
+                  ^
+../Core/Src/FreqIO.c:248:33: warning: format '%d' expects argument of type 'int', but argument 3 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                ~^                           ~~~~~~~~
+                                %ls
+../Core/Src/FreqIO.c:248:36: warning: format '%d' expects argument of type 'int', but argument 4 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                   ~^                                 ~~~~~~~~
+                                   %ls
+../Core/Src/FreqIO.c:248:39: warning: format '%d' expects argument of type 'int', but argument 5 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                      ~^                                       ~~~~~~~~
+                                      %ls
+../Core/Src/FreqIO.c:248:42: warning: format '%d' expects argument of type 'int', but argument 6 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                         ~^                                             ~~~~~~~~
+                                         %ls
+../Core/Src/FreqIO.c:248:45: warning: format '%d' expects argument of type 'int', but argument 7 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                            ~^                                                   ~~~~~~~~
+                                            %ls
+../Core/Src/FreqIO.c:248:48: warning: format '%d' expects argument of type 'int', but argument 8 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                               ~^                                                         ~~~~~~~~
+                                               %ls
+../Core/Src/FreqIO.c:248:51: warning: format '%d' expects argument of type 'int', but argument 9 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                  ~^                                                               ~~~~~~~~
+                                                  %ls
+../Core/Src/FreqIO.c:248:54: warning: format '%d' expects argument of type 'int', but argument 10 has type 'int *' [-Wformat=]
+  sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+                                                     ~^                                                                     ~~~~~~~~
+                                                     %ls
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:292:11: warning: implicit declaration of function 'sloadBit'; did you mean 'loadBit'? [-Wimplicit-function-declaration]
+     bit = sloadBit();
+           ^~~~~~~~
+           loadBit
+../Core/Src/FreqIO.c:294:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:310:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:314:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Core/Src/FreqIO.o: In function `streamCheck':
+C:/GitHub/TNCMCU/Software/Code Playground/DAC_SINEWAVE/Debug/../Core/Src/FreqIO.c:292: undefined reference to `sloadBit'
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:50: DAC_SINEWAVE.elf] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+00:33:20 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:292:11: warning: implicit declaration of function 'sloadBit'; did you mean 'loadBit'? [-Wimplicit-function-declaration]
+     bit = sloadBit();
+           ^~~~~~~~
+           loadBit
+../Core/Src/FreqIO.c:294:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:310:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:314:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Core/Src/FreqIO.o: In function `streamCheck':
+C:/GitHub/TNCMCU/Software/Code Playground/DAC_SINEWAVE/Debug/../Core/Src/FreqIO.c:292: undefined reference to `sloadBit'
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:50: DAC_SINEWAVE.elf] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+00:33:32 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:294:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:310:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:314:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27016	    156	  14148	  41320	   a168	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:38:17 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:294:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:310:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:314:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27016	    156	  14148	  41320	   a168	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
+ 
+00:38:44 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+../Core/Src/FreqIO.c: In function 'loadByte':
+../Core/Src/FreqIO.c:249:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamCheck':
+../Core/Src/FreqIO.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:294:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:310:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:364:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:314:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DAC_SINEWAVE.elf
+ 
+arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
+arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
+arm-none-eabi-size   DAC_SINEWAVE.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27016	    156	  14148	  41320	   a168	DAC_SINEWAVE.elf
+Finished building: default.size.stdout
+ 
+Finished building: DAC_SINEWAVE.bin
+ 
+Finished building: DAC_SINEWAVE.list
  

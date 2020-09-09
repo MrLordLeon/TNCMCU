@@ -34,6 +34,20 @@ void initProgram() {
 		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
 	}
 }
+
+void tx_rx() {
+	if (changeMode) {
+		changeMode = 0;
+		toggleMode();
+	}
+
+	if (mode) {
+		bitToAudio(&bitStream[0], 10);
+	} else {
+		streamCheck();
+	}
+}
+
 void toggleMode() {
 	//Disable HW interrupt
 	HAL_NVIC_DisableIRQ(EXTI0_IRQn);
@@ -225,6 +239,16 @@ int loadBit(){
 	return currbit;
 }
 
+void loadByte() {
+    //int* myPtr = (int*)malloc(8 * sizeof(int));
+	int myPtr[8];
+	for (int i = 0; i < 8; i++) {
+        myPtr[i] = loadBit();
+    }
+	sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+}
+
 /*
  *	Function to iterate through period buffer and find a wave start signal. (0xC0=1100 0000)
  *	returns the index of wave start including 0xC0. Returns -1 if breaking without getting the
@@ -262,6 +286,20 @@ int streamCheck() {
 			sprintf(uartData, "AX.25 Flag Detected\r\n\n");
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
+			int bit;
+			//Clear the bit register for next loadByte call
+			for(int i = 0;i<7;i++){
+				bit = loadBit();
+				sprintf(uartData, "Clearing value %d\r\n",bit);
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			}
+
+			loadByte();
+			loadByte();
+			loadByte();
+			loadByte();
+			loadByte();
+
 			//If flag detected, return the index of wave start
 			return bitSaveCount;
 		}
@@ -276,3 +314,14 @@ int streamCheck() {
 	if(toggleMode)
 		return -1;
 }
+
+/*
+void readStream(){
+	while(streamCheck()==-1);
+
+	int* myPtr = loadByte();
+	sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+	free(myPtr);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+}
+*/

@@ -39,10 +39,6 @@ extern int FCS[FCS_len];
 
 //General Program
 //****************************************************************************************************************
-/*
- * 	Function ran in main
- */
-void tx_rx();
 
 //************* Handle bits received from Radio *************************************************************************
 /*
@@ -50,7 +46,6 @@ void tx_rx();
  * 	only after a start flag is detected
  */
 void packetBit();
-void loadByte();
 void loadPacket(); //while the AX25_flag is true, start storing bits in temp buffer
 bool Packet_Validate();
 
