@@ -115,12 +115,14 @@ bool bitStream[10];
 uint32_t lowFrequency[2 * LOWF_SAMP];
 uint32_t highFrequency[2 * HIGHF_SAMP];
 
-void edit_sineval(uint32_t *sinArray, int arraySize, int waves) {
+void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPercent) {
+	double ampl 		= OUT_AMPL / 4;						//Amplitude of wave
+	double phaseShift 	= shiftPercent * 2 * PI;	//Desired phase shift
+	double w 			= 2 * PI  * waves / arraySize;
+
 	for (int i = 0; i < arraySize; i++) {
 		//formula in DAC Document
-		sinArray[i] = (sin(
-				(i + (.75 * arraySize * waves)) * 2 * PI / arraySize * waves)
-				+ 1) * (OUT_AMPL / 4);
+		sinArray[i] = (sin((i * w) + phaseShift) + 1) * ampl;
 	}
 }
 void bitToAudio(bool *bitStream, int arraySize) {
@@ -160,8 +162,8 @@ void generateBitstream() {
 
 }
 void initOUTData() {
-	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2);
-	edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2);
+	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2, +0.90);
+	edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2, +0.99);
 	generateBitstream();
 }
 

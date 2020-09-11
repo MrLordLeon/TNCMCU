@@ -106,7 +106,7 @@ int main(void)
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
 	initProgram();
-	toggleMode();
+	//toggleMode();
   /* USER CODE END 2 */
 
   /* Infinite loop */
