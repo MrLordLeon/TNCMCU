@@ -116,7 +116,7 @@ uint32_t lowFrequency[2 * LOWF_SAMP];
 uint32_t highFrequency[2 * HIGHF_SAMP];
 
 void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPercent) {
-	double ampl 		= OUT_AMPL / 4;						//Amplitude of wave
+	double ampl 		= OUT_AMPL / 2;						//Amplitude of wave
 	double phaseShift 	= shiftPercent * 2 * PI;	//Desired phase shift
 	double w 			= 2 * PI  * waves / arraySize;
 
@@ -287,6 +287,7 @@ int streamCheck() {
 			AX25_flag = true;
 			sprintf(uartData, "AX.25 Flag Detected\r\n\n");
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 
 			int bit;
 			//Clear the bit register for next loadByte call
