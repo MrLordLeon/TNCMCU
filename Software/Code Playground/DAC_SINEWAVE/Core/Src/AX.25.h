@@ -63,5 +63,7 @@ void loadPacket(); //while the AX25_flag is true, start storing bits in temp buf
 bool Packet_Validate();
 void generate_address();
 bool compare_address();
+void CRC_gen(bool *msg,int msg_len);
+void CRC_initial(bool *num,bool *msg, int num_len);
 
 #endif /* SRC_AX_25_H_ */

@@ -149,3 +149,44 @@ bool Packet_Validate(){
 	}
 	return true; //valid packet
 }
+
+//FCS Generation
+void CRC_initial(bool *num,bool *msg, int num_len){
+    bool aug[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    bool init[16] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+
+    memcpy(num,init,16*bool_size);
+    memcpy(num+16,msg,num_len*bool_size);
+    memcpy(num+16+num_len,aug,16*bool_size);
+
+}
+
+void CRC_gen(bool *msg,int msg_len){
+    int total_len = 16 + msg_len + 16;
+    bool poly[16] = {0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1};
+    bool div[16];
+    bool curr[16];
+    bool crc[16];
+    bool num[total_len];
+
+    CRC_initial(num,msg,msg_len);
+    memcpy(div,poly,16*bool_size);
+    memcpy(curr,num+1,16*bool_size);
+
+    for(int i=0; i < msg_len+16;i++){
+        for(int j = 0;j < 16;j++){
+            crc[j] = curr[j]^div[j];
+        }
+
+        memcpy(curr,&crc[1],15*bool_size); //shift crc over
+        curr[15] = num[17+i];
+        if(crc[0] == 1){
+            memcpy(div,poly,16*bool_size);
+        }
+        else{
+            memset(div,0,16*bool_size);
+        }
+    }
+    sprintf(uartData,"crc = %d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d\n",crc[0],crc[1],crc[2],crc[3],crc[4],crc[5],crc[6],crc[7],
+    															crc[8],crc[9],crc[10],crc[11],crc[12],crc[13],crc[14],crc[15]);
+}
