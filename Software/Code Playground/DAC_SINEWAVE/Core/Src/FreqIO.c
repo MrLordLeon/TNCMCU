@@ -26,6 +26,11 @@ bool changeMode = false;
 
 void initProgram() {
 	initOUTData();
+
+	//Set hardware properly
+	toggleMode();
+	toggleMode();
+
 	if (mode) {
 		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
 		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
