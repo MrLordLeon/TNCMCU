@@ -150,54 +150,40 @@ bool Packet_Validate(){
 	return true; //valid packet
 }
 
-//FCS Generation
-unsigned long crc = 0;			//crc value after calculating data from PC
-unsigned long poly = 0x11021;	//polynomial for crc calc
-bool end_flag = 0;				//flag to indicate the end of a KISS Packet
-int bit_count = 0;				//keeps count of how many bits to indicate when to start performing crc calc
-
-//crc calculation process
-void CRC_gen(){
-    if(bit_count > 16 && !end_flag){
-        poly = (crc > 0x10000) ? 0x11021 : 0;
-        crc ^= poly;
-    }
-    else if(end_flag) {
-        for(int i = 0;i < 16;i++){
-            crc <<= 1;
-            poly = (crc > 0x10000) ? 0x11021 : 0;
-            crc ^= poly;
-        }
-    }
-
-}
-
-//converts bits to hex and runs crc calc while reading in bits simultaneously
-void data_to_hex(unsigned int input){
-    crc <<= 1;
-    crc += input;
-    bit_count++;
-    CRC_gen();
-}
+//---------------------- FCS Generation -----------------------------------------------------------------------------------------------
+int crc = 0xFFFF; //initial crc value
+bool end_flag = false; //inidicates when to stop crc and perform one's compliment
 
 //store bits in FCS field
 void hex_to_bin(){
     int temp;
-    for(int i = 0; i < 16; i++){
+    for(int i = 0; i < 16; i++){ //stores in bits into fcs subfield
         temp = crc >> i;
         FCS[i] = temp%2;
     }
+
     int time = htim2.Instance->CNT;
     sprintf(uartData,"FCS = %x\n",crc);
     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-    for(int j = 15; j >= 0; j--){
-        sprintf(uartData,"%d",FCS[j]);
-        HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-    }
-    sprintf(uartData,"\ntime = %d\n",time);
+    sprintf(uartData,"\nExecution time = %d\n",time);
     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-    crc = 0;			//crc value after calculating data from PC
-    end_flag = 0;				//flag to indicate the end of a KISS Packet
-    bit_count = 0;
+    crc = 0xFFFF; //reinitialize
+    end_flag = 0;//reinitialize
 
+}
+
+//CRC Calculations
+void crc_calc(int in_bit){
+	int out_bit;
+    int poly = 0x8408;             //reverse order of 0x1021
+    if(!end_flag){
+        out_bit = in_bit ^ (crc%2); //xor lsb of current crc with input bit
+        crc >>= 1;                       //right shift by 1
+        poly = (out_bit == 1) ? 0x8408 : 0;
+        crc ^= poly;
+    }
+    else{
+        crc ^= 0xFFFF; //one's compliment
+        hex_to_bin();
+    }
 }

@@ -6,6 +6,5 @@ AX.25.c:94:6:compare_address	24	static
 AX.25.c:103:6:packetBit	4	static
 AX.25.c:107:6:loadPacket	4	static
 AX.25.c:120:6:Packet_Validate	24	static
-AX.25.c:160:6:CRC_gen	16	static
-AX.25.c:176:6:data_to_hex	16	static
-AX.25.c:184:6:hex_to_bin	24	static
+AX.25.c:158:6:hex_to_bin	24	static
+AX.25.c:176:6:crc_calc	24	static

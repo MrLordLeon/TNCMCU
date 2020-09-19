@@ -29,10 +29,8 @@ extern bool PID[PID_len]; //only for information type packet
 extern bool Info[Info_len];
 extern bool FCS[FCS_len];
 
-unsigned long crc; //crc value after calculating data from PC
-unsigned long poly; //polynomial for crc calc
-bool end_flag; 		//flag to indicate the end of a KISS Packet
-int bit_count;		//keeps count of how many bits to indicate when to start performing crc calc
+extern int crc; //crc value after calculating data from PC
+extern bool end_flag; 		//flag to indicate the end of a KISS Packet
 //********************************************************************************************************
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
@@ -68,7 +66,6 @@ void loadPacket(); //while the AX25_flag is true, start storing bits in temp buf
 bool Packet_Validate();
 void generate_address();
 bool compare_address();
-void data_to_hex(unsigned int input);	//converts bits to hex and runs crc calc while reading in bits simultaneously
-void CRC_gen();							//crc calculation process
+void crc_calc(int in_bit);
 void hex_to_bin();						//store bits in FCS field
 #endif /* SRC_AX_25_H_ */
