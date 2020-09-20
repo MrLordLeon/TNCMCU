@@ -49,7 +49,13 @@ void tx_rx() {
 	if (mode) {
 		bitToAudio(&bitStream[0], 10);
 	} else {
-		streamCheck();
+		for(int i = 0;i<10;i++){
+			sprintf(uartData, "Running streamGet() %d time\r\n",i);
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+			streamGet();
+		}
+		HAL_Delay(1000);
 	}
 }
 
@@ -181,9 +187,6 @@ uint16_t periodSaveCount = 0;
 uint16_t trackBit = 0;
 uint16_t bitSaveCount = 0;
 
-/*
- * 	Function to calculate bit value based on period. Returns the bit value
- */
 int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / inputPeriod;
 	//return freq;
@@ -194,14 +197,6 @@ int pertobit(uint32_t inputPeriod) {
 	else
 		return -1;
 }
-
-/*
- *	Function to take period buffer values and loads the next bit into bit buffer.
- *	Also returns the determined bitvalue
- *	0 	= 1200Hz
- *	1  	= 2200Hz
- *	-1	= Invalid frequency
- */
 int loadBit(){
 	int currbit = 0;
 	int nextbit = 0;
@@ -245,7 +240,6 @@ int loadBit(){
 
 	return currbit;
 }
-
 int loadOctet(bool* bufferptr) {
 	int bit;
 	bool myPtr[8];
@@ -263,31 +257,29 @@ int loadOctet(bool* bufferptr) {
     }
 	//If this is not a flag, copy the values into the buffer pointer
 	if(!isFlag){
-		//sprintf(uartData, "Octet read(MSB - LSB): %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
-		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		sprintf(uartData, "Printing octet = ");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-		memcpy(bufferptr,myPtr,8*bool_size);
+		for(int i = 0;i<8;i++){
+			bufferptr[7-i] = (myPtr[7-i]==1)?true:false;
+			sprintf(uartData, " %d ",bufferptr[7-i]);
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+		sprintf(uartData, "\r\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	return isFlag;
 }
-
-/*
- *	Function to iterate through period buffer and find a wave start signal. (0xC0=1100 0000)
- *	Returns 1 if got a buffer of data succesfully
- *	Returns 0 if a bad bit was picked up mid packets
- *	Returns -1 if breaking without completing operation
- *
- */
-int streamCheck() {
+int streamGet() {
 	int byteArray[8];
-	bool tempBuff[3][8];
-	bool gotflag;
 	int max_octets = AX25_PACKET_MAX/8;
-	int octet_count = 0;
+	int octet_count,good_octet;
+	bool gotflag;
 
 	//Just do this unless we need to toggle
 	while(!changeMode){
 		gotflag = false;
+		buffer_rdy = false;
 
 		//Slide bits
 		for(int i = 0; i < 7; i++){
@@ -311,29 +303,44 @@ int streamCheck() {
 		//Got flag
 		if(gotflag){
 			AX25_flag = true;
-			sprintf(uartData, "\nAX.25 Flag Detected\r\n");
+			sprintf(uartData, "Start AX.25 Flag Detected\r\n");
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			octet_count  = 0;
 
-			while(!loadOctet(&tempBuff[octet_count]) && (octet_count < max_octets)){
-				octet_count++;
+			//Until AX.25 buffer overflows, continue reading octets
+			good_octet = 0;
+			while( (good_octet==0) && (octet_count < max_octets) ){
+				good_octet = loadOctet(&AX25_temp_buffer[octet_count*8]);
+				//sprintf(uartData, "Loaded octet %d\r\n",octet_count);
+				//sprintf(uartData, "good_octet: %d\r\n",good_octet);
+				//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+				octet_count+=1;
 			}
-			sprintf(uartData, "AX.25 Flag Detected\r\n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-			for(int i = 0; i < 3; i++){
-				sprintf(uartData, "tempBuff[%d]: %d %d %d %d %d %d %d %d\r\n",i,tempBuff[i][7],tempBuff[i][6],tempBuff[i][5],tempBuff[i][4],tempBuff[i][3],tempBuff[i][2],tempBuff[i][1],tempBuff[i][0]);
+			//If ax.25 buffer overflows or an octet was bad, this was a bad packet
+			if((octet_count >= max_octets) || (good_octet!=1)){
+				sprintf(uartData, "Bad packet!\r\n\n",octet_count);
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 			}
+			//
+			else if(octet_count == 1){
+				sprintf(uartData, "Bad packet!\r\n\n",octet_count);
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			}
+			//If ax.25 buffer does not overflow, this was a good packet
+			else {
+				sprintf(uartData, "Stop AX.25 Flag Detected\r\n\n");
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-			buffer_rdy = true;
-
-			//If flag detected, return the index of wave start
-			return 1;
+				buffer_rdy = true;
+				return 1;
+			}
 		}
 		//Didn't get flag
 		else {
 			AX25_flag = false;
-			//sprintf(uartData, "Bits detected: %d %d %d %d %d %d %d %d\r\n",byteArray[7],byteArray[6],byteArray[5],byteArray[4],byteArray[3],byteArray[2],byteArray[1],byteArray[0]);
+			//sprintf(uartData, "Flag not detected\r\n");
 			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
 	}

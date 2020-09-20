@@ -106,7 +106,11 @@ extern uint16_t bitSaveCount;					//Used to keep track of bit saved to bit buffe
  */
 int pertobit(uint32_t inputPeriod);
 /*
- * 	Loads a bit and returns the value. -1 for invalid frequencies
+ *	Function to take period buffer values and loads the next bit into bit buffer.
+ *	Also returns the determined bitvalue
+ *	0 	= 1200Hz
+ *	1  	= 2200Hz
+ *	-1	= Invalid frequency
  */
 int loadBit();
 /*
@@ -116,8 +120,12 @@ int loadBit();
  *	Returns 1 if the octet is the ax.25 flag
  */
 int loadOctet(bool* bufferptr);
-int streamCheck();
-void readStream();
+/*
+ *	Fills the ax.25 buffer with octets excluding the flags
+ *	Returns -1 if need to change mode
+ *	Returns 1 if the packet was valid frequencies
+ */
+int streamGet();
 
 
 #endif /* SRC_FREQIO_H_ */
