@@ -33,13 +33,69 @@ bool FCS[FCS_len];
 
 //General Program
 //****************************************************************************************************************
+void tx_rx() {
+	if (changeMode) {
+		changeMode = 0;
+		toggleMode();
+	}
 
+	if (mode) {
+		bitToAudio(&bitStream[0], 10,1);
+	} else {
+		for(int i = 0;i<10;i++){
+			sprintf(uartData, "Running streamGet() %d time\r\n",i);
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+			streamGet();
+		}
+		HAL_Delay(1000);
+	}
+}
 
 //************* Handle bits received from Radio *************************************************************************
 /**
   * @brief  discards bit stuffed 0 and slide remaining bits over bits over
   *
   */
+
+void receiving_AX25(){
+	int packet_status;
+	packet_status = streamGet();
+	if(packet_status == 1){
+		bool AX25_IsValid = Packet_Validate();
+		memset(AX25_temp_buffer,0,AX25_PACKET_MAX);
+		if(AX25_IsValid){
+			generate_KISS();
+		}
+		else{
+			receiving_AX25();
+		}
+	}
+	else{
+		toggleMode();
+	}
+}
+
+void transmitting_AX25(){
+	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
+
+	//Remember to format for KISS TO AX.25
+
+	output_AX25();
+
+	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_RESET); //stop transmitting
+}
+
+void ouput_AX25(){
+	bitToAudio(AX25TBYTE, FLAG_SIZE,1); //start flag
+	bitToAudio(Info,Info_len,0);
+	bitToAudio(PID,PID_len,0);
+	bitToAudio(control,control_len,0);
+	bitToAudio(address, address_len,0);
+	bitToAudio(FCS,FCS_len,1);
+	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
+}
+
 void slide_bits(bool* array,int bits_left){
 	memcpy(array,array+1,bits_left*bool_size);
 }

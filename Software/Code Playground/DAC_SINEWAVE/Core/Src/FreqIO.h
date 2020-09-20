@@ -40,7 +40,6 @@ extern bool mode;
 /*
  * 	Function ran in main
  */
-void tx_rx();
 void initProgram();
 void toggleMode();
 
@@ -72,7 +71,7 @@ extern bool 	midbit;
 extern bool		changeMode;
 
 void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPercent);
-void bitToAudio(bool *bitStream, int arraySize);
+void bitToAudio(bool *bitStream, int arraySize,bool direction);
 void generateBitstream();
 void initOUTData();
 

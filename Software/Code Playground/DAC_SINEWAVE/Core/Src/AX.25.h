@@ -55,7 +55,7 @@ void slide_bits(bool* array,int bits_left); //discards bit stuffed 0 and slide r
 
 //General Program
 //****************************************************************************************************************
-
+void tx_rx();
 //************* Handle bits received from Radio *************************************************************************
 /*
  * 	Function that simply loads a bit into the packet. Should be called
@@ -68,4 +68,7 @@ void generate_address();
 bool compare_address();
 void crc_calc(int in_bit);
 void hex_to_bin();						//store bits in FCS field
+void receiving_AX25();
+void transmitting_AX25();
+void ouput_AX25();
 #endif /* SRC_AX_25_H_ */

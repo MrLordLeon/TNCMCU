@@ -40,24 +40,7 @@ void initProgram() {
 	}
 }
 
-void tx_rx() {
-	if (changeMode) {
-		changeMode = 0;
-		toggleMode();
-	}
 
-	if (mode) {
-		bitToAudio(&bitStream[0], 10);
-	} else {
-		for(int i = 0;i<10;i++){
-			sprintf(uartData, "Running streamGet() %d time\r\n",i);
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-			streamGet();
-		}
-		HAL_Delay(1000);
-	}
-}
 
 void toggleMode() {
 	//Disable HW interrupt
@@ -136,28 +119,53 @@ void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPerce
 		sinArray[i] = (sin((i * w) + phaseShift) + 1) * ampl;
 	}
 }
-void bitToAudio(bool *bitStream, int arraySize) {
-	for (int i = 0; i < arraySize; i++) {
-		if (bitStream[i]) {
-			htim3.Instance->CNT = 0;
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,
-					DAC_ALIGN_12B_R);
-			HAL_TIM_Base_Start_IT(&htim3);
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
-			midbit = true;
-		} else {
-			htim3.Instance->CNT = 0;
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,
-					DAC_ALIGN_12B_R);
-			HAL_TIM_Base_Start_IT(&htim3);
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
-			midbit = true;
-		}
+void bitToAudio(bool *bitStream, int arraySize, bool direction) {
+	if(direction){//transmitting lsb first
+		for (int i = 0; i < arraySize; i++) {
+			if (bitStream[i]) {
+				htim3.Instance->CNT = 0;
+				HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,
+						DAC_ALIGN_12B_R);
+				HAL_TIM_Base_Start_IT(&htim3);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
+				midbit = true;
+			} else {
+				htim3.Instance->CNT = 0;
+				HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,
+						DAC_ALIGN_12B_R);
+				HAL_TIM_Base_Start_IT(&htim3);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
+				midbit = true;
+			}
 
-		while (midbit)
-			__NOP();		//Just wait for timer3 IT to go off.
+			while (midbit)
+				__NOP();		//Just wait for timer3 IT to go off.
+		}
+		HAL_TIM_Base_Stop(&htim3);
 	}
-	HAL_TIM_Base_Stop(&htim3);
+	else{ //transmitting msb first
+		for (int i = arraySize-1; i >= 0; i--) {
+			if (bitStream[i]) {
+				htim3.Instance->CNT = 0;
+				HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,
+						DAC_ALIGN_12B_R);
+				HAL_TIM_Base_Start_IT(&htim3);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
+				midbit = true;
+			} else {
+				htim3.Instance->CNT = 0;
+				HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,
+						DAC_ALIGN_12B_R);
+				HAL_TIM_Base_Start_IT(&htim3);
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
+				midbit = true;
+			}
+
+			while (midbit)
+				__NOP();		//Just wait for timer3 IT to go off.
+		}
+		HAL_TIM_Base_Stop(&htim3);
+	}
 }
 void generateBitstream() {
 	bitStream[0] = 1;
