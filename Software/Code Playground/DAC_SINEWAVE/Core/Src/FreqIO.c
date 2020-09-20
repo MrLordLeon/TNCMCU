@@ -20,7 +20,7 @@ char uartData[3000];
 
 //General Program
 //****************************************************************************************************************
-bool mode = true;
+bool mode = false;
 bool midbit = false;
 bool changeMode = false;
 
@@ -246,34 +246,54 @@ int loadBit(){
 	return currbit;
 }
 
-void loadByte() {
-    //int* myPtr = (int*)malloc(8 * sizeof(int));
-	int myPtr[8];
+int loadOctet(bool* bufferptr) {
+	int bit;
+	bool myPtr[8];
+	bool isFlag = true;
+
 	for (int i = 0; i < 8; i++) {
-        myPtr[i] = loadBit();
+		bit = loadBit();
+        if(bit < 0){
+        	return -1;
+        }
+		myPtr[i] = bit;
+        if(myPtr[i] != AX25TBYTE[i]){
+        	isFlag = false;
+        }
     }
-	sprintf(uartData, "Bits read: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	//If this is not a flag, copy the values into the buffer pointer
+	if(!isFlag){
+		//sprintf(uartData, "Octet read(MSB - LSB): %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
+		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+		memcpy(bufferptr,myPtr,8*bool_size);
+	}
+	return isFlag;
 }
 
 /*
  *	Function to iterate through period buffer and find a wave start signal. (0xC0=1100 0000)
- *	returns the index of wave start including 0xC0. Returns -1 if breaking without getting the
- *	index.
+ *	Returns 1 if got a buffer of data succesfully
+ *	Returns 0 if a bad bit was picked up mid packets
+ *	Returns -1 if breaking without completing operation
  *
  */
 int streamCheck() {
 	int byteArray[8];
+	bool tempBuff[3][8];
 	bool gotflag;
+	int max_octets = AX25_PACKET_MAX/8;
+	int octet_count = 0;
+
 	//Just do this unless we need to toggle
 	while(!changeMode){
 		gotflag = false;
 
 		//Slide bits
-		for(int i = 7;i>0;i--){
-			byteArray[i] = byteArray[i-1];
+		for(int i = 0; i < 7; i++){
+			byteArray[i] = byteArray[i+1];
 		}
-		byteArray[0] = loadBit();
+		byteArray[7] = loadBit();
 
 		//Detect AX25 flag bytes
 		for(int i = 0;i < 8; i++){
@@ -282,54 +302,42 @@ int streamCheck() {
 				gotflag = false;
 				break;
 			}
-			//If the loop makes it to the last bit, the flag should be lined up
+			//If the loop makes it to the lowest bit, the flag should be lined up
 			else if(i==7){
 				gotflag = true;
 			}
 		}
+
 		//Got flag
 		if(gotflag){
 			AX25_flag = true;
-			sprintf(uartData, "AX.25 Flag Detected\r\n\n");
+			sprintf(uartData, "\nAX.25 Flag Detected\r\n");
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
+			while(!loadOctet(&tempBuff[octet_count]) && (octet_count < max_octets)){
+				octet_count++;
+			}
+			sprintf(uartData, "AX.25 Flag Detected\r\n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-			int bit;
-			//Clear the bit register for next loadByte call
-			for(int i = 0;i<7;i++){
-				bit = loadBit();
-				sprintf(uartData, "Clearing value %d\r\n",bit);
+			for(int i = 0; i < 3; i++){
+				sprintf(uartData, "tempBuff[%d]: %d %d %d %d %d %d %d %d\r\n",i,tempBuff[i][7],tempBuff[i][6],tempBuff[i][5],tempBuff[i][4],tempBuff[i][3],tempBuff[i][2],tempBuff[i][1],tempBuff[i][0]);
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 			}
 
-			loadByte();
-			loadByte();
-			loadByte();
-			loadByte();
-			loadByte();
+			buffer_rdy = true;
 
 			//If flag detected, return the index of wave start
-			return bitSaveCount;
+			return 1;
 		}
 		//Didn't get flag
 		else {
 			AX25_flag = false;
-			sprintf(uartData, "Bits detected: %d %d %d %d %d %d %d %d\r\n",byteArray[7],byteArray[6],byteArray[5],byteArray[4],byteArray[3],byteArray[2],byteArray[1],byteArray[0]);
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			//sprintf(uartData, "Bits detected: %d %d %d %d %d %d %d %d\r\n",byteArray[7],byteArray[6],byteArray[5],byteArray[4],byteArray[3],byteArray[2],byteArray[1],byteArray[0]);
+			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
 	}
 	//Break if mode needs to change
 	if(toggleMode)
 		return -1;
 }
-
-/*
-void readStream(){
-	while(streamCheck()==-1);
-
-	int* myPtr = loadByte();
-	sprintf(uartData, "Byte detected: %d %d %d %d %d %d %d %d\r\n",myPtr[7],myPtr[6],myPtr[5],myPtr[4],myPtr[3],myPtr[2],myPtr[1],myPtr[0]);
-	free(myPtr);
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-}
-*/

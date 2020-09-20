@@ -105,8 +105,17 @@ extern uint16_t bitSaveCount;					//Used to keep track of bit saved to bit buffe
  *		return if frequency is outside afsk set range
  */
 int pertobit(uint32_t inputPeriod);
+/*
+ * 	Loads a bit and returns the value. -1 for invalid frequencies
+ */
 int loadBit();
-void loadByte();
+/*
+ *	Loads an octet at a time.
+ *	Returns -1 if an invalid frequency is detected
+ *	Returns 0 if the octet is valid and not an ax.25 flag
+ *	Returns 1 if the octet is the ax.25 flag
+ */
+int loadOctet(bool* bufferptr);
 int streamCheck();
 void readStream();
 
