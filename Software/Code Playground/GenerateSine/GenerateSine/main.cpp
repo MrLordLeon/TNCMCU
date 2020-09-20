@@ -17,7 +17,7 @@ using namespace std;
 double lowFrequency[LOWF_SAMP];
 double highFrequency[HIGHF_SAMP];
 bool bitstream[] = {    0, 1, 1, 1, 1, 1, 1, 0,
-
+                      //0, 1, 2, 3, 4, 5, 6, 7
                         1, 0, 1, 0, 1, 0, 1, 0,
                         1, 0, 0, 0, 0, 0, 0, 1,
                         0, 0, 0, 0, 0, 0, 0, 0,
