@@ -320,12 +320,14 @@ int streamGet() {
 
 			//If ax.25 buffer overflows or an octet was bad, this was a bad packet
 			if((octet_count >= max_octets) || (good_octet!=1)){
-				sprintf(uartData, "Bad packet!\r\n\n",octet_count);
+				sprintf(uartData, "Bad packet! Not enough octets\r\n\n",octet_count);
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 			}
 			//
 			else if(octet_count == 1){
-				sprintf(uartData, "Bad packet!\r\n\n",octet_count);
+				sprintf(uartData, "Stop AX.25 Flag Detected\r\n");
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				sprintf(uartData, "Bad packet! Not enough octetes.\r\n\n",octet_count);
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 			}
 			//If ax.25 buffer does not overflow, this was a good packet
