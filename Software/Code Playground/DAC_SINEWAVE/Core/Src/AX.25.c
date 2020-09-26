@@ -10,7 +10,7 @@
 //*************** variables for detecting and validating  AX.25  ******************************************************
 bool AX25_flag = false; 						//indicates whether the TNC started reading for packets
 bool AX25_temp_buffer[AX25_PACKET_MAX]; 	//temperary stores bits received from radio, before formatting into AX.25 format
-int packet_count = 0; 							//keeps count of the temp buffer index
+int rxBit_count = 0; 							//keeps count of the temp buffer index
 bool buffer_rdy = true;
 bool local_address[address_len/2];							//address set to this TNC
 
@@ -27,7 +27,7 @@ bool KISS_PACKET[KISS_SIZE];
 bool address[address_len];
 bool control[control_len];
 bool PID[PID_len]; //only for information subfield
-bool Info[Info_len]; //only for information subfield
+bool Info[MAX_INFO]; //only for information subfield
 bool FCS[FCS_len];
 //***********************************************************************************************************************
 
@@ -62,6 +62,7 @@ void receiving_AX25(){
 	int packet_status;
 	packet_status = streamGet();
 	if(packet_status == 1){
+		remove_bit_stuffing();
 		bool AX25_IsValid = Packet_Validate();
 		memset(AX25_temp_buffer,0,AX25_PACKET_MAX);
 		if(AX25_IsValid){
@@ -88,11 +89,11 @@ void transmitting_AX25(){
 
 void ouput_AX25(){
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1); //start flag
-	bitToAudio(Info,Info_len,0);
-	bitToAudio(PID,PID_len,0);
-	bitToAudio(control,control_len,0);
-	bitToAudio(address, address_len,0);
-	bitToAudio(FCS,FCS_len,1);
+	bitToAudio(address, address_len,0); //lsb first
+	bitToAudio(control,control_len,0);	//lsb first
+	bitToAudio(PID,PID_len,0);			//lsb first
+	bitToAudio(Info,Info_len,0);		//lsb first
+	bitToAudio(FCS,FCS_len,1);			//msb first
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
 }
 
@@ -102,17 +103,18 @@ void slide_bits(bool* array,int bits_left){
 
 void remove_bit_stuffing(){
 	int one_count = 0;
-	int shift_count = 0;
+	int shift_count = 0; //reduces loop count by number of bit stuffed zeros removed
 	bool curr;
 	for(int i = 0;i < KISS_SIZE-shift_count;i++){
-		curr = KISS_PACKET[i];
+		curr = AX25_temp_buffer[i]; //iterate through all data received before seperating into subfields
 		if(curr){ //current bit is a 1
 			one_count++;
 		}
 		else{
 			if(one_count >= 5){
-				slide_bits(&KISS_PACKET[i],KISS_SIZE-i);
+				slide_bits(&AX25_temp_buffer[i],rxBit_count-i);
 				shift_count++;
+				rxBit_count--;
 			}
 			one_count = 0;
 		}
@@ -129,7 +131,7 @@ void generate_KISS(){
 	memcpy(curr_mem,control,control_len*bool_size);
 	curr_mem += control_len;
 
-	if(packet_count > AX25_PACKET_MAX - PID_len){ //information type packet only
+	if(rxBit_count > AX25_PACKET_MAX - PID_len){ //information type packet only
 		memcpy(curr_mem,PID,PID_len*bool_size);
 		curr_mem += PID_len;
 	}
@@ -157,36 +159,24 @@ bool compare_address(bool *addr){
 	}
 	return true;
 }
-void packetBit(){
 
-}
-//stores bits into buffer
-void loadPacket(){
-
-	//if(AX25)
-	//AX25_temp_buffer[packet_count] = bit;
-	if(packet_count < AX25_PACKET_MAX){
-		packet_count++;
-	}
-	else{
-		packet_count = 0;
-	}
-}
 
 //check if we keep the packet or remove it
 bool Packet_Validate(){
 	bool *curr_mem = &AX25_temp_buffer; //keep track of what address to copy from
 
-	if(packet_count < 120){ //invalid if packet is less than 136 bits - 2*8 bits (per flag)
+	if(rxBit_count < 120){ //invalid if packet is less than 136 bits - 2*8 bits (per flag)
 		sprintf(uartData,"Trash Packet");
 		return false;
 	}
-	else if((packet_count+1)%8 != 0){ //invalid if packet is not octect aligned (divisible by 8)
+	else if((rxBit_count+1)%8 != 0){ //invalid if packet is not octect aligned (divisible by 8)
 		sprintf(uartData,"Trash Packet");
 		return false;
 	}
 	else{
 		//this is assuming that the packet has all the subfields full
+		int not_info = FCS_len; //number of bits in packet that aren't part of info field
+		int Info_len = 0;
 		sprintf(uartData,"Good Packet!");
 		memcpy(address,curr_mem,address_len*bool_size);
 		if(!compare_address(address)){
@@ -194,12 +184,16 @@ bool Packet_Validate(){
 		}
 
 		curr_mem += address_len;
+		not_info += address_len;
 		memcpy(control,curr_mem,control_len*bool_size);
 		curr_mem += control_len;
-		if(packet_count > AX25_PACKET_MAX - PID_len){ //information type packet only
+		not_info += control_len;
+		if(control[0] == 0){ // 0 = I frame, 01 = S frame, 11 = U Frame
 			memcpy(PID,curr_mem,PID_len*bool_size);
 			curr_mem += PID_len;
+			not_info += PID_len;
 		}
+		Info_len = rxBit_count - not_info;
 		memcpy(Info,curr_mem,Info_len*bool_size);
 		curr_mem += Info_len;
 		memcpy(FCS,curr_mem,FCS_len*bool_size);

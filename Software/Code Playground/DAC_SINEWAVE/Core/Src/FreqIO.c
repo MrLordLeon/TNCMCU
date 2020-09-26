@@ -270,6 +270,7 @@ int loadOctet(bool* bufferptr) {
 
 		for(int i = 0;i<8;i++){
 			bufferptr[7-i] = (myPtr[7-i]==1)?true:false;
+			rxBit_count++;
 			sprintf(uartData, " %d ",bufferptr[7-i]);
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
