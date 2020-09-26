@@ -1,0 +1,13 @@
+AX.25.c:31:6:tx_rx	16	static
+AX.25.c:56:6:receiving_AX25	24	static
+AX.25.c:77:6:transmitting_AX25	8	static
+AX.25.c:87:6:ouput_AX25	16	static
+AX.25.c:101:6:slide_bits	16	static
+AX.25.c:105:6:remove_bit_stuffing	32	static
+AX.25.c:130:6:generate_AX25	24	static
+AX.25.c:161:6:generate_KISS	16	static
+AX.25.c:186:6:generate_address	16	static
+AX.25.c:192:6:compare_address	24	static
+AX.25.c:204:6:Packet_Validate	32	static
+AX.25.c:256:6:hex_to_bin	24	static
+AX.25.c:276:6:crc_calc	24	static

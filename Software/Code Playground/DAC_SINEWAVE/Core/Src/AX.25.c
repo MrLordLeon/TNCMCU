@@ -7,28 +7,23 @@
 #include "AX.25.h"
 #include "FreqIO.h"
 
+
 //*************** variables for detecting and validating  AX.25  ******************************************************
 bool AX25_flag = false; 						//indicates whether the TNC started reading for packets
-bool AX25_temp_buffer[AX25_PACKET_MAX]; 	//temperary stores bits received from radio, before formatting into AX.25 format
 int rxBit_count = 0; 							//keeps count of the temp buffer index
-bool buffer_rdy = true;
-bool local_address[address_len/2];							//address set to this TNC
 
 bool AX25TBYTE[FLAG_SIZE] = { 0, 1, 1, 1, 1, 1, 1, 0 };
 
+//NEED TO SET LOCAL_ADDRESS
+bool local_address[address_len/2];
 //*********************************************************************************************************************
 
 //**************** KISS *************************************************************************************************************
 bool KISS_FLAG[FLAG_SIZE] = { 1, 1, 0, 0, 0, 0, 0, 0 };
-bool KISS_PACKET[KISS_SIZE];
 //*************************************************************************************************************************************
 
 //*************** AX.25 Fields ******************************************************************************************
-bool address[address_len];
-bool control[control_len];
-bool PID[PID_len]; //only for information subfield
-bool Info[MAX_INFO]; //only for information subfield
-bool FCS[FCS_len];
+
 //***********************************************************************************************************************
 
 //General Program
@@ -59,12 +54,14 @@ void tx_rx() {
   */
 
 void receiving_AX25(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
 	int packet_status;
 	packet_status = streamGet();
 	if(packet_status == 1){
 		remove_bit_stuffing();
 		bool AX25_IsValid = Packet_Validate();
-		memset(AX25_temp_buffer,0,AX25_PACKET_MAX);
+		memset(local_packet->AX25_temp_buffer,0,AX25_PACKET_MAX);
 		if(AX25_IsValid){
 			generate_KISS();
 		}
@@ -88,12 +85,16 @@ void transmitting_AX25(){
 }
 
 void ouput_AX25(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1); //start flag
-	bitToAudio(address, address_len,0); //lsb first
-	bitToAudio(control,control_len,0);	//lsb first
-	bitToAudio(PID,PID_len,0);			//lsb first
-	bitToAudio(Info,Info_len,0);		//lsb first
-	bitToAudio(FCS,FCS_len,1);			//msb first
+
+	bitToAudio(local_packet->address, address_len,0); //lsb first
+	bitToAudio(local_packet->control,control_len,0);	//lsb first
+	bitToAudio(local_packet->PID,PID_len,0);			//lsb first
+	bitToAudio(local_packet->Info,local_packet->Info_Len,0);		//lsb first
+	bitToAudio(local_packet->FCS,FCS_len,1);			//msb first
+
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
 }
 
@@ -102,17 +103,19 @@ void slide_bits(bool* array,int bits_left){
 }
 
 void remove_bit_stuffing(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
 	int one_count = 0;
 	int shift_count = 0; //reduces loop count by number of bit stuffed zeros removed
 	bool curr;
 	for(int i = 0;i < KISS_SIZE-shift_count;i++){
-		curr = AX25_temp_buffer[i]; //iterate through all data received before seperating into subfields
+		curr = local_packet->AX25_temp_buffer[i]; //iterate through all data received before seperating into subfields
 		if(curr){ //current bit is a 1
 			one_count++;
 		}
 		else{
 			if(one_count >= 5){
-				slide_bits(&AX25_temp_buffer[i],rxBit_count-i);
+				slide_bits(&local_packet->AX25_temp_buffer[i],rxBit_count-i);
 				shift_count++;
 				rxBit_count--;
 			}
@@ -122,22 +125,58 @@ void remove_bit_stuffing(){
 	//transmit kiss
 }
 
-void generate_KISS(){
-	bool *curr_mem = &KISS_PACKET;
-	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
-	curr_mem += FLAG_SIZE;
-	memcpy(curr_mem,address,address_len*bool_size);
+//NEED TO CREATE AN AX25_PACKET MEMBER FOR STRUCT
+//COMPLETE MEMCOPY INSIDE GENERATE AX_25()
+void generate_AX25(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
+	bool *curr_mem = &local_packet->KISS_PACKET; //keep track of what address to copy from
+	//this is assuming that the packet has all the subfields full
+
+	sprintf(uartData,"Good Packet!");
+
+	local_packet->address = curr_mem;
+	if(!compare_address(local_packet->address)){
+		return false; //discard
+	}
 	curr_mem += address_len;
-	memcpy(curr_mem,control,control_len*bool_size);
+
+	local_packet->control = curr_mem;
 	curr_mem += control_len;
 
-	if(rxBit_count > AX25_PACKET_MAX - PID_len){ //information type packet only
-		memcpy(curr_mem,PID,PID_len*bool_size);
+	//SHOULD CONSIDER A VAR IN STRUCT TO INDICATE THAT A PID FIELD IS PRESENT OR THAT THIS IS AN I FRAME
+	if(local_packet->control[0] == 0){ // 0 = I frame, 01 = S frame, 11 = U Frame
+		local_packet->PID = curr_mem;
 		curr_mem += PID_len;
 	}
 
-	memcpy(curr_mem,Info,Info_len*bool_size);
-	curr_mem += Info_len;
+	local_packet->Info = curr_mem;
+
+	//USE CRC HERE TO GENERATE FCS FIELD
+	//local_packet->FCS = curr_mem;
+
+	return true; //valid packet
+}
+
+void generate_KISS(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
+	bool *curr_mem = &local_packet->KISS_PACKET;
+
+	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
+	curr_mem += FLAG_SIZE;
+	memcpy(curr_mem,local_packet->address,address_len*bool_size);
+	curr_mem += address_len;
+	memcpy(curr_mem,local_packet->control,control_len*bool_size);
+	curr_mem += control_len;
+
+	if(local_packet->control[0] == 0){ //information type packet only
+		memcpy(curr_mem,local_packet->PID,PID_len*bool_size);
+		curr_mem += PID_len;
+	}
+
+	memcpy(curr_mem,local_packet->Info,local_packet->Info_Len*bool_size);
+	curr_mem += local_packet->Info_Len;
 	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 
 	//remove bit stuffed zeros
@@ -163,7 +202,9 @@ bool compare_address(bool *addr){
 
 //check if we keep the packet or remove it
 bool Packet_Validate(){
-	bool *curr_mem = &AX25_temp_buffer; //keep track of what address to copy from
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
+	bool *curr_mem = &local_packet->AX25_temp_buffer; //keep track of what address to copy from
 
 	if(rxBit_count < 120){ //invalid if packet is less than 136 bits - 2*8 bits (per flag)
 		sprintf(uartData,"Trash Packet");
@@ -176,41 +217,49 @@ bool Packet_Validate(){
 	else{
 		//this is assuming that the packet has all the subfields full
 		int not_info = FCS_len; //number of bits in packet that aren't part of info field
-		int Info_len = 0;
 		sprintf(uartData,"Good Packet!");
-		memcpy(address,curr_mem,address_len*bool_size);
-		if(!compare_address(address)){
+
+		local_packet->address = curr_mem;
+		if(!compare_address(local_packet->address)){
 			return false; //discard
 		}
-
 		curr_mem += address_len;
 		not_info += address_len;
-		memcpy(control,curr_mem,control_len*bool_size);
+
+		local_packet->control = curr_mem;
 		curr_mem += control_len;
 		not_info += control_len;
-		if(control[0] == 0){ // 0 = I frame, 01 = S frame, 11 = U Frame
-			memcpy(PID,curr_mem,PID_len*bool_size);
+
+		if(local_packet->control[0] == 0){ // 0 = I frame, 01 = S frame, 11 = U Frame
+			local_packet->PID = curr_mem;
 			curr_mem += PID_len;
 			not_info += PID_len;
 		}
-		Info_len = rxBit_count - not_info;
-		memcpy(Info,curr_mem,Info_len*bool_size);
-		curr_mem += Info_len;
-		memcpy(FCS,curr_mem,FCS_len*bool_size);
+
+
+		local_packet->Info_Len = rxBit_count - not_info;
+		local_packet->Info = curr_mem;
+		curr_mem += local_packet->Info_Len;
+
+		local_packet->FCS = curr_mem;
 	}
 	return true; //valid packet
 }
 
 //---------------------- FCS Generation -----------------------------------------------------------------------------------------------
 int crc = 0xFFFF; //initial crc value
+
+//REMOVE THIS FLAG - KOBE
 bool end_flag = false; //inidicates when to stop crc and perform one's compliment
 
 //store bits in FCS field
 void hex_to_bin(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
     int temp;
     for(int i = 0; i < 16; i++){ //stores in bits into fcs subfield
         temp = crc >> i;
-        FCS[i] = temp%2;
+        local_packet->FCS[i] = temp%2;
     }
 
     int time = htim2.Instance->CNT;

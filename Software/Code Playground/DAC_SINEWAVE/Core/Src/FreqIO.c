@@ -280,21 +280,24 @@ int loadOctet(bool* bufferptr) {
 	return isFlag;
 }
 int streamGet() {
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
 	int byteArray[8];
-	int max_octets = AX25_PACKET_MAX/8;
+	int max_octets = (int)(AX25_PACKET_MAX)/8;
 	int octet_count,good_octet;
 	bool gotflag;
 
 	//Just do this unless we need to toggle
 	while(!changeMode){
 		gotflag = false;
-		buffer_rdy = false;
 
 		//Slide bits
 		for(int i = 0; i < 7; i++){
 			byteArray[i] = byteArray[i+1];
 		}
 		byteArray[7] = loadBit();
+		//sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
+		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		//Detect AX25 flag bytes
 		for(int i = 0;i < 8; i++){
@@ -311,7 +314,6 @@ int streamGet() {
 
 		//Got flag
 		if(gotflag){
-			AX25_flag = true;
 			sprintf(uartData, "Start AX.25 Flag Detected\r\n");
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 			octet_count  = 0;
@@ -319,8 +321,8 @@ int streamGet() {
 			//Until AX.25 buffer overflows, continue reading octets
 			good_octet = 0;
 			while( (good_octet==0) && (octet_count < max_octets) ){
-				good_octet = loadOctet(&AX25_temp_buffer[octet_count*8]);
-				//sprintf(uartData, "Loaded octet %d\r\n",octet_count);
+				good_octet = loadOctet(&local_packet->AX25_temp_buffer[octet_count*8]);
+				//sprintf(uartData, "Loaded octet %d out of %d\r\n",octet_count,max_octets);
 				//sprintf(uartData, "good_octet: %d\r\n",good_octet);
 				//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
@@ -344,13 +346,11 @@ int streamGet() {
 				sprintf(uartData, "Stop AX.25 Flag Detected\r\n\n");
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-				buffer_rdy = true;
 				return 1;
 			}
 		}
 		//Didn't get flag
 		else {
-			AX25_flag = false;
 			//sprintf(uartData, "Flag not detected\r\n");
 			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
