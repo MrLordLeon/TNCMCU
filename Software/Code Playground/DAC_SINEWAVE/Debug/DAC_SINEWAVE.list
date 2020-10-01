@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00020078  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00011052  00000000  00000000  000200a8  2**0
+ 12 .debug_info   0001107e  00000000  00000000  000200a8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 0000266c  00000000  00000000  000310fa  2**0
+ 13 .debug_abbrev 00002671  00000000  00000000  00031126  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 00000ea0  00000000  00000000  00033768  2**3
+ 14 .debug_aranges 00000eb0  00000000  00000000  00033798  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 00000d90  00000000  00000000  00034608  2**3
+ 15 .debug_ranges 00000da0  00000000  00000000  00034648  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  0002305e  00000000  00000000  00035398  2**0
+ 16 .debug_macro  0002305e  00000000  00000000  000353e8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0000be6f  00000000  00000000  000583f6  2**0
+ 17 .debug_line   0000beb9  00000000  00000000  00058446  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    000d25cb  00000000  00000000  00064265  2**0
+ 18 .debug_str    000d25e7  00000000  00000000  000642ff  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00136830  2**0
+ 19 .comment      0000007b  00000000  00000000  001368e6  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000043bc  00000000  00000000  001368ac  2**2
+ 20 .debug_frame  00004404  00000000  00000000  00136964  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1216,8 +1216,8 @@ Disassembly of section .text:
  8000efa:	bf00      	nop
 
 08000efc <tx_rx>:
-
-//***********************************************************************************************************************
+//**************** KISS *************************************************************************************************************
+bool KISS_FLAG[FLAG_SIZE] = { 1, 1, 0, 0, 0, 0, 0, 0 };
 
 //General Program
 //****************************************************************************************************************
@@ -2494,7 +2494,7 @@ int streamGet() {
  80017ae:	63bb      	str	r3, [r7, #56]	; 0x38
 			while( (good_octet==0) && (octet_count < max_octets) ){
  80017b0:	e00a      	b.n	80017c8 <streamGet+0xe8>
-				good_octet = loadOctet(&local_packet->AX25_temp_buffer[octet_count*8]);
+				good_octet = loadOctet(&local_packet->AX25_PACKET[octet_count*8]);
  80017b2:	6bfb      	ldr	r3, [r7, #60]	; 0x3c
  80017b4:	00db      	lsls	r3, r3, #3
  80017b6:	6aba      	ldr	r2, [r7, #40]	; 0x28

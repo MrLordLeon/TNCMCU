@@ -37,9 +37,6 @@ extern char uartData[3000];
  */
 extern bool mode;
 
-/*
- * 	Function ran in main
- */
 void initProgram();
 void toggleMode();
 

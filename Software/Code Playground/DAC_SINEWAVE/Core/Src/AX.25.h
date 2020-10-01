@@ -35,16 +35,18 @@ extern bool local_address[address_len/2];	//address set to this TNC
 //**************** KISS *************************************************************************************************************
 #define KISS_SIZE		FLAG_SIZE + address_len + control_len + PID_len + MAX_INFO + FLAG_SIZE //size of kiss packet
 bool KISS_FLAG[FLAG_SIZE];
-void generate_KISS();
-void remove_bit_stuffing(); //remove bit stuffing zeros after every 5 consecutive 1's
-void slide_bits(bool* array,int bits_left); //discards bit stuffed 0 and slide remaining bits over bits over
 //*************************************************************************************************************************************
 
-//General Program
-//****************************************************************************************************************
 struct PACKET_STRUCT {
 	//AX.25 Members
-	bool AX25_temp_buffer[AX25_PACKET_MAX];//temporary stores bits received from radio, before formatting into AX.25 format
+	bool AX25_PACKET[AX25_PACKET_MAX];//temporary stores bits received from radio, before formatting into AX.25 format
+	//KISS Members
+	bool KISS_PACKET[KISS_SIZE];//KISS information without the flags
+
+	/*
+	 * 	Packet Pointers:
+	 * 	Can reference data in either AX.25 packet or KISS packet
+	 */
 	bool *address;			//Pointer to address field in global buffer
 	bool *control;			//Pointer to control field in global buffer
 	bool *PID; 				//Pointer to PID field in global buffer, only present for I frames
@@ -53,29 +55,79 @@ struct PACKET_STRUCT {
 	bool *FCS;				//Pointer to fcs field in global buffer
 	bool i_frame_packet;	//Flag to signal if packet is of type i-frames
 
-	//KISS Members
-	bool KISS_PACKET[KISS_SIZE];//KISS information without the flags
-
 	//CRC
 	int crc; 				//crc value after calculating data from PC
 	int crc_count;
 }global_packet;
 
-void tx_rx();
-//************* Handle bits received from Radio *************************************************************************
+//General Program
+//****************************************************************************************************************
+
 /*
- * 	Function that simply loads a bit into the packet. Should be called
- * 	only after a start flag is detected
+ * 	Function ran in main
  */
-void packetBit();
-void loadPacket(); //while the AX25_flag is true, start storing bits in temp buffer
-bool Packet_Validate();
+void tx_rx();
+
+/*
+ * 	Generates a local address for the TNC. Values are kept in the local_address array
+ */
 void generate_address();
+
+/*
+ * 	Function to compare receiver address of incoming AX.25 packet to local address
+ * 		returns true if this address matches local TNC address
+ * 		returns false if this address does not match local TNC address
+ */
 bool compare_address();
-void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in);
-void crc_generate();
-void hex_to_bin();						//store bits in FCS field
-void receiving_AX25();
+
 void transmitting_AX25();
-void ouput_AX25();
+void output_AX25();
+
+void transmitting_KISS();
+
+//AX.25 to KISS data flow
+//****************************************************************************************************************
+
+void receiving_AX25();
+void slide_bits(bool* array,int bits_left); //discards bit stuffed 0 and slide remaining bits over bits over
+void remove_bit_stuffing(); //remove bit stuffing zeros after every 5 consecutive 1's
+
+/*
+ * 	Function that iterates through the AX.25_temp_buffer found in global packet to determine if
+ * 	data in the buffer is a valid packet structure
+ * 		returns true if the packet is valid
+ * 		returns false if the packet is invalid in any way
+ */
+bool AX25_Packet_Validate();
+void set_packet_pointer_AX25();
+void AX25_TO_KISS();
+
+//****************************************************************************************************************
+//END OF AX.25 to KISS data flow
+
+//KISS to AX.25 data flow
+//****************************************************************************************************************
+
+void receiving_KISS();
+void set_packet_pointer_KISS();
+void KISS_TO_AX25();
+
+//****************************************************************************************************************
+//END OF KISS to AX.25 data flow
+
+//---------------------- FCS Generation -----------------------------------------------------------------------------------------------
+void hex_to_bin();						//store bits in FCS field
+
+/*
+ * 	Helper function to generate CRC. Simply computes CRC from one bit
+ */
+void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in);
+
+/*
+ *	Generates CRC from KISS Packet ot AX.25 packet.
+ *	If given a true input, will generate from AX.25 Data Fields
+ *	If given a false input, will generate from Kiss Data Fields
+ */
+void crc_generate();
+
 #endif /* SRC_AX_25_H_ */

@@ -321,7 +321,7 @@ int streamGet() {
 			//Until AX.25 buffer overflows, continue reading octets
 			good_octet = 0;
 			while( (good_octet==0) && (octet_count < max_octets) ){
-				good_octet = loadOctet(&local_packet->AX25_temp_buffer[octet_count*8]);
+				good_octet = loadOctet(&local_packet->AX25_PACKET[octet_count*8]);
 				//sprintf(uartData, "Loaded octet %d out of %d\r\n",octet_count,max_octets);
 				//sprintf(uartData, "good_octet: %d\r\n",good_octet);
 				//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
