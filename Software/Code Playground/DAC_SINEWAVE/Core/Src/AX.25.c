@@ -59,11 +59,15 @@ void receiving_AX25(){
 	int packet_status;
 	packet_status = streamGet();
 	if(packet_status == 1){
+		//Remove the bit stuffed zeros from recieved packet
 		remove_bit_stuffing();
+
+		//Validate packet
+		local_packet->i_frame_packet = false;
 		bool AX25_IsValid = Packet_Validate();
 		memset(local_packet->AX25_temp_buffer,0,AX25_PACKET_MAX);
 		if(AX25_IsValid){
-			generate_KISS();
+			AX25_TO_KISS();
 		}
 		else{
 			receiving_AX25();
@@ -125,9 +129,8 @@ void remove_bit_stuffing(){
 	//transmit kiss
 }
 
-//NEED TO CREATE AN AX25_PACKET MEMBER FOR STRUCT
 //COMPLETE MEMCOPY INSIDE GENERATE AX_25()
-void generate_AX25(){
+void KISS_TO_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
 	bool *curr_mem = &local_packet->KISS_PACKET; //keep track of what address to copy from
@@ -153,12 +156,12 @@ void generate_AX25(){
 	local_packet->Info = curr_mem;
 
 	//USE CRC HERE TO GENERATE FCS FIELD
-	//local_packet->FCS = curr_mem;
+	crc_generate();
 
 	return true; //valid packet
 }
 
-void generate_KISS(){
+void AX25_TO_KISS(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
 	bool *curr_mem = &local_packet->KISS_PACKET;
@@ -206,6 +209,7 @@ bool Packet_Validate(){
 
 	bool *curr_mem = &local_packet->AX25_temp_buffer; //keep track of what address to copy from
 
+
 	if(rxBit_count < 120){ //invalid if packet is less than 136 bits - 2*8 bits (per flag)
 		sprintf(uartData,"Trash Packet");
 		return false;
@@ -230,7 +234,8 @@ bool Packet_Validate(){
 		curr_mem += control_len;
 		not_info += control_len;
 
-		if(local_packet->control[0] == 0){ // 0 = I frame, 01 = S frame, 11 = U Frame
+		if(local_packet->control[0] == 0){ // 0 == I frame, 01 == S frame, 11 == U Frame
+			local_packet->i_frame_packet = true;//Signal flag is of type i-frame
 			local_packet->PID = curr_mem;
 			curr_mem += PID_len;
 			not_info += PID_len;
@@ -247,7 +252,6 @@ bool Packet_Validate(){
 }
 
 //---------------------- FCS Generation -----------------------------------------------------------------------------------------------
-int crc = 0xFFFF; //initial crc value
 
 //REMOVE THIS FLAG - KOBE
 bool end_flag = false; //inidicates when to stop crc and perform one's compliment
@@ -258,32 +262,71 @@ void hex_to_bin(){
 
     int temp;
     for(int i = 0; i < 16; i++){ //stores in bits into fcs subfield
-        temp = crc >> i;
+        temp = local_packet->crc >> i;
         local_packet->FCS[i] = temp%2;
     }
 
-    int time = htim2.Instance->CNT;
-    sprintf(uartData,"FCS = %x\n",crc);
-    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-    sprintf(uartData,"\nExecution time = %d\n",time);
-    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-    crc = 0xFFFF; //reinitialize
+    //int time = htim2.Instance->CNT;
+
+    //sprintf(uartData,"FCS = %x\n",local_packet->crc);
+    //HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+    //sprintf(uartData,"\nExecution time = %d\n",time);
+    //HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+    local_packet->crc = 0xFFFF; //reinitialize
     end_flag = 0;//reinitialize
 
 }
 
 //CRC Calculations
-void crc_calc(int in_bit){
+void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
 	int out_bit;
-    int poly = 0x8408;             //reverse order of 0x1021
-    if(!end_flag){
-        out_bit = in_bit ^ (crc%2); //xor lsb of current crc with input bit
-        crc >>= 1;                       //right shift by 1
-        poly = (out_bit == 1) ? 0x8408 : 0;
-        crc ^= poly;
+    int poly = 0x8408;             			//reverse order of 0x1021
+
+    out_bit = in_bit ^ (*crc_ptr_in%2); 		//xor lsb of current crc with input bit
+	*crc_ptr_in >>= 1;               	//right shift by 1
+	poly = (out_bit == 1) ? 0x8408 : 0;
+	*crc_ptr_in ^= poly;
+	*crc_count_ptr_in+=1;//Increment count
+
+    //End condition
+	if(*crc_count_ptr_in >= rxBit_count){
+    	*crc_ptr_in ^= 0xFFFF;//Complete CRC by XOR with all ones
+    	hex_to_bin();
     }
-    else{
-        crc ^= 0xFFFF; //one's compliment
-        hex_to_bin();
-    }
+}
+
+void crc_generate(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+	int * crc_ptr = &local_packet->crc;
+	int * crc_count_ptr = &local_packet->crc_count;
+
+	*crc_ptr = 0xFFFF;
+	*crc_count_ptr = 0;
+
+	//Calculate CRC for address
+	for(int i = 0; i < address_len;i++){
+		//Call crc_calc per bit
+		crc_calc((int)local_packet->address[i],crc_ptr,crc_count_ptr);
+	}
+
+	//Calculate CRC for control
+	for(int i = 0; i < control_len;i++){
+		//Call crc_calc per bit
+		crc_calc((int)local_packet->control[i],crc_ptr,crc_count_ptr);
+	}
+
+	//Calculate CRC for PID (if packet is of type i-frame)
+	if(local_packet->i_frame_packet){
+		for(int i = 0; i < PID_len;i++){
+			//Call crc_calc per bit
+			crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
+		}
+	}
+
+	//Calculate CRC for info
+	for(int i = 0;i<local_packet->Info_Len;i++){
+		//Call crc_calc per bit
+		crc_calc((int)local_packet->Info[i],crc_ptr,crc_count_ptr);
+	}
 }

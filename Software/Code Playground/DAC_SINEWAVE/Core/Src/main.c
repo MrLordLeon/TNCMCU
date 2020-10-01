@@ -408,6 +408,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	}
 	if (GPIO_Pin == B1_Pin) {
 		changeMode = 1;
+		/*
+		sprintf(uartData, "Toggle Input Detected\r\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		*/
 	} else
 		__NOP();
 }

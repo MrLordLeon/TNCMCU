@@ -51,12 +51,14 @@ struct PACKET_STRUCT {
 	bool *Info;				//Pointer to info field in global buffer
 	int  Info_Len;
 	bool *FCS;				//Pointer to fcs field in global buffer
+	bool i_frame_packet;	//Flag to signal if packet is of type i-frames
 
 	//KISS Members
-	bool KISS_PACKET[KISS_SIZE];
+	bool KISS_PACKET[KISS_SIZE];//KISS information without the flags
 
 	//CRC
 	int crc; 				//crc value after calculating data from PC
+	int crc_count;
 }global_packet;
 
 void tx_rx();
@@ -70,7 +72,8 @@ void loadPacket(); //while the AX25_flag is true, start storing bits in temp buf
 bool Packet_Validate();
 void generate_address();
 bool compare_address();
-void crc_calc(int in_bit);
+void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in);
+void crc_generate();
 void hex_to_bin();						//store bits in FCS field
 void receiving_AX25();
 void transmitting_AX25();
