@@ -46,8 +46,8 @@ DAC_SINEWAVE.bin \
 all: DAC_SINEWAVE.elf secondary-outputs
 
 # Tool invocations
-DAC_SINEWAVE.elf: $(OBJS) $(USER_OBJS) C:\Users\13372\Documents\GitHub\TNCMCU\Software\Code\ Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld
-	arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\13372\Documents\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+DAC_SINEWAVE.elf: $(OBJS) $(USER_OBJS) C:\GitHub\TNCMCU\Software\Code\ Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld
+	arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
