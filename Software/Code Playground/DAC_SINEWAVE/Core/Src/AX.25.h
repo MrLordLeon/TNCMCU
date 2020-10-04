@@ -58,6 +58,7 @@ struct PACKET_STRUCT {
 	//CRC
 	int crc; 				//crc value after calculating data from PC
 	int crc_count;
+	bool check_crc;			//indicates weather validating fcs field or creating fcs field
 }global_packet;
 
 //General Program
@@ -129,5 +130,12 @@ void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in);
  *	If given a false input, will generate from Kiss Data Fields
  */
 void crc_generate();
+
+/*
+ * 	Helper function to validate the fcs field of received packet from radio.
+ * 	generates a crc value based on the the subfields besides the FCS and compares with FCS field
+ * 	returns true or false based on if the generated crc matches the FCS or not respectively.
+ */
+bool crc_check();
 
 #endif /* SRC_AX_25_H_ */

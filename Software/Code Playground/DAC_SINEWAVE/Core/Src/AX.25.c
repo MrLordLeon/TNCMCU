@@ -163,24 +163,25 @@ bool AX25_Packet_Validate(){
 	else{
 		//Set packet pointers for AX25 to KISS operation
 		set_packet_pointer_AX25();
+		return crc_check();
 
-		//FOR FCS ONLY, highest index == LSB
-		//FOR FCS ONLY, lowest index  == MSB
-		for(int i = FCS_len-1; i >= 0;i--){
-			//Convert FCS to decimal value (DOES NOT INCLUDE DECIMAL VALUES)
-			fcs_val += (local_packet->FCS[i]) ? pow(2,FCS_len-1-i) :0;
-		}
-
-		//generate crc
-		crc_generate();
-
-		//compare crc
-		if(local_packet->crc!=fcs_val){
-			return false;
-		}
+//		//FOR FCS ONLY, highest index == LSB
+//		//FOR FCS ONLY, lowest index  == MSB
+//		for(int i = FCS_len-1; i >= 0;i--){
+//			//Convert FCS to decimal value (DOES NOT INCLUDE DECIMAL VALUES)
+//			fcs_val += (local_packet->FCS[i]) ? pow(2,FCS_len-1-i) :0;
+//		}
+//
+//		//generate crc
+//		crc_generate();
+//
+//		//compare crc
+//		if(local_packet->crc!=fcs_val){
+//			return false;
+//		}
 	}
 
-	return true; //valid packet
+//	return true; //valid packet
 }
 void set_packet_pointer_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
@@ -276,7 +277,8 @@ void KISS_TO_AX25(){
 	local_packet->Info = curr_mem;
 
 	//USE CRC HERE TO GENERATE FCS FIELD
-	crc_generate(false);
+	local_packet->check_crc = false;
+	crc_generate();
 
 	return true; //valid packet
 }
@@ -308,6 +310,7 @@ void hex_to_bin(){
 
 //CRC Calculations
 void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
+	struct PACKET_STRUCT* local_packet = &global_packet;
 	int out_bit;
     int poly = 0x8408;             			//reverse order of 0x1021
 
@@ -319,8 +322,10 @@ void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
 
     //End condition
 	if(*crc_count_ptr_in >= rxBit_count){
-    	*crc_ptr_in ^= 0xFFFF;//Complete CRC by XOR with all ones
-    	hex_to_bin();
+    	*crc_ptr_in ^= 0xFFFF;//Complete CRC by XOR with all ones (one's complement)
+    	if(local_packet->check_crc == false){
+    		hex_to_bin();
+    	}
     }
 }
 
@@ -334,29 +339,51 @@ void crc_generate(){
 
 	//Generate CRC from packet pointers of current packet type
 
-	//Calculate CRC for address
-	for(int i = 0; i < address_len;i++){
+	//have to be inserted in reverse order
+	//Calculate CRC for info
+	for(int i = local_packet->Info_Len-1; i >= 0;i--){
 		//Call crc_calc per bit
-		crc_calc((int)local_packet->address[i],crc_ptr,crc_count_ptr);
-	}
-
-	//Calculate CRC for control
-	for(int i = 0; i < control_len;i++){
-		//Call crc_calc per bit
-		crc_calc((int)local_packet->control[i],crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->Info[i],crc_ptr,crc_count_ptr);
 	}
 
 	//Calculate CRC for PID (if packet is of type i-frame)
 	if(local_packet->i_frame_packet){
-		for(int i = 0; i < PID_len;i++){
+		for(int i = PID_len-1; i >= 0; i--){
 			//Call crc_calc per bit
 			crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
 		}
 	}
 
-	//Calculate CRC for info
-	for(int i = 0;i<local_packet->Info_Len;i++){
+	//Calculate CRC for control
+	for(int i = control_len-1; i >= 0;i--){
 		//Call crc_calc per bit
-		crc_calc((int)local_packet->Info[i],crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->control[i],crc_ptr,crc_count_ptr);
 	}
+
+		//Calculate CRC for address
+	for(int i = address_len-1; i >= 0;i--){
+		//Call crc_calc per bit
+		crc_calc((int)local_packet->address[i],crc_ptr,crc_count_ptr);
+	}
+}
+
+bool crc_check(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+	local_packet->check_crc = true;
+	int fcs_val = 0;
+	bool valid_crc = false;
+
+	//FOR FCS ONLY, highest index == LSB
+	//FOR FCS ONLY, lowest index  == MSB
+	for(int i = FCS_len-1; i >= 0;i--){
+		//Convert FCS to decimal value (DOES NOT INCLUDE DECIMAL VALUES)
+		fcs_val += (local_packet->FCS[i]) ? pow(2,FCS_len-1-i) :0;
+	}
+
+	//generate crc
+	crc_generate();
+
+	//compare crc
+	valid_crc = (local_packet->crc==fcs_val) ? true : false;
+	return valid_crc;
 }
