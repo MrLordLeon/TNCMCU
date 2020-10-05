@@ -280,6 +280,8 @@ void KISS_TO_AX25(){
 	local_packet->check_crc = false;
 	crc_generate();
 
+	//BIT STUFFING NEEDED
+
 	return true; //valid packet
 }
 
