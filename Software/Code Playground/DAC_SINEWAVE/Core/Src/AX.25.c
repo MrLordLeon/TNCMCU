@@ -285,6 +285,9 @@ void KISS_TO_AX25(){
 	return true; //valid packet
 }
 
+void set_packet_pointer_KISS(){
+
+}
 //****************************************************************************************************************
 //END OF KISS to AX.25 data flow
 

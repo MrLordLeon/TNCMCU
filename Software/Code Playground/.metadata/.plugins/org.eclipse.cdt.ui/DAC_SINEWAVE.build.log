@@ -1,50 +1,6 @@
-21:14:39 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+12:40:31 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/AX.25.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/AX.25.d" -MT"Core/Src/AX.25.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/AX.25.o"
 arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/AX.25.c: In function 'tx_rx':
-../Core/Src/AX.25.c:37:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
-    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-                               ^~~~~~~~
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
-                 from ../Core/Inc/main.h:31,
-                 from ../Core/Src/AX.25.h:12,
-                 from ../Core/Src/AX.25.c:7:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
- HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-                   ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c: In function 'set_packet_pointer_AX25':
-../Core/Src/AX.25.c:187:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
-  bool *curr_mem = &local_packet->AX25_PACKET; //keep track of what address to copy from
-                   ^
-../Core/Src/AX.25.c:194:10: warning: 'return' with a value, in function returning void
-   return false; //discard
-          ^~~~~
-../Core/Src/AX.25.c:185:6: note: declared here
- void set_packet_pointer_AX25(){
-      ^~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c: In function 'AX25_TO_KISS':
-../Core/Src/AX.25.c:221:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
-  bool *curr_mem = &local_packet->KISS_PACKET;
-                   ^
-../Core/Src/AX.25.c: In function 'KISS_TO_AX25':
-../Core/Src/AX.25.c:256:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
-  bool *curr_mem = &local_packet->KISS_PACKET; //keep track of what address to copy from
-                   ^
-../Core/Src/AX.25.c:263:10: warning: 'return' with a value, in function returning void
-   return false; //discard
-          ^~~~~
-../Core/Src/AX.25.c:253:6: note: declared here
- void KISS_TO_AX25(){
-      ^~~~~~~~~~~~
-../Core/Src/AX.25.c:281:9: warning: 'return' with a value, in function returning void
-  return true; //valid packet
-         ^~~~
-../Core/Src/AX.25.c:253:6: note: declared here
- void KISS_TO_AX25(){
-      ^~~~~~~~~~~~
 ../Core/Src/FreqIO.c: In function 'loadOctet':
 ../Core/Src/FreqIO.c:269:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -151,7 +107,7 @@ arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
 arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
 arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  27784	    128	  19080	  46992	   b790	DAC_SINEWAVE.elf
+  27784	    132	  19084	  47000	   b798	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
  
 Finished building: DAC_SINEWAVE.bin
@@ -159,5 +115,5 @@ Finished building: DAC_SINEWAVE.bin
 Finished building: DAC_SINEWAVE.list
  
 
-21:14:40 Build Finished. 0 errors, 18 warnings. (took 984ms)
+12:40:32 Build Finished. 0 errors, 11 warnings. (took 921ms)
 

@@ -20,7 +20,7 @@ char uartData[3000];
 
 //General Program
 //****************************************************************************************************************
-bool mode = false;
+bool mode = true;
 bool midbit = false;
 bool changeMode = false;
 
@@ -169,7 +169,7 @@ void bitToAudio(bool *bitStream, int arraySize, bool direction) {
 }
 void generateBitstream() {
 	bitStream[0] = 1;
-	bitStream[1] = 0;
+	bitStream[1] = 1;
 	bitStream[2] = 1;
 	bitStream[3] = 0;
 	bitStream[4] = 0;
@@ -177,11 +177,11 @@ void generateBitstream() {
 	bitStream[6] = 1;
 	bitStream[7] = 0;
 	bitStream[8] = 1;
-	bitStream[9] = 1;
+	bitStream[9] = 0;
 
 }
 void initOUTData() {
-	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2, +0.90);
+	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2, +0.995);
 	edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2, +0.99);
 	generateBitstream();
 }
