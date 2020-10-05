@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 FreqIO.c:28:6:edit_sineval	48	static
 FreqIO.c:36:6:bitToAudio	32	static,ignoring_inline_asm
 FreqIO.c:59:6:generateBitstream	4	static
@@ -11,3 +12,18 @@ FreqIO.c:247:6:tx_rx	8	static
 FreqIO.c:268:6:loadPeriodBuffer	16	static
 FreqIO.c:275:6:Tim3IT	8	static
 FreqIO.c:286:6:FreqCounterPinEXTI	8	static
+=======
+FreqIO.c:27:6:initProgram	8	static
+FreqIO.c:45:6:toggleMode	8	static
+FreqIO.c:81:6:loadPeriodBuffer	16	static
+FreqIO.c:88:6:Tim3IT	8	static
+FreqIO.c:99:6:FreqCounterPinEXTI	8	static
+FreqIO.c:112:6:edit_sineval	64	static
+FreqIO.c:122:6:bitToAudio	40	static,ignoring_inline_asm
+FreqIO.c:170:6:generateBitstream	4	static
+FreqIO.c:183:6:initOUTData	8	static
+FreqIO.c:198:5:pertobit	24	static
+FreqIO.c:208:5:loadBit	16	static
+FreqIO.c:251:5:loadOctet	48	static
+FreqIO.c:282:5:streamGet	80	static
+>>>>>>> DeDz

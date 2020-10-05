@@ -15,6 +15,12 @@ RM := rm -rf
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(S_DEPS)),)
+-include $(S_DEPS)
+endif
+ifneq ($(strip $(S_UPPER_DEPS)),)
+-include $(S_UPPER_DEPS)
+endif
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
 endif
@@ -40,8 +46,8 @@ FreqCount_CtrTech1.bin \
 all: FreqCount_CtrTech1.elf secondary-outputs
 
 # Tool invocations
-FreqCount_CtrTech1.elf: $(OBJS) $(USER_OBJS) C:\Users\13372\Documents\GitHub\TNCMCU\Software\Code\ Playground\FreqCount_CtrTech1\STM32F446RETX_FLASH.ld
-	arm-none-eabi-gcc -o "FreqCount_CtrTech1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\13372\Documents\GitHub\TNCMCU\Software\Code Playground\FreqCount_CtrTech1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FreqCount_CtrTech1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+FreqCount_CtrTech1.elf: $(OBJS) $(USER_OBJS) C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code\ Playground\FreqCount_CtrTech1\STM32F446RETX_FLASH.ld
+	arm-none-eabi-gcc -o "FreqCount_CtrTech1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\monke\Documents\GitHub\TNCMCU\Software\Code Playground\FreqCount_CtrTech1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FreqCount_CtrTech1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

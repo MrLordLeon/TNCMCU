@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * File Name          : stm32f4xx_hal_msp.c
-  * Description        : This file provides code for the MSP Initialization 
+  * Description        : This file provides code for the MSP Initialization
   *                      and de-Initialization codes.
   ******************************************************************************
   * @attention
@@ -33,7 +33,7 @@ extern DMA_HandleTypeDef hdma_dac1;
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN Define */
- 
+
 /* USER CODE END Define */
 
 /* Private macro -------------------------------------------------------------*/

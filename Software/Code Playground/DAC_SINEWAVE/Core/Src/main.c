@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "freqIO.h"
+#include "AX.25.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -105,8 +105,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
+
 	initProgram();
-	toggleMode();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -358,6 +358,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, LD2_Pin|GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
@@ -376,6 +379,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PTT_Pin */
+  GPIO_InitStruct.Pin = PTT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(PTT_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
@@ -399,6 +409,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	}
 	if (GPIO_Pin == B1_Pin) {
 		changeMode = 1;
+		/*
+		sprintf(uartData, "Toggle Input Detected\r\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		*/
 	} else
 		__NOP();
 }

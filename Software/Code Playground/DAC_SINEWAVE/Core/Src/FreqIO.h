@@ -39,7 +39,11 @@ extern bool mode;
 
 void initProgram();
 void toggleMode();
+<<<<<<< HEAD
 void tx_rx();
+=======
+
+>>>>>>> DeDz
 /*
  * 	Function to be ran at Tim3 interrupt
  */
@@ -52,12 +56,21 @@ void FreqCounterPinEXTI();
 //GENERATING FREQ
 //****************************************************************************************************************
 #define TIM2_AUTORELOAD_TX	100			//Timer2 period, used to control DAC and generate audio
+<<<<<<< HEAD
 #define TIM3_AUTORELOAD_TX	833 		//Timer3 period, used to controller baudrate for TX
 
 #define PI 					3.1415926
 #define OUT_AMPL			4096		//Amplitude of outpute wave. 4096 -> 1.65V Peak
 #define LOWF_SAMP 			84 			//This is the sample count for the low frequency , as configured maps to 1200Hz
 #define HIGHF_SAMP			46			//This is the sample count for the high frequency, as configured maps to 2200Hz
+=======
+#define TIM3_AUTORELOAD_TX	831 		//Timer3 period, used to controller baudrate for TX
+
+#define PI 					3.1415926
+#define OUT_AMPL			505			//Amplitude of outpute wave. 4096 -> 1.65V Peak
+#define LOWF_SAMP 			83 			//This is the sample count for the low frequency , as configured maps to 1200Hz
+#define HIGHF_SAMP			45			//This is the sample count for the high frequency, as configured maps to 2200Hz
+>>>>>>> DeDz
 
 extern bool bitStream[10];
 
@@ -67,8 +80,13 @@ extern uint32_t highFrequency[2*HIGHF_SAMP];	//LUT used to store 2 wavelengths o
 extern bool 	midbit;
 extern bool		changeMode;
 
+<<<<<<< HEAD
 void edit_sineval(uint32_t *sinArray, int arraySize, int waves);
 void bitToAudio(bool *bitStream, int arraySize);
+=======
+void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPercent);
+void bitToAudio(bool *bitStream, int arraySize,bool direction);
+>>>>>>> DeDz
 void generateBitstream();
 void initOUTData();
 
@@ -83,12 +101,19 @@ void initOUTData();
 #define LOWFREQ			1200			//Lower freq to detect w/ afsk
 #define FREQDEV			400				//Max potential deviation in target frequency to detect
 
+<<<<<<< HEAD
 #define	BUFFER_SCALE		8			//Scalar for buffer base
 #define BIT_BUFF_BASE		16			//Base amount of bits to store
 #define RX_BUFFERSIZE		SAMP_PER_BAUD * BIT_BUFF_BASE * BUFFER_SCALE
 
 #define MAX_POLL_CNT
 
+=======
+#define	BUFFER_SCALE		32			//Scalar for buffer base
+#define BIT_BUFF_BASE		16			//Base amount of bits to store
+#define RX_BUFFERSIZE		SAMP_PER_BAUD * BIT_BUFF_BASE * BUFFER_SCALE
+
+>>>>>>> DeDz
 extern uint32_t periodBuffer[RX_BUFFERSIZE];	//Stores the period values from interrupt
 extern uint32_t bitBuffer[RX_BUFFERSIZE];		//Stores bitstream values
 extern uint8_t	sampusecount;					//Used to determine old data
@@ -103,5 +128,30 @@ extern uint16_t bitSaveCount;					//Used to keep track of bit saved to bit buffe
  *		return if frequency is outside afsk set range
  */
 int pertobit(uint32_t inputPeriod);
+<<<<<<< HEAD
+=======
+/*
+ *	Function to take period buffer values and loads the next bit into bit buffer.
+ *	Also returns the determined bitvalue
+ *	0 	= 1200Hz
+ *	1  	= 2200Hz
+ *	-1	= Invalid frequency
+ */
+int loadBit();
+/*
+ *	Loads an octet at a time.
+ *	Returns -1 if an invalid frequency is detected
+ *	Returns 0 if the octet is valid and not an ax.25 flag
+ *	Returns 1 if the octet is the ax.25 flag
+ */
+int loadOctet(bool* bufferptr);
+/*
+ *	Fills the ax.25 buffer with octets excluding the flags
+ *	Returns -1 if need to change mode
+ *	Returns 1 if the packet was valid frequencies
+ */
+int streamGet();
+
+>>>>>>> DeDz
 
 #endif /* SRC_FREQIO_H_ */
