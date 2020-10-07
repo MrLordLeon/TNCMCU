@@ -7,7 +7,6 @@
 #include "AX.25.h"
 #include "FreqIO.h"
 
-<<<<<<< HEAD
 //*************** variables for detecting and validating  AX.25  ******************************************************
 bool AX25_flag = false; //indicates whether the TNC started reading for packets
 int AX25_temp_buffer[max_packet_count]; //temperary stores bits received from radio, before formatting into AX.25 format
@@ -164,8 +163,8 @@ void output_AX25(){
 	bitToAudio(local_packet->address, address_len,0); //lsb first
 	bitToAudio(local_packet->control,control_len,0);	//lsb first
 	bitToAudio(local_packet->PID,PID_len,0);			//lsb first
-	bitToAudio(local_packet->Info,local_packet->Info_Len,0);		//lsb first
-	bitToAudio(local_packet->FCS,FCS_len,1);			//msb first
+	bitToAudio(local_packet->Info,local_packet->Info_Len + local_packet->stuffed_notFCS,0);		//lsb first
+	bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,1);			//msb first
 
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
 }
@@ -330,8 +329,6 @@ void AX25_TO_KISS(){
 	curr_mem += local_packet->Info_Len;
 	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 
-	//remove bit stuffed zeros
-	remove_bit_stuffing();
 }
 
 //****************************************************************************************************************
@@ -344,6 +341,8 @@ void KISS_TO_AX25(){
 
 	bool *curr_mem = &local_packet->KISS_PACKET; //keep track of what address to copy from
 	//this is assuming that the packet has all the subfields full
+
+	local_packet->Info_Len = rxBit_count - (address_len + control_len);
 
 	sprintf(uartData,"Good Packet!");
 
@@ -360,21 +359,74 @@ void KISS_TO_AX25(){
 	if(local_packet->control[0] == 0){ // 0 = I frame, 01 = S frame, 11 = U Frame
 		local_packet->PID = curr_mem;
 		curr_mem += PID_len;
+		local_packet->Info_Len -= PID_len;
 	}
 
 	local_packet->Info = curr_mem;
+	curr_mem += local_packet->Info_Len;
+	//find the length of info field for crc calculation
+
 
 	//USE CRC HERE TO GENERATE FCS FIELD
+	local_packet->FCS = curr_mem;
 	local_packet->check_crc = false;
 	crc_generate();
 
 	//BIT STUFFING NEEDED
+	bitstuffing(local_packet);
 
 	return true; //valid packet
 }
 
 void set_packet_pointer_KISS(){
 
+}
+
+void bit_shift(bool* array,int bits_left){
+	memcpy(array+2,array+1,bits_left*bool_size);
+}
+
+void bitstuffing(struct PACKET_STRUCT* packet){
+	packet->stuffed_notFCS = 0;
+	packet->stuffed_FCS = 0;
+
+	int ones_count = 0;
+	int bits_left = rxBit_count + FCS_len; //keeps track of how many bits have been iterated through in the AX.25 packet
+	int bit_shifts = 0;			 //keeps track of how many bitstuffed zeros have been added
+
+	//bit stuff fields for AX25 excluding FCS
+	for(int i = 0; i < rxBit_count+bit_shifts;i++){
+		bits_left--;
+		if(packet->KISS_PACKET[i]){
+			ones_count++;
+			//add bitstuffed zeros after 5 contigious 1's
+			if(ones_count == 5){
+				bitshift(&(packet->KISS_PACKET[i]),bits_left);
+				packet->KISS_PACKET[i+1] = false;
+				bits_left++; //bitstuffed zero added
+				bit_shifts++;
+				ones_count = 0;
+				packet->stuffed_notFCS++;
+			}
+		}
+	}
+
+	//bit stuff FCS field
+	for(int i = 0; i < FCS_len;i++){
+		bits_left--;
+		if(packet->FCS[i]){
+			ones_count++;
+			//add bitstuffed zeros after 5 contigious 1's
+			if(ones_count == 5){
+				bitshift(&(packet->FCS[i]),bits_left);
+				packet->FCS[i+1] = false;
+				bits_left++; //bitstuffed zero added
+				bit_shifts++;
+				ones_count = 0;
+				packet->stuffed_FCS++;
+			}
+		}
+	}
 }
 //****************************************************************************************************************
 //END OF KISS to AX.25 data flow
@@ -479,5 +531,4 @@ bool crc_check(){
 	//compare crc
 	valid_crc = (local_packet->crc==fcs_val) ? true : false;
 	return valid_crc;
->>>>>>> DeDz
 }
