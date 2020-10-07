@@ -11,7 +11,10 @@ AX.25.c:149:6:AX25_Packet_Validate	24	static
 AX.25.c:186:6:set_packet_pointer_AX25	32	static
 AX.25.c:219:6:AX25_TO_KISS	16	static
 AX.25.c:254:6:KISS_TO_AX25	24	static
-AX.25.c:294:6:hex_to_bin	24	static
-AX.25.c:314:6:crc_calc	40	static
-AX.25.c:334:6:crc_generate	40	static
-AX.25.c:372:6:crc_check	32	static
+AX.25.c:296:6:set_packet_pointer_KISS	4	static
+AX.25.c:300:6:bit_shift	16	static
+AX.25.c:304:6:bitstuffing	40	static
+AX.25.c:353:6:hex_to_bin	24	static
+AX.25.c:373:6:crc_calc	40	static
+AX.25.c:393:6:crc_generate	40	static
+AX.25.c:431:6:crc_check	32	static

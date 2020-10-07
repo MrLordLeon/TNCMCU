@@ -55,6 +55,9 @@ struct PACKET_STRUCT {
 	bool *FCS;				//Pointer to fcs field in global buffer
 	bool i_frame_packet;	//Flag to signal if packet is of type i-frames
 
+	int stuffed_notFCS;		//count for how many bit stuffed zeros were added to AX25 packet, excluding the FCS field
+	int stuffed_FCS;		//count of how many bit stuffed zeros were added to only FCS field
+
 	//CRC
 	int crc; 				//crc value after calculating data from PC
 	int crc_count;
@@ -112,6 +115,16 @@ void AX25_TO_KISS();
 void receiving_KISS();
 void set_packet_pointer_KISS();
 void KISS_TO_AX25();
+
+/*
+ *	Helper function for shifting bits up when a bit stuffed zero is added
+ */
+void bit_shift(bool* array,int bits_left);
+
+/*
+ *	Add bitstuffed zeros to AX25 packet before transmitting it through radio
+ */
+void bitstuffing(struct PACKET_STRUCT* packet);
 
 //****************************************************************************************************************
 //END OF KISS to AX.25 data flow
