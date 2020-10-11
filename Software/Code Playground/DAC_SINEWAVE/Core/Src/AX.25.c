@@ -127,9 +127,8 @@ void remove_bit_stuffing(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
 	int one_count = 0;
-	int shift_count = 0; //reduces loop count by number of bit stuffed zeros removed
 	bool curr;
-	for(int i = 0;i < KISS_SIZE-shift_count;i++){
+	for(int i = 0;i < rxBit_count;i++){
 		curr = local_packet->AX25_PACKET[i]; //iterate through all data received before seperating into subfields
 		if(curr){ //current bit is a 1
 			one_count++;
@@ -137,7 +136,7 @@ void remove_bit_stuffing(){
 		else{
 			if(one_count >= 5){
 				slide_bits(&local_packet->AX25_PACKET[i],rxBit_count-i);
-				shift_count++;
+				i--;
 				rxBit_count--;
 			}
 			one_count = 0;
@@ -154,7 +153,7 @@ bool AX25_Packet_Validate(){
 		sprintf(uartData,"Trash Packet");
 		return false;
 	}
-	else if((rxBit_count+1)%8 != 0){ //invalid if packet is not octect aligned (divisible by 8)
+	else if((rxBit_count)%8 != 0){ //invalid if packet is not octect aligned (divisible by 8)
 		sprintf(uartData,"Trash Packet");
 		return false;
 	}
@@ -242,8 +241,7 @@ void AX25_TO_KISS(){
 	curr_mem += local_packet->Info_Len;
 	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 
-	//remove bit stuffed zeros
-	remove_bit_stuffing();
+
 }
 
 //****************************************************************************************************************
