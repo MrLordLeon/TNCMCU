@@ -11136,3 +11136,906 @@ java.lang.RuntimeException
 	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
 	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
 	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+!SESSION 2020-10-11 14:04:30.204 -----------------------------------------------
+eclipse.buildId=Version 1.4.0
+java.version=1.8.0_252
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.core.resources 4 567 2020-10-11 14:04:42.384
+!MESSAGE Workspace restored, but some problems occurred.
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2020-10-11 14:04:42.384
+!MESSAGE Could not read metadata for 'DAC_SINEWAVE'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/DAC_SINEWAVE)[567]: java.lang.Exception: The project description file (.project) for 'DAC_SINEWAVE' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:907)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:888)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:868)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:724)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1557)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2454)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2211)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:489)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:842)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:1)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:791)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1015)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:603)
+	at org.eclipse.osgi.container.Module.start(Module.java:467)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:493)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:571)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:330)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:398)
+	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:472)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:425)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:155)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:660)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1468)
+!SUBENTRY 2 org.eclipse.core.resources 4 567 2020-10-11 14:04:42.386
+!MESSAGE The project description file (.project) for 'DAC_SINEWAVE' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!STACK 0
+java.lang.Exception: The project description file (.project) for 'DAC_SINEWAVE' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:907)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:888)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:868)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:724)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1557)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2454)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2211)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:489)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:842)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:1)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:791)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1015)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:603)
+	at org.eclipse.osgi.container.Module.start(Module.java:467)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:493)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:571)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:330)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:398)
+	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:472)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:425)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:155)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:660)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1468)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2020-10-11 14:04:42.387
+!MESSAGE Could not read metadata for 'MCUTNC'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/MCUTNC)[567]: java.lang.Exception: The project description file (.project) for 'MCUTNC' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:907)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:888)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:868)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:724)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1557)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2454)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2211)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:489)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:842)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:1)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:791)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1015)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:603)
+	at org.eclipse.osgi.container.Module.start(Module.java:467)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:493)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:571)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:330)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:398)
+	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:472)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:425)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:155)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:660)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1468)
+!SUBENTRY 2 org.eclipse.core.resources 4 567 2020-10-11 14:04:42.388
+!MESSAGE The project description file (.project) for 'MCUTNC' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!STACK 0
+java.lang.Exception: The project description file (.project) for 'MCUTNC' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:907)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:888)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:868)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:724)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1557)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2454)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2211)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:489)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:842)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:1)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:791)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1015)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:603)
+	at org.eclipse.osgi.container.Module.start(Module.java:467)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:493)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:571)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:330)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:398)
+	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:472)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:425)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:155)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:660)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1468)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2020-10-11 14:04:42.388
+!MESSAGE Could not read metadata for 'RemoteSystemsTempFiles'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(C:/Users/Kaleb/Documents/GitHub/TNCMCU/Software/Code Playground/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/1.tree)[568]: java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\1.tree (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:55)
+	at org.eclipse.core.internal.resources.SaveManager.writeTree(SaveManager.java:2102)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:908)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:868)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:724)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1557)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2454)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2211)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:489)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:842)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:1)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:791)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1015)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:603)
+	at org.eclipse.osgi.container.Module.start(Module.java:467)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:493)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:571)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:330)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:398)
+	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:472)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:425)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:155)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:660)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1468)
+!SUBENTRY 2 org.eclipse.core.resources 4 568 2020-10-11 14:04:42.389
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\1.tree (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:55)
+	at org.eclipse.core.internal.resources.SaveManager.writeTree(SaveManager.java:2102)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:908)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:868)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:724)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1557)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2454)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2211)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:489)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:842)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:1)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:791)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1015)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:603)
+	at org.eclipse.osgi.container.Module.start(Module.java:467)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:493)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:571)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:330)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:398)
+	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:472)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:425)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:155)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:660)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1468)
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2020-10-11 14:04:45.881
+!MESSAGE Log4j initialized with config file C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2020-10-11 14:04:53.901
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 4 4 2020-10-11 14:04:54.614
+!MESSAGE com.st.stm32cube.ide.mcu.ide/META-INF/version/build_ref file not found, build reference will not be reported into properties
+
+!ENTRY org.eclipse.rse.ui 4 0 2020-10-11 14:04:55.629
+!MESSAGE Error refreshing remote edit project
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Errors occurred while refreshing resources with the local file system.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refreshResource(FileSystemResourceManager.java:980)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refresh(FileSystemResourceManager.java:960)
+	at org.eclipse.core.internal.resources.Resource.refreshLocal(Resource.java:1552)
+	at org.eclipse.rse.internal.files.ui.resources.SystemRemoteEditManager.refreshRemoteEditProject(SystemRemoteEditManager.java:796)
+	at org.eclipse.rse.internal.files.ui.Activator$InitRemoteEditJob.run(Activator.java:79)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Contains: The project description file (.project) for 'RemoteSystemsTempFiles' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+java.lang.Exception: The project description file (.project) for 'RemoteSystemsTempFiles' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:907)
+	at org.eclipse.core.internal.resources.Project.updateDescription(Project.java:1336)
+	at org.eclipse.core.internal.resources.File.updateMetadataFiles(File.java:382)
+	at org.eclipse.core.internal.localstore.RefreshLocalVisitor.visit(RefreshLocalVisitor.java:291)
+	at org.eclipse.core.internal.localstore.UnifiedTree.accept(UnifiedTree.java:118)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refreshResource(FileSystemResourceManager.java:977)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refresh(FileSystemResourceManager.java:960)
+	at org.eclipse.core.internal.resources.Resource.refreshLocal(Resource.java:1552)
+	at org.eclipse.rse.internal.files.ui.resources.SystemRemoteEditManager.refreshRemoteEditProject(SystemRemoteEditManager.java:796)
+	at org.eclipse.rse.internal.files.ui.Activator$InitRemoteEditJob.run(Activator.java:79)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.resources 4 271 2020-10-11 14:04:55.631
+!MESSAGE Errors occurred while refreshing resources with the local file system.
+!SUBENTRY 2 org.eclipse.core.resources 4 567 2020-10-11 14:04:55.631
+!MESSAGE The project description file (.project) for 'RemoteSystemsTempFiles' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!STACK 0
+java.lang.Exception: The project description file (.project) for 'RemoteSystemsTempFiles' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:907)
+	at org.eclipse.core.internal.resources.Project.updateDescription(Project.java:1336)
+	at org.eclipse.core.internal.resources.File.updateMetadataFiles(File.java:382)
+	at org.eclipse.core.internal.localstore.RefreshLocalVisitor.visit(RefreshLocalVisitor.java:291)
+	at org.eclipse.core.internal.localstore.UnifiedTree.accept(UnifiedTree.java:118)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refreshResource(FileSystemResourceManager.java:977)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refresh(FileSystemResourceManager.java:960)
+	at org.eclipse.core.internal.resources.Resource.refreshLocal(Resource.java:1552)
+	at org.eclipse.rse.internal.files.ui.resources.SystemRemoteEditManager.refreshRemoteEditProject(SystemRemoteEditManager.java:796)
+	at org.eclipse.rse.internal.files.ui.Activator$InitRemoteEditJob.run(Activator.java:79)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.ui.ide 4 4 2020-10-11 14:05:55.175
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 4 1 2020-10-11 14:05:55.187
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 4 568 2020-10-11 14:05:55.187
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:55)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1659)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1738)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1177)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2338)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor.lambda$1(IDEWorkbenchAdvisor.java:509)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+!SESSION 2020-10-11 14:05:57.009 -----------------------------------------------
+eclipse.buildId=Version 1.4.0
+java.version=1.8.0_252
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\.project
+
+!ENTRY org.eclipse.core.resources 4 567 2020-10-11 14:06:01.559
+!MESSAGE Workspace restored, but some problems occurred.
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2020-10-11 14:06:01.560
+!MESSAGE Could not read metadata for 'RemoteSystemsTempFiles'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(C:/Users/Kaleb/Documents/GitHub/TNCMCU/Software/Code Playground/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/1.tree)[568]: java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\1.tree (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:55)
+	at org.eclipse.core.internal.resources.SaveManager.writeTree(SaveManager.java:2102)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:908)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:868)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:724)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1557)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2454)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2211)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:489)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:842)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:1)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:791)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1015)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:603)
+	at org.eclipse.osgi.container.Module.start(Module.java:467)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:493)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:571)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:330)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:398)
+	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:472)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:425)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:155)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:660)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1468)
+!SUBENTRY 2 org.eclipse.core.resources 4 568 2020-10-11 14:06:01.561
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\1.tree (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:55)
+	at org.eclipse.core.internal.resources.SaveManager.writeTree(SaveManager.java:2102)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:908)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:868)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:724)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1557)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2454)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2211)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:489)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:842)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$3.run(BundleContextImpl.java:1)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:791)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1015)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:603)
+	at org.eclipse.osgi.container.Module.start(Module.java:467)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:493)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:571)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:330)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:398)
+	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:472)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:425)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:155)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:151)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:660)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1468)
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2020-10-11 14:06:04.697
+!MESSAGE Log4j initialized with config file C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.log4j.xml
+
+!ENTRY org.eclipse.core.resources 4 567 2020-10-11 14:06:10.053
+!MESSAGE The project description file (.project) for 'MCUTNC' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!STACK 0
+java.lang.Exception: The project description file (.project) for 'MCUTNC' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:907)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:888)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:763)
+	at org.eclipse.core.internal.resources.Project.open(Project.java:1056)
+	at org.eclipse.core.internal.resources.Project.open(Project.java:1102)
+	at org.eclipse.ui.actions.OpenResourceAction$1.doOpenWithReferences(OpenResourceAction.java:233)
+	at org.eclipse.ui.actions.OpenResourceAction$1.runInWorkspace(OpenResourceAction.java:279)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2020-10-11 14:06:12.364
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.resources 4 368 2020-10-11 14:06:21.041
+!MESSAGE Resource '/DAC_SINEWAVE' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/DAC_SINEWAVE' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Project.open(Project.java:1016)
+	at org.eclipse.core.internal.resources.Project.open(Project.java:1102)
+	at com.st.stm32cube.ide.mcu.ide.ui.project.internal.MCUProjectImporter$ProjectOperation.execute(MCUProjectImporter.java:170)
+	at org.eclipse.ui.actions.WorkspaceModifyOperation.lambda$0(WorkspaceModifyOperation.java:110)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2322)
+	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:131)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 14:06:21.207
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 14:06:21.501
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 4 4 2020-10-11 14:06:24.385
+!MESSAGE com.st.stm32cube.ide.mcu.ide/META-INF/version/build_ref file not found, build reference will not be reported into properties
+
+!ENTRY org.eclipse.cdt.core 1 0 2020-10-11 14:06:27.392
+!MESSAGE Indexed 'DAC_SINEWAVE' (26 sources, 57 headers) in 5.13 sec: 6,799 declarations; 36,946 references; 25 unresolved inclusions; 325 syntax errors; 4,596 unresolved names (9.5%)
+
+!ENTRY org.eclipse.core.resources 4 368 2020-10-11 14:06:29.197
+!MESSAGE Resource '/MCUTNC' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/MCUTNC' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Project.checkAccessible(Project.java:145)
+	at org.eclipse.core.internal.resources.Project.hasNature(Project.java:532)
+	at org.eclipse.cdt.internal.core.resources.ResourceLookupTree.initializeProjects(ResourceLookupTree.java:362)
+	at org.eclipse.cdt.internal.core.resources.ResourceLookupTree.findFilesForLocation(ResourceLookupTree.java:690)
+	at org.eclipse.cdt.internal.core.resources.ResourceLookupTree.findFilesForLocation(ResourceLookupTree.java:677)
+	at org.eclipse.cdt.internal.core.resources.ResourceLookup.findFilesForLocation(ResourceLookup.java:69)
+	at org.eclipse.cdt.internal.core.resources.ResourceLookup.selectFileForLocation(ResourceLookup.java:95)
+	at org.eclipse.cdt.core.dom.ast.ASTTypeUtil.getWorkspaceRelativePath(ASTTypeUtil.java:1078)
+	at org.eclipse.cdt.core.dom.ast.ASTTypeUtil.appendNodeLocation(ASTTypeUtil.java:1046)
+	at org.eclipse.cdt.core.dom.ast.ASTTypeUtil.appendNameForAnonymous(ASTTypeUtil.java:1033)
+	at org.eclipse.cdt.core.dom.ast.ASTTypeUtil.createNameForAnonymous(ASTTypeUtil.java:1011)
+	at org.eclipse.cdt.internal.core.pdom.dom.PDOMASTAdapter.getAdapterForAnonymousASTBinding(PDOMASTAdapter.java:783)
+	at org.eclipse.cdt.internal.core.pdom.dom.c.PDOMCLinkage.addBinding(PDOMCLinkage.java:93)
+	at org.eclipse.cdt.internal.core.pdom.dom.c.PDOMCLinkage.addTypeBinding(PDOMCLinkage.java:365)
+	at org.eclipse.cdt.internal.core.pdom.dom.TypeMarshalBuffer.marshalBinding(TypeMarshalBuffer.java:92)
+	at org.eclipse.cdt.internal.core.pdom.dom.TypeMarshalBuffer.marshalType(TypeMarshalBuffer.java:139)
+	at org.eclipse.cdt.internal.core.pdom.dom.PDOMLinkage.storeType(PDOMLinkage.java:468)
+	at org.eclipse.cdt.internal.core.pdom.dom.PDOMLinkage.storeType(PDOMLinkage.java:462)
+	at org.eclipse.cdt.internal.core.pdom.dom.c.PDOMCTypedef.setType(PDOMCTypedef.java:72)
+	at org.eclipse.cdt.internal.core.pdom.dom.c.PDOMCTypedef.update(PDOMCTypedef.java:64)
+	at org.eclipse.cdt.internal.core.pdom.dom.c.PDOMCLinkage.addBinding(PDOMCLinkage.java:124)
+	at org.eclipse.cdt.internal.core.pdom.dom.c.PDOMCLinkage.addBinding(PDOMCLinkage.java:209)
+	at org.eclipse.cdt.internal.core.pdom.dom.PDOMFile.createPDOMName(PDOMFile.java:522)
+	at org.eclipse.cdt.internal.core.pdom.dom.PDOMFile.addNames(PDOMFile.java:488)
+	at org.eclipse.cdt.internal.core.pdom.WritablePDOM.addFileContent(WritablePDOM.java:158)
+	at org.eclipse.cdt.internal.core.index.WritableCIndex.setFileContent(WritableCIndex.java:89)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.storeFileInIndex(PDOMWriter.java:679)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.storeSymbolsInIndex(PDOMWriter.java:329)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.addSymbols(PDOMWriter.java:287)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.writeToIndex(AbstractIndexerTask.java:1295)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseFile(AbstractIndexerTask.java:1107)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseLinkage(AbstractIndexerTask.java:910)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.runTask(AbstractIndexerTask.java:572)
+	at org.eclipse.cdt.internal.core.pdom.indexer.PDOMIndexerTask.run(PDOMIndexerTask.java:164)
+	at org.eclipse.cdt.internal.core.pdom.indexer.PDOMUpdateTask.run(PDOMUpdateTask.java:96)
+	at org.eclipse.cdt.internal.core.pdom.PDOMIndexerJob.run(PDOMIndexerJob.java:160)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 567 2020-10-11 14:06:29.316
+!MESSAGE The project description file (.project) for 'MCUTNC' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+!STACK 0
+java.lang.Exception: The project description file (.project) for 'MCUTNC' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:907)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:888)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:763)
+	at org.eclipse.core.internal.resources.Project.open(Project.java:1056)
+	at org.eclipse.core.internal.resources.Project.open(Project.java:1102)
+	at org.eclipse.ui.actions.OpenResourceAction$1.doOpenWithReferences(OpenResourceAction.java:233)
+	at org.eclipse.ui.actions.OpenResourceAction$1.runInWorkspace(OpenResourceAction.java:279)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 14:06:37.610
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 15:15:52.467
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jface 2 0 2020-10-11 15:18:24.095
+!MESSAGE Ignored reentrant call while viewer is busy. This is only logged once per viewer instance, but similar calls will still be ignored.
+!STACK 0
+java.lang.RuntimeException
+	at org.eclipse.jface.viewers.ColumnViewer.checkBusy(ColumnViewer.java:764)
+	at org.eclipse.jface.viewers.ColumnViewer.update(ColumnViewer.java:543)
+	at org.eclipse.ui.navigator.CommonViewer.update(CommonViewer.java:512)
+	at org.eclipse.jface.viewers.StructuredViewer.update(StructuredViewer.java:1965)
+	at org.eclipse.ui.internal.navigator.resources.nested.NestedProjectsLabelProvider.lambda$2(NestedProjectsLabelProvider.java:87)
+	at java.util.concurrent.CompletableFuture.uniAccept(CompletableFuture.java:670)
+	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:646)
+	at java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:488)
+	at java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1609)
+	at java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1596)
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 15:22:25.579
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 15:28:30.240
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2020-10-11 15:43:23.468
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 9 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2020-10-11 15:43:23.473
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2020-10-11 15:43:23.478
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 9 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2020-10-11 15:43:23.483
+!MESSAGE Existing sessions are:
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 15:46:13.089
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 15:52:36.800
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2020-10-11 15:58:25.110
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 16 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2020-10-11 15:58:25.115
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2020-10-11 15:58:25.120
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 16 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2020-10-11 15:58:25.125
+!MESSAGE Existing sessions are:
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 15:58:34.479
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 16:04:22.124
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 16:12:52.989
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 16:18:19.165
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 16:27:56.966
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 16:33:11.134
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 16:38:56.508
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 568 2020-10-11 17:00:17.107
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Kaleb\Documents\GitHub\TNCMCU\Software\Code Playground\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1848)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1202)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:55)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)

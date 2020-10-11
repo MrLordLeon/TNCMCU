@@ -84,6 +84,11 @@ void output_AX25(){
 
 void transmitting_KISS(){
 	//do stuff to send kiss... LOOKING AT YOU KALEB
+
+
+
+
+
 }
 
 //AX.25 to KISS data flow
@@ -340,6 +345,52 @@ void bitstuffing(struct PACKET_STRUCT* packet){
 			}
 		}
 	}
+}
+
+void receiving_KISS(){
+
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
+	memset(&local_packet->HEX_KISS_PACKET, 0, KISS_SIZE_BYTES);
+
+	//sprintf(uartData, "RECEIVING \n");
+
+	//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	HAL_UART_Receive(&huart2, &(local_packet->HEX_KISS_PACKET), KISS_SIZE_BYTES, 100);
+
+	int flags = 0;
+	for(int i = 0; i < KISS_SIZE_BYTES; i++){
+		if(flags == 1 && HEX_KISS_PACKET[i] != 0xC0){
+			//start extracting
+			KISS_DATA_EXTRACT(HEX_KISS_PACKET[i], i-1);
+		}
+
+		if(HEX_KISS_PACKET[i] == 0xC0){
+			flags++;
+			if(flags == 2){
+				break;
+			}
+		}
+	}
+
+
+
+	//sprintf(uartData, "TRANSMITTING \n");
+	//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	HAL_UART_Transmit(&huart2, global_packet->HEX_KISS_PACKET, KISS_SIZE_BYTES, 10);
+
+
+	return;
+}
+
+void KISS_DATA_EXTRACT(uint8_t byte, int index){
+    int temp;
+    index = index*8;
+    for(int i = 0; i < 8; i++){
+        temp = byte >> i;
+        local_packet->KISS_PACKET[i + index] = temp%2;
+    }
+
 }
 
 //****************************************************************************************************************

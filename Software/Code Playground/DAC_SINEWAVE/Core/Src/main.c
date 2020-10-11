@@ -106,16 +106,45 @@ int main(void)
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
 
-	initProgram();
+	//initProgram();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+
+
+
 	while (1) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		tx_rx();
+		//tx_rx();
+
+		//sprintf(uartData, "RECEIVING \n");
+
+		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		HAL_UART_Receive(&huart2, &HEX_KISS_PACKET, 30000, 100);
+
+		bool check_int = false;
+		int flags = 0;
+		for(int i = 0; i < 30000; i++){
+			if(HEX_KISS_PACKET[i] == 0xC0){
+				flags++;
+				if(flags == 2){
+					check_int = true;
+					break;
+				}
+
+			}
+		}
+
+
+		if(check_int){
+			//sprintf(uartData, "TRANSMITTING \n");
+			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			HAL_UART_Transmit(&huart2, HEX_KISS_PACKET, 30000, 10);
+		}
 	}
   /* USER CODE END 3 */
 }

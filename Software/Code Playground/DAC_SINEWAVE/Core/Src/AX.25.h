@@ -35,6 +35,8 @@ extern bool local_address[address_len/2];	//address set to this TNC
 //**************** KISS *************************************************************************************************************
 #define KISS_SIZE		FLAG_SIZE + address_len + control_len + PID_len + MAX_INFO + FLAG_SIZE //size of kiss packet
 bool KISS_FLAG[FLAG_SIZE];
+
+#define KISS_SIZE_BYTES	(int) (KISS_SIZE/8)
 //*************************************************************************************************************************************
 
 struct PACKET_STRUCT {
@@ -42,6 +44,7 @@ struct PACKET_STRUCT {
 	bool AX25_PACKET[AX25_PACKET_MAX];//temporary stores bits received from radio, before formatting into AX.25 format
 	//KISS Members
 	bool KISS_PACKET[KISS_SIZE];//KISS information without the flags
+	uint8_t HEX_KISS_PACKET[KISS_SIZE_BYTES];
 
 	/*
 	 * 	Packet Pointers:
