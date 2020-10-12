@@ -84,11 +84,9 @@ void output_AX25(){
 
 void transmitting_KISS(){
 	//do stuff to send kiss... LOOKING AT YOU KALEB
-	// IT IS HERE
 
-	struct PACKET_STRUCT* local_packet = &global_packet;
 
-	HAL_UART_Transmit(&huart2, local_packet->HEX_KISS_PACKET, KISS_SIZE, 10);
+
 
 
 }
@@ -248,8 +246,6 @@ void AX25_TO_KISS(){
 	curr_mem += local_packet->Info_Len;
 	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 
-	KISS_TO_HEX();
-
 
 }
 
@@ -366,7 +362,7 @@ void receiving_KISS(){
 	for(int i = 0; i < KISS_SIZE_BYTES; i++){
 		if(flags == 1 && HEX_KISS_PACKET[i] != 0xC0){
 			//start extracting
-			HEX_TO_KISS(HEX_KISS_PACKET[i], i-1);
+			KISS_DATA_EXTRACT(HEX_KISS_PACKET[i], i-1);
 		}
 
 		if(HEX_KISS_PACKET[i] == 0xC0){
@@ -387,27 +383,15 @@ void receiving_KISS(){
 	return;
 }
 
-void HEX_TO_KISS(uint8_t byte, int index){
+void KISS_DATA_EXTRACT(uint8_t byte, int index){
     int temp;
     index = index*8;
     for(int i = 0; i < 8; i++){
         temp = byte >> i;
         local_packet->KISS_PACKET[i + index] = temp%2;
     }
+
 }
-
-void KISS_TO_HEX(){
-
-	struct PACKET_STRUCT* local_packet = &global_packet;
-
-	bool temp[8];
-    for(int i = 0; i < KISS_SIZE; i=i+8){
-        memcpy(temp, local_packet->KISS_PACKET[i],8*bool_size);
-        for(int j = 0; j < 8; j++){
-        	local_packet->HEX_KISS_PACKET[i] += (temp[j]) ? pow(2,8-j-1) : 0;
-        }
-    }
-
 
 //****************************************************************************************************************
 //END OF KISS to AX.25 data flow
