@@ -34,17 +34,19 @@ extern bool local_address[address_len/2];	//address set to this TNC
 
 //**************** KISS *************************************************************************************************************
 #define KISS_SIZE		FLAG_SIZE + address_len + control_len + PID_len + MAX_INFO + FLAG_SIZE //size of kiss packet
-bool KISS_FLAG[FLAG_SIZE];
-
 #define KISS_SIZE_BYTES	(int) (KISS_SIZE/8)
+bool KISS_FLAG[FLAG_SIZE];
 //*************************************************************************************************************************************
 
 struct PACKET_STRUCT {
-	//AX.25 Members
+	//AX.25 Members, does not include frame end flags
 	bool AX25_PACKET[AX25_PACKET_MAX];//temporary stores bits received from radio, before formatting into AX.25 format
-	//KISS Members
+
+	//KISS Members, includes frame end flags
 	bool KISS_PACKET[KISS_SIZE];//KISS information without the flags
-	uint8_t HEX_KISS_PACKET[KISS_SIZE_BYTES];
+
+	//HEX Members, includes frame end flags
+	uint8_t HEX_KISS_PACKET[KISS_SIZE_BYTES];//This is the buffer used to hold hex bits from UART
 
 	/*
 	 * 	Packet Pointers:
@@ -75,6 +77,8 @@ struct PACKET_STRUCT {
  */
 void tx_rx();
 
+void test_ax25();
+
 /*
  * 	Generates a local address for the TNC. Values are kept in the local_address array
  */
@@ -91,7 +95,6 @@ void transmitting_AX25();
 void output_AX25();
 
 void transmitting_KISS();
-
 //AX.25 to KISS data flow
 //****************************************************************************************************************
 

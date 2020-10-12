@@ -20,14 +20,15 @@ char uartData[3000];
 
 //General Program
 //****************************************************************************************************************
-bool mode = true;
+bool mode;
 bool midbit = false;
 bool changeMode = false;
 
-void initProgram() {
+void initProgram(bool modeStart) {
 	initOUTData();
 
 	//Set hardware properly
+	mode = modeStart;
 	toggleMode();
 	toggleMode();
 
