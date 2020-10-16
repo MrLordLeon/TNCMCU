@@ -35,8 +35,18 @@ extern bool local_address[address_len/2];	//address set to this TNC
 //**************** KISS *************************************************************************************************************
 #define KISS_SIZE		FLAG_SIZE + address_len + control_len + PID_len + MAX_INFO + FLAG_SIZE //size of kiss packet
 #define KISS_SIZE_BYTES	(int) (KISS_SIZE/8)
+#define UART_RX_IT_CNT 1
+
 bool KISS_FLAG[FLAG_SIZE];
 //*************************************************************************************************************************************
+
+struct UART_INPUT {
+	int rx_cnt;
+	int received_byte_cnt;
+	int flags;
+	uint8_t input;
+	bool got_packet;
+}Data_struct;
 
 struct PACKET_STRUCT {
 	//AX.25 Members, does not include frame end flags
@@ -71,7 +81,7 @@ struct PACKET_STRUCT {
 
 //General Program
 //****************************************************************************************************************
-
+void init_AX25();
 /*
  * 	Function ran in main
  */
@@ -95,6 +105,8 @@ void transmitting_AX25();
 void output_AX25();
 
 void transmitting_KISS();
+
+void UART2_EXCEPTION_CALLBACK();
 //AX.25 to KISS data flow
 //****************************************************************************************************************
 

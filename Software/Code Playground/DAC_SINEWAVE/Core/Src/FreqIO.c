@@ -39,6 +39,8 @@ void initProgram(bool modeStart) {
 		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
 		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
 	}
+
+	init_AX25();
 }
 
 

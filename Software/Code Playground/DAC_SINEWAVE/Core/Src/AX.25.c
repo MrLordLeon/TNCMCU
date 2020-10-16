@@ -23,6 +23,13 @@ bool KISS_FLAG[FLAG_SIZE] = { 1, 1, 0, 0, 0, 0, 0, 0 };
 
 //General Program
 //****************************************************************************************************************
+void init_AX25(){
+	HAL_UART_Receive_IT(&huart2, &(Data_struct.input), UART_RX_IT_CNT);
+	Data_struct.flags = 0;
+	Data_struct.got_packet = false;
+	Data_struct.rx_cnt = 0;
+	Data_struct.received_byte_cnt = 0;
+}
 void tx_rx() {
 	if (changeMode) {
 		changeMode = 0;
@@ -136,6 +143,25 @@ void transmitting_KISS(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
 	HAL_UART_Transmit(&huart2, local_packet->HEX_KISS_PACKET, KISS_SIZE, 10);
+}
+
+void UART2_EXCEPTION_CALLBACK(){
+	HAL_UART_Receive_IT(&huart2, &(Data_struct.input), UART_RX_IT_CNT);//Reset
+	Data_struct.got_packet = false;
+
+	  if(Data_struct.input==0xc0){
+		  Data_struct.flags++;
+	  }
+
+	  *(global_packet.HEX_KISS_PACKET+Data_struct.rx_cnt) = Data_struct.input;
+	  Data_struct.rx_cnt++;
+
+	  if(Data_struct.flags>=2){
+		  Data_struct.flags = 0;
+		  Data_struct.got_packet = true;
+		  Data_struct.received_byte_cnt = Data_struct.rx_cnt;
+		  Data_struct.rx_cnt=0;
+	  }
 }
 
 //AX.25 to KISS data flow
