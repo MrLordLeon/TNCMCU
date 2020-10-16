@@ -115,8 +115,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		//tx_rx();
-		test_ax25();
+		tx_rx();
+		//test_ax25();
 		/*
 		//sprintf(uartData, "RECEIVING \n");
 		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);

@@ -55,8 +55,8 @@ void FreqCounterPinEXTI();
 #define TIM3_AUTORELOAD_TX	831 		//Timer3 period, used to controller baudrate for TX
 
 #define PI 					3.1415926
-//#define OUT_AMPL			505			//Amplitude of outpute wave. 4096 -> 1.65V Peak
-#define OUT_AMPL			4096
+#define OUT_AMPL			505			//Amplitude of outpute wave. 4096 -> 1.65V Peak
+//#define OUT_AMPL			4096
 #define LOWF_SAMP 			83 			//This is the sample count for the low frequency , as configured maps to 1200Hz
 #define HIGHF_SAMP			45			//This is the sample count for the high frequency, as configured maps to 2200Hz
 
