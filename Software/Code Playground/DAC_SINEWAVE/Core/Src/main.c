@@ -115,10 +115,7 @@ int main(void)
 
 	uart_gpio_init();
 
-	sprintf(uartData, "Controller starting\r\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-	initProgram(false);
+	initProgram(true);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -127,15 +124,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		//tx_rx();
-		//test_ax25();
-
-		if(Data_struct.got_packet){
-			for(int i = 0;i<Data_struct.received_byte_cnt;i++){
-			  sprintf(uartData, "HEX_KISS_PACKET[%d] = %d\r\n",i,*(global_packet.HEX_KISS_PACKET+i));
-			  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		  }
-		}
+		tx_rx();
 	}
   /* USER CODE END 3 */
 }

@@ -1,8 +1,10 @@
-01:30:46 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+00:25:30 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/AX.25.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/AX.25.d" -MT"Core/Src/AX.25.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/AX.25.o"
+arm-none-eabi-gcc "../Core/Src/FreqIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/FreqIO.d" -MT"Core/Src/FreqIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/FreqIO.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/AX.25.c: In function 'tx_rx':
-../Core/Src/AX.25.c:44:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+../Core/Src/AX.25.c:75:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
                                ^~~~~~~~
 In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
@@ -13,36 +15,256 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
  HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
                    ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c: In function 'test_ax25':
-../Core/Src/AX.25.c:60:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
-  bool *curr_mem = &local_packet->AX25_PACKET;
-                   ^
-../Core/Src/AX.25.c: In function 'receiving_AX25':
-../Core/Src/AX.25.c:171:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+../Core/Src/AX.25.c: In function 'transmitting_KISS':
+../Core/Src/AX.25.c:127:41: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+  struct UART_INPUT* local_UART_packet = &global_packet;
+                                         ^
+../Core/Src/AX.25.c: In function 'print_KISS':
+../Core/Src/AX.25.c:137:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
                              ^~~~~~~~
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
-                 from ../Core/Inc/main.h:31,
-                 from ../Core/Src/AX.25.h:12,
-                 from ../Core/Src/AX.25.c:7:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
- HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-                   ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:179:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
-  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-                             ^~~~~~~~
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
-                 from ../Core/Inc/main.h:31,
-                 from ../Core/Src/AX.25.h:12,
-                 from ../Core/Src/AX.25.c:7:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
- HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-                   ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:184:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+../Core/Src/FreqIO.c: In function 'loadOctet':
+../Core/Src/FreqIO.c:276:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:142:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:282:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:146:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:285:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:149:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c: In function 'streamGet':
+../Core/Src/FreqIO.c:325:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:155:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:341:23: warning: too many arguments for format [-Wformat-extra-args]
+     sprintf(uartData, "Bad packet! Not enough octets\r\n\n",octet_count);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:342:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:159:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:347:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:163:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/FreqIO.c:348:23: warning: too many arguments for format [-Wformat-extra-args]
+     sprintf(uartData, "Bad packet! Not enough octetes.\r\n\n",octet_count);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:349:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+../Core/Src/main.c:116:2: warning: implicit declaration of function 'uart_gpio_init' [-Wimplicit-function-declaration]
+  uart_gpio_init();
+  ^~~~~~~~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:169:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+../Core/Src/main.c: At top level:
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/main.c:432:6: warning: conflicting types for 'uart_gpio_init'
+ void uart_gpio_init()
+      ^~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:354:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+     HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                                ^~~~~~~~
+../Core/Src/main.c:116:2: note: previous implicit declaration of 'uart_gpio_init' was here
+  uart_gpio_init();
+  ^~~~~~~~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/FreqIO.h:12,
+                 from ../Core/Src/FreqIO.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:173:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/FreqIO.c:366:5: warning: the address of 'toggleMode' will always evaluate as 'true' [-Waddress]
+  if(toggleMode)
+     ^~~~~~~~~~
+../Core/Src/AX.25.c:176:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:181:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:185:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:188:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
 In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
@@ -62,7 +284,18 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
  HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
                    ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:197:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+../Core/Src/AX.25.c:198:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:202:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
                               ^~~~~~~~
 In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
@@ -73,9 +306,9 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
  HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
                    ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:203:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
-    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-                               ^~~~~~~~
+../Core/Src/AX.25.c:208:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
 In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
@@ -84,29 +317,7 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
  HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
                    ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:208:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
-    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-                               ^~~~~~~~
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
-                 from ../Core/Inc/main.h:31,
-                 from ../Core/Src/AX.25.h:12,
-                 from ../Core/Src/AX.25.c:7:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
- HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-                   ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:218:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
-    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-                               ^~~~~~~~
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
-                 from ../Core/Inc/main.h:31,
-                 from ../Core/Src/AX.25.h:12,
-                 from ../Core/Src/AX.25.c:7:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
- HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-                   ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:225:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+../Core/Src/AX.25.c:212:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
                               ^~~~~~~~
 In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
@@ -117,7 +328,99 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
  HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
                    ^~~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:231:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+../Core/Src/AX.25.c:215:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:134:6: warning: unused variable 'bytecnt' [-Wunused-variable]
+  int bytecnt = local_packet->byte_cnt;
+      ^~~~~~~
+../Core/Src/AX.25.c: In function 'receiving_AX25':
+../Core/Src/AX.25.c:247:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                             ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:256:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:266:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:272:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:277:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:287:31: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                               ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:294:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/AX.25.h:12,
+                 from ../Core/Src/AX.25.c:7:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+../Core/Src/AX.25.c:300:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
                               ^~~~~~~~
 In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
@@ -129,80 +432,69 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
  HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
                    ^~~~~~~~~~~~~~~~~
 ../Core/Src/AX.25.c: In function 'AX25_Packet_Validate':
-../Core/Src/AX.25.c:264:6: warning: unused variable 'fcs_val' [-Wunused-variable]
+../Core/Src/AX.25.c:333:6: warning: unused variable 'fcs_val' [-Wunused-variable]
   int fcs_val = 0;
       ^~~~~~~
-../Core/Src/AX.25.c:263:24: warning: unused variable 'local_packet' [-Wunused-variable]
+../Core/Src/AX.25.c:332:24: warning: unused variable 'local_packet' [-Wunused-variable]
   struct PACKET_STRUCT* local_packet = &global_packet;
                         ^~~~~~~~~~~~
 ../Core/Src/AX.25.c: In function 'set_packet_pointer_AX25':
-../Core/Src/AX.25.c:301:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+../Core/Src/AX.25.c:370:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
   bool *curr_mem = &local_packet->AX25_PACKET; //keep track of what address to copy from
                    ^
-../Core/Src/AX.25.c:308:10: warning: 'return' with a value, in function returning void
+../Core/Src/AX.25.c:377:10: warning: 'return' with a value, in function returning void
    return false; //discard
           ^~~~~
-../Core/Src/AX.25.c:299:6: note: declared here
+../Core/Src/AX.25.c:368:6: note: declared here
  void set_packet_pointer_AX25(){
       ^~~~~~~~~~~~~~~~~~~~~~~
 ../Core/Src/AX.25.c: In function 'AX25_TO_KISS':
-../Core/Src/AX.25.c:335:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+../Core/Src/AX.25.c:404:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
   bool *curr_mem = &local_packet->KISS_PACKET;
                    ^
-../Core/Src/AX.25.c:358:2: warning: implicit declaration of function 'KISS_TO_HEX'; did you mean 'KISS_TO_AX25'? [-Wimplicit-function-declaration]
+../Core/Src/AX.25.c:427:2: warning: implicit declaration of function 'KISS_TO_HEX'; did you mean 'KISS_TO_AX25'? [-Wimplicit-function-declaration]
   KISS_TO_HEX();
   ^~~~~~~~~~~
   KISS_TO_AX25
 ../Core/Src/AX.25.c: In function 'receiving_KISS':
-../Core/Src/AX.25.c:377:28: warning: passing argument 2 of 'HAL_UART_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
-  HAL_UART_Receive(&huart2, &(local_packet->HEX_KISS_PACKET), KISS_SIZE_BYTES, 100);
-                            ^
+../Core/Src/AX.25.c:444:30: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+   HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+                              ^~~~~~~~
 In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
                  from ../Core/Src/AX.25.h:12,
                  from ../Core/Src/AX.25.c:7:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:697:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'uint8_t (*)[2185] {aka unsigned char (*)[2185]}'
- HAL_StatusTypeDef HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-                   ^~~~~~~~~~~~~~~~
-../Core/Src/AX.25.c:384:4: warning: implicit declaration of function 'HEX_TO_KISS'; did you mean 'AX25_TO_KISS'? [-Wimplicit-function-declaration]
-    HEX_TO_KISS(local_packet->HEX_KISS_PACKET[i], i-1);
-    ^~~~~~~~~~~
-    AX25_TO_KISS
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'char *'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
 ../Core/Src/AX.25.c: In function 'KISS_TO_AX25':
-../Core/Src/AX.25.c:409:19: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
-  bool *curr_mem = &local_packet->KISS_PACKET; //keep track of what address to copy from
-                   ^
-../Core/Src/AX.25.c:418:10: warning: 'return' with a value, in function returning void
+../Core/Src/AX.25.c:500:10: warning: 'return' with a value, in function returning void
    return false; //discard
           ^~~~~
-../Core/Src/AX.25.c:406:6: note: declared here
+../Core/Src/AX.25.c:490:6: note: declared here
  void KISS_TO_AX25(){
       ^~~~~~~~~~~~
-../Core/Src/AX.25.c:445:9: warning: 'return' with a value, in function returning void
+../Core/Src/AX.25.c:521:9: warning: 'return' with a value, in function returning void
   return true; //valid packet
          ^~~~
-../Core/Src/AX.25.c:406:6: note: declared here
+../Core/Src/AX.25.c:490:6: note: declared here
  void KISS_TO_AX25(){
       ^~~~~~~~~~~~
-../Core/Src/AX.25.c: In function 'bitstuffing':
-../Core/Src/AX.25.c:467:5: warning: implicit declaration of function 'bitshift'; did you mean 'bit_shift'? [-Wimplicit-function-declaration]
-     bitshift(&(packet->KISS_PACKET[i]),bits_left);
-     ^~~~~~~~
-     bit_shift
 ../Core/Src/AX.25.c: At top level:
-../Core/Src/AX.25.c:495:6: warning: conflicting types for 'HEX_TO_KISS'
- void HEX_TO_KISS(uint8_t byte, int index){
-      ^~~~~~~~~~~
-../Core/Src/AX.25.c:384:4: note: previous implicit declaration of 'HEX_TO_KISS' was here
-    HEX_TO_KISS(local_packet->HEX_KISS_PACKET[i], i-1);
-    ^~~~~~~~~~~
-../Core/Src/AX.25.c:506:6: warning: conflicting types for 'KISS_TO_HEX'
+../Core/Src/AX.25.c:571:6: warning: conflicting types for 'KISS_TO_HEX'
  void KISS_TO_HEX(){
       ^~~~~~~~~~~
-../Core/Src/AX.25.c:358:2: note: previous implicit declaration of 'KISS_TO_HEX' was here
+../Core/Src/AX.25.c:427:2: note: previous implicit declaration of 'KISS_TO_HEX' was here
   KISS_TO_HEX();
   ^~~~~~~~~~~
+../Core/Src/AX.25.c: In function 'crc_calc':
+../Core/Src/AX.25.c:603:41: warning: passing argument 2 of 'conv_HEX_to_BIN' from incompatible pointer type [-Wincompatible-pointer-types]
+       conv_HEX_to_BIN(local_packet->crc,&(local_packet->FCS));
+                                         ^
+../Core/Src/AX.25.c:25:6: note: expected '_Bool *' but argument is of type '_Bool **'
+ void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out){
+      ^~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "DAC_SINEWAVE.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\DAC_SINEWAVE\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DAC_SINEWAVE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: DAC_SINEWAVE.elf
  
@@ -210,17 +502,17 @@ arm-none-eabi-objdump -h -S  DAC_SINEWAVE.elf  > "DAC_SINEWAVE.list"
 arm-none-eabi-objcopy  -O binary  DAC_SINEWAVE.elf  "DAC_SINEWAVE.bin"
 arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  26784	    120	  21288	  48192	   bc40	DAC_SINEWAVE.elf
+  32952	    128	  21296	  54376	   d468	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
  
 Finished building: DAC_SINEWAVE.bin
  
 Finished building: DAC_SINEWAVE.list
  
-01:30:48 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+00:25:41 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
 make -j8 all 
 arm-none-eabi-size   DAC_SINEWAVE.elf 
    text	   data	    bss	    dec	    hex	filename
-  26784	    120	  21288	  48192	   bc40	DAC_SINEWAVE.elf
+  32952	    128	  21296	  54376	   d468	DAC_SINEWAVE.elf
 Finished building: default.size.stdout
  

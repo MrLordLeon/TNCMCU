@@ -26,6 +26,7 @@
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
 #define AX25_PACKET_MAX		address_len + control_len + PID_len + MAX_INFO +FCS_len	+ MAX_Stuffed		//max bits in a packet, not including flags
+#define INFO_offset			(int)((FLAG_SIZE+address_len+control_len+PID_len+FLAG_SIZE)/8)
 
 extern int rxBit_count; 							//keeps count of the temp buffer index
 extern bool AX25TBYTE[FLAG_SIZE];							//Array to store AX.25 terminate flag in binary
@@ -46,17 +47,17 @@ struct UART_INPUT {
 	int flags;
 	uint8_t input;
 	bool got_packet;
-}Data_struct;
+
+	//HEX Members, includes frame end flags
+	uint8_t HEX_KISS_PACKET[KISS_SIZE_BYTES];//This is the buffer used to hold hex bits from UART
+}UART_packet;
 
 struct PACKET_STRUCT {
 	//AX.25 Members, does not include frame end flags
 	bool AX25_PACKET[AX25_PACKET_MAX];//temporary stores bits received from radio, before formatting into AX.25 format
 
 	//KISS Members, includes frame end flags
-	bool KISS_PACKET[KISS_SIZE];//KISS information without the flags
-
-	//HEX Members, includes frame end flags
-	uint8_t HEX_KISS_PACKET[KISS_SIZE_BYTES];//This is the buffer used to hold hex bits from UART
+	bool KISS_PACKET[KISS_SIZE];
 
 	/*
 	 * 	Packet Pointers:
@@ -66,9 +67,11 @@ struct PACKET_STRUCT {
 	bool *control;			//Pointer to control field in global buffer
 	bool *PID; 				//Pointer to PID field in global buffer, only present for I frames
 	bool *Info;				//Pointer to info field in global buffer
-	int  Info_Len;
+	int  Info_Len;			//Length of info field, in bits
 	bool *FCS;				//Pointer to fcs field in global buffer
 	bool i_frame_packet;	//Flag to signal if packet is of type i-frames
+
+	int byte_cnt;
 
 	int stuffed_notFCS;		//count for how many bit stuffed zeros were added to AX25 packet, excluding the FCS field
 	int stuffed_FCS;		//count of how many bit stuffed zeros were added to only FCS field
@@ -79,9 +82,14 @@ struct PACKET_STRUCT {
 	bool check_crc;			//indicates weather validating fcs field or creating fcs field
 }global_packet;
 
+//Conversion Functions
+void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out);
+uint8_t conv_BIN_to_HEX(bool *bin_byte_in);
+
 //General Program
 //****************************************************************************************************************
 void init_AX25();
+
 /*
  * 	Function ran in main
  */
@@ -103,10 +111,19 @@ bool compare_address();
 
 void transmitting_AX25();
 void output_AX25();
+void print_AX25();
 
 void transmitting_KISS();
+void output_KISS();
+void print_KISS();
 
+//UART Handling data flow
+//****************************************************************************************************************
 void UART2_EXCEPTION_CALLBACK();
+
+//****************************************************************************************************************
+//END OF UART Handling data flow
+
 //AX.25 to KISS data flow
 //****************************************************************************************************************
 
@@ -130,7 +147,7 @@ void AX25_TO_KISS();
 //KISS to AX.25 data flow
 //****************************************************************************************************************
 
-void receiving_KISS();
+bool receiving_KISS();
 void set_packet_pointer_KISS();
 void KISS_TO_AX25();
 
@@ -148,7 +165,6 @@ void bitstuffing(struct PACKET_STRUCT* packet);
 //END OF KISS to AX.25 data flow
 
 //---------------------- FCS Generation -----------------------------------------------------------------------------------------------
-void hex_to_bin();						//store bits in FCS field
 
 /*
  * 	Helper function to generate CRC. Simply computes CRC from one bit
