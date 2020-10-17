@@ -138,6 +138,10 @@ void remove_bit_stuffing(); //remove bit stuffing zeros after every 5 consecutiv
  * 		returns false if the packet is invalid in any way
  */
 bool AX25_Packet_Validate();
+/*
+ * 	reverse elements in array, called by set_packet_pointer_AX_25, since all AX.25 fields were sent LSB first except FCS field
+ */
+void reverse_array(bool *array,int size);
 void set_packet_pointer_AX25();
 void AX25_TO_KISS();
 

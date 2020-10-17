@@ -118,6 +118,8 @@ void output_AX25(){
 	bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,1);			//msb first
 
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
+
+	free(local_packet->FCS);		   //deallocate memory for FCS Field
 }
 
 void transmitting_KISS(){
@@ -346,25 +348,21 @@ bool AX25_Packet_Validate(){
 		//Set packet pointers for AX25 to KISS operation
 		set_packet_pointer_AX25();
 		return crc_check();
-
-//		//FOR FCS ONLY, highest index == LSB
-//		//FOR FCS ONLY, lowest index  == MSB
-//		for(int i = FCS_len-1; i >= 0;i--){
-//			//Convert FCS to decimal value (DOES NOT INCLUDE DECIMAL VALUES)
-//			fcs_val += (local_packet->FCS[i]) ? pow(2,FCS_len-1-i) :0;
-//		}
-//
-//		//generate crc
-//		crc_generate();
-//
-//		//compare crc
-//		if(local_packet->crc!=fcs_val){
-//			return false;
-//		}
 	}
 
 //	return true; //valid packet
 }
+
+void reverse_array(bool *array,int size){
+	bool temp[size];
+	for(int i = 0;i < size; i++){
+		temp[size-1-i] = array[i];
+	}
+	for(int i = 0; i <size; i++){
+		array[i] = temp[i];
+	}
+}
+
 void set_packet_pointer_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	bool *curr_mem = &local_packet->AX25_PACKET; //keep track of what address to copy from
@@ -373,6 +371,7 @@ void set_packet_pointer_AX25(){
 	sprintf(uartData,"Good Packet!");
 
 	local_packet->address = curr_mem;
+	reverse_array(local_packet->address,address_len);
 	if(!compare_address(local_packet->address)){
 		return false; //discard
 	}
@@ -380,12 +379,14 @@ void set_packet_pointer_AX25(){
 	not_info += address_len;
 
 	local_packet->control = curr_mem;
+	reverse_array(local_packet->control,control_len);
 	curr_mem += control_len;
 	not_info += control_len;
 
 	if(local_packet->control[0] == 0){ // 0 == I frame, 01 == S frame, 11 == U Frame
 		local_packet->i_frame_packet = true;//Signal flag is of type i-frame
 		local_packet->PID = curr_mem;
+		reverse_array(local_packet->PID,PID_len);
 		curr_mem += PID_len;
 		not_info += PID_len;
 	}
@@ -393,6 +394,7 @@ void set_packet_pointer_AX25(){
 
 	local_packet->Info_Len = rxBit_count - not_info;
 	local_packet->Info = curr_mem;
+	reverse_array(local_packet->Info,local_packet->Info_Len);
 	curr_mem += local_packet->Info_Len;
 
 	local_packet->FCS = curr_mem;
@@ -459,12 +461,17 @@ bool receiving_KISS(){
 		local_packet->Info_Len = (local_packet->byte_cnt-INFO_offset)*8;
 
 		//Convert KISS packet to AX.25 packet
+	    /* Disable interrupts for memory allocation for FCS field */
+	    __disable_irq();
+
 		KISS_TO_AX25();
 		//Upon exit, have a perfectly good AX.25 packet
 
 		//Output AFSK waveform for radio
 		output_AX25();
 
+		/* Enable interrupts */
+	    __enable_irq();
 		return true;
 	}
 	return false;
@@ -485,6 +492,10 @@ void set_packet_pointer_KISS(){
 	curr_mem += PID_len;
 
 	local_packet->Info = curr_mem;
+	curr_mem += local_packet->Info_Len;
+
+	//allocate memory for FCS field since it is not apart of KISS packet
+	local_packet->FCS = (bool *) malloc(FCS_len * bool_size);
 }
 
 void KISS_TO_AX25(){
@@ -512,11 +523,12 @@ void KISS_TO_AX25(){
 	set_packet_pointer_AX25();
 
 	//USE CRC HERE TO GENERATE FCS FIELD
-	//local_packet->check_crc = false;
+	rxBit_count = address_len + control_len + PID_len + local_packet->Info_Len; //for crc generate and bitstuffing
 	crc_generate();
 
 	//BIT STUFFING NEEDED
 	bitstuffing(local_packet);
+	rxBit_count = 0;
 
 	return true; //valid packet
 }
@@ -624,12 +636,12 @@ void crc_generate(){
 	}
 
 	//Calculate CRC for PID (if packet is of type i-frame)
-	if(local_packet->i_frame_packet){
-		for(int i = PID_len-1; i >= 0; i--){
-			//Call crc_calc per bit
-			crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
-		}
+//	if(local_packet->i_frame_packet){
+	for(int i = PID_len-1; i >= 0; i--){
+		//Call crc_calc per bit
+		crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
 	}
+//	}
 
 	//Calculate CRC for control
 	for(int i = control_len-1; i >= 0;i--){
