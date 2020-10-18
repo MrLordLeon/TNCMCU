@@ -78,7 +78,7 @@ struct PACKET_STRUCT {
 	int stuffed_FCS;		//count of how many bit stuffed zeros were added to only FCS field
 
 	//CRC
-	int crc; 				//crc value after calculating data from PC
+	uint16_t crc; 				//crc value after calculating data from PC
 	int crc_count;
 	bool check_crc;			//indicates weather validating fcs field or creating fcs field
 }global_packet;
@@ -89,7 +89,7 @@ struct PACKET_STRUCT {
  * 		hex_byte_in 	- input hex value
  * 		bin_byte_out 	- output binary pointer to write to. Should point to
  */
-void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out,bool select_8_16);
+void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out,bool select_8_16);
 /*
  * 	Converts bin to hex
  * 		bin_byte_in		- input binary pointer to a byte
