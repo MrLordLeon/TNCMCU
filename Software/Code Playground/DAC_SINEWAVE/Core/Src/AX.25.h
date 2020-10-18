@@ -89,7 +89,7 @@ struct PACKET_STRUCT {
  * 		hex_byte_in 	- input hex value
  * 		bin_byte_out 	- output binary pointer to write to. Should point to
  */
-void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out);
+void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out,bool select_8_16);
 /*
  * 	Converts bin to hex
  * 		bin_byte_in		- input binary pointer to a byte

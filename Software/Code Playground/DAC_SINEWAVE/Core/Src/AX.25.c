@@ -22,20 +22,32 @@ bool local_address[address_len/2];
 bool KISS_FLAG[FLAG_SIZE] = { 1, 1, 0, 0, 0, 0, 0, 0 };
 
 //Conversion functions
-void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out){
+void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out,bool select_8_16){
     int temp;
 
     //sprintf(uartData, "\nByte value            = %d\nBinary value[LSB:MSB] =",hex_byte_in);
 	//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+    if(select_8_16){
+		for(int i = 0; i < 8; i++){
+			temp = hex_byte_in >> i;
+			temp = temp%2;
 
-    for(int i = 0; i < 8; i++){
-        temp = hex_byte_in >> i;
-        temp = temp%2;
+			//sprintf(uartData, " %d ",temp);
+			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-        //sprintf(uartData, " %d ",temp);
-		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			*(bin_byte_out+i) = temp;
+		}
+    }
+    else{
+		for(int i = 0; i < 16; i++){
+			temp = hex_byte_in >> i;
+			temp = temp%2;
 
-        *(bin_byte_out+i) = temp;
+			//sprintf(uartData, " %d ",temp);
+			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+			*(bin_byte_out+i) = temp;
+		}
     }
 
     //sprintf(uartData, "\n");
@@ -44,7 +56,7 @@ void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out){
 uint8_t conv_BIN_to_HEX(bool *bin_byte_in){
 	uint8_t acc = 0;
 	for(int i = 0; i < 8; i++){
-		acc += ( *(bin_byte_in+i) )? pow(2,8-i-1) : 0;
+		acc += ( *(bin_byte_in+i) )? pow(2,i) : 0;
 	}
 	return acc;
 }
@@ -67,7 +79,7 @@ void tx_rx() {
 
 	if (mode) {
 		receiving_KISS();
-		changeMode = true;
+//		changeMode = true;
 		//bitToAudio(&bitStream[0], 10,1);
 	} else {
 		for(int i = 0;i<10;i++){
@@ -106,11 +118,11 @@ void output_AX25(){
 
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1); //start flag
 
-	bitToAudio(local_packet->address, address_len,0); //lsb first
-	bitToAudio(local_packet->control,control_len,0);	//lsb first
-	bitToAudio(local_packet->PID,PID_len,0);			//lsb first
-	bitToAudio(local_packet->Info,local_packet->Info_Len,0);		//lsb first
-	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,1);			//msb first
+	bitToAudio(local_packet->address, address_len,1); //lsb first
+	bitToAudio(local_packet->control,control_len,1);	//lsb first
+	bitToAudio(local_packet->PID,PID_len,1);			//lsb first
+	bitToAudio(local_packet->Info,local_packet->Info_Len,1);		//lsb first
+	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0);			//msb first
 
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
 
@@ -179,6 +191,20 @@ void print_AX25(){
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
+
+//	curr_mem = (local_packet->FCS);
+//	for(int i = 0;i<(FCS_len/8)-1;i++){
+//		sprintf(uartData, "FCS Field %d     =",i+1)	;
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//
+//		for(int j = 0;j<8;j++){
+//			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
+//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		}
+//		curr_mem += 8;
+//		sprintf(uartData, "\n");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//	}
 }
 
 void transmitting_KISS(){
@@ -442,16 +468,14 @@ void set_packet_pointer_AX25(){
 	curr_mem += PID_len;
 	not_info += PID_len;
 
-	/*
-	local_packet->Info_Len = rxBit_count - not_info;
+	sprintf(uartData, "Setting pointer to Info\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	local_packet->Info = curr_mem;
-	reverse_array(local_packet->Info,local_packet->Info_Len);
 	curr_mem += local_packet->Info_Len;
 
-	return false; //discard
-
+	sprintf(uartData, "Setting pointer to PID\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	local_packet->FCS = curr_mem;
-	*/
 }
 
 void AX25_TO_KISS(){
@@ -518,24 +542,22 @@ bool receiving_KISS(){
 			//sprintf(uartData, "Byte[%d] = %d\n",i,hex_byte_val);
 			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr);
+			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr,true);
 
-			local_UART_packet->got_packet = false;
+//			local_UART_packet->got_packet = false;
 			local_packet->got_packet = true;
 		}
 		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
 		local_packet->Info_Len = (local_packet->byte_cnt-INFO_offset)*8;
 
 		//Convert KISS packet to AX.25 packet
-	    /* Disable interrupts for memory allocation for FCS field */
-	    //__disable_irq();
-
 		bool success = KISS_TO_AX25();
 		//Upon exit, have a perfectly good AX.25 packet
 
 		//Output AFSK waveform for radio
 		if(success) {
-			output_AX25();
+//			output_AX25();
+			print_AX25();
 		}
 		clear_AX25();
 		return success;
@@ -562,8 +584,7 @@ void set_packet_pointer_KISS(){
 	local_packet->Info = curr_mem;
 	curr_mem += local_packet->Info_Len;
 
-	//allocate memory for FCS field since it is not apart of KISS packet
-	local_packet->FCS = (bool *) malloc(FCS_len * bool_size);
+
 }
 
 bool KISS_TO_AX25(){
@@ -589,19 +610,18 @@ bool KISS_TO_AX25(){
 	memcpy(local_packet->PID,cpy_from_ptr,PID_len);
 	cpy_from_ptr += PID_len;
 
-	memcpy(local_packet->PID,cpy_from_ptr,local_packet->Info_Len);
+	memcpy(local_packet->Info,cpy_from_ptr,local_packet->Info_Len);
+
+	//USE CRC HERE TO GENERATE FCS FIELD
+	rxBit_count = (local_packet->byte_cnt*8) - 16;
+//	crc_generate();
+
+	//BIT STUFFING NEEDED
+//	bitstuffing(local_packet);
+	rxBit_count = 0;
 
 	//Print the ax25 packet
 	print_AX25();
-
-	//USE CRC HERE TO GENERATE FCS FIELD
-	rxBit_count = address_len + control_len + PID_len + local_packet->Info_Len; //for crc generate and bitstuffing
-	//crc_generate();
-
-	//BIT STUFFING NEEDED
-	bitstuffing(local_packet);
-	rxBit_count = 0;
-
 	return true; //valid packet
 }
 
@@ -684,7 +704,7 @@ void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
     	if(local_packet->check_crc == false){
 
     		//REMEBER TO CHECK THIS CRC conversion FOR ACCURACY LATER
-    		conv_HEX_to_BIN(local_packet->crc,&(local_packet->FCS));
+    		conv_HEX_to_BIN(local_packet->crc,&(local_packet->FCS),false);
     		local_packet->crc = 0xFFFF;
     	}
     }
@@ -702,27 +722,27 @@ void crc_generate(){
 
 	//have to be inserted in reverse order
 	//Calculate CRC for info
-	for(int i = local_packet->Info_Len-1; i >= 0;i--){
+	for(int i = 0; i < local_packet->Info_Len;i++){
 		//Call crc_calc per bit
 		crc_calc((int)local_packet->Info[i],crc_ptr,crc_count_ptr);
 	}
 
 	//Calculate CRC for PID (if packet is of type i-frame)
 //	if(local_packet->i_frame_packet){
-	for(int i = PID_len-1; i >= 0; i--){
+	for(int i = 0; i < PID_len; i++){
 		//Call crc_calc per bit
 		crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
 	}
 //	}
 
 	//Calculate CRC for control
-	for(int i = control_len-1; i >= 0;i--){
+	for(int i = 0; i > control_len; i++){
 		//Call crc_calc per bit
 		crc_calc((int)local_packet->control[i],crc_ptr,crc_count_ptr);
 	}
 
 		//Calculate CRC for address
-	for(int i = address_len-1; i >= 0;i--){
+	for(int i = 0; i < address_len; i++){
 		//Call crc_calc per bit
 		crc_calc((int)local_packet->address[i],crc_ptr,crc_count_ptr);
 	}
