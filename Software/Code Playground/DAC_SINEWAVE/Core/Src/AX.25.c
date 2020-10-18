@@ -85,6 +85,7 @@ void tx_rx() {
 		toggleMode();
 	}
 
+	//Transmission Mode
 	if (mode) {
 		bool packet_received = false;
 		bool packet_converted = false;
@@ -123,14 +124,15 @@ void tx_rx() {
 
 		changeMode = true;
 		//bitToAudio(&bitStream[0], 10,1);
-	} else {
-		for(int i = 0;i<10;i++){
-			sprintf(uartData, "Running streamGet() %d time\r\n",i);
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
 
-			streamGet();
+	//Receiving Mode
+	else {
+		bool change = receiving_AX25();
+		if(!change){
+			sprintf(uartData, "Changing mode due to request\n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		HAL_Delay(1000);
 	}
 }
 
@@ -250,16 +252,18 @@ void print_AX25(){
 	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 }
+void clear_AX25(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+	sprintf(uartData, "Clearing AX.25 packet info\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-void transmitting_KISS(){
-	//do stuff to send kiss... LOOKING AT YOU KALEB
-	// IT IS HERE
-
-	struct UART_INPUT* local_UART_packet = &global_packet;
-
-	HAL_UART_Transmit(&huart2, local_UART_packet->HEX_KISS_PACKET, KISS_SIZE, 10);
+	memcpy(local_packet->AX25_PACKET,0,AX25_PACKET_MAX);
+	local_packet->got_packet = false;
 }
 
+void output_KISS() {
+	//HAL_UART_Transmit(&huart2, local_UART_packet->HEX_KISS_PACKET, KISS_SIZE, 10);
+}
 void print_KISS(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int bytecnt = local_packet->byte_cnt;
@@ -344,8 +348,8 @@ void print_KISS(){
 	}
 	sprintf(uartData, "\n\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
 }
+
 //UART Handling data flow
 //****************************************************************************************************************
 void UART2_EXCEPTION_CALLBACK(){
@@ -377,7 +381,7 @@ void UART2_EXCEPTION_CALLBACK(){
 
 //AX.25 to KISS data flow
 //****************************************************************************************************************
-void receiving_AX25(){
+bool receiving_AX25(){
 	sprintf(uartData, "\nreceiving_AX25() start\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	struct PACKET_STRUCT* local_packet = &global_packet;
@@ -387,29 +391,22 @@ void receiving_AX25(){
 
 	//Valid packet received
 	if(packet_status == 1){
-		sprintf(uartData, "Removing bit stuffed zeros\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
 		//Remove the bit stuffed zeros from received packet and reset packet type
-		remove_bit_stuffing();
+		//remove_bit_stuffing();
 		local_packet->i_frame_packet = false;
 
 		//Validate packet
 		bool AX25_IsValid = AX25_Packet_Validate();
 
-		sprintf(uartData, "AX.25 frame valid check returned: %d\n",AX25_IsValid);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		sprintf(uartData, "AX.25 frame valid check returned: %d\n",AX25_IsValid);
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		if(AX25_IsValid){
 			//Put data into KISS format and buffer
 			AX25_TO_KISS();
-			sprintf(uartData, "AX.25 frame was converted to KISS frame\n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 			//Transmit KISS Packet that has been generated
-			transmitting_KISS();
-			sprintf(uartData, "KISS packeted sent via UART\n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			//output_KISS();
 
 			//Clear AX.25 buffer
 			memset(local_packet->AX25_PACKET,0,AX25_PACKET_MAX);
@@ -427,7 +424,8 @@ void receiving_AX25(){
 	else if(packet_status == -1){
 		sprintf(uartData, "Need to change mode\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		toggleMode();
+
+		return false;
 	}
 	//Weird case of unknown return code toggles mode
 	else{
@@ -443,6 +441,8 @@ void slide_bits(bool* array,int bits_left){
 
 void remove_bit_stuffing(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
+//	sprintf(uartData, "Removing bit stuffed zeros\n");
+//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	int one_count = 0;
 	bool curr;
@@ -480,7 +480,8 @@ bool AX25_Packet_Validate(){
 	else{
 		//Set packet pointers for AX25 to KISS operation
 		set_packet_pointer_AX25();
-		return crc_check();
+		//return crc_check();
+		return true;
 	}
 
 //	return true; //valid packet
@@ -525,42 +526,42 @@ void set_packet_pointer_AX25(){
 void AX25_TO_KISS(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
-	bool *curr_mem = &local_packet->KISS_PACKET;
+	set_packet_pointer_AX25();
+	print_AX25();
 
-	/*
-	 * 	NEED TO SET global_packet PACKET POINTERS IN HERE AS WELL
-	 * 	DAVID WAS FEELING LAZY AND DID NOT DO IT
-	 */
+	bool* cpy_from_ptr = (local_packet->AX25_PACKET+8);
 
-	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
-	curr_mem += FLAG_SIZE;
-	memcpy(curr_mem,local_packet->address,address_len*bool_size);
-	curr_mem += address_len;
-	memcpy(curr_mem,local_packet->control,control_len*bool_size);
-	curr_mem += control_len;
+	set_packet_pointer_KISS();
 
-	if(local_packet->control[0] == 0){ //information type packet only
-		memcpy(curr_mem,local_packet->PID,PID_len*bool_size);
-		curr_mem += PID_len;
-	}
+	memcpy(local_packet->AX25_PACKET,KISS_FLAG,FLAG_SIZE);
 
-	memcpy(curr_mem,local_packet->Info,local_packet->Info_Len*bool_size);
-	curr_mem += local_packet->Info_Len;
-	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
+	memcpy(local_packet->address,cpy_from_ptr,address_len);
+	cpy_from_ptr += address_len;
 
-	KISS_TO_HEX();
+	memcpy(local_packet->control,cpy_from_ptr,control_len);
+	cpy_from_ptr += control_len;
 
+	memcpy(local_packet->PID,cpy_from_ptr,PID_len);
+	cpy_from_ptr += PID_len;
 
+	memcpy(local_packet->Info,cpy_from_ptr,local_packet->Info_Len);
+
+	memcpy(local_packet->Info+local_packet->Info_Len,KISS_FLAG,FLAG_SIZE);
+
+	//KISS_TO_HEX();
+
+	//USE CRC HERE TO GENERATE FCS FIELD
+//	rxBit_count = (local_packet->byte_cnt*8) - 24;
+//	crc_generate();
+
+	//BIT STUFFING NEEDED
+//	bitstuffing(local_packet);
+	rxBit_count = 0;
+
+	//Print the ax25 packet
+	print_KISS();
+	return true; //valid packet
 }
-void clear_AX25(){
-	struct PACKET_STRUCT* local_packet = &global_packet;
-	sprintf(uartData, "Clearing AX.25 packet info\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-	memcpy(local_packet->AX25_PACKET,0,AX25_PACKET_MAX);
-	local_packet->got_packet = false;
-}
-
 //****************************************************************************************************************
 //END OF AX.25 to KISS data flow
 
