@@ -20,14 +20,15 @@ char uartData[3000];
 
 //General Program
 //****************************************************************************************************************
-bool mode = false;
+bool mode;
 bool midbit = false;
 bool changeMode = false;
 
-void initProgram() {
+void initProgram(bool modeStart) {
 	initOUTData();
 
 	//Set hardware properly
+	mode = modeStart;
 	toggleMode();
 	toggleMode();
 
@@ -38,6 +39,8 @@ void initProgram() {
 		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
 		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
 	}
+
+	init_AX25();
 }
 
 
@@ -169,7 +172,7 @@ void bitToAudio(bool *bitStream, int arraySize, bool direction) {
 }
 void generateBitstream() {
 	bitStream[0] = 1;
-	bitStream[1] = 0;
+	bitStream[1] = 1;
 	bitStream[2] = 1;
 	bitStream[3] = 0;
 	bitStream[4] = 0;
@@ -177,11 +180,11 @@ void generateBitstream() {
 	bitStream[6] = 1;
 	bitStream[7] = 0;
 	bitStream[8] = 1;
-	bitStream[9] = 1;
+	bitStream[9] = 0;
 
 }
 void initOUTData() {
-	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2, +0.90);
+	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2, +0.995);
 	edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2, +0.99);
 	generateBitstream();
 }
@@ -197,6 +200,10 @@ uint16_t bitSaveCount = 0;
 
 int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / inputPeriod;
+
+	//sprintf(uartData, "Recieved frequency = %d\r\n",freq);
+	//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 	//return freq;
 	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV))
 		return 1;
@@ -270,6 +277,7 @@ int loadOctet(bool* bufferptr) {
 
 		for(int i = 0;i<8;i++){
 			bufferptr[7-i] = (myPtr[7-i]==1)?true:false;
+			rxBit_count++;
 			sprintf(uartData, " %d ",bufferptr[7-i]);
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
@@ -279,21 +287,24 @@ int loadOctet(bool* bufferptr) {
 	return isFlag;
 }
 int streamGet() {
+	struct PACKET_STRUCT* local_packet = &global_packet;
+
 	int byteArray[8];
-	int max_octets = AX25_PACKET_MAX/8;
+	int max_octets = (int)(AX25_PACKET_MAX)/8;
 	int octet_count,good_octet;
 	bool gotflag;
 
 	//Just do this unless we need to toggle
 	while(!changeMode){
 		gotflag = false;
-		buffer_rdy = false;
 
 		//Slide bits
 		for(int i = 0; i < 7; i++){
 			byteArray[i] = byteArray[i+1];
 		}
 		byteArray[7] = loadBit();
+		//sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
+		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		//Detect AX25 flag bytes
 		for(int i = 0;i < 8; i++){
@@ -310,7 +321,6 @@ int streamGet() {
 
 		//Got flag
 		if(gotflag){
-			AX25_flag = true;
 			sprintf(uartData, "Start AX.25 Flag Detected\r\n");
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 			octet_count  = 0;
@@ -318,8 +328,8 @@ int streamGet() {
 			//Until AX.25 buffer overflows, continue reading octets
 			good_octet = 0;
 			while( (good_octet==0) && (octet_count < max_octets) ){
-				good_octet = loadOctet(&AX25_temp_buffer[octet_count*8]);
-				//sprintf(uartData, "Loaded octet %d\r\n",octet_count);
+				good_octet = loadOctet(&local_packet->AX25_PACKET[octet_count*8]);
+				//sprintf(uartData, "Loaded octet %d out of %d\r\n",octet_count,max_octets);
 				//sprintf(uartData, "good_octet: %d\r\n",good_octet);
 				//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
@@ -343,13 +353,11 @@ int streamGet() {
 				sprintf(uartData, "Stop AX.25 Flag Detected\r\n\n");
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-				buffer_rdy = true;
 				return 1;
 			}
 		}
 		//Didn't get flag
 		else {
-			AX25_flag = false;
 			//sprintf(uartData, "Flag not detected\r\n");
 			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
