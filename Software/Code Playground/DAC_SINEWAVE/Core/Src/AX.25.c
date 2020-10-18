@@ -622,7 +622,7 @@ bool KISS_TO_AX25(){
 	memcpy(local_packet->Info,cpy_from_ptr,local_packet->Info_Len);
 
 	//USE CRC HERE TO GENERATE FCS FIELD
-	rxBit_count = (local_packet->byte_cnt*8) - 24;
+	rxBit_count = address_len + control_len + PID_len + local_packet->Info_Len;
 	crc_generate();
 
 	//BIT STUFFING NEEDED
@@ -708,10 +708,11 @@ void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
 	*crc_count_ptr_in+=1;//Increment count
 
     //End condition
+//	if(*crc_count_ptr_in >= rxBit_count){
 	if(*crc_count_ptr_in >= rxBit_count){
     	*crc_ptr_in ^= 0xFFFF;//Complete CRC by XOR with all ones (one's complement)
     	if(local_packet->check_crc == false){
-    	    sprintf(uartData, "Convert CRC to FCS\n");
+    	    sprintf(uartData, "Convert CRC to FCS = %x\n",local_packet->crc);
     	    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
     		//REMEBER TO CHECK THIS CRC conversion FOR ACCURACY LATER
@@ -734,31 +735,35 @@ void crc_generate(){
 	//have to be inserted in reverse order
 	sprintf(uartData, "Performing CRC generation\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	//Calculate CRC for info
-	for(int i = 0; i < local_packet->Info_Len;i++){
-		//Call crc_calc per bit
-		crc_calc((int)((local_packet->Info)[i]),crc_ptr,crc_count_ptr);
-	}
-
-	//Calculate CRC for PID (if packet is of type i-frame)
-//	if(local_packet->i_frame_packet){
-	for(int i = 0; i < PID_len; i++){
-		//Call crc_calc per bit
-		crc_calc((int)((local_packet->PID)[i]),crc_ptr,crc_count_ptr);
-	}
-//	}
+	//Calculate CRC for address
+		for(int i = 0; i < address_len;i = i+8){
+			//Call crc_calc per byte
+			for(int j = 0; j < 8; j++){
+				crc_calc((int)local_packet->address[address_len-1-i-(7-j)],crc_ptr,crc_count_ptr);
+			}
+		}
 
 	//Calculate CRC for control
-	for(int i = 0; i > control_len; i++){
+	for(int i = 0; i < control_len; i++){
 		//Call crc_calc per bit
-		crc_calc((int)((local_packet->control)[i]),crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->control[i],crc_ptr,crc_count_ptr);
+	}
+//	//Calculate CRC for PID (if packet is of type i-frame)
+////	if(local_packet->i_frame_packet){
+	for(int i = 0; i < PID_len; i++){
+		//Call crc_calc per bit
+		crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
+	}
+//	}
+	//Calculate CRC for info
+	for(int i = 0; i < local_packet->Info_Len;i = i + 8){
+		//Call crc_calc per byte
+		for(int j = 0; j < 8; j++){
+			crc_calc((int)local_packet->Info[(local_packet->Info_Len)-1-i-(7-j)],crc_ptr,crc_count_ptr);
+		}
 	}
 
-		//Calculate CRC for address
-	for(int i = 0; i < address_len; i++){
-		//Call crc_calc per bit
-		crc_calc((int)((local_packet->address)[i]),crc_ptr,crc_count_ptr);
-	}
+
 	sprintf(uartData, "rx_bitcnt = %d\n", rxBit_count);
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
