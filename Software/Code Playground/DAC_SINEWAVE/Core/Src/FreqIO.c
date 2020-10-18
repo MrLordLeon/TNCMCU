@@ -201,8 +201,8 @@ uint16_t bitSaveCount = 0;
 int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / inputPeriod;
 
-	//sprintf(uartData, "Recieved frequency = %d\r\n",freq);
-	//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//	sprintf(uartData, "Recieved frequency = %d\r\n",freq);
+//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//return freq;
 	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV))
@@ -272,17 +272,17 @@ int loadOctet(bool* bufferptr) {
     }
 	//If this is not a flag, copy the values into the buffer pointer
 	if(!isFlag){
-		sprintf(uartData, "Printing octet = ");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		sprintf(uartData, "Printing octet = ");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int i = 0;i<8;i++){
 			bufferptr[7-i] = (myPtr[7-i]==1)?true:false;
 			rxBit_count++;
-			sprintf(uartData, " %d ",bufferptr[7-i]);
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//			sprintf(uartData, " %d ",bufferptr[7-i]);
+//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		sprintf(uartData, "\r\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		sprintf(uartData, "\r\n");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	return isFlag;
 }
@@ -306,8 +306,13 @@ int streamGet() {
 		//sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
 		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
+//		sprintf(uartData, "Current octet:");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		//Detect AX25 flag bytes
 		for(int i = 0;i < 8; i++){
+//			sprintf(uartData, " %d ",byteArray[i]);
+//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 			//If the byte isn't lined up, break loop
 			if(byteArray[i]!=AX25TBYTE[i]) {
 				gotflag = false;
@@ -318,6 +323,9 @@ int streamGet() {
 				gotflag = true;
 			}
 		}
+//		sprintf(uartData, "\n");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 
 		//Got flag
 		if(gotflag){

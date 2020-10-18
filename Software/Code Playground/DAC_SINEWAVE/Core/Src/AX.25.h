@@ -128,9 +128,9 @@ void output_AX25();
 void print_AX25();
 void clear_AX25();
 
-void transmitting_KISS();
 void output_KISS();
 void print_KISS();
+void clear_KISS();
 
 //UART Handling data flow
 //****************************************************************************************************************
@@ -142,7 +142,7 @@ void UART2_EXCEPTION_CALLBACK();
 //AX.25 to KISS data flow
 //****************************************************************************************************************
 
-void receiving_AX25();
+bool receiving_AX25();
 void slide_bits(bool* array,int bits_left); //discards bit stuffed 0 and slide remaining bits over bits over
 void remove_bit_stuffing(); //remove bit stuffing zeros after every 5 consecutive 1's
 
