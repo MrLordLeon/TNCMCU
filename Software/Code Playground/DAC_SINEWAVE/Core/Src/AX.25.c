@@ -66,8 +66,8 @@ void tx_rx() {
 	}
 
 	if (mode) {
-
 		receiving_KISS();
+		changeMode = true;
 		//bitToAudio(&bitStream[0], 10,1);
 	} else {
 		for(int i = 0;i<10;i++){
@@ -109,7 +109,7 @@ void output_AX25(){
 	bitToAudio(local_packet->address, address_len,0); //lsb first
 	bitToAudio(local_packet->control,control_len,0);	//lsb first
 	bitToAudio(local_packet->PID,PID_len,0);			//lsb first
-	bitToAudio(local_packet->Info,local_packet->Info_Len + local_packet->stuffed_notFCS,0);		//lsb first
+	bitToAudio(local_packet->Info,local_packet->Info_Len,0);		//lsb first
 	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,1);			//msb first
 
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
@@ -124,18 +124,6 @@ void print_AX25(){
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
 	sprintf(uartData, "\nPrinting AX25_PACKET... All fields printed [MSB:LSB]\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-	//Print Start Flag
-	curr_mem = (local_packet->AX25_PACKET);//Subtract 16 to start at the flag start
-	sprintf(uartData, "Start flag      =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	}
-	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Address Field
@@ -191,19 +179,6 @@ void print_AX25(){
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
-
-	//Print Stop Flag
-	curr_mem = (local_packet->KISS_PACKET+(8*(local_packet->byte_cnt-1)));
-	sprintf(uartData, "Stop flag       =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	}
-	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
 }
 
 void transmitting_KISS(){
@@ -315,10 +290,14 @@ void UART2_EXCEPTION_CALLBACK(){
 	  UART_packet.rx_cnt++;
 
 	  if(UART_packet.flags>=2){
+		  if(!mode){
+			  changeMode = true;
+		  }
 		  UART_packet.flags = 0;
 		  UART_packet.got_packet = true;
 		  UART_packet.received_byte_cnt = UART_packet.rx_cnt;
 		  UART_packet.rx_cnt=0;
+
 	  }
 }
 
@@ -437,52 +416,42 @@ bool AX25_Packet_Validate(){
 //	return true; //valid packet
 }
 
-void reverse_array(bool *array,int size){
-	bool temp[size];
-	for(int i = 0;i < size; i++){
-		temp[size-1-i] = array[i];
-	}
-	for(int i = 0; i <size; i++){
-		array[i] = temp[i];
-	}
-}
-
 void set_packet_pointer_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
-	sprintf(uartData, "Setting packet pointer to AX25\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	int not_info = FCS_len;
 
-	bool *curr_mem = &local_packet->AX25_PACKET; //keep track of what address to copy from
-	//this is assuming that the packet has all the subfields full
-	int not_info = FCS_len; //number of bits in packet that aren't part of info field
+	sprintf(uartData, "Setting pointer to AX25\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	bool *curr_mem = &local_packet->AX25_PACKET;
+
+	sprintf(uartData, "Setting pointer to address\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	local_packet->address = curr_mem;
-	reverse_array(local_packet->address,address_len);
-	if(!compare_address(local_packet->address)){
-		return false; //discard
-	}
 	curr_mem += address_len;
 	not_info += address_len;
 
+	sprintf(uartData, "Setting pointer to control\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	local_packet->control = curr_mem;
-	reverse_array(local_packet->control,control_len);
 	curr_mem += control_len;
 	not_info += control_len;
 
-	if(local_packet->control[0] == 0){ // 0 == I frame, 01 == S frame, 11 == U Frame
-		local_packet->i_frame_packet = true;//Signal flag is of type i-frame
-		local_packet->PID = curr_mem;
-		reverse_array(local_packet->PID,PID_len);
-		curr_mem += PID_len;
-		not_info += PID_len;
-	}
+	sprintf(uartData, "Setting pointer to PID\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	local_packet->PID = curr_mem;
+	curr_mem += PID_len;
+	not_info += PID_len;
 
-
+	/*
 	local_packet->Info_Len = rxBit_count - not_info;
 	local_packet->Info = curr_mem;
 	reverse_array(local_packet->Info,local_packet->Info_Len);
 	curr_mem += local_packet->Info_Len;
 
+	return false; //discard
+
 	local_packet->FCS = curr_mem;
+	*/
 }
 
 void AX25_TO_KISS(){
@@ -551,7 +520,7 @@ bool receiving_KISS(){
 
 			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr);
 
-			//local_UART_packet->got_packet = false;
+			local_UART_packet->got_packet = false;
 			local_packet->got_packet = true;
 		}
 		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
@@ -567,14 +536,9 @@ bool receiving_KISS(){
 		//Output AFSK waveform for radio
 		if(success) {
 			output_AX25();
-			clear_AX25();
-			return true;
-		} else {
-			clear_AX25();
-			return false;
 		}
-		/* Enable interrupts */
-	    //__enable_irq();
+		clear_AX25();
+		return success;
 	}
 	return false;
 }
@@ -605,21 +569,28 @@ void set_packet_pointer_KISS(){
 bool KISS_TO_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
-	//Update packet pointers to point to KISS members
-	set_packet_pointer_KISS();
-	//Print the kiss packet
-	print_KISS();//Verify packet look correct
+	sprintf(uartData, "Before KISS -> AX.25 conversion\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-	/*Skipping this for now
-	if(!compare_address(local_packet->address)){
-		sprintf(uartData, "Address is not ours!!\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		return false; //discard
-	}
-	*/
+	set_packet_pointer_KISS();
+	print_KISS();
+
+	bool* cpy_from_ptr = (local_packet->KISS_PACKET+16);//starting kiss packet skipping 2 bytes
 
 	//Update packet pointers to AX25 members
 	set_packet_pointer_AX25();
+
+	memcpy(local_packet->address,cpy_from_ptr,address_len);
+	cpy_from_ptr += address_len;
+
+	memcpy(local_packet->control,cpy_from_ptr,control_len);
+	cpy_from_ptr += control_len;
+
+	memcpy(local_packet->PID,cpy_from_ptr,PID_len);
+	cpy_from_ptr += PID_len;
+
+	memcpy(local_packet->PID,cpy_from_ptr,local_packet->Info_Len);
+
 	//Print the ax25 packet
 	print_AX25();
 

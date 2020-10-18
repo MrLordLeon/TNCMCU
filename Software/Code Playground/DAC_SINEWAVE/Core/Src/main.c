@@ -115,7 +115,7 @@ int main(void)
 
 	uart_gpio_init();
 
-	initProgram(true);
+	initProgram(false);
   /* USER CODE END 2 */
 
   /* Infinite loop */
