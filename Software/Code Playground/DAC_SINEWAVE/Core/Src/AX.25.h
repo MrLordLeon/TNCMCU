@@ -71,6 +71,7 @@ struct PACKET_STRUCT {
 	bool *FCS;				//Pointer to fcs field in global buffer
 	bool i_frame_packet;	//Flag to signal if packet is of type i-frames
 
+	bool got_packet;
 	int byte_cnt;
 
 	int stuffed_notFCS;		//count for how many bit stuffed zeros were added to AX25 packet, excluding the FCS field
@@ -83,7 +84,21 @@ struct PACKET_STRUCT {
 }global_packet;
 
 //Conversion Functions
+/*
+ * 	Converts hex to bin
+ * 		hex_byte_in 	- input hex value
+ * 		bin_byte_out 	- output binary pointer to write to. Should point to
+ */
 void conv_HEX_to_BIN(uint8_t hex_byte_in, bool *bin_byte_out);
+/*
+ * 	Converts bin to hex
+ * 		bin_byte_in		- input binary pointer to a byte
+ *
+ * 		returns the byte in decimal HEX value
+ * 		00 = 0
+ * 		C0 = 192
+ * 		FF = 255
+ */
 uint8_t conv_BIN_to_HEX(bool *bin_byte_in);
 
 //General Program
@@ -109,9 +124,9 @@ void generate_address();
  */
 bool compare_address();
 
-void transmitting_AX25();
 void output_AX25();
 void print_AX25();
+void clear_AX25();
 
 void transmitting_KISS();
 void output_KISS();
@@ -153,7 +168,7 @@ void AX25_TO_KISS();
 
 bool receiving_KISS();
 void set_packet_pointer_KISS();
-void KISS_TO_AX25();
+bool KISS_TO_AX25();
 
 /*
  *	Helper function for shifting bits up when a bit stuffed zero is added
