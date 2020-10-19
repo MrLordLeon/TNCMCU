@@ -122,7 +122,7 @@ void tx_rx() {
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
 
-		changeMode = true;
+		//changeMode = true;
 		//bitToAudio(&bitStream[0], 10,1);
 	}
 
@@ -159,6 +159,7 @@ void output_AX25(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
+	freqSelect = false;
 
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1); //start flag
 
@@ -180,6 +181,16 @@ void print_AX25(){
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
 	sprintf(uartData, "\nPrinting AX25_PACKET... All fields printed [MSB:LSB]\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	sprintf(uartData, "AX.25 Flag      =");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem = AX25TBYTE;
+	for(int i = 0;i<8;i++){
+		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Address Field
@@ -235,6 +246,16 @@ void print_AX25(){
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
+
+	sprintf(uartData, "AX.25 Flag      =");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem = AX25TBYTE;
+	for(int i = 0;i<8;i++){
+		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 //	curr_mem = (local_packet->FCS);
 //	for(int i = 0;i<(FCS_len/8);i++){
@@ -588,7 +609,7 @@ bool receiving_KISS(){
 
 			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr,true);
 
-			local_UART_packet->got_packet = false;
+			//local_UART_packet->got_packet = false;
 			local_packet->got_packet = true;
 		}
 		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
