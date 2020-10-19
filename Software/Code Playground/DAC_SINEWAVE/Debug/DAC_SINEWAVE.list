@@ -37,13 +37,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  16 .debug_macro  00022e83  00000000  00000000  00035508  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0000baf1  00000000  00000000  0005838b  2**0
+ 17 .debug_line   0000baed  00000000  00000000  0005838b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    000d266a  00000000  00000000  00063e7c  2**0
+ 18 .debug_str    000d266a  00000000  00000000  00063e78  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  001364e6  2**0
+ 19 .comment      0000007b  00000000  00000000  001364e2  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000446c  00000000  00000000  00136564  2**2
+ 20 .debug_frame  0000446c  00000000  00000000  00136560  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -3564,6 +3564,8 @@ void crc_generate(){
  8001fba:	495c      	ldr	r1, [pc, #368]	; (800212c <crc_generate+0x1cc>)
  8001fbc:	485d      	ldr	r0, [pc, #372]	; (8002134 <crc_generate+0x1d4>)
  8001fbe:	f003 faee 	bl	800559e <HAL_UART_Transmit>
+
+	//Calculate CRC for address
 	curr_mem = (local_packet->address);
  8001fc2:	68bb      	ldr	r3, [r7, #8]
  8001fc4:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
@@ -3606,9 +3608,7 @@ void crc_generate(){
  8002004:	6a3b      	ldr	r3, [r7, #32]
  8002006:	2b0d      	cmp	r3, #13
  8002008:	dde4      	ble.n	8001fd4 <crc_generate+0x74>
-//            crc_calc((int)local_packet->address[i+j],crc_ptr,crc_count_ptr);
-//        }
-//	}
+	}
 
 	//Calculate CRC for control
 	curr_mem = local_packet->control;
@@ -3676,6 +3676,7 @@ void crc_generate(){
  8002078:	ddec      	ble.n	8002054 <crc_generate+0xf4>
 	}
 
+	//Calculate CRC for Info field
 	curr_mem = (local_packet->Info);
  800207a:	68bb      	ldr	r3, [r7, #8]
  800207c:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
@@ -3726,10 +3727,7 @@ void crc_generate(){
  80020ce:	693a      	ldr	r2, [r7, #16]
  80020d0:	429a      	cmp	r2, r3
  80020d2:	dbdb      	blt.n	800208c <crc_generate+0x12c>
-//            crc_calc((int)local_packet->Info[i+j],crc_ptr,crc_count_ptr);
-//        }
-//    }
-
+	}
 
 	sprintf(uartData, "rx_bitcnt = %d\n", rxBit_count);
  80020d4:	4b18      	ldr	r3, [pc, #96]	; (8002138 <crc_generate+0x1d8>)

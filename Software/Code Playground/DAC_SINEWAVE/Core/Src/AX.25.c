@@ -736,6 +736,8 @@ void crc_generate(){
 	//have to be inserted in reverse order
 	sprintf(uartData, "Performing CRC generation\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//Calculate CRC for address
 	curr_mem = (local_packet->address);
 	for(int i = 0;i<(int)(address_len/8);i++){
 		for(int j = 0;j<8;j++){
@@ -743,12 +745,6 @@ void crc_generate(){
 		}
 		curr_mem += 8;
 	}
-//	//Calculate CRC for address
-//	for(int i = address_len-8; i >= 0; i = i -8){
-//        for(int j = 0; j < 8; j++){
-//            crc_calc((int)local_packet->address[i+j],crc_ptr,crc_count_ptr);
-//        }
-//	}
 
 	//Calculate CRC for control
 	curr_mem = local_packet->control;
@@ -764,6 +760,7 @@ void crc_generate(){
 		crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
 	}
 
+	//Calculate CRC for Info field
 	curr_mem = (local_packet->Info);
 	for(int i = 0;i<(int)(local_packet->Info_Len/8)-1;i++){
 		for(int j = 0;j<8;j++){
@@ -771,14 +768,6 @@ void crc_generate(){
 		}
 		curr_mem += 8;
 	}
-
-//	//Calculate CRC for info
-//    for(int i = local_packet->Info_Len - 8; i >= 0; i = i - 8){
-//        for(int j = 0; j < 8; j++){
-//            crc_calc((int)local_packet->Info[i+j],crc_ptr,crc_count_ptr);
-//        }
-//    }
-
 
 	sprintf(uartData, "rx_bitcnt = %d\n", rxBit_count);
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
