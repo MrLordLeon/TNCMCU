@@ -539,14 +539,14 @@ bool receiving_KISS(){
 	if(local_UART_packet->got_packet){
 		sprintf(uartData, "\nGot a packet via UART of size %d, printing now...\n",local_UART_packet->received_byte_cnt);
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-		for(int i = 0;i<local_UART_packet->received_byte_cnt;i++){
+		int byte_cnt = local_UART_packet->received_byte_cnt;
+		for(int i = 0;i < byte_cnt;i++){
 			//Hex value from UART
 			uint8_t hex_byte_val=local_UART_packet->HEX_KISS_PACKET[i];
 
 			//Bool pointer for KISS array
-			bool *bin_byte_ptr = &local_packet->KISS_PACKET[i*8];
-
+			bool *bin_byte_ptr = &local_packet->KISS_PACKET[((byte_cnt-1)*8)-(8*i)];
+			<<Kobe finish it
 			//sprintf(uartData, "Byte[%d] = %d\n",i,hex_byte_val);
 			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
@@ -604,20 +604,21 @@ bool KISS_TO_AX25(){
 	set_packet_pointer_KISS();
 	print_KISS();
 
-	bool* cpy_from_ptr = (local_packet->KISS_PACKET+16);//starting kiss packet skipping 2 bytes
-
+	bool* cpy_from_ptr = (local_packet->KISS_PACKET+local_packet->byte_cnt*8 - 16);//starting kiss packet skipping 2 bytes
+	<<Kobe finish it
 	//Update packet pointers to AX25 members
 	set_packet_pointer_AX25();
 
+	cpy_from_ptr -= address_len;
 	memcpy(local_packet->address,cpy_from_ptr,address_len);
-	cpy_from_ptr += address_len;
 
+	cpy_from_ptr -= control_len;
 	memcpy(local_packet->control,cpy_from_ptr,control_len);
-	cpy_from_ptr += control_len;
 
+	cpy_from_ptr -= PID_len;
 	memcpy(local_packet->PID,cpy_from_ptr,PID_len);
-	cpy_from_ptr += PID_len;
 
+	cpy_from_ptr -= local_packet->Info_Len;
 	memcpy(local_packet->Info,cpy_from_ptr,local_packet->Info_Len);
 
 	//USE CRC HERE TO GENERATE FCS FIELD
