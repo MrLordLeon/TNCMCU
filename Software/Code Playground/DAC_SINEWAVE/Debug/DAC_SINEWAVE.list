@@ -2924,9 +2924,9 @@ void set_packet_pointer_AX25(){
  8001b6c:	08007fcc 	.word	0x08007fcc
 
 08001b70 <clear_AX25>:
+	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 
 	KISS_TO_HEX();
-
 
 }
 void clear_AX25(){

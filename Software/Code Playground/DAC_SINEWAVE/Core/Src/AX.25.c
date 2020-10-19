@@ -516,7 +516,6 @@ void AX25_TO_KISS(){
 
 	KISS_TO_HEX();
 
-
 }
 void clear_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
