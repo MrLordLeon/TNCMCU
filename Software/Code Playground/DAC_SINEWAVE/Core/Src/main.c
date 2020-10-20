@@ -118,7 +118,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		//HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, wave, FREQ_SAMP, DAC_ALIGN_12B_R);
 		tx_rx();
 	}
   /* USER CODE END 3 */

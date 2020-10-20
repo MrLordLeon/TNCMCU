@@ -58,22 +58,20 @@ void FreqCounterPinEXTI();
 #define OUT_AMPL			100
 //#define OUT_AMPL			505			//Amplitude of outpute wave. 4096 -> 1.65V Peak
 //#define OUT_AMPL			4096
-#define LOWF_SAMP 			83 			//This is the sample count for the low frequency , as configured maps to 1200Hz
-#define HIGHF_SAMP			45			//This is the sample count for the high frequency, as configured maps to 2200Hz
+#define LOWF 				1200 		//This is the sample count for the low frequency , as configured maps to 1200Hz
+#define HIGHF				2200		//This is the sample count for the high frequency, as configured maps to 2200Hz
 #define FREQ_SAMP			300
-extern uint32_t wave[FREQ_SAMP];
+extern uint32_t wave[2*FREQ_SAMP];
 
 extern bool bitStream[10];
 
-extern uint32_t lowFrequency[2*LOWF_SAMP];		//LUT used to store 2 wavelengths of data for lower frequency
-extern uint32_t highFrequency[2*HIGHF_SAMP];	//LUT used to store 2 wavelengths of data for higher frequency
-
 extern bool 	midbit;
 extern bool		changeMode;
-extern int		wave_position;
+extern bool		freqSelect;						//Tracks lasts state of output freq for NRZI encoding
+
 
 void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPercent);
-void bitToAudio(bool *bitStream, int arraySize,bool direction);
+int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start);
 void generateBitstream();
 void initOUTData();
 
@@ -98,8 +96,6 @@ extern uint8_t	sampusecount;					//Used to determine old data
 extern uint16_t periodSaveCount;				//Used to keep track of index to save period
 extern uint16_t trackBit;						//Used to keep track of bits being loaded into bit buffer
 extern uint16_t bitSaveCount;					//Used to keep track of bit saved to bit buffer
-extern bool		freqSelect;						//Tracks lasts state of output freq for NRZI encoding
-
 /*
  *	Function to convert freq to bitstream:
  *		returns 1 if detect higher freq within threshold

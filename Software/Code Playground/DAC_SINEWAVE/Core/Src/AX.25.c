@@ -122,7 +122,7 @@ void tx_rx() {
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
 
-		//changeMode = true;
+		changeMode = true;
 		//bitToAudio(&bitStream[0], 10,1);
 	}
 
@@ -158,18 +158,21 @@ void output_AX25(){
 	sprintf(uartData, "Beginning AFSK transmission\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
+	int wave_start = 0;
+	//Init dac playing some frequency, shouldn't be read by radio
+	wave_start = bitToAudio(local_packet->control, control_len,1,wave_start);
+
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
 	freqSelect = false;
+	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
 
-	bitToAudio(AX25TBYTE, FLAG_SIZE,1); //start flag
+	wave_start = bitToAudio(local_packet->address, address_len,1,wave_start); //lsb first
+	wave_start = bitToAudio(local_packet->control,control_len,1,wave_start);	//lsb first
+	wave_start = bitToAudio(local_packet->PID,PID_len,1,wave_start);			//lsb first
+	wave_start = bitToAudio(local_packet->Info,local_packet->Info_Len,1,wave_start);		//lsb first
+	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0,wave_start);			//msb first
 
-	bitToAudio(local_packet->address, address_len,1); //lsb first
-	bitToAudio(local_packet->control,control_len,1);	//lsb first
-	bitToAudio(local_packet->PID,PID_len,1);			//lsb first
-	bitToAudio(local_packet->Info,local_packet->Info_Len,1);		//lsb first
-	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0);			//msb first
-
-	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
+	bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start);//stop flag
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_RESET); //stop transmitting
 
@@ -609,7 +612,7 @@ bool receiving_KISS(){
 
 			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr,true);
 
-			//local_UART_packet->got_packet = false;
+			local_UART_packet->got_packet = false;
 			local_packet->got_packet = true;
 		}
 		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
