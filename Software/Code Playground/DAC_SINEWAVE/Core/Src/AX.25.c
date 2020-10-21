@@ -500,8 +500,13 @@ void AX25_TO_KISS(){
 
 	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 	curr_mem += FLAG_SIZE;
-	memcpy(curr_mem,local_packet->address,address_len*bool_size);
-	curr_mem += address_len;
+
+	//copy in each byte MSB to LSB
+	for(int i = 0; i < address_len/8; i++){
+		memcpy(curr_mem,(local_packet->address + address_len - 8 - i*8),8*bool_size);
+		curr_mem += 8;
+	}
+
 	memcpy(curr_mem,local_packet->control,control_len*bool_size);
 	curr_mem += control_len;
 
@@ -510,8 +515,12 @@ void AX25_TO_KISS(){
 		curr_mem += PID_len;
 	}
 
-	memcpy(curr_mem,local_packet->Info,local_packet->Info_Len*bool_size);
-	curr_mem += local_packet->Info_Len;
+	//copy in each byte MSB to LSB
+	for(int i = 0; i < local_packet->Info_Len/8; i++){
+		memcpy(curr_mem,(local_packet->Info + local_packet->Info_Len - 8 - i*8),8*bool_size); //copy in each byte MSB to LSB
+		curr_mem += 8;
+	}
+	<<KOBE TEST CODE
 	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 
 	KISS_TO_HEX();
