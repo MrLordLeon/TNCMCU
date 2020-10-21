@@ -14,37 +14,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-<<<<<<< HEAD
-//*************** variables for detecting and validating  AX.25  ******************************************************
-#define max_packet_count		2320//max bits in a packet, not including flags
-
-extern bool AX25_flag; //indicates whether the TNC started reading for packets
-extern int AX25_temp_buffer[max_packet_count]; //temperary stores bits received from radio, before formatting into AX.25 format
-extern int packet_count; //keeps count of the temp buffer index
-//*********************************************************************************************************************
-
-//*************** AX.25 Fields********************************************************************
-#define address_len		224 //min number of bits in address field
-#define control_len		8 //number of bits in control field
-#define PID_len			8 //number of bits in PID field (subfield for info frames)
-#define Info_len		2048 //Max number of bits in information field(sub field for info frames)
-#define FCS_len			16 //number of bits in FCS frames
-#define flag_len		8 //number of bits in flag
-
-extern int start_flag[flag_len];
-extern int address[address_len];
-extern int control[control_len];
-extern int PID[PID_len]; //only for information type packet
-extern int Info[Info_len];
-extern int FCS[FCS_len];
-extern int end_flag[flag_len];
-//********************************************************************************************************
-
-
-//************* Handle bits received from Radio *************************************************************************
-void store_radio_bits(); //while the AX25_flag is true, start storing bits in temp buffer
-bool Packet_Validate();
-=======
 //*************** AX.25 Fields******************************************************************************************
 #define FLAG_SIZE		8
 #define address_len		112 //min number of bits in address field/224 bits is the max for digipeting
@@ -57,22 +26,38 @@ bool Packet_Validate();
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
 #define AX25_PACKET_MAX		address_len + control_len + PID_len + MAX_INFO +FCS_len	+ MAX_Stuffed		//max bits in a packet, not including flags
+#define INFO_offset			(int)((FLAG_SIZE+address_len+control_len+PID_len+FLAG_SIZE)/8)
 
-extern int rxBit_count; 							//keeps count of the temp buffer index for AX25 and KISS packet
+extern int rxBit_count; 							//keeps count of the temp buffer index
 extern bool AX25TBYTE[FLAG_SIZE];							//Array to store AX.25 terminate flag in binary
 extern bool local_address[address_len/2];	//address set to this TNC
 //*********************************************************************************************************************
 
 //**************** KISS *************************************************************************************************************
 #define KISS_SIZE		FLAG_SIZE + address_len + control_len + PID_len + MAX_INFO + FLAG_SIZE //size of kiss packet
+#define KISS_SIZE_BYTES	(int) (KISS_SIZE/8)
+#define UART_RX_IT_CNT 1
+
 bool KISS_FLAG[FLAG_SIZE];
 //*************************************************************************************************************************************
 
+struct UART_INPUT {
+	int rx_cnt;
+	int received_byte_cnt;
+	int flags;
+	uint8_t input;
+	bool got_packet;
+
+	//HEX Members, includes frame end flags
+	uint8_t HEX_KISS_PACKET[KISS_SIZE_BYTES];//This is the buffer used to hold hex bits from UART
+}UART_packet;
+
 struct PACKET_STRUCT {
-	//AX.25 Members
+	//AX.25 Members, does not include frame end flags
 	bool AX25_PACKET[AX25_PACKET_MAX];//temporary stores bits received from radio, before formatting into AX.25 format
-	//KISS Members
-	bool KISS_PACKET[KISS_SIZE];//KISS information without the flags
+
+	//KISS Members, includes frame end flags
+	bool KISS_PACKET[KISS_SIZE];
 
 	/*
 	 * 	Packet Pointers:
@@ -82,26 +67,50 @@ struct PACKET_STRUCT {
 	bool *control;			//Pointer to control field in global buffer
 	bool *PID; 				//Pointer to PID field in global buffer, only present for I frames
 	bool *Info;				//Pointer to info field in global buffer
-	int  Info_Len;
+	int  Info_Len;			//Length of info field, in bits
 	bool *FCS;				//Pointer to fcs field in global buffer
 	bool i_frame_packet;	//Flag to signal if packet is of type i-frames
+
+	bool got_packet;
+	int byte_cnt;
 
 	int stuffed_notFCS;		//count for how many bit stuffed zeros were added to AX25 packet, excluding the FCS field
 	int stuffed_FCS;		//count of how many bit stuffed zeros were added to only FCS field
 
 	//CRC
-	int crc; 				//crc value after calculating data from PC
+	uint16_t crc; 				//crc value after calculating data from PC
 	int crc_count;
 	bool check_crc;			//indicates weather validating fcs field or creating fcs field
 }global_packet;
 
+//Conversion Functions
+/*
+ * 	Converts hex to bin
+ * 		hex_byte_in 	- input hex value
+ * 		bin_byte_out 	- output binary pointer to write to. Should point to
+ */
+void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out,bool select_8_16);
+/*
+ * 	Converts bin to hex
+ * 		bin_byte_in		- input binary pointer to a byte
+ *
+ * 		returns the byte in decimal HEX value
+ * 		00 = 0
+ * 		C0 = 192
+ * 		FF = 255
+ */
+uint8_t conv_BIN_to_HEX(bool *bin_byte_in);
+
 //General Program
 //****************************************************************************************************************
+void init_AX25();
 
 /*
  * 	Function ran in main
  */
 void tx_rx();
+
+void test_ax25();
 
 /*
  * 	Generates a local address for the TNC. Values are kept in the local_address array
@@ -115,15 +124,25 @@ void generate_address();
  */
 bool compare_address();
 
-void transmitting_AX25();
 void output_AX25();
+void print_AX25();
+void clear_AX25();
 
-void transmitting_KISS();
+void output_KISS();
+void print_KISS();
+void clear_KISS();
+
+//UART Handling data flow
+//****************************************************************************************************************
+void UART2_EXCEPTION_CALLBACK();
+
+//****************************************************************************************************************
+//END OF UART Handling data flow
 
 //AX.25 to KISS data flow
 //****************************************************************************************************************
 
-void receiving_AX25();
+bool receiving_AX25();
 void slide_bits(bool* array,int bits_left); //discards bit stuffed 0 and slide remaining bits over bits over
 void remove_bit_stuffing(); //remove bit stuffing zeros after every 5 consecutive 1's
 
@@ -134,6 +153,10 @@ void remove_bit_stuffing(); //remove bit stuffing zeros after every 5 consecutiv
  * 		returns false if the packet is invalid in any way
  */
 bool AX25_Packet_Validate();
+/*
+ * 	reverse elements in array, called by set_packet_pointer_AX_25, since all AX.25 fields were sent LSB first except FCS field
+ */
+void reverse_array(bool *array,int size);
 void set_packet_pointer_AX25();
 void AX25_TO_KISS();
 
@@ -143,9 +166,9 @@ void AX25_TO_KISS();
 //KISS to AX.25 data flow
 //****************************************************************************************************************
 
-void receiving_KISS();
+bool receiving_KISS();
 void set_packet_pointer_KISS();
-void KISS_TO_AX25();
+bool KISS_TO_AX25();
 
 /*
  *	Helper function for shifting bits up when a bit stuffed zero is added
@@ -161,7 +184,6 @@ void bitstuffing(struct PACKET_STRUCT* packet);
 //END OF KISS to AX.25 data flow
 
 //---------------------- FCS Generation -----------------------------------------------------------------------------------------------
-void hex_to_bin();						//store bits in FCS field
 
 /*
  * 	Helper function to generate CRC. Simply computes CRC from one bit

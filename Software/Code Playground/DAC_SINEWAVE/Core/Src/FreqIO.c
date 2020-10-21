@@ -18,18 +18,17 @@ UART_HandleTypeDef huart2;
 //****************************************************************************************************************
 char uartData[3000];
 
-<<<<<<< HEAD
-=======
 //General Program
 //****************************************************************************************************************
-bool mode = true;
+bool mode;
 bool midbit = false;
 bool changeMode = false;
 
-void initProgram() {
+void initProgram(bool modeStart) {
 	initOUTData();
 
 	//Set hardware properly
+	mode = modeStart;
 	toggleMode();
 	toggleMode();
 
@@ -40,6 +39,8 @@ void initProgram() {
 		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
 		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
 	}
+
+	init_AX25();
 }
 
 
@@ -47,9 +48,6 @@ void initProgram() {
 void toggleMode() {
 	//Disable HW interrupt
 	HAL_NVIC_DisableIRQ(EXTI0_IRQn);
-
-	//Stop DAC
-	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 
 	//Toggle mode
 	mode = !mode;
@@ -62,7 +60,7 @@ void toggleMode() {
 
 	if (mode) {
 		//Set Timer periods
-		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
+		//htim2.Instance->ARR = TIM2_AUTORELOAD_TX; This is no longer used
 		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
 
 	} else {
@@ -72,6 +70,9 @@ void toggleMode() {
 
 		//Enable tim3 interrupt
 		HAL_TIM_Base_Start_IT(&htim3);
+
+		//Stop DAC
+		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 
 		//Enable HW interrupt
 		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
@@ -104,50 +105,91 @@ void FreqCounterPinEXTI() {
 	sampusecount = 0;
 }
 
->>>>>>> DeDz
 //GENERATING FREQ
 //****************************************************************************************************************
 bool bitStream[10];
 
-uint32_t lowFrequency[2 * LOWF_SAMP];
-uint32_t highFrequency[2 * HIGHF_SAMP];
+uint32_t wave[2*FREQ_SAMP] = {
+		2048,2091,2134,2177,2219,2262,2305,2347,
+		2390,2432,2474,2516,2557,2599,2640,2681,
+		2722,2762,2802,2842,2881,2920,2959,2997,
+		3035,3072,3109,3145,3181,3217,3252,3286,
+		3320,3353,3386,3418,3450,3481,3511,3541,
+		3570,3598,3626,3653,3679,3705,3730,3754,
+		3777,3800,3822,3843,3863,3882,3901,3919,
+		3936,3952,3968,3982,3996,4009,4021,4032,
+		4042,4051,4060,4067,4074,4080,4085,4089,
+		4092,4094,4095,4095,4095,4094,4092,4089,
+		4085,4080,4074,4067,4060,4051,4042,4032,
+		4021,4009,3996,3982,3968,3952,3936,3919,
+		3901,3882,3863,3843,3822,3800,3777,3754,
+		3730,3705,3679,3653,3626,3598,3570,3541,
+		3511,3481,3450,3418,3386,3353,3320,3286,
+		3252,3217,3181,3145,3109,3072,3035,2997,
+		2959,2920,2881,2842,2802,2762,2722,2681,
+		2640,2599,2557,2516,2474,2432,2390,2347,
+		2305,2262,2219,2177,2134,2091,2048,2005,
+		1962,1919,1877,1834,1791,1749,1706,1664,
+		1622,1580,1539,1497,1456,1415,1374,1334,
+		1294,1254,1215,1176,1137,1099,1061,1024,
+		987,951,915,879,844,810,776,743,
+		710,678,646,615,585,555,526,498,
+		470,443,417,391,366,342,319,296,
+		274,253,233,214,195,177,160,144,
+		128,114,100,87,75,64,54,45,
+		36,29,22,16,11,7,4,2,
+		0,0,0,2,4,7,11,16,
+		22,29,36,45,54,64,75,87,
+		100,114,128,144,160,177,195,214,
+		233,253,274,296,319,342,366,391,
+		417,443,470,498,526,555,585,615,
+		646,678,710,743,776,810,844,879,
+		915,951,987,1024,1061,1099,1137,1176,
+		1215,1254,1294,1334,1374,1415,1456,1497,
+		1539,1580,1622,1664,1706,1749,1791,1834,
+		1877,1919,1962,2005,2048,
 
-<<<<<<< HEAD
-void edit_sineval(uint32_t *sinArray, int arraySize, int waves) {
-	for (int i = 0; i < arraySize; i++) {
-		//formula in DAC Document
-		sinArray[i] = (sin(
-				(i + (.75 * arraySize * waves)) * 2 * PI / arraySize * waves)
-				+ 1) * (OUT_AMPL / 4);
-	}
-}
-void bitToAudio(bool *bitStream, int arraySize) {
-	for (int i = 0; i < arraySize; i++) {
-		if (bitStream[i]) {
-			htim3.Instance->CNT = 0;
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,
-					DAC_ALIGN_12B_R);
-			HAL_TIM_Base_Start_IT(&htim3);
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
-			midbit = true;
-		} else {
-			htim3.Instance->CNT = 0;
-			HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,
-					DAC_ALIGN_12B_R);
-			HAL_TIM_Base_Start_IT(&htim3);
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
-			midbit = true;
-		}
+		2048,2091,2134,2177,2219,2262,2305,2347,
+		2390,2432,2474,2516,2557,2599,2640,2681,
+		2722,2762,2802,2842,2881,2920,2959,2997,
+		3035,3072,3109,3145,3181,3217,3252,3286,
+		3320,3353,3386,3418,3450,3481,3511,3541,
+		3570,3598,3626,3653,3679,3705,3730,3754,
+		3777,3800,3822,3843,3863,3882,3901,3919,
+		3936,3952,3968,3982,3996,4009,4021,4032,
+		4042,4051,4060,4067,4074,4080,4085,4089,
+		4092,4094,4095,4095,4095,4094,4092,4089,
+		4085,4080,4074,4067,4060,4051,4042,4032,
+		4021,4009,3996,3982,3968,3952,3936,3919,
+		3901,3882,3863,3843,3822,3800,3777,3754,
+		3730,3705,3679,3653,3626,3598,3570,3541,
+		3511,3481,3450,3418,3386,3353,3320,3286,
+		3252,3217,3181,3145,3109,3072,3035,2997,
+		2959,2920,2881,2842,2802,2762,2722,2681,
+		2640,2599,2557,2516,2474,2432,2390,2347,
+		2305,2262,2219,2177,2134,2091,2048,2005,
+		1962,1919,1877,1834,1791,1749,1706,1664,
+		1622,1580,1539,1497,1456,1415,1374,1334,
+		1294,1254,1215,1176,1137,1099,1061,1024,
+		987,951,915,879,844,810,776,743,
+		710,678,646,615,585,555,526,498,
+		470,443,417,391,366,342,319,296,
+		274,253,233,214,195,177,160,144,
+		128,114,100,87,75,64,54,45,
+		36,29,22,16,11,7,4,2,
+		0,0,0,2,4,7,11,16,
+		22,29,36,45,54,64,75,87,
+		100,114,128,144,160,177,195,214,
+		233,253,274,296,319,342,366,391,
+		417,443,470,498,526,555,585,615,
+		646,678,710,743,776,810,844,879,
+		915,951,987,1024,1061,1099,1137,1176,
+		1215,1254,1294,1334,1374,1415,1456,1497,
+		1539,1580,1622,1664,1706,1749,1791,1834,
+		1877,1919,1962,2005,2048
+};
+bool freqSelect = false;
 
-		while (midbit)
-			__NOP();		//Just wait for timer3 IT to go off.
-	}
-	HAL_TIM_Base_Stop(&htim3);
-}
-void generateBitstream() {
-	bitStream[0] = 1;
-	bitStream[1] = 0;
-=======
 void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPercent) {
 	double ampl 		= OUT_AMPL / 2;						//Amplitude of wave
 	double phaseShift 	= shiftPercent * 2 * PI;	//Desired phase shift
@@ -156,60 +198,57 @@ void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPerce
 	for (int i = 0; i < arraySize; i++) {
 		//formula in DAC Document
 		sinArray[i] = (sin((i * w) + phaseShift) + 1) * ampl;
+		sprintf(uartData, "sinArray[%d] = %d\n",i,sinArray[i]);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 }
-void bitToAudio(bool *bitStream, int arraySize, bool direction) {
-	if(direction){//transmitting lsb first
-		for (int i = 0; i < arraySize; i++) {
-			if (bitStream[i]) {
-				htim3.Instance->CNT = 0;
-				HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,
-						DAC_ALIGN_12B_R);
-				HAL_TIM_Base_Start_IT(&htim3);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
-				midbit = true;
-			} else {
-				htim3.Instance->CNT = 0;
-				HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,
-						DAC_ALIGN_12B_R);
-				HAL_TIM_Base_Start_IT(&htim3);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
-				midbit = true;
-			}
 
-			while (midbit)
-				__NOP();		//Just wait for timer3 IT to go off.
+int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
+	bool changeFreq;
+	int waveoffset = wave_start;
+	for (int i = 0; i < arraySize; i++) {
+		//Check if freq needs to be changed for NRZI
+		if(direction){
+			changeFreq = bitStream[i];
+		} else {
+			changeFreq = bitStream[arraySize - i - 1];
 		}
-		HAL_TIM_Base_Stop(&htim3);
-	}
-	else{ //transmitting msb first
-		for (int i = arraySize-1; i >= 0; i--) {
-			if (bitStream[i]) {
-				htim3.Instance->CNT = 0;
-				HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, highFrequency, HIGHF_SAMP,
-						DAC_ALIGN_12B_R);
-				HAL_TIM_Base_Start_IT(&htim3);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
-				midbit = true;
-			} else {
-				htim3.Instance->CNT = 0;
-				HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, lowFrequency, LOWF_SAMP,
-						DAC_ALIGN_12B_R);
-				HAL_TIM_Base_Start_IT(&htim3);
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
-				midbit = true;
-			}
 
-			while (midbit)
-				__NOP();		//Just wait for timer3 IT to go off.
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, changeFreq);
+		freqSelect = (changeFreq) ? !freqSelect : freqSelect;
+
+		if (freqSelect) {
+			htim2.Instance->ARR = 14;
+			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * HIGHF) / (1.0 * LOWF);
 		}
-		HAL_TIM_Base_Stop(&htim3);
+		else {
+			htim2.Instance->ARR = 27;
+			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * LOWF) / (1.0 * LOWF);
+		}
+
+		//htim2.Instance->CNT = 0;
+		//HAL_TIM_Base_Stop(&htim2);
+		HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (wave+wave_start), FREQ_SAMP, DAC_ALIGN_12B_R);
+		htim3.Instance->CNT = 0;
+		HAL_TIM_Base_Start_IT(&htim3);
+
+		//Calculate ending point for wave
+		wave_start = (wave_start+waveoffset+1)%FREQ_SAMP;
+
+		midbit = true;
+		while (midbit){
+			//In the future this leaves the CPU free for scheduling or something
+			__NOP();
+		}
+
 	}
+
+	HAL_TIM_Base_Stop(&htim3);
+	return wave_start;
 }
 void generateBitstream() {
 	bitStream[0] = 1;
 	bitStream[1] = 1;
->>>>>>> DeDz
 	bitStream[2] = 1;
 	bitStream[3] = 0;
 	bitStream[4] = 0;
@@ -217,21 +256,12 @@ void generateBitstream() {
 	bitStream[6] = 1;
 	bitStream[7] = 0;
 	bitStream[8] = 1;
-<<<<<<< HEAD
-	bitStream[9] = 1;
-
-}
-void initOUTData() {
-	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2);
-	edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2);
-=======
 	bitStream[9] = 0;
 
 }
 void initOUTData() {
-	edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2, +0.995);
-	edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2, +0.99);
->>>>>>> DeDz
+	//edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2, +0.995);
+	//edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2, +0.99);
 	generateBitstream();
 }
 
@@ -244,14 +274,12 @@ uint16_t periodSaveCount = 0;
 uint16_t trackBit = 0;
 uint16_t bitSaveCount = 0;
 
-<<<<<<< HEAD
-/*
- * 	Function to calculate bit value based on period. Returns the bit value
- */
-=======
->>>>>>> DeDz
 int pertobit(uint32_t inputPeriod) {
 	int freq = PCONVERT / inputPeriod;
+
+//	sprintf(uartData, "Recieved frequency = %d\r\n",freq);
+//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 	//return freq;
 	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV))
 		return 1;
@@ -260,17 +288,6 @@ int pertobit(uint32_t inputPeriod) {
 	else
 		return -1;
 }
-<<<<<<< HEAD
-
-/*
- *	Function to take period buffer values and loads the next bit into bit buffer.
- *	Also returns the determined bitvalue
- *	0 	= 1200Hz
- *	1  	= 2200Hz
- *	-1	= Invalid frequency
- */
-=======
->>>>>>> DeDz
 int loadBit(){
 	int currbit = 0;
 	int nextbit = 0;
@@ -314,147 +331,6 @@ int loadBit(){
 
 	return currbit;
 }
-<<<<<<< HEAD
-
-/*
- *	Function to iterate through period buffer and find a wave start signal. (0xC0=1100 0000)
- *	returns the index of wave start including 0xC0
- *
- */
-int streamCheck() {
-	int bit7,bit6,bit5,bit4,bit3,bit2,bit1,bit0;
-
-	//Just do this unless we need to toggle
-	while(!changeMode){
-		//Slide bits
-		bit7 = bit6;
-		bit6 = bit5;
-		bit5 = bit4;
-		bit4 = bit3;
-		bit3 = bit2;
-		bit2 = bit1;
-		bit1 = bit0;
-		bit0 = loadBit();
-
-		//Detect 0x7
-		if((bit7==0)&&(bit6==1)&&(bit5==1)&&(bit4==1)){
-			//Detect 0x7E
-			if((bit3==1)&&(bit2==1)&&(bit1==1)&&(bit0==0)){
-				AX25_flag = !AX25_flag;
-				sprintf(uartData, "AX.25 Flag Detected\r\n");
-				if (AX25_flag){
-					store_radio_bits(loadBit()); //start storing radio bits into AX25 Buffer
-					Packet_Validate(); //check if the packet is valid
-				}
-			}
-		}
-		else {
-			sprintf(uartData, "Bits detected: %d %d %d %d %d %d %d %d\r\n",bit7,bit6,bit5,bit4,bit3,bit2,bit1,bit0);
-		}
-
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	}
-	if(toggleMode)
-		return -1;
-}
-
-//General Program
-//****************************************************************************************************************
-bool mode = true;
-bool midbit = false;
-bool changeMode = false;
-
-void initProgram() {
-	initOUTData();
-	if (mode) {
-		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
-	} else {
-		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
-	}
-}
-void toggleMode() {
-	//Disable HW interrupt
-	HAL_NVIC_DisableIRQ(EXTI0_IRQn);
-
-	//Stop DAC
-	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-
-	//Toggle mode
-	mode = !mode;
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, mode);
-	midbit = false;
-
-	//Stop timer and reset count
-	HAL_TIM_Base_Stop(&htim3);
-	htim3.Instance->CNT = 0;
-
-	if (mode) {
-		//Set Timer periods
-		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
-
-	} else {
-		//Set Timer Periods
-		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
-
-		//Enable tim3 interrupt
-		HAL_TIM_Base_Start_IT(&htim3);
-
-		//Enable HW interrupt
-		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-	}
-
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
-}
-bool BuffRd = false;
-int printCnt = 0;
-void tx_rx() {
-	if (changeMode) {
-		changeMode = 0;
-		toggleMode();
-	}
-
-	if (mode) {
-		bitToAudio(&bitStream[0], 10);
-	} else {
-		streamCheck();
-
-		/*
-		for (int i = 0; i < RX_BUFFERSIZE; i++) {
-			//sprintf(uartData, "periodBuffer[%d] period value = %d\r\n", i, periodBuffer[i]);
-			sprintf(uartData, "periodBuffer[%d] bit value = %d\r\n", i, pertobit(periodBuffer[i]));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		}
-		*/
-	}
-
-}
-void loadPeriodBuffer(int timerCnt) {
-	periodBuffer[periodSaveCount] = timerCnt;
-	periodSaveCount++;
-	if (periodSaveCount >= RX_BUFFERSIZE) {
-		periodSaveCount = 0;
-	}
-}
-void Tim3IT() {
-	if (mode) {
-		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-		midbit = false;
-	} else {
-		if(sampusecount>SAMP_PER_BAUD){
-			loadPeriodBuffer(0);
-		}
-		sampusecount++;
-	}
-}
-void FreqCounterPinEXTI() {
-	loadPeriodBuffer(htim2.Instance->CNT);
-	htim2.Instance->CNT = 0;
-	sampusecount = 0;
-=======
 int loadOctet(bool* bufferptr) {
 	int bit;
 	bool myPtr[8];
@@ -472,17 +348,17 @@ int loadOctet(bool* bufferptr) {
     }
 	//If this is not a flag, copy the values into the buffer pointer
 	if(!isFlag){
-		sprintf(uartData, "Printing octet = ");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		sprintf(uartData, "Printing octet = ");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int i = 0;i<8;i++){
 			bufferptr[7-i] = (myPtr[7-i]==1)?true:false;
 			rxBit_count++;
-			sprintf(uartData, " %d ",bufferptr[7-i]);
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//			sprintf(uartData, " %d ",bufferptr[7-i]);
+//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		sprintf(uartData, "\r\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		sprintf(uartData, "\r\n");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	return isFlag;
 }
@@ -506,8 +382,13 @@ int streamGet() {
 		//sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
 		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
+//		sprintf(uartData, "Current octet:");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		//Detect AX25 flag bytes
 		for(int i = 0;i < 8; i++){
+//			sprintf(uartData, " %d ",byteArray[i]);
+//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 			//If the byte isn't lined up, break loop
 			if(byteArray[i]!=AX25TBYTE[i]) {
 				gotflag = false;
@@ -518,6 +399,9 @@ int streamGet() {
 				gotflag = true;
 			}
 		}
+//		sprintf(uartData, "\n");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 
 		//Got flag
 		if(gotflag){
@@ -565,5 +449,4 @@ int streamGet() {
 	//Break if mode needs to change
 	if(toggleMode)
 		return -1;
->>>>>>> DeDz
 }
