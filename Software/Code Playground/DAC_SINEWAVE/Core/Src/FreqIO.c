@@ -90,7 +90,7 @@ void loadPeriodBuffer(int timerCnt) {
 }
 void Tim3IT() {
 	if (mode) {
-		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
+		//HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 		midbit = false;
 	} else {
 		if(sampusecount>SAMP_PER_BAUD){
@@ -215,7 +215,8 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 		}
 
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, changeFreq);
-		freqSelect = (changeFreq) ? !freqSelect : freqSelect;
+		freqSelect = changeFreq;
+		//freqSelect = (changeFreq) ? !freqSelect : freqSelect;
 
 		if (freqSelect) {
 			htim2.Instance->ARR = 14;

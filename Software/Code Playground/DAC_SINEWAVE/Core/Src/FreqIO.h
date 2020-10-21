@@ -84,7 +84,7 @@ void initOUTData();
 #define PCONVERT 		10000000		//f = 1/T, used for converting period to frequency
 #define HIGHFREQ 		2200			//Higher freq to detect w/ afsk
 #define LOWFREQ			1200			//Lower freq to detect w/ afsk
-#define FREQDEV			400				//Max potential deviation in target frequency to detect
+#define FREQDEV			450				//Max potential deviation in target frequency to detect
 
 #define	BUFFER_SCALE		32			//Scalar for buffer base
 #define BIT_BUFF_BASE		16			//Base amount of bits to store
