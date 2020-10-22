@@ -52,7 +52,7 @@ void FreqCounterPinEXTI();
 //GENERATING FREQ
 //****************************************************************************************************************
 #define TIM2_AUTORELOAD_TX	100			//Timer2 period, used to control DAC and generate audio
-#define TIM3_AUTORELOAD_TX	831 		//Timer3 period, used to controller baudrate for TX
+#define TIM3_AUTORELOAD_TX	828 		//Timer3 period, used to controller baudrate for TX
 
 #define PI 					3.1415926
 #define OUT_AMPL			100

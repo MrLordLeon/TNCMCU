@@ -339,7 +339,13 @@ int loadOctet(bool* bufferptr) {
 
 	for (int i = 0; i < 8; i++) {
 		bit = loadBit();
+
+		sprintf(uartData, "bit[%d] = %d \n",i,bit);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
         if(bit < 0){
+    		sprintf(uartData, "bit %d was bad\n",i);
+    		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
         	return -1;
         }
 		myPtr[i] = bit;
@@ -349,17 +355,17 @@ int loadOctet(bool* bufferptr) {
     }
 	//If this is not a flag, copy the values into the buffer pointer
 	if(!isFlag){
-//		sprintf(uartData, "Printing octet = ");
-//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		sprintf(uartData, "Printing octet [MSB:LSB]= ");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int i = 0;i<8;i++){
 			bufferptr[7-i] = (myPtr[7-i]==1)?true:false;
 			rxBit_count++;
-//			sprintf(uartData, " %d ",bufferptr[7-i]);
-//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			sprintf(uartData, " %d ",bufferptr[7-i]);
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-//		sprintf(uartData, "\r\n");
-//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		sprintf(uartData, "\r\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	return isFlag;
 }
@@ -380,8 +386,8 @@ int streamGet() {
 			byteArray[i] = byteArray[i+1];
 		}
 		byteArray[7] = loadBit();
-		//sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
-		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 //		sprintf(uartData, "Current octet:");
 //		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -414,17 +420,24 @@ int streamGet() {
 			good_octet = 0;
 			while( (good_octet==0) && (octet_count < max_octets) ){
 				good_octet = loadOctet(&local_packet->AX25_PACKET[octet_count*8]);
-				//sprintf(uartData, "Loaded octet %d out of %d\r\n",octet_count,max_octets);
+				sprintf(uartData, "Loaded octet %d out of %d\r\n",octet_count,max_octets);
 				//sprintf(uartData, "good_octet: %d\r\n",good_octet);
-				//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 				octet_count+=1;
 			}
-
-			//If ax.25 buffer overflows or an octet was bad, this was a bad packet
-			if((octet_count >= max_octets) || (good_octet!=1)){
+			//If an octet was bad, this was a bad packet
+			if(good_octet!=1){
+				sprintf(uartData, "Bad packet! Detected bad signal.\n\n",octet_count);
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				//for(int i = 0;i<)
+				gotflag = false;
+			}
+			//If ax.25 buffer overflows
+			else if(octet_count >= max_octets){
 				sprintf(uartData, "Bad packet! Not enough octets\r\n\n",octet_count);
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				gotflag = false;
 			}
 			//
 			else if(octet_count == 1){
@@ -432,12 +445,13 @@ int streamGet() {
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 				sprintf(uartData, "Bad packet! Not enough octetes.\r\n\n",octet_count);
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				gotflag = false;
 			}
 			//If ax.25 buffer does not overflow, this was a good packet
 			else {
 				sprintf(uartData, "Stop AX.25 Flag Detected\r\n\n");
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
+				gotflag = false;
 				return 1;
 			}
 		}
