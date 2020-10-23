@@ -54,7 +54,7 @@ void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out, bool select_8_16)
 			sprintf(uartData, " a=%d ",temp);
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-			*(bin_byte_out+i) = temp;
+			*(bin_byte_out+ 16 - 1 - i) = temp;
 		}
 		sprintf(uartData, "\n ");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -132,7 +132,7 @@ void output_AX25(){
 	bitToAudio(local_packet->control,control_len,1);	//lsb first
 	bitToAudio(local_packet->PID,PID_len,1);			//lsb first
 	bitToAudio(local_packet->Info,local_packet->Info_Len,1);		//lsb first
-	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0);			//msb first
+	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,1);			//msb first
 
 	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
 

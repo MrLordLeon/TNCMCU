@@ -3687,58 +3687,57 @@ LOAD c:/st/stm32cubeide_1.4.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000008000ef8                __aeabi_ldiv0
  *(.text*)
  .text.conv_HEX_to_BIN
-                0x0000000008000efc      0x178 Core/Src/AX.25.o
+                0x0000000008000efc      0x17c Core/Src/AX.25.o
                 0x0000000008000efc                conv_HEX_to_BIN
  .text.init_AX25
-                0x0000000008001074       0x38 Core/Src/AX.25.o
-                0x0000000008001074                init_AX25
- .text.tx_rx    0x00000000080010ac       0x80 Core/Src/AX.25.o
-                0x00000000080010ac                tx_rx
+                0x0000000008001078       0x38 Core/Src/AX.25.o
+                0x0000000008001078                init_AX25
+ .text.tx_rx    0x00000000080010b0       0x80 Core/Src/AX.25.o
+                0x00000000080010b0                tx_rx
  .text.print_AX25
-                0x000000000800112c      0x3b8 Core/Src/AX.25.o
-                0x000000000800112c                print_AX25
+                0x0000000008001130      0x3b8 Core/Src/AX.25.o
+                0x0000000008001130                print_AX25
  .text.print_KISS
-                0x00000000080014e4      0x434 Core/Src/AX.25.o
-                0x00000000080014e4                print_KISS
+                0x00000000080014e8      0x434 Core/Src/AX.25.o
+                0x00000000080014e8                print_KISS
  .text.UART2_EXCEPTION_CALLBACK
-                0x0000000008001918       0x94 Core/Src/AX.25.o
-                0x0000000008001918                UART2_EXCEPTION_CALLBACK
+                0x000000000800191c       0x94 Core/Src/AX.25.o
+                0x000000000800191c                UART2_EXCEPTION_CALLBACK
  .text.set_packet_pointer_AX25
-                0x00000000080019ac      0x1c4 Core/Src/AX.25.o
-                0x00000000080019ac                set_packet_pointer_AX25
+                0x00000000080019b0      0x1c4 Core/Src/AX.25.o
+                0x00000000080019b0                set_packet_pointer_AX25
  .text.clear_AX25
-                0x0000000008001b70       0x6c Core/Src/AX.25.o
-                0x0000000008001b70                clear_AX25
+                0x0000000008001b74       0x6c Core/Src/AX.25.o
+                0x0000000008001b74                clear_AX25
  .text.receiving_KISS
-                0x0000000008001bdc       0xe8 Core/Src/AX.25.o
-                0x0000000008001bdc                receiving_KISS
+                0x0000000008001be0       0xe8 Core/Src/AX.25.o
+                0x0000000008001be0                receiving_KISS
  .text.set_packet_pointer_KISS
-                0x0000000008001cc4       0xbc Core/Src/AX.25.o
-                0x0000000008001cc4                set_packet_pointer_KISS
+                0x0000000008001cc8       0xbc Core/Src/AX.25.o
+                0x0000000008001cc8                set_packet_pointer_KISS
  .text.KISS_TO_AX25
-                0x0000000008001d80      0x120 Core/Src/AX.25.o
-                0x0000000008001d80                KISS_TO_AX25
+                0x0000000008001d84      0x120 Core/Src/AX.25.o
+                0x0000000008001d84                KISS_TO_AX25
  .text.crc_calc
-                0x0000000008001ea0       0xf0 Core/Src/AX.25.o
-                0x0000000008001ea0                crc_calc
+                0x0000000008001ea4       0xf0 Core/Src/AX.25.o
+                0x0000000008001ea4                crc_calc
  .text.crc_generate
-                0x0000000008001f90      0x1f0 Core/Src/AX.25.o
-                0x0000000008001f90                crc_generate
+                0x0000000008001f94      0x1f0 Core/Src/AX.25.o
+                0x0000000008001f94                crc_generate
  .text.initProgram
-                0x0000000008002180       0x64 Core/Src/FreqIO.o
-                0x0000000008002180                initProgram
+                0x0000000008002184       0x64 Core/Src/FreqIO.o
+                0x0000000008002184                initProgram
  .text.toggleMode
-                0x00000000080021e4       0xb8 Core/Src/FreqIO.o
-                0x00000000080021e4                toggleMode
+                0x00000000080021e8       0xb8 Core/Src/FreqIO.o
+                0x00000000080021e8                toggleMode
  .text.loadPeriodBuffer
-                0x000000000800229c       0x48 Core/Src/FreqIO.o
-                0x000000000800229c                loadPeriodBuffer
- .text.Tim3IT   0x00000000080022e4       0x4c Core/Src/FreqIO.o
-                0x00000000080022e4                Tim3IT
+                0x00000000080022a0       0x48 Core/Src/FreqIO.o
+                0x00000000080022a0                loadPeriodBuffer
+ .text.Tim3IT   0x00000000080022e8       0x4c Core/Src/FreqIO.o
+                0x00000000080022e8                Tim3IT
  .text.FreqCounterPinEXTI
-                0x0000000008002330       0x2c Core/Src/FreqIO.o
-                0x0000000008002330                FreqCounterPinEXTI
- *fill*         0x000000000800235c        0x4 
+                0x0000000008002334       0x2c Core/Src/FreqIO.o
+                0x0000000008002334                FreqCounterPinEXTI
  .text.edit_sineval
                 0x0000000008002360      0x110 Core/Src/FreqIO.o
                 0x0000000008002360                edit_sineval
