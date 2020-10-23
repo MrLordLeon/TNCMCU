@@ -77,7 +77,7 @@ void initOUTData();
 
 //READING FREQ
 //****************************************************************************************************************
-#define	SAMP_PER_BAUD		2			//Increase sample rate to detect higher frequencies.
+#define	SAMP_PER_BAUD		4			//Increase sample rate to detect higher frequencies.
 #define TIM2_AUTORELOAD_RX	10000		//Timer2 period, used for determining frequency
 #define TIM3_AUTORELOAD_RX	833/SAMP_PER_BAUD//Timer3 period, used to trigger periodBuffer fill,dont touch this one.
 

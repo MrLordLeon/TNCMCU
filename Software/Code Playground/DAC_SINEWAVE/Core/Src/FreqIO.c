@@ -276,54 +276,70 @@ uint16_t trackBit = 0;
 uint16_t bitSaveCount = 0;
 
 int pertobit(uint32_t inputPeriod) {
-	int freq = PCONVERT / inputPeriod;
-
-//	sprintf(uartData, "Recieved frequency = %d\r\n",freq);
-//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	int freq = PCONVERT / (inputPeriod * 2);
 
 	//return freq;
-	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV))
+	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV)){
+		sprintf(uartData, "Recieved frequency = %d\r\n",freq);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		return 1;
-	if ((LOWFREQ - FREQDEV < freq) && (freq < LOWFREQ + FREQDEV))
+	}
+	else if ((LOWFREQ - FREQDEV < freq) && (freq < LOWFREQ + FREQDEV)){
+		sprintf(uartData, "Recieved frequency = %d\r\n",freq);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		return 0;
+	}
 	else
+//		sprintf(uartData, "Recieved frequency = %d\r\n",freq);
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		return -1;
 }
 int loadBit(){
-	int currbit = 0;
-	int nextbit = 0;
+	int startbit;
+	int currbit = -1;
+	int loopCount = 0;
+	int checkCount;
+	bool goodbit = false;
 
-	currbit = pertobit(periodBuffer[trackBit]);
-
-	//Low frequency should have 1 bit per baud
-	if(currbit==0){
-		bitBuffer[bitSaveCount] = 0;
-	}
-
-	//High frequency should have 2 high bits per baud
-	else if(currbit==1){
-		//Gather next bit
-		//ternary assign: var = (cond)?if_true:if_false;
-		nextbit = (trackBit!=RX_BUFFERSIZE-1)?pertobit(periodBuffer[trackBit+1]):pertobit(periodBuffer[0]);
-
-		if(nextbit==1){
-			//High frequency detected, skip next bit
-			trackBit++;
-			bitBuffer[bitSaveCount] = 1;
-		}
-		else {
-			bitBuffer[bitSaveCount] = -1;
-		}
-	}
-	//Invalid bit
-	else{
-		bitBuffer[bitSaveCount] = -1;
-	}
-
+	startbit = pertobit(periodBuffer[trackBit]);
+//	sprintf(uartData, "startbit = %d\n",startbit);
+//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	//Increment trackBit
 	trackBit++;
 	if (trackBit >= RX_BUFFERSIZE)
 		trackBit = 0;
+
+	if(startbit==1){
+		checkCount = 3;
+	}
+	else if(startbit==0){
+		checkCount = 1;
+	}
+	else {
+		checkCount = 0;
+	}
+
+	//Valiate startbit value
+	while(loopCount<checkCount){
+		currbit = pertobit(periodBuffer[trackBit]);
+
+		//Good bit
+		if(startbit==currbit){
+			goodbit = true;
+		}
+		//Bad bit
+		else {
+			currbit = -1;
+			goodbit = false;
+			break;
+		}
+
+		//Increment trackBit
+		trackBit++;
+		if (trackBit >= RX_BUFFERSIZE)
+			trackBit = 0;
+		loopCount++;
+	}
 
 	//Increment bitSaveCount
 	bitSaveCount++;
@@ -386,9 +402,10 @@ int streamGet() {
 			byteArray[i] = byteArray[i+1];
 		}
 		byteArray[7] = loadBit();
-//		sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
-//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
+//		if(byteArray[7]>=0){
+//			sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
+//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		}
 //		sprintf(uartData, "Current octet:");
 //		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		//Detect AX25 flag bytes

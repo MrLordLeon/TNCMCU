@@ -165,16 +165,18 @@ void output_AX25(){
 	HAL_Delay(1);
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
+
 	freqSelect = false;
 	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
 
-	wave_start = bitToAudio(local_packet->address, address_len,1,wave_start); //lsb first
-	wave_start = bitToAudio(local_packet->control,control_len,1,wave_start);	//lsb first
+	//wave_start = bitToAudio(local_packet->address, address_len,1,wave_start); //lsb first
+	//wave_start = bitToAudio(local_packet->control,control_len,1,wave_start);	//lsb first
 	//wave_start = bitToAudio(local_packet->PID,PID_len,1,wave_start);			//lsb first
 	//wave_start = bitToAudio(local_packet->Info,local_packet->Info_Len,1,wave_start);		//lsb first
 	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0,wave_start);			//msb first
 
-	bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start);//stop flag
+	//bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start);//stop flag
+
 	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_RESET); //stop transmitting
