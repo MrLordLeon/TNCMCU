@@ -520,7 +520,6 @@ void AX25_TO_KISS(){
 		memcpy(curr_mem,(local_packet->Info + local_packet->Info_Len - 8 - i*8),8*bool_size); //copy in each byte MSB to LSB
 		curr_mem += 8;
 	}
-	<<KOBE TEST CODE
 	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 
 	KISS_TO_HEX();
@@ -657,12 +656,12 @@ void bitstuffing(struct PACKET_STRUCT* packet){
 	//bit stuff fields for AX25 excluding FCS
 	for(int i = 0; i < rxBit_count+bit_shifts;i++){
 		bits_left--;
-		if(packet->KISS_PACKET[i]){
+		if(packet->AX25_PACKET[i]){
 			ones_count++;
 			//add bitstuffed zeros after 5 contigious 1's
 			if(ones_count == 5){
-				bit_shift(&(packet->KISS_PACKET[i]),bits_left);
-				packet->KISS_PACKET[i+1] = false;
+				bit_shift(&(packet->AX25_PACKET[i]),bits_left);
+				packet->AX25_PACKET[i+1] = false;
 				bits_left++; //bitstuffed zero added
 				bit_shifts++;
 				ones_count = 0;
