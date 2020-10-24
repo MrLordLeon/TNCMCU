@@ -159,19 +159,19 @@ void output_AX25(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	int wave_start = 0;
+	freqSelect = true;
+	bool dumbbits[3] = { 0, 1, 1 };
 	//Init dac playing some frequency, shouldn't be read by radio
-	htim2.Instance->ARR = 27;
-	HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (wave+wave_start), FREQ_SAMP, DAC_ALIGN_12B_R);
-	HAL_Delay(1);
+	wave_start = bitToAudio(dumbbits, 3,1,wave_start); //start flag
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
 
-	freqSelect = false;
+
 	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
 
 	//wave_start = bitToAudio(local_packet->address, address_len,1,wave_start); //lsb first
 	//wave_start = bitToAudio(local_packet->control,control_len,1,wave_start);	//lsb first
-	//wave_start = bitToAudio(local_packet->PID,PID_len,1,wave_start);			//lsb first
+	wave_start = bitToAudio(local_packet->PID,PID_len,1,wave_start);			//lsb first
 	//wave_start = bitToAudio(local_packet->Info,local_packet->Info_Len,1,wave_start);		//lsb first
 	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0,wave_start);			//msb first
 
@@ -183,6 +183,23 @@ void output_AX25(){
 
 	sprintf(uartData, "Ending AFSK transmission\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//Debugging mode that will repeat send message. Must restart to stop or change message
+	if(BROADCASTR){
+		const int millis = 2000;
+		sprintf(uartData, "BROADCASTING WILL REPEAT IN A %d MILLISSECOND",millis);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+		int millis_div = (millis * 1.0) / 10 * 1.0;
+		for(int i = 0;i<10;i++){
+			sprintf(uartData, " . ");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			HAL_Delay(millis_div);
+		}
+		sprintf(uartData, "\n\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		output_AX25();
+	}
 }
 void print_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
