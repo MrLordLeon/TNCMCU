@@ -373,7 +373,10 @@ uint16_t trackBit = 0;
 uint16_t bitSaveCount = 0;
 
 int pertobit(uint32_t inputPeriod) {
-	int freq = PCONVERT / (inputPeriod * 2);
+	int freq = PCONVERT / inputPeriod;
+
+//	sprintf(uartData, "Recieved frequency = %d\r\n",freq);
+//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//return freq;
 	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV)){

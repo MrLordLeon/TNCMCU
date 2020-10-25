@@ -52,7 +52,7 @@ void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out, bool select_8_16)
 			//sprintf(uartData, " %d ",temp);
 			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-			*(bin_byte_out+i) = temp;
+			*(bin_byte_out+ 16 - 1 - i) = temp;
 		}
 		//sprintf(uartData, "\n ");
 		//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -165,8 +165,6 @@ void output_AX25(){
 	wave_start = bitToAudio(dumbbits, 3,1,wave_start); //start flag
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
-
-
 	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
 
 	//wave_start = bitToAudio(local_packet->address, address_len,1,wave_start); //lsb first
@@ -219,16 +217,16 @@ void print_AX25(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Address Field
-	curr_mem = (local_packet->address);
+	curr_mem = (local_packet->address) + address_len - 1;
 	for(int i = 0;i<address_len/8;i++){
 		sprintf(uartData, "Address Field %d =",i+1);
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
+			sprintf(uartData, " %d ",*(curr_mem-j));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		curr_mem += 8;
+		curr_mem -= 8;
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
@@ -258,25 +256,31 @@ void print_AX25(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Info Field
-	curr_mem = (local_packet->Info);
-	for(int i = 0;i<(local_packet->Info_Len/8);i++){
+	curr_mem = (local_packet->Info) + local_packet->Info_Len - 1;
+	for(int i = 0;i<(local_packet->Info_Len/8)-1;i++){
 		sprintf(uartData, "Info Field %d    =",i+1)	;
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+		for(int j = 0;j<8;j++){
+			sprintf(uartData, " %d ",*(curr_mem-j));
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+		curr_mem -= 8;
+		sprintf(uartData, "\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+
+	curr_mem = (local_packet->FCS) + 8;
+	for(int i = 0;i<(FCS_len/8);i++){
+		sprintf(uartData, "FCS Field %d     =",i+1)	;
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int j = 0;j<8;j++){
 			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		curr_mem += 8;
+		curr_mem -= 8;
 		sprintf(uartData, "\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	}
-
-	sprintf(uartData, "AX.25 Flag      =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	curr_mem = AX25TBYTE;
-	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	sprintf(uartData, "\n");
@@ -318,28 +322,27 @@ void print_KISS(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Start Flag
-	curr_mem = (local_packet->address-16);//Subtract 16 to start at the flag start
+	curr_mem = (local_packet->address + address_len + 16 - 1);//start at the flag start
 	sprintf(uartData, "Start flag      =");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		sprintf(uartData, " %d ",*(curr_mem-i));
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-	//Print Address Field
-	curr_mem = (local_packet->address);
+	curr_mem = (local_packet->address) + address_len - 1;
 	for(int i = 0;i<address_len/8;i++){
 		sprintf(uartData, "Address Field %d =",i+1);
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
+			sprintf(uartData, " %d ",*(curr_mem-j));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		curr_mem += 8;
+		curr_mem -= 8;
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
@@ -369,22 +372,22 @@ void print_KISS(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Info Field
-	curr_mem = (local_packet->Info);
+	curr_mem = (local_packet->Info) + local_packet->Info_Len - 1;
 	for(int i = 0;i<(local_packet->Info_Len/8)-1;i++){
 		sprintf(uartData, "Info Field %d    =",i+1)	;
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
+			sprintf(uartData, " %d ",*(curr_mem-j));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		curr_mem += 8;
+		curr_mem -= 8;
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 
 	//Print Stop Flag
-	curr_mem = (local_packet->KISS_PACKET+(8*(local_packet->byte_cnt-1)));
+	curr_mem = local_packet->KISS_PACKET;
 	sprintf(uartData, "Stop flag       =");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
@@ -533,6 +536,7 @@ bool AX25_Packet_Validate(){
 //	return true; //valid packet
 }
 
+
 void set_packet_pointer_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int not_info = FCS_len;
@@ -577,20 +581,33 @@ void AX25_TO_KISS(){
 
 	bool* cpy_from_ptr = (local_packet->AX25_PACKET+8);
 
-	set_packet_pointer_KISS();
+	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
+	curr_mem += FLAG_SIZE;
+
+	//copy in each byte MSB to LSB
+	for(int i = 0; i < address_len/8; i++){
+		memcpy(curr_mem,(local_packet->address + address_len - 8 - i*8),8*bool_size);
+		curr_mem += 8;
+	}
+
+	memcpy(curr_mem,local_packet->control,control_len*bool_size);
+	curr_mem += control_len;
 
 	memcpy(local_packet->AX25_PACKET,KISS_FLAG,FLAG_SIZE);
-
-	memcpy(local_packet->address,cpy_from_ptr,address_len);
-	cpy_from_ptr += address_len;
+	//copy in each byte MSB to LSB
+	for(int i = 0; i < local_packet->Info_Len/8; i++){
+		memcpy(curr_mem,(local_packet->Info + local_packet->Info_Len - 8 - i*8),8*bool_size); //copy in each byte MSB to LSB
+		curr_mem += 8;
+	}
+	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE*bool_size);
 
 	memcpy(local_packet->control,cpy_from_ptr,control_len);
 	cpy_from_ptr += control_len;
 
-	memcpy(local_packet->PID,cpy_from_ptr,PID_len);
-	cpy_from_ptr += PID_len;
-
-	memcpy(local_packet->Info,cpy_from_ptr,local_packet->Info_Len);
+void clear_AX25(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+	sprintf(uartData, "Clearing AX.25 packet info\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	memcpy(local_packet->Info+local_packet->Info_Len,KISS_FLAG,FLAG_SIZE);
 
@@ -621,10 +638,11 @@ bool receiving_KISS(){
 	if(local_UART_packet->got_packet){
 		sprintf(uartData, "\nGot a packet via UART of size %d bytes, printing now...\n\n",local_UART_packet->received_byte_cnt);
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-		for(int i = 0;i<local_UART_packet->received_byte_cnt;i++){
+		int byte_cnt = local_UART_packet->received_byte_cnt;
+		for(int i = 0;i < byte_cnt;i++){
 			//Hex value from UART
-			uint8_t hex_byte_val=local_UART_packet->HEX_KISS_PACKET[i];
+			 //start from LS Byte = Highest index
+			uint8_t hex_byte_val=local_UART_packet->HEX_KISS_PACKET[byte_cnt-1-i];
 
 			//Bool pointer for KISS array
 			bool *bin_byte_ptr = &local_packet->KISS_PACKET[i*8];
@@ -652,27 +670,19 @@ void set_packet_pointer_KISS(){
 	sprintf(uartData, "Setting packet pointer to KISS:\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-	bool *curr_mem = local_packet->KISS_PACKET+16;//+8 is to skip the flag since it does not have a pointer
+	bool *curr_mem = (local_packet->KISS_PACKET+(local_packet->byte_cnt-2)*8);//starting kiss packet skipping 2 bytes
 
-	sprintf(uartData, "Setting pointer for address\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem -= address_len;
 	local_packet->address = curr_mem;
-	curr_mem += address_len;
-
-	sprintf(uartData, "Setting pointer for control\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	
+	curr_mem -= control_len;
 	local_packet->control = curr_mem;
-	curr_mem += control_len;
-
-	sprintf(uartData, "Setting pointer for PID\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	
+	curr_mem -= PID_len;
 	local_packet->PID = curr_mem;
-	curr_mem += PID_len;
-
-	sprintf(uartData, "Setting pointer for Info\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	
+	curr_mem -= local_packet->Info_Len;
 	local_packet->Info = curr_mem;
-	curr_mem += local_packet->Info_Len;
 }
 
 bool KISS_TO_AX25(){
@@ -681,25 +691,26 @@ bool KISS_TO_AX25(){
 	set_packet_pointer_KISS();
 	print_KISS();
 
-	bool* cpy_from_ptr = (local_packet->KISS_PACKET+16);//starting kiss packet skipping 2 bytes
+	bool* cpy_from_ptr = (local_packet->KISS_PACKET+(local_packet->byte_cnt-2)*8);//starting kiss packet skipping 2 bytes
 
 	//Update packet pointers to AX25 members
 	set_packet_pointer_AX25();
 
+	cpy_from_ptr -= address_len;
 	memcpy(local_packet->address,cpy_from_ptr,address_len);
-	cpy_from_ptr += address_len;
 
+	cpy_from_ptr -= control_len;
 	memcpy(local_packet->control,cpy_from_ptr,control_len);
-	cpy_from_ptr += control_len;
 
+	cpy_from_ptr -= PID_len;
 	memcpy(local_packet->PID,cpy_from_ptr,PID_len);
-	cpy_from_ptr += PID_len;
 
+	cpy_from_ptr -= local_packet->Info_Len;
 	memcpy(local_packet->Info,cpy_from_ptr,local_packet->Info_Len);
 
 	//USE CRC HERE TO GENERATE FCS FIELD
-//	rxBit_count = (local_packet->byte_cnt*8) - 24;
-//	crc_generate();
+	rxBit_count = address_len + control_len + PID_len + local_packet->Info_Len - 8;
+	crc_generate();
 
 	//BIT STUFFING NEEDED
 //	bitstuffing(local_packet);
@@ -725,12 +736,12 @@ void bitstuffing(struct PACKET_STRUCT* packet){
 	//bit stuff fields for AX25 excluding FCS
 	for(int i = 0; i < rxBit_count+bit_shifts;i++){
 		bits_left--;
-		if(packet->KISS_PACKET[i]){
+		if(packet->AX25_PACKET[i]){
 			ones_count++;
 			//add bitstuffed zeros after 5 contigious 1's
 			if(ones_count == 5){
-				bit_shift(&(packet->KISS_PACKET[i]),bits_left);
-				packet->KISS_PACKET[i+1] = false;
+				bit_shift(&(packet->AX25_PACKET[i]),bits_left);
+				packet->AX25_PACKET[i+1] = false;
 				bits_left++; //bitstuffed zero added
 				bit_shifts++;
 				ones_count = 0;
@@ -775,21 +786,22 @@ void KISS_TO_HEX(){
 void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int out_bit;
+	int roll_bit = *crc_ptr_in & 0x0001;
     int poly = 0x8408;             			//reverse order of 0x1021
 
-    out_bit = in_bit ^ (*crc_ptr_in%2); 		//xor lsb of current crc with input bit
+    out_bit = in_bit ^ roll_bit; 		//xor lsb of current crc with input bit
 	*crc_ptr_in >>= 1;               	//right shift by 1
-	poly = (out_bit == 1) ? 0x8408 : 0;
+	poly = (out_bit == 1) ? 0x8408 : 0x0000;
 	*crc_ptr_in ^= poly;
 	*crc_count_ptr_in+=1;//Increment count
 
     //End condition
+//	if(*crc_count_ptr_in >= rxBit_count){
 	if(*crc_count_ptr_in >= rxBit_count){
     	*crc_ptr_in ^= 0xFFFF;//Complete CRC by XOR with all ones (one's complement)
+  	    sprintf(uartData, "Convert CRC to FCS (hex) = %x\n",local_packet->crc);
+    	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
     	if(local_packet->check_crc == false){
-    	    sprintf(uartData, "Convert CRC to FCS\n");
-    	    HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
     		//REMEBER TO CHECK THIS CRC conversion FOR ACCURACY LATER
     		conv_HEX_to_BIN(*crc_ptr_in,local_packet->FCS,false);
     		local_packet->crc = 0xFFFF;
@@ -801,6 +813,7 @@ void crc_generate(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	uint16_t * crc_ptr = &(local_packet->crc);
 	int * crc_count_ptr = &(local_packet->crc_count);
+	bool *curr_mem;
 
 	*crc_ptr = 0xFFFF;
 	*crc_count_ptr = 0;
@@ -810,31 +823,39 @@ void crc_generate(){
 	//have to be inserted in reverse order
 	sprintf(uartData, "Performing CRC generation\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	//Calculate CRC for info
-	for(int i = 0; i < local_packet->Info_Len;i++){
-		//Call crc_calc per bit
-		crc_calc((int)((local_packet->Info)[i]),crc_ptr,crc_count_ptr);
-	}
 
-	//Calculate CRC for PID (if packet is of type i-frame)
-//	if(local_packet->i_frame_packet){
-	for(int i = 0; i < PID_len; i++){
-		//Call crc_calc per bit
-		crc_calc((int)((local_packet->PID)[i]),crc_ptr,crc_count_ptr);
+	//Calculate CRC for address
+	curr_mem = (local_packet->address) + address_len - 8;//start at MS Byte(LSB)
+	for(int i = 0;i<(int)(address_len/8);i++){
+		for(int j = 0;j<8;j++){
+			crc_calc((int) *(curr_mem+j),crc_ptr,crc_count_ptr);
+		}
+		curr_mem -= 8;
 	}
-//	}
 
 	//Calculate CRC for control
-	for(int i = 0; i > control_len; i++){
+	curr_mem = local_packet->control;
+	for(int i = 0; i < control_len; i++){
 		//Call crc_calc per bit
-		crc_calc((int)((local_packet->control)[i]),crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->control[i],crc_ptr,crc_count_ptr);
 	}
 
-		//Calculate CRC for address
-	for(int i = 0; i < address_len; i++){
+//	//Calculate CRC for PID (if packet is of type i-frame)
+	curr_mem = local_packet->PID;
+	for(int i = 0; i < PID_len; i++){
 		//Call crc_calc per bit
-		crc_calc((int)((local_packet->address)[i]),crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
 	}
+
+	//Calculate CRC for Info field
+	curr_mem = (local_packet->Info) + local_packet->Info_Len - 8;//start at MS Byte(LSB)
+	for(int i = 0;i<(int)(local_packet->Info_Len/8)-1;i++){
+		for(int j = 0;j<8;j++){
+			crc_calc((int) *(curr_mem+j),crc_ptr,crc_count_ptr);
+		}
+		curr_mem -= 8;
+	}
+
 	sprintf(uartData, "rx_bitcnt = %d\n", rxBit_count);
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
@@ -852,7 +873,7 @@ bool crc_check(){
 	//FOR FCS ONLY, highest index == LSB
 	//FOR FCS ONLY, lowest index  == MSB
 	for(int i = FCS_len-1; i >= 0;i--){
-		//Convert FCS to decimal value (DOES NOT INCLUDE DECIMAL VALUES)
+		//Convert FCS to HEX value (DOES NOT INCLUDE DECIMAL VALUES)
 		fcs_val += (local_packet->FCS[i]) ? pow(2,FCS_len-1-i) :0;
 	}
 
