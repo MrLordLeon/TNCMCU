@@ -121,8 +121,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		//tx_rx();
-
+		tx_rx();
+		/*
 		int time = htim4.Instance->CNT;
 		if(time >5800){
 			sprintf(uartData, "MAYBE A FLAG\n");
@@ -135,7 +135,7 @@ int main(void)
 				HAL_Delay(10);
 			}
 		}
-
+		*/
 		/*
 		int values_to_read=30;
 		int readVal[values_to_read];
