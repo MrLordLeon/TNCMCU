@@ -158,28 +158,64 @@ void output_AX25(){
 	sprintf(uartData, "Beginning AFSK transmission\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
+	int wave_start = 0;
+	freqSelect = true;
+	bool dumbbits[3] = { 0, 1, 1 };
+	//Init dac playing some frequency, shouldn't be read by radio
+	wave_start = bitToAudio(dumbbits, 3,1,wave_start); //start flag
+
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
 
-	bitToAudio(AX25TBYTE, FLAG_SIZE,1); //start flag
 
-	bitToAudio(local_packet->address, address_len,1); //lsb first
-	bitToAudio(local_packet->control,control_len,1);	//lsb first
-	bitToAudio(local_packet->PID,PID_len,1);			//lsb first
-	bitToAudio(local_packet->Info,local_packet->Info_Len,1);		//lsb first
-	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0);			//msb first
+	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
 
-	bitToAudio(AX25TBYTE, FLAG_SIZE,1);//stop flag
+	//wave_start = bitToAudio(local_packet->address, address_len,1,wave_start); //lsb first
+	//wave_start = bitToAudio(local_packet->control,control_len,1,wave_start);	//lsb first
+	wave_start = bitToAudio(local_packet->PID,PID_len,1,wave_start);			//lsb first
+	//wave_start = bitToAudio(local_packet->Info,local_packet->Info_Len,1,wave_start);		//lsb first
+	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0,wave_start);			//msb first
+
+	//bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start);//stop flag
+
+	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_RESET); //stop transmitting
 
 	sprintf(uartData, "Ending AFSK transmission\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//Debugging mode that will repeat send message. Must restart to stop or change message
+	if(BROADCASTR){
+		const int millis = 2000;
+		sprintf(uartData, "BROADCASTING WILL REPEAT IN A %d MILLISSECOND",millis);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+		int millis_div = (millis * 1.0) / 10 * 1.0;
+		for(int i = 0;i<10;i++){
+			sprintf(uartData, " . ");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			HAL_Delay(millis_div);
+		}
+		sprintf(uartData, "\n\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		output_AX25();
+	}
 }
 void print_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
 	sprintf(uartData, "\nPrinting AX25_PACKET... All fields printed [MSB:LSB]\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	sprintf(uartData, "AX.25 Flag      =");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem = AX25TBYTE;
+	for(int i = 0;i<8;i++){
+		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Address Field
@@ -235,6 +271,16 @@ void print_AX25(){
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
+
+	sprintf(uartData, "AX.25 Flag      =");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem = AX25TBYTE;
+	for(int i = 0;i<8;i++){
+		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 //	curr_mem = (local_packet->FCS);
 //	for(int i = 0;i<(FCS_len/8);i++){
