@@ -159,6 +159,7 @@ void print_outAX25(){
 	}
 
 	//if Info was bitstuffed then print rest of address field
+	curr_mem = local_packet->Info + local_packet->Info_Len;
 	sprintf(uartData, "Info Field extra = ");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	curr_mem += local_packet->Info_Len;
