@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define BROADCASTR		true
+#define BROADCASTR		false
 //*************** AX.25 Fields******************************************************************************************
 #define FLAG_SIZE		8
 #define address_len		112 //min number of bits in address field/224 bits is the max for digipeting

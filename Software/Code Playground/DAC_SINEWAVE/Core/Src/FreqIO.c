@@ -282,7 +282,6 @@ void initOUTData() {
 //****************************************************************************************************************
 uint32_t periodBuffer[RX_BUFFERSIZE];
 uint32_t bitBuffer[RX_BUFFERSIZE];
-uint8_t sampusecount = 0;
 bool		canWrite = true;
 bool		canRead  = false;
 uint16_t periodSaveCount = 0;

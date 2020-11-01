@@ -1,0 +1,14 @@
+FreqIO.c:27:6:initProgram	16	static
+FreqIO.c:48:6:toggleMode	8	static
+FreqIO.c:88:6:loadPeriodBuffer	16	static
+FreqIO.c:106:5:readPeriodBuffer	24	static
+FreqIO.c:141:6:Tim3IT	8	static
+FreqIO.c:165:6:FreqCounterPinEXTI	16	static
+FreqIO.c:205:6:edit_sineval	64	static
+FreqIO.c:218:5:bitToAudio	48	static,ignoring_inline_asm
+FreqIO.c:262:6:generateBitstream	4	static
+FreqIO.c:275:6:initOUTData	8	static
+FreqIO.c:294:5:pertobit	24	static
+FreqIO.c:316:5:loadBit	32	static
+FreqIO.c:370:5:loadOctet	48	static
+FreqIO.c:407:5:streamGet	80	static
