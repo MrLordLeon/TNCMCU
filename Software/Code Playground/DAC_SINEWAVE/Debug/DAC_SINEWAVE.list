@@ -39,9 +39,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  17 .debug_line   0000bc39  00000000  00000000  0005879d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    000d2767  00000000  00000000  000643d6  2**0
+ 18 .debug_str    000d2765  00000000  00000000  000643d6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00136b3d  2**0
+ 19 .comment      0000007b  00000000  00000000  00136b3b  2**0
                   CONTENTS, READONLY
  20 .debug_frame  000040b8  00000000  00000000  00136bb8  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -3464,7 +3464,7 @@ bool receiving_KISS(){
  8001b94:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
  8001b98:	330c      	adds	r3, #12
  8001b9a:	681b      	ldr	r3, [r3, #0]
- 8001b9c:	3b13      	subs	r3, #19
+ 8001b9c:	3b12      	subs	r3, #18
  8001b9e:	00da      	lsls	r2, r3, #3
  8001ba0:	68fb      	ldr	r3, [r7, #12]
  8001ba2:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
