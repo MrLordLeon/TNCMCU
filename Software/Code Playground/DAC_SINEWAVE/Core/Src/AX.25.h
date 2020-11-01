@@ -170,7 +170,7 @@ void bit_shift(bool* array,int bits_left);
 /*
  *	Add bitstuffed zeros to AX25 packet before transmitting it through radio
  */
-void bitstuffing(struct PACKET_STRUCT* packet);
+int bitstuffing(bool* packet,int len,int bits_left, int ones_count,int *stuff);
 
 //****************************************************************************************************************
 //END OF KISS to AX.25 data flow

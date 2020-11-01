@@ -182,12 +182,15 @@ void print_outAX25(){
 	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
+
+
 	//reset bitstuff members
 	local_packet->stuffed_address = 0;
 	local_packet->stuffed_control = 0;
 	local_packet->stuffed_PID = 0;
 	local_packet->stuffed_Info = 0;
 	local_packet->stuffed_FCS = 0;
+	local_packet->bit_stuffed_zeros = 0;
 }
 
 void print_KISS(){
