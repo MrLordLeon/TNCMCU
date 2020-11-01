@@ -1,7 +1,15 @@
-01:21:42 **** Incremental Build of configuration Debug for project DAC_SINEWAVE ****
+01:00:09 **** Incremental Build of configuration Debug for project Clock Recovery Code ****
 make -j8 all 
-arm-none-eabi-size   DAC_SINEWAVE.elf 
-   text	   data	    bss	    dec	    hex	filename
-  36608	   2544	  13192	  52344	   cc78	DAC_SINEWAVE.elf
-Finished building: default.size.stdout
- 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_TIM_OC_DelayElapsedCallback':
+../Core/Src/main.c:450:22: error: 'A3_GPIO_Port' undeclared (first use in this function); did you mean 'B1_GPIO_Port'?
+   HAL_GPIO_TogglePin(A3_GPIO_Port, A3_Pin);  // here we toggle a pin just to let us know that this interrupt is firing. totally unnecessary, and really just matches the waveform that the output compare module generates anyway.
+                      ^~~~~~~~~~~~
+                      B1_GPIO_Port
+../Core/Src/main.c:450:22: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:450:36: error: 'A3_Pin' undeclared (first use in this function); did you mean 'B1_Pin'?
+   HAL_GPIO_TogglePin(A3_GPIO_Port, A3_Pin);  // here we toggle a pin just to let us know that this interrupt is firing. totally unnecessary, and really just matches the waveform that the output compare module generates anyway.
+                                    ^~~~~~
+                                    B1_Pin
+make: *** [Core/Src/subdir.mk:33: Core/Src/main.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
