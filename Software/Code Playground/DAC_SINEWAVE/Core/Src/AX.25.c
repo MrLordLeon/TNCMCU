@@ -494,48 +494,56 @@ bool KISS_TO_AX25(){
 	rxBit_count = address_len + control_len + PID_len + local_packet->Info_Len;
 	crc_generate();
 	print_AX25();
-//
-//	sprintf(uartData, "\n line Printing AX25 = \n");
-//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//	for(int i = 0; i < rxBit_count + FCS_len; i++){
-//		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
-//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//	}
-//	sprintf(uartData, "\n");
-//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//
-//	//BIT STUFFING NEEDED
-//	int ax25_len = rxBit_count + FCS_len;
-//	int ones_count = 0;
-//	ones_count = bitstuffing(local_packet->address,address_len,ax25_len, ones_count, &(local_packet->stuffed_address));
-//	local_packet->bit_stuffed_zeros += local_packet->stuffed_address;
-//	ax25_len -= address_len;
-//
-//	local_packet->control += local_packet->bit_stuffed_zeros;
-//	ones_count = bitstuffing(local_packet->control,control_len,ax25_len, ones_count, &(local_packet->stuffed_control));
-//	local_packet->bit_stuffed_zeros += local_packet->stuffed_control;
-//	ax25_len -= control_len;
-//
-//	local_packet->PID += local_packet->bit_stuffed_zeros;
-//	ones_count = bitstuffing(local_packet->PID,PID_len,ax25_len, ones_count, &(local_packet->stuffed_PID));
-//	local_packet->bit_stuffed_zeros += local_packet->stuffed_PID;
-//	ax25_len -= PID_len;
-//
-//	local_packet->Info += local_packet->bit_stuffed_zeros;
-//	ones_count = bitstuffing(local_packet->Info,local_packet->Info_Len, ax25_len, ones_count, &(local_packet->stuffed_Info));
-//	local_packet->bit_stuffed_zeros += local_packet->stuffed_Info;
-//	ax25_len -= local_packet->Info_Len;
-//
-//	local_packet->FCS += local_packet->bit_stuffed_zeros;
-//	bitstuffing(local_packet->FCS,FCS_len, ax25_len, ones_count, &(local_packet->stuffed_FCS));
-//	local_packet->bit_stuffed_zeros += local_packet->stuffed_FCS;
-//
-//	sprintf(uartData, "bit stuffed zeros = %d\n",local_packet->bit_stuffed_zeros);
-//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//	rxBit_count = 0;
 
-	//Print the ax25 packet
-//	print_outAX25();
+	sprintf(uartData, "\n line Printing AX25 = \n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	for(int i = 0; i < rxBit_count + FCS_len; i++){
+		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//BIT STUFFING NEEDED
+	int ax25_len = rxBit_count + FCS_len;
+	int ones_count = 0;
+	ones_count = bitstuffing(local_packet->address,address_len,ax25_len, ones_count, &(local_packet->stuffed_address));
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_address;
+	ax25_len -= address_len;
+
+	local_packet->control += local_packet->bit_stuffed_zeros;
+	ones_count = bitstuffing(local_packet->control,control_len,ax25_len, ones_count, &(local_packet->stuffed_control));
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_control;
+	ax25_len -= control_len;
+
+	local_packet->PID += local_packet->bit_stuffed_zeros;
+	ones_count = bitstuffing(local_packet->PID,PID_len,ax25_len, ones_count, &(local_packet->stuffed_PID));
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_PID;
+	ax25_len -= PID_len;
+
+	local_packet->Info += local_packet->bit_stuffed_zeros;
+	ones_count = bitstuffing(local_packet->Info,local_packet->Info_Len, ax25_len, ones_count, &(local_packet->stuffed_Info));
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_Info;
+	ax25_len -= local_packet->Info_Len;
+
+	local_packet->FCS += local_packet->bit_stuffed_zeros;
+	bitstuffing(local_packet->FCS,FCS_len, ax25_len, ones_count, &(local_packet->stuffed_FCS));
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_FCS;
+
+	sprintf(uartData, "bit stuffed zeros = %d\n",local_packet->bit_stuffed_zeros);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	sprintf(uartData, "\n line Printing AX25 = \n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	for(int i = 0; i < rxBit_count + FCS_len + local_packet->bit_stuffed_zeros; i++){
+		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	rxBit_count = 0;
+//	Print the ax25 packet
+	print_outAX25();
 	return true; //valid packet
 }
 
