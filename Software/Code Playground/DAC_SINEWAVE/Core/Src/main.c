@@ -17,7 +17,6 @@
  ******************************************************************************
  */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -46,6 +45,7 @@ DMA_HandleTypeDef hdma_dac1;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim4;
 
 UART_HandleTypeDef huart2;
 
@@ -59,8 +59,9 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_DAC_Init(void);
 static void MX_TIM2_Init(void);
-static void MX_USART2_UART_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_USART2_UART_Init(void);
+static void MX_TIM4_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -100,13 +101,18 @@ int main(void)
   MX_DMA_Init();
   MX_DAC_Init();
   MX_TIM2_Init();
-  MX_USART2_UART_Init();
   MX_TIM3_Init();
+  MX_USART2_UART_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
-	initProgram();
-	//toggleMode();
+
+	uart_gpio_init();
+
+	initProgram(false);
+	//htim2.Instance->ARR = 27;
+	//htim2.Instance->ARR = 14;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -116,6 +122,42 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		tx_rx();
+		/*
+		int time = htim4.Instance->CNT;
+		if(time >5800){
+			sprintf(uartData, "MAYBE A FLAG\n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			HAL_Delay(10);
+		} else {
+			if(time >0){
+				sprintf(uartData, "time = %d\n",time);
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				HAL_Delay(10);
+			}
+		}
+		*/
+		/*
+		int values_to_read=30;
+		int readVal[values_to_read];
+
+		int readCnt;
+		int temp;
+		while(readCnt<values_to_read){
+			temp = readPeriodBuffer();
+			if(temp>0){
+				readVal[readCnt] = temp;
+				readCnt++;
+			}
+		}
+		sprintf(uartData, "exit loop\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		readCnt = 0;
+		for(int i = 0;i<values_to_read;i++){
+			sprintf(uartData, "readVal[%d] = %d\n",i,readVal[i]);
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			readVal[i] = -1;
+		}
+		*/
 	}
   /* USER CODE END 3 */
 }
@@ -133,7 +175,8 @@ void SystemClock_Config(void)
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-  /** Initializes the CPU, AHB and APB busses clocks
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
@@ -148,7 +191,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -292,6 +335,51 @@ static void MX_TIM3_Init(void)
 }
 
 /**
+  * @brief TIM4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM4_Init(void)
+{
+
+  /* USER CODE BEGIN TIM4_Init 0 */
+
+  /* USER CODE END TIM4_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM4_Init 1 */
+
+  /* USER CODE END TIM4_Init 1 */
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 90-1;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 65535;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM4_Init 2 */
+
+  /* USER CODE END TIM4_Init 2 */
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -319,7 +407,8 @@ static void MX_USART2_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART2_Init 2 */
-
+  HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(USART2_IRQn);
   /* USER CODE END USART2_Init 2 */
 
 }
@@ -409,9 +498,41 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	}
 	if (GPIO_Pin == B1_Pin) {
 		changeMode = 1;
+		/*
+		sprintf(uartData, "Toggle Input Detected\r\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		*/
 	} else
 		__NOP();
 }
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART2)
+  {
+	  UART2_EXCEPTION_CALLBACK();
+  }
+}
+
+void uart_gpio_init()
+{
+  GPIO_InitTypeDef GPIO_InitStruct;
+
+  __GPIOA_CLK_ENABLE();
+
+  /**USART2 GPIO Configuration
+  PA2     ------> USART2_TX
+  PA3     ------> USART2_RX
+  */
+  GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+}
+
+
 /* USER CODE END 4 */
 
 /**
