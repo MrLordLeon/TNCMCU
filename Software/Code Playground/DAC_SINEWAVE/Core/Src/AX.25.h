@@ -27,7 +27,7 @@
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
 #define AX25_PACKET_MAX		address_len + control_len + PID_len + MAX_INFO +FCS_len	+ MAX_Stuffed		//max bits in a packet, not including flags
-#define INFO_offset			(int)((FLAG_SIZE+address_len+control_len+PID_len+FLAG_SIZE)/8)
+#define INFO_offset			(int)((FLAG_SIZE+address_len+control_len+PID_len+FLAG_SIZE+8)/8)
 
 extern int rxBit_count; 							//keeps count of the temp buffer index
 extern bool AX25TBYTE[FLAG_SIZE];							//Array to store AX.25 terminate flag in binary
@@ -75,8 +75,13 @@ struct PACKET_STRUCT {
 	bool got_packet;
 	int byte_cnt;
 
-	int stuffed_notFCS;		//count for how many bit stuffed zeros were added to AX25 packet, excluding the FCS field
-	int stuffed_FCS;		//count of how many bit stuffed zeros were added to only FCS field
+
+	//count for bit stuffed zeros in each field
+	int stuffed_address;
+	int stuffed_control;
+	int stuffed_PID;
+	int stuffed_Info;
+	int stuffed_FCS;
 
 	//CRC
 	uint16_t crc; 				//crc value after calculating data from PC
@@ -127,6 +132,7 @@ bool compare_address();
 
 void output_AX25();
 void print_AX25();
+void print_outAX25();
 void clear_AX25();
 
 void output_KISS();
