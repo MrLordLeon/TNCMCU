@@ -54,7 +54,7 @@ void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out, bool select_8_16)
 			sprintf(uartData, " a=%d ",temp);
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-			*(bin_byte_out+ 16 - 1 - i) = temp;
+			*(bin_byte_out + 16 - 1 - i) = temp; //MSB is at lowest index
 		}
 		sprintf(uartData, "\n ");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -116,6 +116,112 @@ bool compare_address(bool *addr){
 		}
 	}
 	return true;
+}
+
+void print_outAX25(){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+	int bytecnt = local_packet->byte_cnt;
+	bool *curr_mem;
+	sprintf(uartData, "\nPrinting AX25_PACKET being sent to radio\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//Print Address Field
+	curr_mem = local_packet->address;
+	for(int i = 0;i<address_len/8;i++){
+		sprintf(uartData, "Address Field %d =",i+1);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+		for(int j = 0;j<8;j++){
+			sprintf(uartData, " %d ",*(curr_mem+j));
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+		curr_mem += 8;
+		sprintf(uartData, "\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+
+	//if address was bitstuffed then print rest of address field
+	sprintf(uartData, "Address Field extra = ");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem += address_len;
+	if(local_packet->stuffed_address > 0){
+		for(int i = 0; i < local_packet->stuffed_address; i++){
+			sprintf(uartData, " %d ",*(curr_mem-i));
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//Print Control Field
+	curr_mem = local_packet->control;//Subtract 8 to start at the flag start
+	sprintf(uartData, "Control Field   =");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	for(int i = 0;i<control_len + local_packet->stuffed_control;i++){
+		sprintf(uartData, " %d ",*(curr_mem+i));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//PID
+	curr_mem = local_packet->PID;//Subtract 8 to start at the flag start
+	sprintf(uartData, "PID Field       =");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	for(int i = 0;i<PID_len + local_packet->stuffed_PID;i++){
+		sprintf(uartData, " %d ",*(curr_mem+i));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//Print Info Field
+	curr_mem = local_packet->Info;
+	for(int i = 0;i<(local_packet->Info_Len/8)-1;i++){
+		sprintf(uartData, "Info Field %d    =",i+1)	;
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+		for(int j = 0;j<8;j++){
+			sprintf(uartData, " %d ",*(curr_mem-j));
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+		curr_mem -= 8;
+		sprintf(uartData, "\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+
+	//if Info was bitstuffed then print rest of address field
+	sprintf(uartData, "Info Field extra = ");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem += local_packet->Info_Len;
+	if(local_packet->stuffed_Info > 0){
+		for(int i = 0; i < local_packet->stuffed_Info; i++){
+			sprintf(uartData, " %d ",*(curr_mem+i));
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	curr_mem = local_packet->FCS;
+	sprintf(uartData, "FCS Field     =")	;
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	for(int i = 0;i<FCS_len+local_packet->stuffed_FCS;i++){
+		sprintf(uartData, " %d ",*(curr_mem+i));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//reset bitstuff members
+	local_packet->stuffed_address = 0;
+	local_packet->stuffed_control = 0;
+	local_packet->stuffed_PID = 0;
+	local_packet->stuffed_Info = 0;
+	local_packet->stuffed_FCS = 0;
 }
 
 void output_AX25(){
@@ -633,59 +739,142 @@ bool KISS_TO_AX25(){
 	crc_generate();
 
 	//BIT STUFFING NEEDED
-//	bitstuffing(local_packet);
+	bitstuffing();
 	rxBit_count = 0;
 
 	//Print the ax25 packet
-	print_AX25();
+//	print_AX25();
+	print_outAX25();
 	return true; //valid packet
 }
 
 void bit_shift(bool* array,int bits_left){
-	memcpy(array+2,array+1,bits_left*bool_size);
+	//memcpy(array+2,array+1,bits_left*bool_size);
 }
 
-void bitstuffing(struct PACKET_STRUCT* packet){
-	packet->stuffed_notFCS = 0;
+void bitstuffing(){
+	struct PACKET_STRUCT* packet = &global_packet;
+	sprintf(uartData, "\nChecking if bit stuffing is needed\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	packet->stuffed_address = 0;
+	packet->stuffed_control = 0;
+	packet->stuffed_PID = 0;
+	packet->stuffed_Info = 0;
 	packet->stuffed_FCS = 0;
 
 	int ones_count = 0;
-	int bits_left = rxBit_count + FCS_len; //keeps track of how many bits have been iterated through in the AX.25 packet
-	int bit_shifts = 0;			 //keeps track of how many bitstuffed zeros have been added
+	int bits_left = rxBit_count + FCS_len; 											//keeps track of how many bits have been iterated through in the AX.25 packet
+	int *address_shifts = &(packet->stuffed_address);
+	bool *curr_mem = packet->address;
 
-	//bit stuff fields for AX25 excluding FCS
-	for(int i = 0; i < rxBit_count+bit_shifts;i++){
+	//bit stuff fields for address field
+	for(int i = 0; i < address_len+*address_shifts;i++){
 		bits_left--;
-		if(packet->AX25_PACKET[i]){
+		if(*(curr_mem+i)){
 			ones_count++;
 			//add bitstuffed zeros after 5 contigious 1's
 			if(ones_count == 5){
-				bit_shift(&(packet->AX25_PACKET[i]),bits_left);
-				packet->AX25_PACKET[i+1] = false;
+				bit_shift(curr_mem+i,bits_left);
+				*(curr_mem+i+1) = false;
 				bits_left++; //bitstuffed zero added
-				bit_shifts++;
+				(*address_shifts)++;
+				packet->control++;
+				packet->PID++;
+				packet->Info++;
+				packet->FCS++;
 				ones_count = 0;
-				packet->stuffed_notFCS++;
 			}
 		}
 	}
+	sprintf(uartData, "Address field bit stuffed zeros = %d\n",*address_shifts);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
+	curr_mem = packet->control;
+	int *control_shifts = &(packet->stuffed_control);
+	//bit stuff zeros for control field
+	for(int i = 0; i < control_len+*control_shifts;i++){
+		bits_left--;
+		if(*(curr_mem+i)){
+			ones_count++;
+			//add bitstuffed zeros after 5 contigious 1's
+			if(ones_count == 5){
+				bit_shift(curr_mem+i,bits_left);
+				*(curr_mem+i+1) = false;
+				bits_left++; //bitstuffed zero added
+				(*control_shifts)++;
+				packet->PID++;
+				packet->Info++;
+				packet->FCS++;
+				ones_count = 0;
+			}
+		}
+	}
+	sprintf(uartData, "Control field bit stuffed zeros = %d\n",*control_shifts);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	curr_mem = packet->PID;
+	int *PID_shifts = &(packet->stuffed_PID);
+	//bit stuff zeros for control field
+	for(int i = 0; i < PID_len+*PID_shifts;i++){
+		bits_left--;
+		if(*(curr_mem+i)){
+			ones_count++;
+			//add bitstuffed zeros after 5 contigious 1's
+			if(ones_count == 5){
+				bit_shift(curr_mem+i,bits_left);
+				*(curr_mem+i+1) = false;
+				bits_left++; //bitstuffed zero added
+				(*PID_shifts)++;
+				packet->Info++;
+				packet->FCS++;
+				ones_count = 0;
+			}
+		}
+	}
+	sprintf(uartData, "PID field bit stuffed zeros = %d\n",*PID_shifts);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	curr_mem = packet->Info;
+	int *Info_shifts = &(packet->stuffed_Info);
+	//bit stuff zeros for control field
+	for(int i = 0; i < packet->Info_Len +*Info_shifts;i++){
+		bits_left--;
+		if(*(curr_mem+i)){
+			ones_count++;
+			//add bitstuffed zeros after 5 contigious 1's
+			if(ones_count == 5){
+				bit_shift(curr_mem+i,bits_left);
+				*(curr_mem+i+1) = false;
+				bits_left++; 				//bitstuffed zero added
+				(*Info_shifts)++;
+				packet->FCS++;
+				ones_count = 0;
+			}
+		}
+	}
+	sprintf(uartData, "Info field bit stuffed zeros = %d\n",*Info_shifts);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	curr_mem = packet->FCS;
+	int *FCS_shifts = &(packet->stuffed_FCS);
 	//bit stuff FCS field
-	for(int i = 0; i < FCS_len;i++){
+	for(int i = 0; i < FCS_len + *FCS_shifts;i++){
 		bits_left--;
-		if(packet->FCS[i]){
+		if(*(curr_mem+i)){
 			ones_count++;
 			//add bitstuffed zeros after 5 contigious 1's
 			if(ones_count == 5){
-				bit_shift(&(packet->FCS[i]),bits_left);
-				packet->FCS[i+1] = false;
-				bits_left++; //bitstuffed zero added
-				bit_shifts++;
+				bit_shift(curr_mem+i,bits_left);
+				*(curr_mem+i+1) = false;
+				bits_left++; 				//bitstuffed zero added
+				(*FCS_shifts)++;
 				ones_count = 0;
-				packet->stuffed_FCS++;
 			}
 		}
 	}
+	sprintf(uartData, "FCS field bit stuffed zeros = %d\n",*FCS_shifts);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 }
 
 void KISS_TO_HEX(){

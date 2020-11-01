@@ -74,8 +74,12 @@ struct PACKET_STRUCT {
 	bool got_packet;
 	int byte_cnt;
 
-	int stuffed_notFCS;		//count for how many bit stuffed zeros were added to AX25 packet, excluding the FCS field
-	int stuffed_FCS;		//count of how many bit stuffed zeros were added to only FCS field
+	//count for bit stuffed zeros in each field
+	int stuffed_address;
+	int stuffed_control;
+	int stuffed_PID;
+	int stuffed_Info;
+	int stuffed_FCS;
 
 	//CRC
 	uint16_t crc; 				//crc value after calculating data from PC
@@ -126,6 +130,7 @@ bool compare_address();
 
 void output_AX25();
 void print_AX25();
+void print_outAX25();
 void clear_AX25();
 
 void transmitting_KISS();
@@ -178,7 +183,7 @@ void bit_shift(bool* array,int bits_left);
 /*
  *	Add bitstuffed zeros to AX25 packet before transmitting it through radio
  */
-void bitstuffing(struct PACKET_STRUCT* packet);
+void bitstuffing();
 
 //****************************************************************************************************************
 //END OF KISS to AX.25 data flow
