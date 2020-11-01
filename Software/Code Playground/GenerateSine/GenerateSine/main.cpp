@@ -9,7 +9,7 @@ using namespace std;
 #define AMPLITUDE   3.3             //Amplitude of desired sine wave
 #define PI          3.14159         //Rounded value of PI
 #define BIT_SAMP    200
-#define BITCOUNT    16               //Number of bits for the waveform
+#define BITCOUNT    16                //Number of bits for the waveform
 
 #define LOWF_SAMP   BIT_SAMP                //This is the sample count for the low frequency , as configured maps to 1200Hz
 #define HIGHF_SAMP  int(BIT_SAMP/1.833)     //This is the sample count for the high frequency, as configured maps to 2200Hz

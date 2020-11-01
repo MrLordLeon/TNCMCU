@@ -29,7 +29,7 @@ Core/Src/AX.25.o: ../Core/Src/AX.25.c ../Core/Src/AX.25.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Src/FreqIO.h
+ ../Core/Src/FreqIO.h ../Core/Src/sine.h
 
 ../Core/Src/AX.25.h:
 
@@ -96,3 +96,5 @@ Core/Src/AX.25.o: ../Core/Src/AX.25.c ../Core/Src/AX.25.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 
 ../Core/Src/FreqIO.h:
+
+../Core/Src/sine.h:

@@ -118,27 +118,10 @@ void init_AX25();
  */
 void tx_rx();
 
-void test_ax25();
-
-/*
- * 	Generates a local address for the TNC. Values are kept in the local_address array
- */
-void generate_address();
-
-/*
- * 	Function to compare receiver address of incoming AX.25 packet to local address
- * 		returns true if this address matches local TNC address
- * 		returns false if this address does not match local TNC address
- */
-bool compare_address();
-
 void output_AX25();
-void print_AX25();
-void print_outAX25();
 void clear_AX25();
 
 void output_KISS();
-void print_KISS();
 void clear_KISS();
 
 //UART Handling data flow

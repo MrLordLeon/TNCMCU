@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include "math.h"
+#include "sine.h"
 
 //Needed uController Objects
 //****************************************************************************************************************
@@ -61,8 +62,6 @@ void FreqCounterPinEXTI();
 //#define OUT_AMPL			4096
 #define LOWF 				1200 		//This is the sample count for the low frequency , as configured maps to 1200Hz
 #define HIGHF				2200		//This is the sample count for the high frequency, as configured maps to 2200Hz
-#define FREQ_SAMP			300
-extern uint32_t wave[2*FREQ_SAMP];
 
 extern bool bitStream[10];
 
