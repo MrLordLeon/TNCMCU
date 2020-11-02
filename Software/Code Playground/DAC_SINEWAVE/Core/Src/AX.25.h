@@ -161,7 +161,7 @@ void AX25_TO_KISS();
 bool receiving_KISS();
 void set_packet_pointer_KISS();
 bool KISS_TO_AX25();
-
+void bit_stuff_fields();
 /*
  *	Helper function for shifting bits up when a bit stuffed zero is added
  */
