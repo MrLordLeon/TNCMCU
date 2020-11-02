@@ -2,7 +2,7 @@ AX.25.c:25:6:conv_HEX_to_BIN	32	static
 AX.25.c:66:9:conv_BIN_to_HEX	32	static
 AX.25.c:76:6:init_AX25	8	static
 AX.25.c:84:6:tx_rx	24	static
-AX.25.c:140:6:output_AX25	40	static
+AX.25.c:140:6:output_AX25	32	static
 AX.25.c:189:6:clear_AX25	24	static
 AX.25.c:198:6:output_KISS	4	static
 AX.25.c:204:6:UART2_EXCEPTION_CALLBACK	8	static
@@ -14,10 +14,11 @@ AX.25.c:340:6:set_packet_pointer_AX25	40	static
 AX.25.c:376:6:AX25_TO_KISS	24	static
 AX.25.c:413:6:receiving_KISS	32	static
 AX.25.c:447:6:set_packet_pointer_KISS	24	static
-AX.25.c:467:6:KISS_TO_AX25	32	static
-AX.25.c:543:6:bit_stuff	16	static
-AX.25.c:548:5:bitstuffing	56	static
-AX.25.c:582:6:KISS_TO_HEX	24	static
-AX.25.c:597:6:crc_calc	40	static
-AX.25.c:623:6:crc_generate	56	static
-AX.25.c:678:6:crc_check	32	static
+AX.25.c:467:6:KISS_TO_AX25	40	static
+AX.25.c:524:6:bit_stuff_fields	32	static
+AX.25.c:555:6:bit_stuff	16	static
+AX.25.c:560:5:bitstuffing	56	static
+AX.25.c:594:6:KISS_TO_HEX	24	static
+AX.25.c:609:6:crc_calc	40	static
+AX.25.c:635:6:crc_generate	56	static
+AX.25.c:690:6:crc_check	32	static
