@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdbool.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,7 +40,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim4;
 
 UART_HandleTypeDef huart2;
 
@@ -52,8 +53,28 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
-static void MX_TIM3_Init(void);
+static void MX_TIM4_Init(void);
+static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
+
+#define RISING_EDGE	1
+#define FALLING_EDGE	0
+// this assumes that the timer is ticking at 40 MHz (80 MHz input with prescaler set to 1)
+// these values to be used with prescaler = 1
+const uint32_t SYMBOL_PERIOD = 33333;
+const uint32_t SYMBOL_MARGIN = 3333;
+
+// used to store the difference between transitions (in 40 MHz ticks)
+// does not need to be global, but it is anyway
+uint32_t capture_difference = 0;
+
+// needs to be global, as it is used by both the input capture and output compare callbacks
+uint32_t new_bit_period = 0;
+// doesn't need to be global, but it is anyway
+uint32_t next_capture_time = 0;
+
+uint32_t oc_wait_time = 500;
+uint32_t next_time = 0;
 
 /* USER CODE END PFP */
 
@@ -93,9 +114,12 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  MX_TIM3_Init();
+  MX_TIM4_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_1);
+
+  HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_IC_Start_IT(&htim4, TIM_CHANNEL_1);
   uint32_t captureVal;
   time = HAL_GetTick();
   uint32_t millis_wait = 50;
@@ -139,7 +163,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLM = 8;
-  RCC_OscInitStruct.PLL.PLLN = 90;
+  RCC_OscInitStruct.PLL.PLLN = 80;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
@@ -163,60 +187,119 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief TIM3 Initialization Function
+  * @brief TIM2 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_TIM3_Init(void)
+static void MX_TIM2_Init(void)
 {
 
-  /* USER CODE BEGIN TIM3_Init 0 */
+  /* USER CODE BEGIN TIM2_Init 0 */
 
-  /* USER CODE END TIM3_Init 0 */
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 2-1;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 4294967295;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_OC_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_OC1REF;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_TIMING;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+  HAL_TIM_MspPostInit(&htim2);
+
+}
+
+/**
+  * @brief TIM4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM4_Init(void)
+{
+
+  /* USER CODE BEGIN TIM4_Init 0 */
+
+  /* USER CODE END TIM4_Init 0 */
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_IC_InitTypeDef sConfigIC = {0};
 
-  /* USER CODE BEGIN TIM3_Init 1 */
+  /* USER CODE BEGIN TIM4_Init 1 */
 
-  /* USER CODE END TIM3_Init 1 */
-  htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 45-1;
-  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535;
-  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  /* USER CODE END TIM4_Init 1 */
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 2-1;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 65535;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
   {
     Error_Handler();
   }
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
   {
     Error_Handler();
   }
-  if (HAL_TIM_IC_Init(&htim3) != HAL_OK)
+  if (HAL_TIM_IC_Init(&htim4) != HAL_OK)
   {
     Error_Handler();
   }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
-  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_BOTHEDGE;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
-  if (HAL_TIM_IC_ConfigChannel(&htim3, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+  if (HAL_TIM_IC_ConfigChannel(&htim4, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN TIM3_Init 2 */
+  /* USER CODE BEGIN TIM4_Init 2 */
 
-  /* USER CODE END TIM3_Init 2 */
+  /* USER CODE END TIM4_Init 2 */
 
 }
 
@@ -287,14 +370,106 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+bool DifferenceWithinWindow(uint32_t difference, uint8_t bit_number)
+{
+	// does the margin get multiplied, too?
+
+	//	uint32_t upper_bound = (((bit_number + 1) * SYMBOL_PERIOD) + SYMBOL_MARGIN);
+	//	uint32_t lower_bound = (((bit_number + 1) * SYMBOL_PERIOD) - SYMBOL_MARGIN);
+
+	uint32_t upper_bound = (((bit_number + 1) * (SYMBOL_PERIOD + SYMBOL_MARGIN)));
+	uint32_t lower_bound = (((bit_number + 1) * (SYMBOL_PERIOD - SYMBOL_MARGIN)));
+
+	if ((lower_bound < difference) && (difference < upper_bound))
+	{
+		return true;
+	}
+	return false;
+}
+
+
+int IC_count4 = 0;
+
+uint32_t rising_capture = 0;	// stores the timer tick value of the most recent rising edge
+uint32_t falling_capture = 0;	// stores the timer tick value of the most recent falling edge
+bool rise_captured = false;		// these are used to ensure that we aren't trying to compute the difference
+bool fall_captured = false;		// before we have captured both a rising and falling edge
+bool signal_edge = RISING_EDGE;	// so we know what edge we are looking for (really, the opposite of the edge that was captured last
+uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
+uint8_t bit_num = 0;			// loop counter for difference timing correlator
+
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim->Instance == TIM3)
+	if(htim->Instance == TIM4 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
-		inputCaptureVal = __HAL_TIM_GetCounter(htim);
-		__HAL_TIM_SetCounter(htim, 0);
+		//Used to keep track of times this callback occurs
+		IC_count4++;
+
+		//Rising Edge
+		if (signal_edge == RISING_EDGE)
+		{
+			//Capture time that this interrupt occurs
+			rising_capture = HAL_TIM_ReadCapturedValue(&htim4, TIM_CHANNEL_1);		// read the captured value
+			rise_captured = true;
+			signal_edge = FALLING_EDGE;		// look for falling edge on next capture
+
+			if (rise_captured && fall_captured)
+			{
+				capture_difference = rising_capture - falling_capture;		// calculate difference
+				this_capture = rising_capture;		// set current sample to rising edge
+			}
+		}
+
+		//Falling Edge
+		else
+		{
+			falling_capture = HAL_TIM_ReadCapturedValue(&htim4, TIM_CHANNEL_1);		// read the captured value
+			fall_captured = true;
+			signal_edge = RISING_EDGE;		// look for rising edge on next capture
+
+			if (rise_captured && fall_captured)
+			{
+				capture_difference = falling_capture - rising_capture;		// calculate difference
+				this_capture = falling_capture;
+			}
+		}
+
+		if (rise_captured && fall_captured)
+		{
+			// this may need to be adjusted to account for HDLC limitation of valid data to 6 consecutive 1 bits (6 bit periods without a transition)
+			// but works as is
+			for (bit_num = 0; bit_num < 8; bit_num ++)
+			{
+				if (DifferenceWithinWindow(capture_difference, bit_num))		// iteratively check to see if the difference between the last and current transition falls within any acceptable bit window
+				{
+					new_bit_period = (capture_difference / (bit_num + 1));		// if correlated, we calculate when we expect the next transition to theoretically fall, if the next bit period were the same as the current one
+																				// this configuration will generate a 600 Hz (1200 transition/second) clock on the output compare module/pin
+					next_capture_time = this_capture + new_bit_period;
+					next_time = next_capture_time;
+					__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_time);
+					// may need a break statement here?
+					// but works without it...
+				}
+				// probably need to do something in the event that we did not correlate with any of the acceptable windows
+			}
+		}
 	}
 
+	return;
+
+}
+
+int OC_count2 = 0;
+void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM2 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
+	{
+		OC_count2++;
+		next_time = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1) + (new_bit_period);
+		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_time);
+	}
+
+	return;
 }
 /* USER CODE END 4 */
 

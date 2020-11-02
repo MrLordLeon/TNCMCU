@@ -147,19 +147,20 @@ void output_AX25(){
 	freqSelect = true;
 	bool dumbbits[3] = { 0, 1, 1 };
 	//Init dac playing some frequency, shouldn't be read by radio
-	wave_start = bitToAudio(dumbbits, 3,1,wave_start); //start flag
+	wave_start = bitToAudio(dumbbits, 3,1,wave_start);
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
+
 	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
 
 	//Real information fields
-	//wave_start = bitToAudio(local_packet->address, address_len,1,wave_start); 		//lsb first
-	//wave_start = bitToAudio(local_packet->control,control_len,1,wave_start);			//lsb first
-	wave_start = bitToAudio(local_packet->PID,PID_len,1,wave_start);					//lsb first
-	//wave_start = bitToAudio(local_packet->Info,local_packet->Info_Len,1,wave_start);	//lsb first
-	//bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS,0,wave_start);	//msb first
+	wave_start = bitToAudio(local_packet->address, address_len + local_packet->stuffed_address,1,wave_start); 		//lsb first
+	wave_start = bitToAudio(local_packet->control,control_len + local_packet->stuffed_control,1,wave_start);		//lsb first
+	wave_start = bitToAudio(local_packet->PID,PID_len + local_packet->stuffed_PID,1,wave_start);					//lsb first
+	wave_start = bitToAudio(local_packet->Info,local_packet->Info_Len + local_packet->stuffed_Info,1,wave_start);	//lsb first
+	bitToAudio(local_packet->FCS,FCS_len + local_packet->stuffed_FCS + local_packet->stuffed_FCS,1,wave_start);		//msb first
 
-	//bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start);//stop flag
+	bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start);//stop flag
 
 	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 

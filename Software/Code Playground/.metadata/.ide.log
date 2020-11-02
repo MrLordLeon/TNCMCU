@@ -2731,3 +2731,1391 @@
 2020-11-01 17:05:40,933 [INFO] ProjectBuilder:3155 - Time for Generating toolchain IDE Files: 1336mS.
 2020-11-01 17:05:40,934 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
 2020-11-01 17:05:40,936 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 17:47:52,113 [INFO] Activator:178 - 
+
+
+2020-11-01 17:47:52,115 [INFO] Activator:179 - !SESSION log4j initialized
+2020-11-01 19:58:13,094 [INFO] ApplicationProperties:181 - Using Application install path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643
+2020-11-01 19:58:13,101 [INFO] DbMcusXml:70 - Set database path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/mcu/
+2020-11-01 19:58:13,104 [INFO] DbBoardsPdsc:56 - Set plugin database path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/boardmanager/
+2020-11-01 19:58:13,105 [INFO] DbMcus:258 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:13,105 [INFO] DbBoards:264 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:13,106 [INFO] DbExamples:326 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:13,110 [INFO] DbMcusDocs:112 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,112 [INFO] DbMcusJson:63 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,112 [INFO] DbBoardsDocs:112 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,113 [INFO] DbBoardsJson:56 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,819 [INFO] CrossReferenceDbSqlite:196 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/cs/
+2020-11-01 19:58:13,822 [INFO] DbExamplesSqlite:800 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,886 [INFO] RulesReader:52 - Compatibility file has been processed (209 Rules)
+2020-11-01 19:58:13,958 [INFO] MicroXplorer:564 - Detected Java Version = 1.8.0_242
+2020-11-01 19:58:13,958 [INFO] DbMcusXml:70 - Set database path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/mcu/
+2020-11-01 19:58:13,959 [INFO] DbBoardsPdsc:56 - Set plugin database path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/boardmanager/
+2020-11-01 19:58:13,959 [INFO] DbMcus:258 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:13,960 [INFO] DbBoards:264 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:13,960 [INFO] DbExamples:326 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:13,960 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:13,960 [INFO] DbMcusDocs:112 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,960 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:13,960 [INFO] DbMcusJson:63 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,960 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:13,960 [INFO] DbBoardsDocs:112 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,961 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:13,961 [INFO] DbBoardsJson:56 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:13,961 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:13,961 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:14,817 [INFO] CrossReferenceDbSqlite:196 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/cs/
+2020-11-01 19:58:14,817 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:14,817 [INFO] DbExamplesSqlite:800 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:14,871 [INFO] MainPanel:189 - HeapMemory: 319815680
+2020-11-01 19:58:14,910 [INFO] DbMcusXml:70 - Set database path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/mcu/
+2020-11-01 19:58:14,910 [INFO] DbBoardsPdsc:56 - Set plugin database path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/boardmanager/
+2020-11-01 19:58:14,910 [INFO] DbMcus:258 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:14,910 [INFO] DbBoards:264 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:14,910 [INFO] DbExamples:326 - Set plugin images path to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/plugins/mcufinder/images/
+2020-11-01 19:58:14,911 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:14,911 [INFO] DbMcusDocs:112 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:14,911 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:14,911 [INFO] DbMcusJson:63 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:14,911 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:14,911 [INFO] DbBoardsDocs:112 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:14,911 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:14,912 [INFO] DbBoardsJson:56 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:14,912 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:14,912 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:15,814 [INFO] CrossReferenceDbSqlite:196 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/cs/
+2020-11-01 19:58:15,814 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\monke\.stmcufinder\plugins\mcufinder/ => C:\Users\monke\.stmcufinder\plugins\mcufinder
+2020-11-01 19:58:15,814 [INFO] DbExamplesSqlite:800 - Set database path to: C:\Users\monke\.stmcufinder\plugins\mcufinder//mcu/
+2020-11-01 19:58:15,825 [INFO] ApplicationProperties:181 - Using Application install path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643
+2020-11-01 19:58:15,826 [INFO] PluginManage:178 - Search for loadable plugins [exclusion list=, ]
+2020-11-01 19:58:15,827 [INFO] PluginManage:292 - Check plugin analytics
+2020-11-01 19:58:25,892 [INFO] AnalyticsPlugin:203 - Accepted Software Licenses: STM32CubeMX.6.0.0
+2020-11-01 19:58:25,893 [INFO] AnalyticsPlugin:205 - Accepted CMSIS Pack Licenses: 
+2020-11-01 19:58:25,893 [INFO] AnalyticsPlugin:207 - Accepted Firmware Licenses: 
+2020-11-01 19:58:25,893 [INFO] PluginManage:342 - Loaded plugin analytics (category:tool,tabindex:-1)
+2020-11-01 19:58:25,894 [INFO] PluginManage:292 - Check plugin clock
+2020-11-01 19:58:25,902 [INFO] PluginManage:342 - Loaded plugin clock (category:base,tabindex:2)
+2020-11-01 19:58:25,903 [INFO] PluginManage:292 - Check plugin ddr
+2020-11-01 19:58:25,904 [INFO] PluginManage:342 - Loaded plugin ddr (category:tool,tabindex:6)
+2020-11-01 19:58:25,904 [INFO] PluginManage:292 - Check plugin filemanager
+2020-11-01 19:58:25,981 [INFO] PluginManage:342 - Loaded plugin filemanager (category:base,tabindex:10)
+2020-11-01 19:58:25,981 [INFO] PluginManage:292 - Check plugin ipmanager
+2020-11-01 19:58:25,992 [INFO] PluginManage:342 - Loaded plugin ipmanager (category:base,tabindex:5)
+2020-11-01 19:58:25,992 [INFO] PluginManage:292 - Check plugin pinoutandconfiguration
+2020-11-01 19:58:25,999 [INFO] PluginManage:342 - Loaded plugin pinoutandconfiguration (category:base,tabindex:1)
+2020-11-01 19:58:25,999 [INFO] PluginManage:292 - Check plugin pinoutconfig
+2020-11-01 19:58:26,017 [INFO] PluginManage:342 - Loaded plugin pinoutconfig (category:base,tabindex:0)
+2020-11-01 19:58:26,017 [INFO] PluginManage:292 - Check plugin power
+2020-11-01 19:58:26,023 [INFO] PluginManage:342 - Loaded plugin power (category:power,tabindex:4)
+2020-11-01 19:58:26,023 [INFO] PluginManage:292 - Check plugin projectmanager
+2020-11-01 19:58:26,033 [INFO] PluginManage:342 - Loaded plugin projectmanager (category:projectmanager,tabindex:3)
+2020-11-01 19:58:26,033 [INFO] PluginManage:292 - Check plugin thirdparty
+2020-11-01 19:58:26,087 [INFO] ThirdPartyDb:333 - Open Third Party DataBase File (C:/Users/monke/.stm32cubemx/plugins/thirdparty/db/thirdparties_db.xml) : 28 ms. number of Sw pack : 18
+2020-11-01 19:58:26,091 [INFO] PluginManage:342 - Loaded plugin thirdparty (category:base,tabindex:-1)
+2020-11-01 19:58:26,092 [INFO] PluginManage:292 - Check plugin tools
+2020-11-01 19:58:26,094 [INFO] PluginManage:342 - Loaded plugin tools (category:base,tabindex:7)
+2020-11-01 19:58:26,094 [INFO] PluginManage:292 - Check plugin tutovideos
+2020-11-01 19:58:26,238 [INFO] PluginManage:342 - Loaded plugin tutovideos (category:base,tabindex:-1)
+2020-11-01 19:58:26,238 [INFO] PluginManage:292 - Check plugin updater
+2020-11-01 19:58:26,245 [INFO] PluginManage:342 - Loaded plugin updater (category:base,tabindex:12)
+2020-11-01 19:58:26,246 [INFO] PluginManage:265 - PluginManage : Loaded plugins [13]
+2020-11-01 19:58:26,395 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 19:58:26,475 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,475 [INFO] PluginManager:200 - loadIPPluginJar : add adc
+2020-11-01 19:58:26,477 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,477 [INFO] PluginManager:200 - loadIPPluginJar : add aes
+2020-11-01 19:58:26,479 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,479 [INFO] PluginManager:200 - loadIPPluginJar : add can
+2020-11-01 19:58:26,480 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,480 [INFO] PluginManager:200 - loadIPPluginJar : add comp
+2020-11-01 19:58:26,481 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,482 [INFO] PluginManager:200 - loadIPPluginJar : add cryp
+2020-11-01 19:58:26,483 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,483 [INFO] PluginManager:200 - loadIPPluginJar : add dfsdm
+2020-11-01 19:58:26,487 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,488 [INFO] PluginManager:200 - loadIPPluginJar : add dma
+2020-11-01 19:58:26,489 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,490 [INFO] PluginManager:200 - loadIPPluginJar : add fatfs
+2020-11-01 19:58:26,492 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,493 [INFO] PluginManager:200 - loadIPPluginJar : add fmc
+2020-11-01 19:58:26,496 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,497 [INFO] PluginManager:200 - loadIPPluginJar : add freertos
+2020-11-01 19:58:26,497 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,498 [INFO] PluginManager:200 - loadIPPluginJar : add genericplugin
+2020-11-01 19:58:26,499 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,499 [INFO] PluginManager:200 - loadIPPluginJar : add gfxmmu
+2020-11-01 19:58:26,503 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,503 [INFO] PluginManager:200 - loadIPPluginJar : add gic
+2020-11-01 19:58:26,506 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,506 [INFO] PluginManager:200 - loadIPPluginJar : add gpio
+2020-11-01 19:58:26,508 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,508 [INFO] PluginManager:200 - loadIPPluginJar : add gtzc
+2020-11-01 19:58:26,510 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,510 [INFO] PluginManager:200 - loadIPPluginJar : add hash
+2020-11-01 19:58:26,512 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,512 [INFO] PluginManager:200 - loadIPPluginJar : add i2c
+2020-11-01 19:58:26,513 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,514 [INFO] PluginManager:200 - loadIPPluginJar : add i2s
+2020-11-01 19:58:26,515 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,516 [INFO] PluginManager:200 - loadIPPluginJar : add ipddr
+2020-11-01 19:58:26,516 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,517 [INFO] PluginManager:200 - loadIPPluginJar : add ltdc
+2020-11-01 19:58:26,519 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,520 [INFO] PluginManager:200 - loadIPPluginJar : add mdma
+2020-11-01 19:58:26,522 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,522 [INFO] PluginManager:200 - loadIPPluginJar : add nvic
+2020-11-01 19:58:26,524 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,524 [INFO] PluginManager:200 - loadIPPluginJar : add opamp
+2020-11-01 19:58:26,526 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,526 [INFO] PluginManager:200 - loadIPPluginJar : add openamp
+2020-11-01 19:58:26,528 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,528 [INFO] PluginManager:200 - loadIPPluginJar : add pdm2pcm
+2020-11-01 19:58:26,532 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,534 [INFO] PluginManager:200 - loadIPPluginJar : add plateformsettings
+2020-11-01 19:58:26,535 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,535 [INFO] PluginManager:200 - loadIPPluginJar : add quadspi
+2020-11-01 19:58:26,537 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,537 [INFO] PluginManager:200 - loadIPPluginJar : add resmgrutility
+2020-11-01 19:58:26,539 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,540 [INFO] PluginManager:200 - loadIPPluginJar : add sai
+2020-11-01 19:58:26,541 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,541 [INFO] PluginManager:200 - loadIPPluginJar : add spi
+2020-11-01 19:58:26,544 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,544 [INFO] PluginManager:200 - loadIPPluginJar : add stm32_wpan
+2020-11-01 19:58:26,545 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,545 [INFO] PluginManager:200 - loadIPPluginJar : add tim
+2020-11-01 19:58:26,547 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,547 [INFO] PluginManager:200 - loadIPPluginJar : add touchsensing
+2020-11-01 19:58:26,549 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,549 [INFO] PluginManager:200 - loadIPPluginJar : add tracer_emb
+2020-11-01 19:58:26,561 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,562 [INFO] PluginManager:200 - loadIPPluginJar : add ts
+2020-11-01 19:58:26,563 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,563 [INFO] PluginManager:200 - loadIPPluginJar : add tsc
+2020-11-01 19:58:26,564 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,565 [INFO] PluginManager:200 - loadIPPluginJar : add ucpd
+2020-11-01 19:58:26,566 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:26,566 [INFO] PluginManager:200 - loadIPPluginJar : add usart
+2020-11-01 19:58:26,948 [INFO] CubeProgrammer:457 - [DDR PANEL] - PathOfProgrammer: null
+2020-11-01 19:58:27,448 [FATAL] Updater:282 - Updater called before beeing initialized
+2020-11-01 19:58:27,567 [FATAL] Updater:282 - Updater called before beeing initialized
+2020-11-01 19:58:27,567 [WARN] ThirdParty:775 - waiting for thirdparty lock release [close project]
+2020-11-01 19:58:27,568 [INFO] ThirdParty:777 - entering critical section [close project]
+2020-11-01 19:58:27,568 [INFO] ThirdParty:790 - exiting critical section [close project]
+2020-11-01 19:58:27,570 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 19:58:27,570 [FATAL] Updater:282 - Updater called before beeing initialized
+2020-11-01 19:58:27,574 [ERROR] Updater:967 - MainUpdater not yet initialized. External WinMGr cannot be set.
+2020-11-01 19:58:27,575 [INFO] CubeProgrammer:457 - [DDR PANEL] - PathOfProgrammer: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.win32_1.4.0.202007081208\tools\bin
+2020-11-01 19:58:27,576 [INFO] ProgrammerExecThread:148 - [ProgrammerAPI] CubeProgrammer command construction: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.win32_1.4.0.202007081208\tools\bin\STM32_Programmer_CLI.exe -l
+2020-11-01 19:58:27,681 [INFO] MainDdrPanel:49 - [DDR PANEL] SETTER - Set cubeProgrammerPath to: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.win32_1.4.0.202007081208\tools\bin
+2020-11-01 19:58:27,682 [INFO] Updater:904 - Updater Version found : 6.0.1
+2020-11-01 19:58:27,694 [INFO] ApplicationProperties:181 - Using Application install path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643
+2020-11-01 19:58:28,273 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 19:58:28,274 [INFO] MainUpdater:239 - Updater Check For Update Now.
+2020-11-01 19:58:28,274 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 19:58:28,293 [INFO] CheckServerUpdateThread:102 - End of CheckServer Thread
+2020-11-01 19:58:28,378 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 19:58:28,378 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 19:58:28,421 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 19:58:28,422 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 19:58:28,422 [WARN] ThirdParty:775 - waiting for thirdparty lock release [close project]
+2020-11-01 19:58:28,422 [INFO] ThirdParty:777 - entering critical section [close project]
+2020-11-01 19:58:28,422 [INFO] ThirdParty:790 - exiting critical section [close project]
+2020-11-01 19:58:28,424 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 19:58:28,424 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 302187832 Bytes (334495744)
+2020-11-01 19:58:28,425 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 19:58:28,425 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 19:58:28,425 [INFO] OpenFileManager:274 - Change cursor
+2020-11-01 19:58:29,108 [WARN] IntegrityCheckThread:61 - waiting for thirdparty lock release [integrity check]
+2020-11-01 19:58:29,108 [INFO] IntegrityCheckThread:63 - entering critical section [integrity check]
+2020-11-01 19:58:29,130 [INFO] ThirdPartyDb:299 - Save Third Party DataBase File (C:/Users/monke/.stm32cubemx/plugins/thirdparty/db/thirdparties_db.xml) [forced]
+2020-11-01 19:58:29,154 [INFO] ThirdPartyDb:299 - Save Third Party DataBase File (C:/Users/monke/.stm32cubemx/plugins/thirdparty/db/thirdparties_db.xml) [forced]
+2020-11-01 19:58:29,169 [INFO] IntegrityCheckThread:76 - exiting critical section [integrity check]
+2020-11-01 19:58:29,169 [INFO] IntegrityCheckThread:79 - End integrity checks thread
+2020-11-01 19:58:29,959 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A3' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 19:58:29,960 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A2' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 19:58:29,960 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 19:58:29,960 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 19:58:29,960 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_Condition id : 1602822853379
+2020-11-01 19:58:29,960 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 19:58:29,960 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_HelloWorld_Condition id : 1602822853381
+2020-11-01 19:58:29,962 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 19:58:29,963 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 19:58:29,963 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 19:58:29,963 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 19:58:29,963 [WARN] ModelIntegratedComponent:188 - Missing modes for component 1604214774181
+2020-11-01 19:58:29,964 [WARN] ApiManager:274 - Cannot register API 'Wireless:BlueNRG-2' from pack STMicroelectronics.X-CUBE-BLE2.3.0.0: no header file found
+2020-11-01 19:58:30,015 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (48MHZClocksFreq_Value)
+2020-11-01 19:58:30,015 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (EthernetFreq_Value)
+2020-11-01 19:58:30,016 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (FLatency) has Id (AdvancedSettings) currently not set
+2020-11-01 19:58:30,016 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2020-11-01 19:58:30,017 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (I2SClocksFreq_Value)
+2020-11-01 19:58:30,017 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SDIOFreq_Value) has invalid value (90000000)
+2020-11-01 19:58:30,017 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USBFreq_Value) has invalid value (90000000)
+2020-11-01 19:58:30,018 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VCOInputMFreq_Value)
+2020-11-01 19:58:30,018 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VcooutputI2S)
+2020-11-01 19:58:30,264 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 211317344 Bytes (350224384)
+2020-11-01 19:58:30,265 [INFO] DbMcusXml:100 - Load MCU database from C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\/mcu/families.xml
+2020-11-01 19:58:30,570 [INFO] DbMcusJson:92 - JSON generation date=Wed Oct 28 05:12:07 CDT 2020 (1603879927)
+2020-11-01 19:58:31,001 [INFO] DbMcus:175 - Found 1761 MCUs (1722 are supported by CubeMX, 1738 are visible in CubeMX)
+2020-11-01 19:58:31,002 [INFO] ApiDb:201 - Load user favorites file C:\Users\monke/.stm32cubemx/favorites.mcus.txt: 0 item(s)
+2020-11-01 19:58:31,002 [INFO] ApiDb:205 - User favorites MCUs=[]
+2020-11-01 19:58:31,002 [INFO] DbMcus:187 - Set 0 / 0 favorites MCUs
+2020-11-01 19:58:31,003 [WARN] ThirdParty:741 - waiting for thirdparty lock release [change project]
+2020-11-01 19:58:31,003 [INFO] ThirdParty:743 - entering critical section [change project]
+2020-11-01 19:58:31,003 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 8.1.1
+2020-11-01 19:58:31,003 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 1.0.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.15.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 5.2.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.0.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2020-11-01 19:58:31,004 [INFO] ThirdParty:749 - exiting critical section [change project]
+2020-11-01 19:58:31,190 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 19:58:31,191 [INFO] PinOutPanel:1418 - setPackage(STM32F446RETx,LQFP64)
+2020-11-01 19:58:31,514 [INFO] UtilMem:74 - Before build in PCC Used Memory: 348005816 Bytes (641728512)
+2020-11-01 19:58:31,803 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 19:58:31,832 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 19:58:31,872 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 19:58:31,877 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 19:58:31,992 [INFO] UtilMem:74 - After build in PCC Used Memory: 408829384 Bytes (641728512)
+2020-11-01 19:58:32,009 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,009 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,009 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,009 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,009 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,009 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,009 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,009 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,010 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,011 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,013 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,014 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,014 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,014 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,014 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,014 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,014 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,014 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,015 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,015 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,015 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 19:58:32,040 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] toolchainItems.length=====1
+2020-11-01 19:58:32,174 [INFO] OpenFileManager:294 - Restore cursor
+2020-11-01 20:02:29,594 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,736x358,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:02:30,875 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:03:03,801 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 424989792 Bytes (641728512)
+2020-11-01 20:03:08,802 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 451726440 Bytes (641728512)
+2020-11-01 20:03:09,065 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 20:03:09,066 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 20:03:09,066 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: SYS
+2020-11-01 20:03:09,066 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: RCC
+2020-11-01 20:03:09,066 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: NVIC
+2020-11-01 20:03:09,066 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: USART
+2020-11-01 20:03:09,066 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: GPIO
+2020-11-01 20:03:09,067 [INFO] CodeGenerator:622 - code generatio: config db path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\
+2020-11-01 20:03:09,364 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp_save
+2020-11-01 20:03:09,638 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp
+2020-11-01 20:03:09,716 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp_save
+2020-11-01 20:03:09,790 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp
+2020-11-01 20:03:09,872 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 20:03:09,874 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 20:03:09,904 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c_save
+2020-11-01 20:03:10,002 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c
+2020-11-01 20:03:10,019 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h_save
+2020-11-01 20:03:10,079 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h
+2020-11-01 20:03:10,105 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c_save
+2020-11-01 20:03:10,201 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c
+2020-11-01 20:03:10,223 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp_save
+2020-11-01 20:03:10,259 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp
+2020-11-01 20:03:10,287 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h_save
+2020-11-01 20:03:10,359 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h
+2020-11-01 20:03:10,430 [WARN] IPConfigManager:2884 - IP not found : TIM
+2020-11-01 20:03:10,430 [WARN] IPConfigManager:2884 - IP not found : gpio
+2020-11-01 20:03:10,431 [WARN] CodeGenerator:2866 - IP not found : TIM
+2020-11-01 20:03:10,431 [WARN] CodeGenerator:2866 - IP not found : gpio
+2020-11-01 20:03:10,461 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h_save
+2020-11-01 20:03:10,522 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h
+2020-11-01 20:03:10,548 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c_save
+2020-11-01 20:03:10,661 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c
+2020-11-01 20:03:11,085 [INFO] ProjectBuilder:2168 - Time for Copy HAL[1] : 68mS.
+2020-11-01 20:03:11,088 [INFO] ProjectBuilder:2988 - Project Generator version: 3.10.0-B14
+2020-11-01 20:03:11,341 [INFO] ConfigFileManager:1183 - The Die is : DIE421
+2020-11-01 20:03:11,353 [INFO] ApiDbMcu:456 - Load IP Config File for FATFS
+2020-11-01 20:03:11,357 [INFO] ApiDbMcu:456 - Load IP Config File for FREERTOS
+2020-11-01 20:03:11,358 [INFO] ApiDbMcu:456 - Load IP Config File for LIBJPEG
+2020-11-01 20:03:11,362 [INFO] ApiDbMcu:456 - Load IP Config File for MBEDTLS
+2020-11-01 20:03:11,364 [INFO] ApiDbMcu:456 - Load IP Config File for PDM2PCM
+2020-11-01 20:03:11,370 [INFO] ApiDbMcu:456 - Load IP Config File for USB_DEVICE
+2020-11-01 20:03:11,373 [INFO] ApiDbMcu:456 - Load IP Config File for USB_HOST
+2020-11-01 20:03:12,441 [INFO] ProjectBuilder:3155 - Time for Generating toolchain IDE Files: 1353mS.
+2020-11-01 20:03:12,442 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 1mS.
+2020-11-01 20:03:12,444 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 20:05:51,070 [INFO] DbMcusDocs:145 - JSON generation date=Wed Oct 28 05:12:07 CDT 2020 (1603879927)
+2020-11-01 20:05:51,142 [INFO] DbMcusDocs:81 - Found 601 MCUs documents
+2020-11-01 20:41:22,838 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 385141432 Bytes (816840704)
+2020-11-01 20:41:29,794 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 20:41:29,794 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 20:41:29,845 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 20:41:29,845 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 20:41:29,845 [WARN] ThirdParty:775 - waiting for thirdparty lock release [close project]
+2020-11-01 20:41:29,845 [INFO] ThirdParty:777 - entering critical section [close project]
+2020-11-01 20:41:29,845 [INFO] ThirdParty:790 - exiting critical section [close project]
+2020-11-01 20:41:29,848 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 20:41:29,851 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 445144920 Bytes (816840704)
+2020-11-01 20:41:29,851 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 20:41:29,851 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 20:41:29,852 [INFO] OpenFileManager:274 - Change cursor
+2020-11-01 20:41:29,857 [INFO] RulesReader:52 - Compatibility file has been processed (209 Rules)
+2020-11-01 20:41:30,805 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A3' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:41:30,805 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A2' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:41:30,805 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:41:30,805 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 20:41:30,805 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_Condition id : 1602822853379
+2020-11-01 20:41:30,806 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 20:41:30,806 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_HelloWorld_Condition id : 1602822853381
+2020-11-01 20:41:30,806 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 20:41:30,806 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 20:41:30,806 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 20:41:30,807 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 20:41:30,807 [WARN] ModelIntegratedComponent:188 - Missing modes for component 1604214774181
+2020-11-01 20:41:30,808 [WARN] ApiManager:274 - Cannot register API 'Wireless:BlueNRG-2' from pack STMicroelectronics.X-CUBE-BLE2.3.0.0: no header file found
+2020-11-01 20:41:30,845 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Instance) has Id (DAC1) currently not set
+2020-11-01 20:41:30,846 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Channel) has Id (DAC1) currently not set
+2020-11-01 20:41:30,846 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Direction) has Id (DAC1) currently not set
+2020-11-01 20:41:30,846 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (PeriphInc) has Id (DAC1) currently not set
+2020-11-01 20:41:30,846 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (MemInc) has Id (DAC1) currently not set
+2020-11-01 20:41:30,846 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (PeriphDataAlignment) has Id (DAC1) currently not set
+2020-11-01 20:41:30,846 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (MemDataAlignment) has Id (DAC1) currently not set
+2020-11-01 20:41:30,846 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Mode) has Id (DAC1) currently not set
+2020-11-01 20:41:30,847 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Priority) has Id (DAC1) currently not set
+2020-11-01 20:41:30,847 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (FIFOMode) has Id (DAC1) currently not set
+2020-11-01 20:41:30,847 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (FLatency) has Id (AdvancedSettings) currently not set
+2020-11-01 20:41:30,847 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2020-11-01 20:41:30,848 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SDIOFreq_Value) has invalid value (90000000)
+2020-11-01 20:41:30,848 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USBFreq_Value) has invalid value (90000000)
+2020-11-01 20:41:30,849 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VcooutputI2S)
+2020-11-01 20:41:30,981 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 302232992 Bytes (816840704)
+2020-11-01 20:41:30,981 [WARN] ThirdParty:741 - waiting for thirdparty lock release [change project]
+2020-11-01 20:41:30,981 [INFO] ThirdParty:743 - entering critical section [change project]
+2020-11-01 20:41:30,981 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 8.1.1
+2020-11-01 20:41:30,981 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2020-11-01 20:41:30,981 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 1.0.0
+2020-11-01 20:41:30,981 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2020-11-01 20:41:30,981 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.15.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 5.2.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.0.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2020-11-01 20:41:30,982 [INFO] ThirdParty:749 - exiting critical section [change project]
+2020-11-01 20:41:31,045 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 20:41:31,046 [INFO] PinOutPanel:1418 - setPackage(STM32F446RETx,LQFP64)
+2020-11-01 20:41:31,185 [INFO] UtilMem:74 - Before build in PCC Used Memory: 412276984 Bytes (816840704)
+2020-11-01 20:41:31,275 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:41:31,294 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:41:31,310 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:41:31,312 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:41:31,336 [INFO] UtilMem:74 - After build in PCC Used Memory: 461560056 Bytes (816840704)
+2020-11-01 20:41:31,344 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,344 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,344 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,344 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,344 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,344 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,345 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,346 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,347 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,347 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,347 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,347 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,347 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,347 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,347 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,347 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,348 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,349 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,350 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,350 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,350 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:31,430 [INFO] OpenFileManager:294 - Restore cursor
+2020-11-01 20:41:45,211 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 20:41:45,211 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 20:41:45,260 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 20:41:45,260 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 20:41:45,260 [WARN] ThirdParty:775 - waiting for thirdparty lock release [close project]
+2020-11-01 20:41:45,260 [INFO] ThirdParty:777 - entering critical section [close project]
+2020-11-01 20:41:45,261 [INFO] ThirdParty:790 - exiting critical section [close project]
+2020-11-01 20:41:45,261 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 20:41:45,263 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 561990560 Bytes (816840704)
+2020-11-01 20:41:45,263 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 20:41:45,264 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 20:41:45,264 [INFO] OpenFileManager:274 - Change cursor
+2020-11-01 20:41:46,165 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A3' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:41:46,165 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A2' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:41:46,165 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:41:46,165 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 20:41:46,166 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_Condition id : 1602822853379
+2020-11-01 20:41:46,166 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 20:41:46,166 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_HelloWorld_Condition id : 1602822853381
+2020-11-01 20:41:46,166 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 20:41:46,166 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 20:41:46,166 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 20:41:46,166 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 20:41:46,166 [WARN] ModelIntegratedComponent:188 - Missing modes for component 1604214774181
+2020-11-01 20:41:46,167 [WARN] ApiManager:274 - Cannot register API 'Wireless:BlueNRG-2' from pack STMicroelectronics.X-CUBE-BLE2.3.0.0: no header file found
+2020-11-01 20:41:46,189 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (48MHZClocksFreq_Value)
+2020-11-01 20:41:46,190 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (EthernetFreq_Value)
+2020-11-01 20:41:46,191 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (FLatency) has Id (AdvancedSettings) currently not set
+2020-11-01 20:41:46,191 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2020-11-01 20:41:46,191 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (I2SClocksFreq_Value)
+2020-11-01 20:41:46,191 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SDIOFreq_Value) has invalid value (90000000)
+2020-11-01 20:41:46,191 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USBFreq_Value) has invalid value (90000000)
+2020-11-01 20:41:46,191 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VCOInputMFreq_Value)
+2020-11-01 20:41:46,191 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VcooutputI2S)
+2020-11-01 20:41:46,354 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 513489136 Bytes (816840704)
+2020-11-01 20:41:46,355 [WARN] ThirdParty:741 - waiting for thirdparty lock release [change project]
+2020-11-01 20:41:46,355 [INFO] ThirdParty:743 - entering critical section [change project]
+2020-11-01 20:41:46,355 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 8.1.1
+2020-11-01 20:41:46,355 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2020-11-01 20:41:46,355 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 1.0.0
+2020-11-01 20:41:46,355 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.15.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 5.2.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.0.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2020-11-01 20:41:46,356 [INFO] ThirdParty:749 - exiting critical section [change project]
+2020-11-01 20:41:46,413 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 20:41:46,413 [INFO] PinOutPanel:1418 - setPackage(STM32F446RETx,LQFP64)
+2020-11-01 20:41:46,532 [INFO] UtilMem:74 - Before build in PCC Used Memory: 593124424 Bytes (816840704)
+2020-11-01 20:41:46,604 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:41:46,619 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:41:46,632 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:41:46,634 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:41:46,659 [INFO] UtilMem:74 - After build in PCC Used Memory: 641881168 Bytes (816840704)
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,669 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,670 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,671 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,672 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,673 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,673 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,673 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,673 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,673 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,673 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,674 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,674 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,674 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,674 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,674 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:41:46,740 [INFO] OpenFileManager:294 - Restore cursor
+2020-11-01 20:42:16,283 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,631x358,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:42:24,036 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:42:26,017 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:42:26,805 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:42:32,396 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:42:38,590 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:42:43,780 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:43:22,128 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:43:23,685 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:44:00,894 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:44:04,393 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:44:04,423 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:44:05,724 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:44:06,726 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:44:08,704 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:44:29,428 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:44:46,061 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 20:54:21,341 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 343511328 Bytes (850395136)
+2020-11-01 20:54:24,660 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 20:54:24,660 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 20:54:24,696 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 20:54:24,696 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 20:54:24,696 [WARN] ThirdParty:775 - waiting for thirdparty lock release [close project]
+2020-11-01 20:54:24,696 [INFO] ThirdParty:777 - entering critical section [close project]
+2020-11-01 20:54:24,696 [INFO] ThirdParty:790 - exiting critical section [close project]
+2020-11-01 20:54:24,697 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 20:54:24,698 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 585062976 Bytes (850395136)
+2020-11-01 20:54:24,699 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 20:54:24,699 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 20:54:24,699 [INFO] OpenFileManager:274 - Change cursor
+2020-11-01 20:54:24,704 [INFO] RulesReader:52 - Compatibility file has been processed (209 Rules)
+2020-11-01 20:54:25,547 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A3' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:54:25,547 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A2' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:54:25,547 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 20:54:25,547 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 20:54:25,547 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_Condition id : 1602822853379
+2020-11-01 20:54:25,547 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 20:54:25,547 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_HelloWorld_Condition id : 1602822853381
+2020-11-01 20:54:25,548 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 20:54:25,548 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 20:54:25,548 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 20:54:25,548 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 20:54:25,548 [WARN] ModelIntegratedComponent:188 - Missing modes for component 1604214774181
+2020-11-01 20:54:25,550 [WARN] ApiManager:274 - Cannot register API 'Wireless:BlueNRG-2' from pack STMicroelectronics.X-CUBE-BLE2.3.0.0: no header file found
+2020-11-01 20:54:25,572 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Instance) has Id (DAC1) currently not set
+2020-11-01 20:54:25,572 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Channel) has Id (DAC1) currently not set
+2020-11-01 20:54:25,572 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Direction) has Id (DAC1) currently not set
+2020-11-01 20:54:25,572 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (PeriphInc) has Id (DAC1) currently not set
+2020-11-01 20:54:25,572 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (MemInc) has Id (DAC1) currently not set
+2020-11-01 20:54:25,573 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (PeriphDataAlignment) has Id (DAC1) currently not set
+2020-11-01 20:54:25,573 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (MemDataAlignment) has Id (DAC1) currently not set
+2020-11-01 20:54:25,573 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Mode) has Id (DAC1) currently not set
+2020-11-01 20:54:25,573 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (Priority) has Id (DAC1) currently not set
+2020-11-01 20:54:25,573 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (DMA) : Parameter (FIFOMode) has Id (DAC1) currently not set
+2020-11-01 20:54:25,573 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (FLatency) has Id (AdvancedSettings) currently not set
+2020-11-01 20:54:25,573 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2020-11-01 20:54:25,574 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SDIOFreq_Value) has invalid value (90000000)
+2020-11-01 20:54:25,574 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USBFreq_Value) has invalid value (90000000)
+2020-11-01 20:54:25,574 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VcooutputI2S)
+2020-11-01 20:54:25,677 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 717941672 Bytes (850395136)
+2020-11-01 20:54:25,678 [WARN] ThirdParty:741 - waiting for thirdparty lock release [change project]
+2020-11-01 20:54:25,678 [INFO] ThirdParty:743 - entering critical section [change project]
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 8.1.1
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 1.0.0
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.15.0
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2020-11-01 20:54:25,678 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 5.2.0
+2020-11-01 20:54:25,679 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.0.0
+2020-11-01 20:54:25,679 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2020-11-01 20:54:25,679 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2020-11-01 20:54:25,679 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2020-11-01 20:54:25,679 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2020-11-01 20:54:25,679 [INFO] ThirdParty:749 - exiting critical section [change project]
+2020-11-01 20:54:25,739 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 20:54:25,739 [INFO] PinOutPanel:1418 - setPackage(STM32F446RETx,LQFP64)
+2020-11-01 20:54:25,851 [INFO] UtilMem:74 - Before build in PCC Used Memory: 396496632 Bytes (850395136)
+2020-11-01 20:54:25,906 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:54:25,918 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:54:25,928 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:54:25,930 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 20:54:25,948 [INFO] UtilMem:74 - After build in PCC Used Memory: 445257456 Bytes (850395136)
+2020-11-01 20:54:25,955 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,955 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,955 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,955 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,955 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,955 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,956 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,957 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,958 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,959 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,960 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:25,961 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 20:54:26,024 [INFO] OpenFileManager:294 - Restore cursor
+2020-11-01 22:20:25,536 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 22:20:25,538 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 22:20:25,602 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 22:20:25,602 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 22:20:25,602 [WARN] ThirdParty:775 - waiting for thirdparty lock release [close project]
+2020-11-01 22:20:25,602 [INFO] ThirdParty:777 - entering critical section [close project]
+2020-11-01 22:20:25,603 [INFO] ThirdParty:790 - exiting critical section [close project]
+2020-11-01 22:20:25,604 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 22:20:25,608 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 512826296 Bytes (850395136)
+2020-11-01 22:20:25,608 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 22:20:25,609 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 22:20:25,609 [INFO] OpenFileManager:274 - Change cursor
+2020-11-01 22:20:26,601 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A3' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 22:20:26,601 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A2' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 22:20:26,602 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 22:20:26,602 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 22:20:26,602 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_Condition id : 1602822853379
+2020-11-01 22:20:26,602 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 22:20:26,602 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_HelloWorld_Condition id : 1602822853381
+2020-11-01 22:20:26,602 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 22:20:26,602 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 22:20:26,603 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 22:20:26,603 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 22:20:26,603 [WARN] ModelIntegratedComponent:188 - Missing modes for component 1604214774181
+2020-11-01 22:20:26,603 [WARN] ApiManager:274 - Cannot register API 'Wireless:BlueNRG-2' from pack STMicroelectronics.X-CUBE-BLE2.3.0.0: no header file found
+2020-11-01 22:20:26,627 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (48MHZClocksFreq_Value)
+2020-11-01 22:20:26,628 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (EthernetFreq_Value)
+2020-11-01 22:20:26,628 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (FLatency) has Id (AdvancedSettings) currently not set
+2020-11-01 22:20:26,628 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2020-11-01 22:20:26,628 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (I2SClocksFreq_Value)
+2020-11-01 22:20:26,629 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SDIOFreq_Value) has invalid value (90000000)
+2020-11-01 22:20:26,629 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USBFreq_Value) has invalid value (90000000)
+2020-11-01 22:20:26,629 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VCOInputMFreq_Value)
+2020-11-01 22:20:26,629 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VcooutputI2S)
+2020-11-01 22:20:26,753 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 715294968 Bytes (850395136)
+2020-11-01 22:20:26,762 [WARN] ThirdParty:741 - waiting for thirdparty lock release [change project]
+2020-11-01 22:20:26,762 [INFO] ThirdParty:743 - entering critical section [change project]
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 8.1.1
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 1.0.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.15.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 5.2.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.0.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2020-11-01 22:20:26,763 [INFO] ThirdParty:749 - exiting critical section [change project]
+2020-11-01 22:20:26,815 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 22:20:26,816 [INFO] PinOutPanel:1418 - setPackage(STM32F446RETx,LQFP64)
+2020-11-01 22:20:26,934 [INFO] UtilMem:74 - Before build in PCC Used Memory: 417967696 Bytes (850395136)
+2020-11-01 22:20:26,997 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 22:20:27,011 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 22:20:27,024 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 22:20:27,026 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 22:20:27,054 [INFO] UtilMem:74 - After build in PCC Used Memory: 466724440 Bytes (850395136)
+2020-11-01 22:20:27,061 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,062 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,062 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,062 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,062 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,064 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,065 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:20:27,172 [INFO] OpenFileManager:294 - Restore cursor
+2020-11-01 22:28:21,963 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,545x265,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 22:37:53,119 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 719279808 Bytes (850395136)
+2020-11-01 22:38:55,288 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 719671272 Bytes (850395136)
+2020-11-01 22:38:55,394 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 22:38:55,394 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 22:38:55,394 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: SYS
+2020-11-01 22:38:55,394 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: RCC
+2020-11-01 22:38:55,394 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: NVIC
+2020-11-01 22:38:55,395 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: USART
+2020-11-01 22:38:55,395 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: GPIO
+2020-11-01 22:38:55,395 [INFO] CodeGenerator:622 - code generatio: config db path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\
+2020-11-01 22:38:55,538 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp_save
+2020-11-01 22:38:55,573 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp
+2020-11-01 22:38:55,603 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp_save
+2020-11-01 22:38:55,638 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp
+2020-11-01 22:38:55,686 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 22:38:55,687 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 22:38:55,713 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c_save
+2020-11-01 22:38:55,777 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c
+2020-11-01 22:38:55,794 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h_save
+2020-11-01 22:38:55,840 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h
+2020-11-01 22:38:55,864 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c_save
+2020-11-01 22:38:55,943 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c
+2020-11-01 22:38:55,959 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp_save
+2020-11-01 22:38:55,989 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp
+2020-11-01 22:38:56,012 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h_save
+2020-11-01 22:38:56,065 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h
+2020-11-01 22:38:56,081 [WARN] IPConfigManager:2884 - IP not found : TIM
+2020-11-01 22:38:56,081 [WARN] IPConfigManager:2884 - IP not found : gpio
+2020-11-01 22:38:56,081 [WARN] CodeGenerator:2866 - IP not found : TIM
+2020-11-01 22:38:56,081 [WARN] CodeGenerator:2866 - IP not found : gpio
+2020-11-01 22:38:56,098 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h_save
+2020-11-01 22:38:56,141 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h
+2020-11-01 22:38:56,163 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c_save
+2020-11-01 22:38:56,286 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c
+2020-11-01 22:38:56,572 [INFO] ProjectBuilder:2168 - Time for Copy HAL[1] : 65mS.
+2020-11-01 22:38:56,574 [INFO] ProjectBuilder:2988 - Project Generator version: 3.10.0-B14
+2020-11-01 22:38:56,700 [INFO] ConfigFileManager:1183 - The Die is : DIE421
+2020-11-01 22:38:56,701 [INFO] ApiDbMcu:456 - Load IP Config File for FATFS
+2020-11-01 22:38:56,704 [INFO] ApiDbMcu:456 - Load IP Config File for FREERTOS
+2020-11-01 22:38:56,705 [INFO] ApiDbMcu:456 - Load IP Config File for LIBJPEG
+2020-11-01 22:38:56,707 [INFO] ApiDbMcu:456 - Load IP Config File for MBEDTLS
+2020-11-01 22:38:56,707 [INFO] ApiDbMcu:456 - Load IP Config File for PDM2PCM
+2020-11-01 22:38:56,711 [INFO] ApiDbMcu:456 - Load IP Config File for USB_DEVICE
+2020-11-01 22:38:56,713 [INFO] ApiDbMcu:456 - Load IP Config File for USB_HOST
+2020-11-01 22:38:57,617 [INFO] ProjectBuilder:3155 - Time for Generating toolchain IDE Files: 1043mS.
+2020-11-01 22:38:57,618 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 22:38:57,620 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 22:40:20,036 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 22:40:20,036 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 22:40:20,063 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 22:40:20,063 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 22:40:20,063 [WARN] ThirdParty:775 - waiting for thirdparty lock release [close project]
+2020-11-01 22:40:20,063 [INFO] ThirdParty:777 - entering critical section [close project]
+2020-11-01 22:40:20,063 [INFO] ThirdParty:790 - exiting critical section [close project]
+2020-11-01 22:40:20,064 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 22:40:20,065 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 494802720 Bytes (962592768)
+2020-11-01 22:40:20,065 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 22:40:20,065 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 22:40:20,065 [INFO] OpenFileManager:274 - Change cursor
+2020-11-01 22:40:20,072 [INFO] RulesReader:52 - Compatibility file has been processed (209 Rules)
+2020-11-01 22:40:20,809 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A3' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 22:40:20,809 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A2' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 22:40:20,809 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 22:40:20,809 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 22:40:20,809 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_Condition id : 1602822853379
+2020-11-01 22:40:20,809 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 22:40:20,809 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_HelloWorld_Condition id : 1602822853381
+2020-11-01 22:40:20,809 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 22:40:20,810 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 22:40:20,810 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 22:40:20,810 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 22:40:20,810 [WARN] ModelIntegratedComponent:188 - Missing modes for component 1604214774181
+2020-11-01 22:40:20,811 [WARN] ApiManager:274 - Cannot register API 'Wireless:BlueNRG-2' from pack STMicroelectronics.X-CUBE-BLE2.3.0.0: no header file found
+2020-11-01 22:40:20,831 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (48MHZClocksFreq_Value)
+2020-11-01 22:40:20,831 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (EthernetFreq_Value)
+2020-11-01 22:40:20,831 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (FLatency) has Id (AdvancedSettings) currently not set
+2020-11-01 22:40:20,831 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2020-11-01 22:40:20,832 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (I2SClocksFreq_Value)
+2020-11-01 22:40:20,832 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SDIOFreq_Value) has invalid value (80000000)
+2020-11-01 22:40:20,832 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USBFreq_Value) has invalid value (80000000)
+2020-11-01 22:40:20,832 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VCOInputMFreq_Value)
+2020-11-01 22:40:20,832 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VcooutputI2S)
+2020-11-01 22:40:20,968 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 484094280 Bytes (962592768)
+2020-11-01 22:40:20,968 [WARN] ThirdParty:741 - waiting for thirdparty lock release [change project]
+2020-11-01 22:40:20,968 [INFO] ThirdParty:743 - entering critical section [change project]
+2020-11-01 22:40:20,968 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 8.1.1
+2020-11-01 22:40:20,968 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2020-11-01 22:40:20,968 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 1.0.0
+2020-11-01 22:40:20,968 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2020-11-01 22:40:20,968 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.15.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 5.2.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.0.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2020-11-01 22:40:20,969 [INFO] ThirdParty:749 - exiting critical section [change project]
+2020-11-01 22:40:21,012 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 22:40:21,012 [INFO] PinOutPanel:1418 - setPackage(STM32F446RETx,LQFP64)
+2020-11-01 22:40:21,122 [INFO] UtilMem:74 - Before build in PCC Used Memory: 561106088 Bytes (962592768)
+2020-11-01 22:40:21,179 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 22:40:21,192 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 22:40:21,203 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 22:40:21,205 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 22:40:21,224 [INFO] UtilMem:74 - After build in PCC Used Memory: 609866912 Bytes (962592768)
+2020-11-01 22:40:21,232 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,232 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,232 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,232 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,232 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,232 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,233 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,234 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,235 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,236 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,237 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 22:40:21,303 [INFO] OpenFileManager:294 - Restore cursor
+2020-11-01 22:40:39,789 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,728x423,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 22:40:42,353 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 22:40:47,607 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 570280584 Bytes (962592768)
+2020-11-01 22:40:49,237 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 609077896 Bytes (962592768)
+2020-11-01 22:40:49,343 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 22:40:49,343 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 22:40:49,343 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: SYS
+2020-11-01 22:40:49,343 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: RCC
+2020-11-01 22:40:49,343 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: NVIC
+2020-11-01 22:40:49,343 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: USART
+2020-11-01 22:40:49,343 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: GPIO
+2020-11-01 22:40:49,344 [INFO] CodeGenerator:622 - code generatio: config db path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\
+2020-11-01 22:40:49,456 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp_save
+2020-11-01 22:40:49,482 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp
+2020-11-01 22:40:49,505 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp_save
+2020-11-01 22:40:49,535 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp
+2020-11-01 22:40:49,575 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 22:40:49,576 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 22:40:49,597 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c_save
+2020-11-01 22:40:49,697 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c
+2020-11-01 22:40:49,712 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h_save
+2020-11-01 22:40:49,748 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h
+2020-11-01 22:40:49,767 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c_save
+2020-11-01 22:40:49,837 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c
+2020-11-01 22:40:49,853 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp_save
+2020-11-01 22:40:49,878 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp
+2020-11-01 22:40:49,899 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h_save
+2020-11-01 22:40:49,955 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h
+2020-11-01 22:40:49,968 [WARN] IPConfigManager:2884 - IP not found : TIM
+2020-11-01 22:40:49,968 [WARN] IPConfigManager:2884 - IP not found : gpio
+2020-11-01 22:40:49,968 [WARN] CodeGenerator:2866 - IP not found : TIM
+2020-11-01 22:40:49,968 [WARN] CodeGenerator:2866 - IP not found : gpio
+2020-11-01 22:40:49,986 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h_save
+2020-11-01 22:40:50,019 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h
+2020-11-01 22:40:50,038 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c_save
+2020-11-01 22:40:50,111 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c
+2020-11-01 22:40:50,500 [INFO] ProjectBuilder:2168 - Time for Copy HAL[1] : 62mS.
+2020-11-01 22:40:50,501 [INFO] ProjectBuilder:2988 - Project Generator version: 3.10.0-B14
+2020-11-01 22:40:50,627 [INFO] ConfigFileManager:1183 - The Die is : DIE421
+2020-11-01 22:40:50,629 [INFO] ApiDbMcu:456 - Load IP Config File for FATFS
+2020-11-01 22:40:50,631 [INFO] ApiDbMcu:456 - Load IP Config File for FREERTOS
+2020-11-01 22:40:50,632 [INFO] ApiDbMcu:456 - Load IP Config File for LIBJPEG
+2020-11-01 22:40:50,634 [INFO] ApiDbMcu:456 - Load IP Config File for MBEDTLS
+2020-11-01 22:40:50,635 [INFO] ApiDbMcu:456 - Load IP Config File for PDM2PCM
+2020-11-01 22:40:50,638 [INFO] ApiDbMcu:456 - Load IP Config File for USB_DEVICE
+2020-11-01 22:40:50,641 [INFO] ApiDbMcu:456 - Load IP Config File for USB_HOST
+2020-11-01 22:40:51,501 [INFO] ProjectBuilder:3155 - Time for Generating toolchain IDE Files: 1000mS.
+2020-11-01 22:40:51,502 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 22:40:51,504 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 22:41:41,619 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,0x0,invalid,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 22:55:24,998 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 590866576 Bytes (974127104)
+2020-11-01 22:55:25,099 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 22:55:25,099 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 22:55:25,099 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: SYS
+2020-11-01 22:55:25,099 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: RCC
+2020-11-01 22:55:25,099 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: NVIC
+2020-11-01 22:55:25,099 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: USART
+2020-11-01 22:55:25,099 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: GPIO
+2020-11-01 22:55:25,100 [INFO] CodeGenerator:622 - code generatio: config db path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\
+2020-11-01 22:55:25,206 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp_save
+2020-11-01 22:55:25,233 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp
+2020-11-01 22:55:25,249 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp_save
+2020-11-01 22:55:25,276 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp
+2020-11-01 22:55:25,313 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 22:55:25,314 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 22:55:25,334 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c_save
+2020-11-01 22:55:25,375 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c
+2020-11-01 22:55:25,387 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h_save
+2020-11-01 22:55:25,419 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h
+2020-11-01 22:55:25,440 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c_save
+2020-11-01 22:55:25,496 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c
+2020-11-01 22:55:25,507 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp_save
+2020-11-01 22:55:25,533 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp
+2020-11-01 22:55:25,553 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h_save
+2020-11-01 22:55:25,641 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h
+2020-11-01 22:55:25,655 [WARN] IPConfigManager:2884 - IP not found : TIM
+2020-11-01 22:55:25,655 [WARN] IPConfigManager:2884 - IP not found : gpio
+2020-11-01 22:55:25,655 [WARN] CodeGenerator:2866 - IP not found : TIM
+2020-11-01 22:55:25,655 [WARN] CodeGenerator:2866 - IP not found : gpio
+2020-11-01 22:55:25,672 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h_save
+2020-11-01 22:55:25,708 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h
+2020-11-01 22:55:25,727 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c_save
+2020-11-01 22:55:25,800 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c
+2020-11-01 22:55:26,075 [INFO] ProjectBuilder:2168 - Time for Copy HAL[1] : 60mS.
+2020-11-01 22:55:26,076 [INFO] ProjectBuilder:2988 - Project Generator version: 3.10.0-B14
+2020-11-01 22:55:26,202 [INFO] ConfigFileManager:1183 - The Die is : DIE421
+2020-11-01 22:55:27,026 [INFO] ProjectBuilder:3155 - Time for Generating toolchain IDE Files: 950mS.
+2020-11-01 22:55:27,027 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 1mS.
+2020-11-01 22:55:27,029 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 1mS.
+2020-11-01 23:10:01,390 [INFO] NvicIntPanel:90 - NVIC parent = com.st.microxplorer.plugins.ip.nvic.MultiNvicIntPanel[,0,0,799x423,layout=javax.swing.BoxLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=9,maximumSize=,minimumSize=,preferredSize=]
+2020-11-01 23:11:13,350 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 620469704 Bytes (1073741824)
+2020-11-01 23:11:14,518 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 631477712 Bytes (1073741824)
+2020-11-01 23:11:15,920 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 668704200 Bytes (1073741824)
+2020-11-01 23:11:16,028 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 23:11:16,028 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 23:11:16,028 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: SYS
+2020-11-01 23:11:16,028 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: RCC
+2020-11-01 23:11:16,028 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: NVIC
+2020-11-01 23:11:16,028 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: USART
+2020-11-01 23:11:16,028 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: GPIO
+2020-11-01 23:11:16,029 [INFO] CodeGenerator:622 - code generatio: config db path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\
+2020-11-01 23:11:16,135 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp_save
+2020-11-01 23:11:16,164 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp
+2020-11-01 23:11:16,185 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp_save
+2020-11-01 23:11:16,211 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp
+2020-11-01 23:11:16,252 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 23:11:16,253 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 23:11:16,271 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c_save
+2020-11-01 23:11:16,313 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c
+2020-11-01 23:11:16,326 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h_save
+2020-11-01 23:11:16,358 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h
+2020-11-01 23:11:16,380 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c_save
+2020-11-01 23:11:16,471 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c
+2020-11-01 23:11:16,483 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp_save
+2020-11-01 23:11:16,509 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp
+2020-11-01 23:11:16,529 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h_save
+2020-11-01 23:11:16,580 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h
+2020-11-01 23:11:16,594 [WARN] IPConfigManager:2884 - IP not found : TIM
+2020-11-01 23:11:16,594 [WARN] IPConfigManager:2884 - IP not found : gpio
+2020-11-01 23:11:16,595 [WARN] CodeGenerator:2866 - IP not found : TIM
+2020-11-01 23:11:16,595 [WARN] CodeGenerator:2866 - IP not found : gpio
+2020-11-01 23:11:16,613 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h_save
+2020-11-01 23:11:16,646 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h
+2020-11-01 23:11:16,667 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c_save
+2020-11-01 23:11:16,743 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c
+2020-11-01 23:11:17,031 [INFO] ProjectBuilder:2168 - Time for Copy HAL[1] : 69mS.
+2020-11-01 23:11:17,033 [INFO] ProjectBuilder:2988 - Project Generator version: 3.10.0-B14
+2020-11-01 23:11:17,159 [INFO] ConfigFileManager:1183 - The Die is : DIE421
+2020-11-01 23:11:18,261 [INFO] ProjectBuilder:3155 - Time for Generating toolchain IDE Files: 1228mS.
+2020-11-01 23:11:18,262 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 1mS.
+2020-11-01 23:11:18,263 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 23:33:33,541 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 23:33:33,541 [INFO] MainUpdater:2268 - connection check result : 10
+2020-11-01 23:33:33,578 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 23:33:33,578 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 23:33:33,579 [WARN] ThirdParty:775 - waiting for thirdparty lock release [close project]
+2020-11-01 23:33:33,579 [INFO] ThirdParty:777 - entering critical section [close project]
+2020-11-01 23:33:33,579 [INFO] ThirdParty:790 - exiting critical section [close project]
+2020-11-01 23:33:33,579 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 23:33:33,580 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 736256872 Bytes (1073741824)
+2020-11-01 23:33:33,581 [INFO] MicroXplorer:384 - Change Database Path : 
+2020-11-01 23:33:33,581 [INFO] MicroXplorer:414 - Change Database Version : DB.6.0.0
+2020-11-01 23:33:33,581 [INFO] OpenFileManager:274 - Change cursor
+2020-11-01 23:33:33,588 [INFO] RulesReader:52 - Compatibility file has been processed (209 Rules)
+2020-11-01 23:33:34,342 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A3' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 23:33:34,342 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS01A2' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 23:33:34,342 [WARN] ApiManager:274 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.8.1.1: no header file found
+2020-11-01 23:33:34,342 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 23:33:34,342 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_Condition id : 1602822853379
+2020-11-01 23:33:34,342 [INFO] DependencyParser:915 - This component is not compatible with the current MCU : [1602822853394]
+2020-11-01 23:33:34,342 [INFO] ThirdPartyModel:556 - Component with status : MCU_INCOMPATIBLE for condition : GFX01M1_HelloWorld_Condition id : 1602822853381
+2020-11-01 23:33:34,342 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 23:33:34,342 [INFO] RtosManager:456 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 23:33:34,343 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2020-11-01 23:33:34,343 [INFO] RtosManager:456 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2020-11-01 23:33:34,343 [WARN] ModelIntegratedComponent:188 - Missing modes for component 1604214774181
+2020-11-01 23:33:34,344 [WARN] ApiManager:274 - Cannot register API 'Wireless:BlueNRG-2' from pack STMicroelectronics.X-CUBE-BLE2.3.0.0: no header file found
+2020-11-01 23:33:34,378 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (48MHZClocksFreq_Value)
+2020-11-01 23:33:34,379 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (EthernetFreq_Value)
+2020-11-01 23:33:34,379 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (FLatency) has Id (AdvancedSettings) currently not set
+2020-11-01 23:33:34,379 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2020-11-01 23:33:34,379 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (I2SClocksFreq_Value)
+2020-11-01 23:33:34,379 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SDIOFreq_Value) has invalid value (80000000)
+2020-11-01 23:33:34,379 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USBFreq_Value) has invalid value (80000000)
+2020-11-01 23:33:34,380 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VCOInputMFreq_Value)
+2020-11-01 23:33:34,380 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (VcooutputI2S)
+2020-11-01 23:33:34,497 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 643457888 Bytes (1073741824)
+2020-11-01 23:33:34,497 [WARN] ThirdParty:741 - waiting for thirdparty lock release [change project]
+2020-11-01 23:33:34,497 [INFO] ThirdParty:743 - entering critical section [change project]
+2020-11-01 23:33:34,497 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 8.1.1
+2020-11-01 23:33:34,497 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2020-11-01 23:33:34,497 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 1.0.0
+2020-11-01 23:33:34,497 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2020-11-01 23:33:34,497 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2020-11-01 23:33:34,497 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2020-11-01 23:33:34,497 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.15.0
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 5.2.0
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.0.0
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2020-11-01 23:33:34,498 [INFO] ThirdParty:968 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2020-11-01 23:33:34,498 [INFO] ThirdParty:749 - exiting critical section [change project]
+2020-11-01 23:33:34,540 [INFO] PinOutPanel:1418 - setPackage(No Configuration,No Configuration)
+2020-11-01 23:33:34,541 [INFO] PinOutPanel:1418 - setPackage(STM32F446RETx,LQFP64)
+2020-11-01 23:33:34,651 [INFO] UtilMem:74 - Before build in PCC Used Memory: 720473776 Bytes (1073741824)
+2020-11-01 23:33:34,708 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 23:33:34,719 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 23:33:34,732 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 23:33:34,735 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/monke/.stm32cubemx/plugins/power
+2020-11-01 23:33:34,757 [INFO] UtilMem:74 - After build in PCC Used Memory: 769230520 Bytes (1073741824)
+2020-11-01 23:33:34,764 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,765 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,766 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,767 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,768 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,769 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2020-11-01 23:33:34,858 [INFO] OpenFileManager:294 - Restore cursor
+2020-11-01 23:38:36,508 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 572098232 Bytes (1073741824)
+2020-11-01 23:38:42,463 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 583110320 Bytes (1073741824)
+2020-11-01 23:38:45,587 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 642352824 Bytes (1073741824)
+2020-11-01 23:38:45,690 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 23:38:45,690 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: TIM1_8
+2020-11-01 23:38:45,690 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: SYS
+2020-11-01 23:38:45,690 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: RCC
+2020-11-01 23:38:45,690 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: NVIC
+2020-11-01 23:38:45,691 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: USART
+2020-11-01 23:38:45,691 [INFO] BlockDiagram:2729 - set Specific Code input for plugin: GPIO
+2020-11-01 23:38:45,691 [INFO] CodeGenerator:622 - code generatio: config db path: C:\ST\STM32CubeIDE_1.3.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.0.1.202008101643\\db\
+2020-11-01 23:38:45,806 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp_save
+2020-11-01 23:38:45,831 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\license.tmp
+2020-11-01 23:38:45,857 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp_save
+2020-11-01 23:38:45,885 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\gpio.tmp
+2020-11-01 23:38:45,920 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 23:38:45,921 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Command line
+2020-11-01 23:38:45,941 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c_save
+2020-11-01 23:38:45,984 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_it.c
+2020-11-01 23:38:45,996 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h_save
+2020-11-01 23:38:46,028 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_it.h
+2020-11-01 23:38:46,050 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c_save
+2020-11-01 23:38:46,105 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\stm32f4xx_hal_msp.c
+2020-11-01 23:38:46,119 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp_save
+2020-11-01 23:38:46,146 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\MXTmpFiles\system.tmp
+2020-11-01 23:38:46,167 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h_save
+2020-11-01 23:38:46,272 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\stm32f4xx_hal_conf.h
+2020-11-01 23:38:46,286 [WARN] IPConfigManager:2884 - IP not found : TIM
+2020-11-01 23:38:46,287 [WARN] IPConfigManager:2884 - IP not found : gpio
+2020-11-01 23:38:46,287 [WARN] CodeGenerator:2866 - IP not found : TIM
+2020-11-01 23:38:46,287 [WARN] CodeGenerator:2866 - IP not found : gpio
+2020-11-01 23:38:46,306 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h_save
+2020-11-01 23:38:46,339 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Inc\main.h
+2020-11-01 23:38:46,358 [INFO] CodeEngine:188 - oldGeneratedFile, C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c_save
+2020-11-01 23:38:46,429 [INFO] CodeEngine:206 - Generated code: C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\Core\Src\main.c
+2020-11-01 23:38:46,710 [INFO] ProjectBuilder:2168 - Time for Copy HAL[1] : 61mS.
+2020-11-01 23:38:46,712 [INFO] ProjectBuilder:2988 - Project Generator version: 3.10.0-B14
+2020-11-01 23:38:46,838 [INFO] ConfigFileManager:1183 - The Die is : DIE421
+2020-11-01 23:38:46,840 [INFO] ApiDbMcu:456 - Load IP Config File for FATFS
+2020-11-01 23:38:46,841 [INFO] ApiDbMcu:456 - Load IP Config File for FREERTOS
+2020-11-01 23:38:46,842 [INFO] ApiDbMcu:456 - Load IP Config File for LIBJPEG
+2020-11-01 23:38:46,844 [INFO] ApiDbMcu:456 - Load IP Config File for MBEDTLS
+2020-11-01 23:38:46,845 [INFO] ApiDbMcu:456 - Load IP Config File for PDM2PCM
+2020-11-01 23:38:46,847 [INFO] ApiDbMcu:456 - Load IP Config File for USB_DEVICE
+2020-11-01 23:38:46,849 [INFO] ApiDbMcu:456 - Load IP Config File for USB_HOST
+2020-11-01 23:38:48,034 [INFO] ProjectBuilder:3155 - Time for Generating toolchain IDE Files: 1322mS.
+2020-11-01 23:38:48,035 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 23:38:48,036 [INFO] ProjectBuilder:2044 - Time for Copy CMSIS : 0mS.
+2020-11-01 23:50:54,588 [INFO] Activator:178 - 
+
+
+2020-11-01 23:50:54,590 [INFO] Activator:179 - !SESSION log4j initialized
