@@ -69,19 +69,14 @@ void print_AX25(){
 	}
 	curr_mem += local_packet->Info_Len;
 
-	curr_mem += FCS_len - 8;
-	for(int i = 0;i<(FCS_len/8);i++){
-		sprintf(uartData, "FCS Field %d     =",i+1)	;
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		}
-		curr_mem -= 8;
-		sprintf(uartData, "\n");
+	sprintf(uartData, "FCS Field = ")	;
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	for(int i = 0;i<FCS_len;i++){
+		sprintf(uartData, " %d ",curr_mem[i])	;
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 }
 
 void print_outAX25(){
@@ -89,6 +84,15 @@ void print_outAX25(){
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
 	sprintf(uartData, "\nPrinting AX25_PACKET being sent to radio\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	sprintf(uartData, "AX25 FLAG = ");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem = AX25TBYTE;
+	for(int i = 0; i < 8; i++){
+		sprintf(uartData, " %d ",curr_mem[i]);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Address Field
@@ -143,31 +147,12 @@ void print_outAX25(){
 	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-	//Print Info Field
-	curr_mem = local_packet->Info;
-	for(int i = 0;i<(local_packet->Info_Len/8);i++){
-		sprintf(uartData, "Info Field %d    =",i+1)	;
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem+j));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		}
-		curr_mem += 8;
-		sprintf(uartData, "\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	}
-
-	//if Info was bitstuffed then print rest of address field
-	curr_mem = local_packet->Info + local_packet->Info_Len;
-	sprintf(uartData, "Info Field extra = ");
+	sprintf(uartData, "Info Field = ");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	curr_mem += local_packet->Info_Len;
-	if(local_packet->stuffed_Info > 0){
-		for(int i = 0; i < local_packet->stuffed_Info; i++){
-			sprintf(uartData, " %d ",*(curr_mem+i));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		}
+	curr_mem = local_packet->Info;
+	for(int i = 0; i < local_packet->Info_Len + local_packet->stuffed_Info;i++){
+		sprintf(uartData, " %d ",*(curr_mem+i));
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -180,6 +165,16 @@ void print_outAX25(){
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	sprintf(uartData, "AX25 FLAG = ");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	curr_mem = AX25TBYTE;
+	for(int i = 0; i < 8; i++){
+		sprintf(uartData, " %d ",curr_mem[i]);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
 	sprintf(uartData, "\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
