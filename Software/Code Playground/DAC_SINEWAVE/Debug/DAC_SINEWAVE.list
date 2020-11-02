@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00020084  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00012d2c  00000000  00000000  000200b4  2**0
+ 12 .debug_info   00012d52  00000000  00000000  000200b4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 000027bc  00000000  00000000  00032de0  2**0
+ 13 .debug_abbrev 000027bc  00000000  00000000  00032e06  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 00000ed0  00000000  00000000  000355a0  2**3
+ 14 .debug_aranges 00000ed8  00000000  00000000  000355c8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 00000da8  00000000  00000000  00036470  2**3
+ 15 .debug_ranges 00000db0  00000000  00000000  000364a0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  000232a8  00000000  00000000  00037218  2**0
+ 16 .debug_macro  000232a8  00000000  00000000  00037250  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0000c5ad  00000000  00000000  0005a4c0  2**0
+ 17 .debug_line   0000c5bf  00000000  00000000  0005a4f8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    000d27c5  00000000  00000000  00066a6d  2**0
+ 18 .debug_str    000d27d6  00000000  00000000  00066ab7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00139232  2**0
+ 19 .comment      0000007b  00000000  00000000  0013928d  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000040cc  00000000  00000000  001392b0  2**2
+ 20 .debug_frame  000040f4  00000000  00000000  00139308  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1802,15 +1802,15 @@ void set_packet_pointer_KISS(){
 
 bool KISS_TO_AX25(){
  8000f08:	b5f0      	push	{r4, r5, r6, r7, lr}
- 8000f0a:	b089      	sub	sp, #36	; 0x24
- 8000f0c:	af02      	add	r7, sp, #8
+ 8000f0a:	b085      	sub	sp, #20
+ 8000f0c:	af00      	add	r7, sp, #0
 	struct PACKET_STRUCT* local_packet = &global_packet;
- 8000f0e:	4b4b      	ldr	r3, [pc, #300]	; (800103c <KISS_TO_AX25+0x134>)
- 8000f10:	60fb      	str	r3, [r7, #12]
+ 8000f0e:	4b8c      	ldr	r3, [pc, #560]	; (8001140 <KISS_TO_AX25+0x238>)
+ 8000f10:	607b      	str	r3, [r7, #4]
 
 	sprintf(uartData, "Before KISS -> AX.25 conversion\n");
- 8000f12:	4b4b      	ldr	r3, [pc, #300]	; (8001040 <KISS_TO_AX25+0x138>)
- 8000f14:	4a4b      	ldr	r2, [pc, #300]	; (8001044 <KISS_TO_AX25+0x13c>)
+ 8000f12:	4b8c      	ldr	r3, [pc, #560]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8000f14:	4a8c      	ldr	r2, [pc, #560]	; (8001148 <KISS_TO_AX25+0x240>)
  8000f16:	4614      	mov	r4, r2
  8000f18:	469c      	mov	ip, r3
  8000f1a:	f104 0e20 	add.w	lr, r4, #32
@@ -1830,13 +1830,13 @@ bool KISS_TO_AX25(){
  8000f3a:	7812      	ldrb	r2, [r2, #0]
  8000f3c:	701a      	strb	r2, [r3, #0]
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
- 8000f3e:	4840      	ldr	r0, [pc, #256]	; (8001040 <KISS_TO_AX25+0x138>)
+ 8000f3e:	4881      	ldr	r0, [pc, #516]	; (8001144 <KISS_TO_AX25+0x23c>)
  8000f40:	f7ff f966 	bl	8000210 <strlen>
  8000f44:	4603      	mov	r3, r0
  8000f46:	b29a      	uxth	r2, r3
  8000f48:	230a      	movs	r3, #10
- 8000f4a:	493d      	ldr	r1, [pc, #244]	; (8001040 <KISS_TO_AX25+0x138>)
- 8000f4c:	483e      	ldr	r0, [pc, #248]	; (8001048 <KISS_TO_AX25+0x140>)
+ 8000f4a:	497e      	ldr	r1, [pc, #504]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8000f4c:	487f      	ldr	r0, [pc, #508]	; (800114c <KISS_TO_AX25+0x244>)
  8000f4e:	f004 fd98 	bl	8005a82 <HAL_UART_Transmit>
 
 	set_packet_pointer_KISS();
@@ -1845,90 +1845,90 @@ bool KISS_TO_AX25(){
  8000f56:	f001 fd0b 	bl	8002970 <print_KISS>
 
 	bool* cpy_from_ptr = (local_packet->KISS_PACKET+(local_packet->byte_cnt-2)*8);//starting kiss packet skipping 2 bytes
- 8000f5a:	68fb      	ldr	r3, [r7, #12]
+ 8000f5a:	687b      	ldr	r3, [r7, #4]
  8000f5c:	f603 225f 	addw	r2, r3, #2655	; 0xa5f
- 8000f60:	68fb      	ldr	r3, [r7, #12]
+ 8000f60:	687b      	ldr	r3, [r7, #4]
  8000f62:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
  8000f66:	330c      	adds	r3, #12
  8000f68:	681b      	ldr	r3, [r3, #0]
  8000f6a:	3b02      	subs	r3, #2
  8000f6c:	00db      	lsls	r3, r3, #3
  8000f6e:	4413      	add	r3, r2
- 8000f70:	60bb      	str	r3, [r7, #8]
+ 8000f70:	603b      	str	r3, [r7, #0]
 
 	//Update packet pointers to AX25 members
 	set_packet_pointer_AX25();
  8000f72:	f7ff fd85 	bl	8000a80 <set_packet_pointer_AX25>
 
 	cpy_from_ptr -= address_len;
- 8000f76:	68bb      	ldr	r3, [r7, #8]
+ 8000f76:	683b      	ldr	r3, [r7, #0]
  8000f78:	3b70      	subs	r3, #112	; 0x70
- 8000f7a:	60bb      	str	r3, [r7, #8]
+ 8000f7a:	603b      	str	r3, [r7, #0]
 	memcpy(local_packet->address,cpy_from_ptr,address_len);
- 8000f7c:	68fb      	ldr	r3, [r7, #12]
+ 8000f7c:	687b      	ldr	r3, [r7, #4]
  8000f7e:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
  8000f82:	3310      	adds	r3, #16
  8000f84:	681b      	ldr	r3, [r3, #0]
  8000f86:	2270      	movs	r2, #112	; 0x70
- 8000f88:	68b9      	ldr	r1, [r7, #8]
+ 8000f88:	6839      	ldr	r1, [r7, #0]
  8000f8a:	4618      	mov	r0, r3
  8000f8c:	f005 fc8e 	bl	80068ac <memcpy>
 
 	cpy_from_ptr -= control_len;
- 8000f90:	68bb      	ldr	r3, [r7, #8]
+ 8000f90:	683b      	ldr	r3, [r7, #0]
  8000f92:	3b08      	subs	r3, #8
- 8000f94:	60bb      	str	r3, [r7, #8]
+ 8000f94:	603b      	str	r3, [r7, #0]
 	memcpy(local_packet->control,cpy_from_ptr,control_len);
- 8000f96:	68fb      	ldr	r3, [r7, #12]
+ 8000f96:	687b      	ldr	r3, [r7, #4]
  8000f98:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
  8000f9c:	3314      	adds	r3, #20
  8000f9e:	681b      	ldr	r3, [r3, #0]
  8000fa0:	2208      	movs	r2, #8
- 8000fa2:	68b9      	ldr	r1, [r7, #8]
+ 8000fa2:	6839      	ldr	r1, [r7, #0]
  8000fa4:	4618      	mov	r0, r3
  8000fa6:	f005 fc81 	bl	80068ac <memcpy>
 
 	cpy_from_ptr -= PID_len;
- 8000faa:	68bb      	ldr	r3, [r7, #8]
+ 8000faa:	683b      	ldr	r3, [r7, #0]
  8000fac:	3b08      	subs	r3, #8
- 8000fae:	60bb      	str	r3, [r7, #8]
+ 8000fae:	603b      	str	r3, [r7, #0]
 	memcpy(local_packet->PID,cpy_from_ptr,PID_len);
- 8000fb0:	68fb      	ldr	r3, [r7, #12]
+ 8000fb0:	687b      	ldr	r3, [r7, #4]
  8000fb2:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
  8000fb6:	3318      	adds	r3, #24
  8000fb8:	681b      	ldr	r3, [r3, #0]
  8000fba:	2208      	movs	r2, #8
- 8000fbc:	68b9      	ldr	r1, [r7, #8]
+ 8000fbc:	6839      	ldr	r1, [r7, #0]
  8000fbe:	4618      	mov	r0, r3
  8000fc0:	f005 fc74 	bl	80068ac <memcpy>
 
 	cpy_from_ptr -= local_packet->Info_Len;
- 8000fc4:	68fb      	ldr	r3, [r7, #12]
+ 8000fc4:	687b      	ldr	r3, [r7, #4]
  8000fc6:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
  8000fca:	681b      	ldr	r3, [r3, #0]
  8000fcc:	425b      	negs	r3, r3
- 8000fce:	68ba      	ldr	r2, [r7, #8]
+ 8000fce:	683a      	ldr	r2, [r7, #0]
  8000fd0:	4413      	add	r3, r2
- 8000fd2:	60bb      	str	r3, [r7, #8]
+ 8000fd2:	603b      	str	r3, [r7, #0]
 	memcpy(local_packet->Info,cpy_from_ptr,local_packet->Info_Len);
- 8000fd4:	68fb      	ldr	r3, [r7, #12]
+ 8000fd4:	687b      	ldr	r3, [r7, #4]
  8000fd6:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
  8000fda:	331c      	adds	r3, #28
  8000fdc:	6818      	ldr	r0, [r3, #0]
- 8000fde:	68fb      	ldr	r3, [r7, #12]
+ 8000fde:	687b      	ldr	r3, [r7, #4]
  8000fe0:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
  8000fe4:	681b      	ldr	r3, [r3, #0]
  8000fe6:	461a      	mov	r2, r3
- 8000fe8:	68b9      	ldr	r1, [r7, #8]
+ 8000fe8:	6839      	ldr	r1, [r7, #0]
  8000fea:	f005 fc5f 	bl	80068ac <memcpy>
 
 	//USE CRC HERE TO GENERATE FCS FIELD
 	rxBit_count = address_len + control_len + PID_len + local_packet->Info_Len;
- 8000fee:	68fb      	ldr	r3, [r7, #12]
+ 8000fee:	687b      	ldr	r3, [r7, #4]
  8000ff0:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
  8000ff4:	681b      	ldr	r3, [r3, #0]
  8000ff6:	3380      	adds	r3, #128	; 0x80
- 8000ff8:	4a14      	ldr	r2, [pc, #80]	; (800104c <KISS_TO_AX25+0x144>)
+ 8000ff8:	4a55      	ldr	r2, [pc, #340]	; (8001150 <KISS_TO_AX25+0x248>)
  8000ffa:	6013      	str	r3, [r2, #0]
 	crc_generate();
  8000ffc:	f000 faca 	bl	8001594 <crc_generate>
@@ -1936,8 +1936,8 @@ bool KISS_TO_AX25(){
  8001000:	f001 f81e 	bl	8002040 <print_AX25>
 
 	sprintf(uartData, "\n line Printing AX25 = \n");
- 8001004:	4a0e      	ldr	r2, [pc, #56]	; (8001040 <KISS_TO_AX25+0x138>)
- 8001006:	4b12      	ldr	r3, [pc, #72]	; (8001050 <KISS_TO_AX25+0x148>)
+ 8001004:	4a4f      	ldr	r2, [pc, #316]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8001006:	4b53      	ldr	r3, [pc, #332]	; (8001154 <KISS_TO_AX25+0x24c>)
  8001008:	4615      	mov	r5, r2
  800100a:	461c      	mov	r4, r3
  800100c:	cc0f      	ldmia	r4!, {r0, r1, r2, r3}
@@ -1951,423 +1951,433 @@ bool KISS_TO_AX25(){
  800101c:	7823      	ldrb	r3, [r4, #0]
  800101e:	762b      	strb	r3, [r5, #24]
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
- 8001020:	4807      	ldr	r0, [pc, #28]	; (8001040 <KISS_TO_AX25+0x138>)
+ 8001020:	4848      	ldr	r0, [pc, #288]	; (8001144 <KISS_TO_AX25+0x23c>)
  8001022:	f7ff f8f5 	bl	8000210 <strlen>
  8001026:	4603      	mov	r3, r0
  8001028:	b29a      	uxth	r2, r3
  800102a:	230a      	movs	r3, #10
- 800102c:	4904      	ldr	r1, [pc, #16]	; (8001040 <KISS_TO_AX25+0x138>)
- 800102e:	4806      	ldr	r0, [pc, #24]	; (8001048 <KISS_TO_AX25+0x140>)
+ 800102c:	4945      	ldr	r1, [pc, #276]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 800102e:	4847      	ldr	r0, [pc, #284]	; (800114c <KISS_TO_AX25+0x244>)
  8001030:	f004 fd27 	bl	8005a82 <HAL_UART_Transmit>
 	for(int i = 0; i < rxBit_count + FCS_len; i++){
  8001034:	2300      	movs	r3, #0
- 8001036:	617b      	str	r3, [r7, #20]
- 8001038:	e022      	b.n	8001080 <KISS_TO_AX25+0x178>
- 800103a:	bf00      	nop
- 800103c:	200000d4 	.word	0x200000d4
- 8001040:	20001cd8 	.word	0x20001cd8
- 8001044:	08007390 	.word	0x08007390
- 8001048:	20002b94 	.word	0x20002b94
- 800104c:	200000a0 	.word	0x200000a0
- 8001050:	080073b4 	.word	0x080073b4
+ 8001036:	60fb      	str	r3, [r7, #12]
+ 8001038:	e015      	b.n	8001066 <KISS_TO_AX25+0x15e>
 		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
- 8001054:	68fa      	ldr	r2, [r7, #12]
- 8001056:	697b      	ldr	r3, [r7, #20]
- 8001058:	4413      	add	r3, r2
- 800105a:	781b      	ldrb	r3, [r3, #0]
- 800105c:	461a      	mov	r2, r3
- 800105e:	49a5      	ldr	r1, [pc, #660]	; (80012f4 <KISS_TO_AX25+0x3ec>)
- 8001060:	48a5      	ldr	r0, [pc, #660]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 8001062:	f005 fc4f 	bl	8006904 <siprintf>
+ 800103a:	687a      	ldr	r2, [r7, #4]
+ 800103c:	68fb      	ldr	r3, [r7, #12]
+ 800103e:	4413      	add	r3, r2
+ 8001040:	781b      	ldrb	r3, [r3, #0]
+ 8001042:	461a      	mov	r2, r3
+ 8001044:	4944      	ldr	r1, [pc, #272]	; (8001158 <KISS_TO_AX25+0x250>)
+ 8001046:	483f      	ldr	r0, [pc, #252]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8001048:	f005 fc5c 	bl	8006904 <siprintf>
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
- 8001066:	48a4      	ldr	r0, [pc, #656]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 8001068:	f7ff f8d2 	bl	8000210 <strlen>
- 800106c:	4603      	mov	r3, r0
- 800106e:	b29a      	uxth	r2, r3
- 8001070:	230a      	movs	r3, #10
- 8001072:	49a1      	ldr	r1, [pc, #644]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 8001074:	48a1      	ldr	r0, [pc, #644]	; (80012fc <KISS_TO_AX25+0x3f4>)
- 8001076:	f004 fd04 	bl	8005a82 <HAL_UART_Transmit>
+ 800104c:	483d      	ldr	r0, [pc, #244]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 800104e:	f7ff f8df 	bl	8000210 <strlen>
+ 8001052:	4603      	mov	r3, r0
+ 8001054:	b29a      	uxth	r2, r3
+ 8001056:	230a      	movs	r3, #10
+ 8001058:	493a      	ldr	r1, [pc, #232]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 800105a:	483c      	ldr	r0, [pc, #240]	; (800114c <KISS_TO_AX25+0x244>)
+ 800105c:	f004 fd11 	bl	8005a82 <HAL_UART_Transmit>
 	for(int i = 0; i < rxBit_count + FCS_len; i++){
- 800107a:	697b      	ldr	r3, [r7, #20]
- 800107c:	3301      	adds	r3, #1
- 800107e:	617b      	str	r3, [r7, #20]
- 8001080:	4b9f      	ldr	r3, [pc, #636]	; (8001300 <KISS_TO_AX25+0x3f8>)
- 8001082:	681b      	ldr	r3, [r3, #0]
- 8001084:	3310      	adds	r3, #16
- 8001086:	697a      	ldr	r2, [r7, #20]
- 8001088:	429a      	cmp	r2, r3
- 800108a:	dbe3      	blt.n	8001054 <KISS_TO_AX25+0x14c>
+ 8001060:	68fb      	ldr	r3, [r7, #12]
+ 8001062:	3301      	adds	r3, #1
+ 8001064:	60fb      	str	r3, [r7, #12]
+ 8001066:	4b3a      	ldr	r3, [pc, #232]	; (8001150 <KISS_TO_AX25+0x248>)
+ 8001068:	681b      	ldr	r3, [r3, #0]
+ 800106a:	3310      	adds	r3, #16
+ 800106c:	68fa      	ldr	r2, [r7, #12]
+ 800106e:	429a      	cmp	r2, r3
+ 8001070:	dbe3      	blt.n	800103a <KISS_TO_AX25+0x132>
 	}
 	sprintf(uartData, "\n");
- 800108c:	4a9a      	ldr	r2, [pc, #616]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 800108e:	4b9d      	ldr	r3, [pc, #628]	; (8001304 <KISS_TO_AX25+0x3fc>)
- 8001090:	881b      	ldrh	r3, [r3, #0]
- 8001092:	8013      	strh	r3, [r2, #0]
+ 8001072:	4a34      	ldr	r2, [pc, #208]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8001074:	4b39      	ldr	r3, [pc, #228]	; (800115c <KISS_TO_AX25+0x254>)
+ 8001076:	881b      	ldrh	r3, [r3, #0]
+ 8001078:	8013      	strh	r3, [r2, #0]
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
- 8001094:	4898      	ldr	r0, [pc, #608]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 8001096:	f7ff f8bb 	bl	8000210 <strlen>
- 800109a:	4603      	mov	r3, r0
- 800109c:	b29a      	uxth	r2, r3
- 800109e:	230a      	movs	r3, #10
- 80010a0:	4995      	ldr	r1, [pc, #596]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 80010a2:	4896      	ldr	r0, [pc, #600]	; (80012fc <KISS_TO_AX25+0x3f4>)
- 80010a4:	f004 fced 	bl	8005a82 <HAL_UART_Transmit>
+ 800107a:	4832      	ldr	r0, [pc, #200]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 800107c:	f7ff f8c8 	bl	8000210 <strlen>
+ 8001080:	4603      	mov	r3, r0
+ 8001082:	b29a      	uxth	r2, r3
+ 8001084:	230a      	movs	r3, #10
+ 8001086:	492f      	ldr	r1, [pc, #188]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8001088:	4830      	ldr	r0, [pc, #192]	; (800114c <KISS_TO_AX25+0x244>)
+ 800108a:	f004 fcfa 	bl	8005a82 <HAL_UART_Transmit>
 
 	//BIT STUFFING NEEDED
-	int ax25_len = rxBit_count + FCS_len;
- 80010a8:	4b95      	ldr	r3, [pc, #596]	; (8001300 <KISS_TO_AX25+0x3f8>)
- 80010aa:	681b      	ldr	r3, [r3, #0]
- 80010ac:	3310      	adds	r3, #16
- 80010ae:	607b      	str	r3, [r7, #4]
-	int ones_count = 0;
- 80010b0:	2300      	movs	r3, #0
- 80010b2:	603b      	str	r3, [r7, #0]
-	ones_count = bitstuffing(local_packet->address,address_len,ax25_len, ones_count, &(local_packet->stuffed_address));
- 80010b4:	68fb      	ldr	r3, [r7, #12]
- 80010b6:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 80010ba:	3310      	adds	r3, #16
- 80010bc:	6818      	ldr	r0, [r3, #0]
- 80010be:	68fb      	ldr	r3, [r7, #12]
- 80010c0:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 80010c4:	3310      	adds	r3, #16
- 80010c6:	9300      	str	r3, [sp, #0]
- 80010c8:	683b      	ldr	r3, [r7, #0]
- 80010ca:	687a      	ldr	r2, [r7, #4]
- 80010cc:	2170      	movs	r1, #112	; 0x70
- 80010ce:	f000 f97b 	bl	80013c8 <bitstuffing>
- 80010d2:	6038      	str	r0, [r7, #0]
-	local_packet->bit_stuffed_zeros += local_packet->stuffed_address;
- 80010d4:	68fb      	ldr	r3, [r7, #12]
- 80010d6:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 80010da:	3304      	adds	r3, #4
- 80010dc:	681a      	ldr	r2, [r3, #0]
- 80010de:	68fb      	ldr	r3, [r7, #12]
- 80010e0:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 80010e4:	3310      	adds	r3, #16
- 80010e6:	681b      	ldr	r3, [r3, #0]
- 80010e8:	441a      	add	r2, r3
- 80010ea:	68fb      	ldr	r3, [r7, #12]
- 80010ec:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 80010f0:	3304      	adds	r3, #4
- 80010f2:	601a      	str	r2, [r3, #0]
-	ax25_len -= address_len;
- 80010f4:	687b      	ldr	r3, [r7, #4]
- 80010f6:	3b70      	subs	r3, #112	; 0x70
- 80010f8:	607b      	str	r3, [r7, #4]
-
-	local_packet->control += local_packet->bit_stuffed_zeros;
- 80010fa:	68fb      	ldr	r3, [r7, #12]
- 80010fc:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 8001100:	3314      	adds	r3, #20
- 8001102:	681a      	ldr	r2, [r3, #0]
- 8001104:	68fb      	ldr	r3, [r7, #12]
- 8001106:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 800110a:	3304      	adds	r3, #4
- 800110c:	681b      	ldr	r3, [r3, #0]
- 800110e:	441a      	add	r2, r3
- 8001110:	68fb      	ldr	r3, [r7, #12]
- 8001112:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 8001116:	3314      	adds	r3, #20
- 8001118:	601a      	str	r2, [r3, #0]
-	ones_count = bitstuffing(local_packet->control,control_len,ax25_len, ones_count, &(local_packet->stuffed_control));
- 800111a:	68fb      	ldr	r3, [r7, #12]
- 800111c:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 8001120:	3314      	adds	r3, #20
- 8001122:	6818      	ldr	r0, [r3, #0]
- 8001124:	68fb      	ldr	r3, [r7, #12]
- 8001126:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 800112a:	3314      	adds	r3, #20
- 800112c:	9300      	str	r3, [sp, #0]
- 800112e:	683b      	ldr	r3, [r7, #0]
- 8001130:	687a      	ldr	r2, [r7, #4]
- 8001132:	2108      	movs	r1, #8
- 8001134:	f000 f948 	bl	80013c8 <bitstuffing>
- 8001138:	6038      	str	r0, [r7, #0]
-	local_packet->bit_stuffed_zeros += local_packet->stuffed_control;
- 800113a:	68fb      	ldr	r3, [r7, #12]
- 800113c:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 8001140:	3304      	adds	r3, #4
- 8001142:	681a      	ldr	r2, [r3, #0]
- 8001144:	68fb      	ldr	r3, [r7, #12]
- 8001146:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 800114a:	3314      	adds	r3, #20
- 800114c:	681b      	ldr	r3, [r3, #0]
- 800114e:	441a      	add	r2, r3
- 8001150:	68fb      	ldr	r3, [r7, #12]
- 8001152:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 8001156:	3304      	adds	r3, #4
- 8001158:	601a      	str	r2, [r3, #0]
-	ax25_len -= control_len;
- 800115a:	687b      	ldr	r3, [r7, #4]
- 800115c:	3b08      	subs	r3, #8
- 800115e:	607b      	str	r3, [r7, #4]
-
-	local_packet->PID += local_packet->bit_stuffed_zeros;
- 8001160:	68fb      	ldr	r3, [r7, #12]
- 8001162:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 8001166:	3318      	adds	r3, #24
- 8001168:	681a      	ldr	r2, [r3, #0]
- 800116a:	68fb      	ldr	r3, [r7, #12]
- 800116c:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 8001170:	3304      	adds	r3, #4
- 8001172:	681b      	ldr	r3, [r3, #0]
- 8001174:	441a      	add	r2, r3
- 8001176:	68fb      	ldr	r3, [r7, #12]
- 8001178:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 800117c:	3318      	adds	r3, #24
- 800117e:	601a      	str	r2, [r3, #0]
-	ones_count = bitstuffing(local_packet->PID,PID_len,ax25_len, ones_count, &(local_packet->stuffed_PID));
- 8001180:	68fb      	ldr	r3, [r7, #12]
- 8001182:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 8001186:	3318      	adds	r3, #24
- 8001188:	6818      	ldr	r0, [r3, #0]
- 800118a:	68fb      	ldr	r3, [r7, #12]
- 800118c:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 8001190:	3318      	adds	r3, #24
- 8001192:	9300      	str	r3, [sp, #0]
- 8001194:	683b      	ldr	r3, [r7, #0]
- 8001196:	687a      	ldr	r2, [r7, #4]
- 8001198:	2108      	movs	r1, #8
- 800119a:	f000 f915 	bl	80013c8 <bitstuffing>
- 800119e:	6038      	str	r0, [r7, #0]
-	local_packet->bit_stuffed_zeros += local_packet->stuffed_PID;
- 80011a0:	68fb      	ldr	r3, [r7, #12]
- 80011a2:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 80011a6:	3304      	adds	r3, #4
- 80011a8:	681a      	ldr	r2, [r3, #0]
- 80011aa:	68fb      	ldr	r3, [r7, #12]
- 80011ac:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 80011b0:	3318      	adds	r3, #24
- 80011b2:	681b      	ldr	r3, [r3, #0]
- 80011b4:	441a      	add	r2, r3
- 80011b6:	68fb      	ldr	r3, [r7, #12]
- 80011b8:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 80011bc:	3304      	adds	r3, #4
- 80011be:	601a      	str	r2, [r3, #0]
-	ax25_len -= PID_len;
- 80011c0:	687b      	ldr	r3, [r7, #4]
- 80011c2:	3b08      	subs	r3, #8
- 80011c4:	607b      	str	r3, [r7, #4]
-
-	local_packet->Info += local_packet->bit_stuffed_zeros;
- 80011c6:	68fb      	ldr	r3, [r7, #12]
- 80011c8:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 80011cc:	331c      	adds	r3, #28
- 80011ce:	681a      	ldr	r2, [r3, #0]
- 80011d0:	68fb      	ldr	r3, [r7, #12]
- 80011d2:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 80011d6:	3304      	adds	r3, #4
- 80011d8:	681b      	ldr	r3, [r3, #0]
- 80011da:	441a      	add	r2, r3
- 80011dc:	68fb      	ldr	r3, [r7, #12]
- 80011de:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 80011e2:	331c      	adds	r3, #28
- 80011e4:	601a      	str	r2, [r3, #0]
-	ones_count = bitstuffing(local_packet->Info,local_packet->Info_Len, ax25_len, ones_count, &(local_packet->stuffed_Info));
- 80011e6:	68fb      	ldr	r3, [r7, #12]
- 80011e8:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
- 80011ec:	331c      	adds	r3, #28
- 80011ee:	6818      	ldr	r0, [r3, #0]
- 80011f0:	68fb      	ldr	r3, [r7, #12]
- 80011f2:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 80011f6:	6819      	ldr	r1, [r3, #0]
- 80011f8:	68fb      	ldr	r3, [r7, #12]
- 80011fa:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 80011fe:	331c      	adds	r3, #28
- 8001200:	9300      	str	r3, [sp, #0]
- 8001202:	683b      	ldr	r3, [r7, #0]
- 8001204:	687a      	ldr	r2, [r7, #4]
- 8001206:	f000 f8df 	bl	80013c8 <bitstuffing>
- 800120a:	6038      	str	r0, [r7, #0]
-	local_packet->bit_stuffed_zeros += local_packet->stuffed_Info;
- 800120c:	68fb      	ldr	r3, [r7, #12]
- 800120e:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 8001212:	3304      	adds	r3, #4
- 8001214:	681a      	ldr	r2, [r3, #0]
- 8001216:	68fb      	ldr	r3, [r7, #12]
- 8001218:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 800121c:	331c      	adds	r3, #28
- 800121e:	681b      	ldr	r3, [r3, #0]
- 8001220:	441a      	add	r2, r3
- 8001222:	68fb      	ldr	r3, [r7, #12]
- 8001224:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 8001228:	3304      	adds	r3, #4
- 800122a:	601a      	str	r2, [r3, #0]
-	ax25_len -= local_packet->Info_Len;
- 800122c:	68fb      	ldr	r3, [r7, #12]
- 800122e:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 8001232:	681b      	ldr	r3, [r3, #0]
- 8001234:	687a      	ldr	r2, [r7, #4]
- 8001236:	1ad3      	subs	r3, r2, r3
- 8001238:	607b      	str	r3, [r7, #4]
-
-	local_packet->FCS += local_packet->bit_stuffed_zeros;
- 800123a:	68fb      	ldr	r3, [r7, #12]
- 800123c:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 8001240:	3304      	adds	r3, #4
- 8001242:	681a      	ldr	r2, [r3, #0]
- 8001244:	68fb      	ldr	r3, [r7, #12]
- 8001246:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 800124a:	3304      	adds	r3, #4
- 800124c:	681b      	ldr	r3, [r3, #0]
- 800124e:	441a      	add	r2, r3
- 8001250:	68fb      	ldr	r3, [r7, #12]
- 8001252:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 8001256:	3304      	adds	r3, #4
- 8001258:	601a      	str	r2, [r3, #0]
-	bitstuffing(local_packet->FCS,FCS_len, ax25_len, ones_count, &(local_packet->stuffed_FCS));
- 800125a:	68fb      	ldr	r3, [r7, #12]
- 800125c:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
- 8001260:	3304      	adds	r3, #4
- 8001262:	6818      	ldr	r0, [r3, #0]
- 8001264:	68fb      	ldr	r3, [r7, #12]
- 8001266:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 800126a:	9300      	str	r3, [sp, #0]
- 800126c:	683b      	ldr	r3, [r7, #0]
- 800126e:	687a      	ldr	r2, [r7, #4]
- 8001270:	2110      	movs	r1, #16
- 8001272:	f000 f8a9 	bl	80013c8 <bitstuffing>
-	local_packet->bit_stuffed_zeros += local_packet->stuffed_FCS;
- 8001276:	68fb      	ldr	r3, [r7, #12]
- 8001278:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 800127c:	3304      	adds	r3, #4
- 800127e:	681a      	ldr	r2, [r3, #0]
- 8001280:	68fb      	ldr	r3, [r7, #12]
- 8001282:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 8001286:	681b      	ldr	r3, [r3, #0]
- 8001288:	441a      	add	r2, r3
- 800128a:	68fb      	ldr	r3, [r7, #12]
- 800128c:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 8001290:	3304      	adds	r3, #4
- 8001292:	601a      	str	r2, [r3, #0]
-
-	sprintf(uartData, "bit stuffed zeros = %d\n",local_packet->bit_stuffed_zeros);
- 8001294:	68fb      	ldr	r3, [r7, #12]
- 8001296:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 800129a:	3304      	adds	r3, #4
- 800129c:	681b      	ldr	r3, [r3, #0]
- 800129e:	461a      	mov	r2, r3
- 80012a0:	4919      	ldr	r1, [pc, #100]	; (8001308 <KISS_TO_AX25+0x400>)
- 80012a2:	4815      	ldr	r0, [pc, #84]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 80012a4:	f005 fb2e 	bl	8006904 <siprintf>
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
- 80012a8:	4813      	ldr	r0, [pc, #76]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 80012aa:	f7fe ffb1 	bl	8000210 <strlen>
- 80012ae:	4603      	mov	r3, r0
- 80012b0:	b29a      	uxth	r2, r3
- 80012b2:	230a      	movs	r3, #10
- 80012b4:	4910      	ldr	r1, [pc, #64]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 80012b6:	4811      	ldr	r0, [pc, #68]	; (80012fc <KISS_TO_AX25+0x3f4>)
- 80012b8:	f004 fbe3 	bl	8005a82 <HAL_UART_Transmit>
+	bit_stuff_fields();
+ 800108e:	f000 f867 	bl	8001160 <bit_stuff_fields>
 
 	sprintf(uartData, "\n line Printing AX25 = \n");
- 80012bc:	4a0e      	ldr	r2, [pc, #56]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 80012be:	4b13      	ldr	r3, [pc, #76]	; (800130c <KISS_TO_AX25+0x404>)
- 80012c0:	4615      	mov	r5, r2
- 80012c2:	461c      	mov	r4, r3
- 80012c4:	cc0f      	ldmia	r4!, {r0, r1, r2, r3}
- 80012c6:	6028      	str	r0, [r5, #0]
- 80012c8:	6069      	str	r1, [r5, #4]
- 80012ca:	60aa      	str	r2, [r5, #8]
- 80012cc:	60eb      	str	r3, [r5, #12]
- 80012ce:	cc03      	ldmia	r4!, {r0, r1}
- 80012d0:	6128      	str	r0, [r5, #16]
- 80012d2:	6169      	str	r1, [r5, #20]
- 80012d4:	7823      	ldrb	r3, [r4, #0]
- 80012d6:	762b      	strb	r3, [r5, #24]
+ 8001092:	4a2c      	ldr	r2, [pc, #176]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8001094:	4b2f      	ldr	r3, [pc, #188]	; (8001154 <KISS_TO_AX25+0x24c>)
+ 8001096:	4615      	mov	r5, r2
+ 8001098:	461c      	mov	r4, r3
+ 800109a:	cc0f      	ldmia	r4!, {r0, r1, r2, r3}
+ 800109c:	6028      	str	r0, [r5, #0]
+ 800109e:	6069      	str	r1, [r5, #4]
+ 80010a0:	60aa      	str	r2, [r5, #8]
+ 80010a2:	60eb      	str	r3, [r5, #12]
+ 80010a4:	cc03      	ldmia	r4!, {r0, r1}
+ 80010a6:	6128      	str	r0, [r5, #16]
+ 80010a8:	6169      	str	r1, [r5, #20]
+ 80010aa:	7823      	ldrb	r3, [r4, #0]
+ 80010ac:	762b      	strb	r3, [r5, #24]
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
- 80012d8:	4807      	ldr	r0, [pc, #28]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 80012da:	f7fe ff99 	bl	8000210 <strlen>
- 80012de:	4603      	mov	r3, r0
- 80012e0:	b29a      	uxth	r2, r3
- 80012e2:	230a      	movs	r3, #10
- 80012e4:	4904      	ldr	r1, [pc, #16]	; (80012f8 <KISS_TO_AX25+0x3f0>)
- 80012e6:	4805      	ldr	r0, [pc, #20]	; (80012fc <KISS_TO_AX25+0x3f4>)
- 80012e8:	f004 fbcb 	bl	8005a82 <HAL_UART_Transmit>
+ 80010ae:	4825      	ldr	r0, [pc, #148]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 80010b0:	f7ff f8ae 	bl	8000210 <strlen>
+ 80010b4:	4603      	mov	r3, r0
+ 80010b6:	b29a      	uxth	r2, r3
+ 80010b8:	230a      	movs	r3, #10
+ 80010ba:	4922      	ldr	r1, [pc, #136]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 80010bc:	4823      	ldr	r0, [pc, #140]	; (800114c <KISS_TO_AX25+0x244>)
+ 80010be:	f004 fce0 	bl	8005a82 <HAL_UART_Transmit>
 	for(int i = 0; i < rxBit_count + FCS_len + local_packet->bit_stuffed_zeros; i++){
- 80012ec:	2300      	movs	r3, #0
- 80012ee:	613b      	str	r3, [r7, #16]
- 80012f0:	e024      	b.n	800133c <KISS_TO_AX25+0x434>
- 80012f2:	bf00      	nop
- 80012f4:	080073d0 	.word	0x080073d0
- 80012f8:	20001cd8 	.word	0x20001cd8
- 80012fc:	20002b94 	.word	0x20002b94
- 8001300:	200000a0 	.word	0x200000a0
- 8001304:	080073d8 	.word	0x080073d8
- 8001308:	080073dc 	.word	0x080073dc
- 800130c:	080073b4 	.word	0x080073b4
+ 80010c2:	2300      	movs	r3, #0
+ 80010c4:	60bb      	str	r3, [r7, #8]
+ 80010c6:	e015      	b.n	80010f4 <KISS_TO_AX25+0x1ec>
 		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
- 8001310:	68fa      	ldr	r2, [r7, #12]
- 8001312:	693b      	ldr	r3, [r7, #16]
- 8001314:	4413      	add	r3, r2
- 8001316:	781b      	ldrb	r3, [r3, #0]
- 8001318:	461a      	mov	r2, r3
- 800131a:	491b      	ldr	r1, [pc, #108]	; (8001388 <KISS_TO_AX25+0x480>)
- 800131c:	481b      	ldr	r0, [pc, #108]	; (800138c <KISS_TO_AX25+0x484>)
- 800131e:	f005 faf1 	bl	8006904 <siprintf>
+ 80010c8:	687a      	ldr	r2, [r7, #4]
+ 80010ca:	68bb      	ldr	r3, [r7, #8]
+ 80010cc:	4413      	add	r3, r2
+ 80010ce:	781b      	ldrb	r3, [r3, #0]
+ 80010d0:	461a      	mov	r2, r3
+ 80010d2:	4921      	ldr	r1, [pc, #132]	; (8001158 <KISS_TO_AX25+0x250>)
+ 80010d4:	481b      	ldr	r0, [pc, #108]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 80010d6:	f005 fc15 	bl	8006904 <siprintf>
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
- 8001322:	481a      	ldr	r0, [pc, #104]	; (800138c <KISS_TO_AX25+0x484>)
- 8001324:	f7fe ff74 	bl	8000210 <strlen>
- 8001328:	4603      	mov	r3, r0
- 800132a:	b29a      	uxth	r2, r3
- 800132c:	230a      	movs	r3, #10
- 800132e:	4917      	ldr	r1, [pc, #92]	; (800138c <KISS_TO_AX25+0x484>)
- 8001330:	4817      	ldr	r0, [pc, #92]	; (8001390 <KISS_TO_AX25+0x488>)
- 8001332:	f004 fba6 	bl	8005a82 <HAL_UART_Transmit>
+ 80010da:	481a      	ldr	r0, [pc, #104]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 80010dc:	f7ff f898 	bl	8000210 <strlen>
+ 80010e0:	4603      	mov	r3, r0
+ 80010e2:	b29a      	uxth	r2, r3
+ 80010e4:	230a      	movs	r3, #10
+ 80010e6:	4917      	ldr	r1, [pc, #92]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 80010e8:	4818      	ldr	r0, [pc, #96]	; (800114c <KISS_TO_AX25+0x244>)
+ 80010ea:	f004 fcca 	bl	8005a82 <HAL_UART_Transmit>
 	for(int i = 0; i < rxBit_count + FCS_len + local_packet->bit_stuffed_zeros; i++){
- 8001336:	693b      	ldr	r3, [r7, #16]
- 8001338:	3301      	adds	r3, #1
- 800133a:	613b      	str	r3, [r7, #16]
- 800133c:	4b15      	ldr	r3, [pc, #84]	; (8001394 <KISS_TO_AX25+0x48c>)
- 800133e:	681b      	ldr	r3, [r3, #0]
- 8001340:	f103 0210 	add.w	r2, r3, #16
- 8001344:	68fb      	ldr	r3, [r7, #12]
- 8001346:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
- 800134a:	3304      	adds	r3, #4
- 800134c:	681b      	ldr	r3, [r3, #0]
- 800134e:	4413      	add	r3, r2
- 8001350:	693a      	ldr	r2, [r7, #16]
- 8001352:	429a      	cmp	r2, r3
- 8001354:	dbdc      	blt.n	8001310 <KISS_TO_AX25+0x408>
+ 80010ee:	68bb      	ldr	r3, [r7, #8]
+ 80010f0:	3301      	adds	r3, #1
+ 80010f2:	60bb      	str	r3, [r7, #8]
+ 80010f4:	4b16      	ldr	r3, [pc, #88]	; (8001150 <KISS_TO_AX25+0x248>)
+ 80010f6:	681b      	ldr	r3, [r3, #0]
+ 80010f8:	f103 0210 	add.w	r2, r3, #16
+ 80010fc:	687b      	ldr	r3, [r7, #4]
+ 80010fe:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 8001102:	3304      	adds	r3, #4
+ 8001104:	681b      	ldr	r3, [r3, #0]
+ 8001106:	4413      	add	r3, r2
+ 8001108:	68ba      	ldr	r2, [r7, #8]
+ 800110a:	429a      	cmp	r2, r3
+ 800110c:	dbdc      	blt.n	80010c8 <KISS_TO_AX25+0x1c0>
 	}
 	sprintf(uartData, "\n");
- 8001356:	4a0d      	ldr	r2, [pc, #52]	; (800138c <KISS_TO_AX25+0x484>)
- 8001358:	4b0f      	ldr	r3, [pc, #60]	; (8001398 <KISS_TO_AX25+0x490>)
- 800135a:	881b      	ldrh	r3, [r3, #0]
- 800135c:	8013      	strh	r3, [r2, #0]
+ 800110e:	4a0d      	ldr	r2, [pc, #52]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8001110:	4b12      	ldr	r3, [pc, #72]	; (800115c <KISS_TO_AX25+0x254>)
+ 8001112:	881b      	ldrh	r3, [r3, #0]
+ 8001114:	8013      	strh	r3, [r2, #0]
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
- 800135e:	480b      	ldr	r0, [pc, #44]	; (800138c <KISS_TO_AX25+0x484>)
- 8001360:	f7fe ff56 	bl	8000210 <strlen>
- 8001364:	4603      	mov	r3, r0
- 8001366:	b29a      	uxth	r2, r3
- 8001368:	230a      	movs	r3, #10
- 800136a:	4908      	ldr	r1, [pc, #32]	; (800138c <KISS_TO_AX25+0x484>)
- 800136c:	4808      	ldr	r0, [pc, #32]	; (8001390 <KISS_TO_AX25+0x488>)
- 800136e:	f004 fb88 	bl	8005a82 <HAL_UART_Transmit>
+ 8001116:	480b      	ldr	r0, [pc, #44]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8001118:	f7ff f87a 	bl	8000210 <strlen>
+ 800111c:	4603      	mov	r3, r0
+ 800111e:	b29a      	uxth	r2, r3
+ 8001120:	230a      	movs	r3, #10
+ 8001122:	4908      	ldr	r1, [pc, #32]	; (8001144 <KISS_TO_AX25+0x23c>)
+ 8001124:	4809      	ldr	r0, [pc, #36]	; (800114c <KISS_TO_AX25+0x244>)
+ 8001126:	f004 fcac 	bl	8005a82 <HAL_UART_Transmit>
 	rxBit_count = 0;
- 8001372:	4b08      	ldr	r3, [pc, #32]	; (8001394 <KISS_TO_AX25+0x48c>)
- 8001374:	2200      	movs	r2, #0
- 8001376:	601a      	str	r2, [r3, #0]
+ 800112a:	4b09      	ldr	r3, [pc, #36]	; (8001150 <KISS_TO_AX25+0x248>)
+ 800112c:	2200      	movs	r2, #0
+ 800112e:	601a      	str	r2, [r3, #0]
 //	Print the ax25 packet
 	print_outAX25();
- 8001378:	f001 f828 	bl	80023cc <print_outAX25>
+ 8001130:	f001 f94c 	bl	80023cc <print_outAX25>
 	return true; //valid packet
- 800137c:	2301      	movs	r3, #1
+ 8001134:	2301      	movs	r3, #1
 }
- 800137e:	4618      	mov	r0, r3
- 8001380:	371c      	adds	r7, #28
+ 8001136:	4618      	mov	r0, r3
+ 8001138:	3714      	adds	r7, #20
+ 800113a:	46bd      	mov	sp, r7
+ 800113c:	bdf0      	pop	{r4, r5, r6, r7, pc}
+ 800113e:	bf00      	nop
+ 8001140:	200000d4 	.word	0x200000d4
+ 8001144:	20001cd8 	.word	0x20001cd8
+ 8001148:	08007390 	.word	0x08007390
+ 800114c:	20002b94 	.word	0x20002b94
+ 8001150:	200000a0 	.word	0x200000a0
+ 8001154:	080073b4 	.word	0x080073b4
+ 8001158:	080073d0 	.word	0x080073d0
+ 800115c:	080073d8 	.word	0x080073d8
+
+08001160 <bit_stuff_fields>:
+
+void bit_stuff_fields(){
+ 8001160:	b580      	push	{r7, lr}
+ 8001162:	b086      	sub	sp, #24
+ 8001164:	af02      	add	r7, sp, #8
+	struct PACKET_STRUCT* local_packet = &global_packet;
+ 8001166:	4b88      	ldr	r3, [pc, #544]	; (8001388 <bit_stuff_fields+0x228>)
+ 8001168:	60fb      	str	r3, [r7, #12]
+	int ax25_len = rxBit_count + FCS_len;
+ 800116a:	4b88      	ldr	r3, [pc, #544]	; (800138c <bit_stuff_fields+0x22c>)
+ 800116c:	681b      	ldr	r3, [r3, #0]
+ 800116e:	3310      	adds	r3, #16
+ 8001170:	60bb      	str	r3, [r7, #8]
+	int ones_count = 0;
+ 8001172:	2300      	movs	r3, #0
+ 8001174:	607b      	str	r3, [r7, #4]
+	ones_count = bitstuffing(local_packet->address,address_len,ax25_len, ones_count, &(local_packet->stuffed_address));
+ 8001176:	68fb      	ldr	r3, [r7, #12]
+ 8001178:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 800117c:	3310      	adds	r3, #16
+ 800117e:	6818      	ldr	r0, [r3, #0]
+ 8001180:	68fb      	ldr	r3, [r7, #12]
+ 8001182:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 8001186:	3310      	adds	r3, #16
+ 8001188:	9300      	str	r3, [sp, #0]
+ 800118a:	687b      	ldr	r3, [r7, #4]
+ 800118c:	68ba      	ldr	r2, [r7, #8]
+ 800118e:	2170      	movs	r1, #112	; 0x70
+ 8001190:	f000 f91a 	bl	80013c8 <bitstuffing>
+ 8001194:	6078      	str	r0, [r7, #4]
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_address;
+ 8001196:	68fb      	ldr	r3, [r7, #12]
+ 8001198:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 800119c:	3304      	adds	r3, #4
+ 800119e:	681a      	ldr	r2, [r3, #0]
+ 80011a0:	68fb      	ldr	r3, [r7, #12]
+ 80011a2:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 80011a6:	3310      	adds	r3, #16
+ 80011a8:	681b      	ldr	r3, [r3, #0]
+ 80011aa:	441a      	add	r2, r3
+ 80011ac:	68fb      	ldr	r3, [r7, #12]
+ 80011ae:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 80011b2:	3304      	adds	r3, #4
+ 80011b4:	601a      	str	r2, [r3, #0]
+	ax25_len -= address_len;
+ 80011b6:	68bb      	ldr	r3, [r7, #8]
+ 80011b8:	3b70      	subs	r3, #112	; 0x70
+ 80011ba:	60bb      	str	r3, [r7, #8]
+
+	local_packet->control += local_packet->bit_stuffed_zeros;
+ 80011bc:	68fb      	ldr	r3, [r7, #12]
+ 80011be:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 80011c2:	3314      	adds	r3, #20
+ 80011c4:	681a      	ldr	r2, [r3, #0]
+ 80011c6:	68fb      	ldr	r3, [r7, #12]
+ 80011c8:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 80011cc:	3304      	adds	r3, #4
+ 80011ce:	681b      	ldr	r3, [r3, #0]
+ 80011d0:	441a      	add	r2, r3
+ 80011d2:	68fb      	ldr	r3, [r7, #12]
+ 80011d4:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 80011d8:	3314      	adds	r3, #20
+ 80011da:	601a      	str	r2, [r3, #0]
+	ones_count = bitstuffing(local_packet->control,control_len,ax25_len, ones_count, &(local_packet->stuffed_control));
+ 80011dc:	68fb      	ldr	r3, [r7, #12]
+ 80011de:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 80011e2:	3314      	adds	r3, #20
+ 80011e4:	6818      	ldr	r0, [r3, #0]
+ 80011e6:	68fb      	ldr	r3, [r7, #12]
+ 80011e8:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 80011ec:	3314      	adds	r3, #20
+ 80011ee:	9300      	str	r3, [sp, #0]
+ 80011f0:	687b      	ldr	r3, [r7, #4]
+ 80011f2:	68ba      	ldr	r2, [r7, #8]
+ 80011f4:	2108      	movs	r1, #8
+ 80011f6:	f000 f8e7 	bl	80013c8 <bitstuffing>
+ 80011fa:	6078      	str	r0, [r7, #4]
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_control;
+ 80011fc:	68fb      	ldr	r3, [r7, #12]
+ 80011fe:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 8001202:	3304      	adds	r3, #4
+ 8001204:	681a      	ldr	r2, [r3, #0]
+ 8001206:	68fb      	ldr	r3, [r7, #12]
+ 8001208:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 800120c:	3314      	adds	r3, #20
+ 800120e:	681b      	ldr	r3, [r3, #0]
+ 8001210:	441a      	add	r2, r3
+ 8001212:	68fb      	ldr	r3, [r7, #12]
+ 8001214:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 8001218:	3304      	adds	r3, #4
+ 800121a:	601a      	str	r2, [r3, #0]
+	ax25_len -= control_len;
+ 800121c:	68bb      	ldr	r3, [r7, #8]
+ 800121e:	3b08      	subs	r3, #8
+ 8001220:	60bb      	str	r3, [r7, #8]
+
+	local_packet->PID += local_packet->bit_stuffed_zeros;
+ 8001222:	68fb      	ldr	r3, [r7, #12]
+ 8001224:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 8001228:	3318      	adds	r3, #24
+ 800122a:	681a      	ldr	r2, [r3, #0]
+ 800122c:	68fb      	ldr	r3, [r7, #12]
+ 800122e:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 8001232:	3304      	adds	r3, #4
+ 8001234:	681b      	ldr	r3, [r3, #0]
+ 8001236:	441a      	add	r2, r3
+ 8001238:	68fb      	ldr	r3, [r7, #12]
+ 800123a:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 800123e:	3318      	adds	r3, #24
+ 8001240:	601a      	str	r2, [r3, #0]
+	ones_count = bitstuffing(local_packet->PID,PID_len,ax25_len, ones_count, &(local_packet->stuffed_PID));
+ 8001242:	68fb      	ldr	r3, [r7, #12]
+ 8001244:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 8001248:	3318      	adds	r3, #24
+ 800124a:	6818      	ldr	r0, [r3, #0]
+ 800124c:	68fb      	ldr	r3, [r7, #12]
+ 800124e:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 8001252:	3318      	adds	r3, #24
+ 8001254:	9300      	str	r3, [sp, #0]
+ 8001256:	687b      	ldr	r3, [r7, #4]
+ 8001258:	68ba      	ldr	r2, [r7, #8]
+ 800125a:	2108      	movs	r1, #8
+ 800125c:	f000 f8b4 	bl	80013c8 <bitstuffing>
+ 8001260:	6078      	str	r0, [r7, #4]
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_PID;
+ 8001262:	68fb      	ldr	r3, [r7, #12]
+ 8001264:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 8001268:	3304      	adds	r3, #4
+ 800126a:	681a      	ldr	r2, [r3, #0]
+ 800126c:	68fb      	ldr	r3, [r7, #12]
+ 800126e:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 8001272:	3318      	adds	r3, #24
+ 8001274:	681b      	ldr	r3, [r3, #0]
+ 8001276:	441a      	add	r2, r3
+ 8001278:	68fb      	ldr	r3, [r7, #12]
+ 800127a:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 800127e:	3304      	adds	r3, #4
+ 8001280:	601a      	str	r2, [r3, #0]
+	ax25_len -= PID_len;
+ 8001282:	68bb      	ldr	r3, [r7, #8]
+ 8001284:	3b08      	subs	r3, #8
+ 8001286:	60bb      	str	r3, [r7, #8]
+
+	local_packet->Info += local_packet->bit_stuffed_zeros;
+ 8001288:	68fb      	ldr	r3, [r7, #12]
+ 800128a:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 800128e:	331c      	adds	r3, #28
+ 8001290:	681a      	ldr	r2, [r3, #0]
+ 8001292:	68fb      	ldr	r3, [r7, #12]
+ 8001294:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 8001298:	3304      	adds	r3, #4
+ 800129a:	681b      	ldr	r3, [r3, #0]
+ 800129c:	441a      	add	r2, r3
+ 800129e:	68fb      	ldr	r3, [r7, #12]
+ 80012a0:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 80012a4:	331c      	adds	r3, #28
+ 80012a6:	601a      	str	r2, [r3, #0]
+	ones_count = bitstuffing(local_packet->Info,local_packet->Info_Len, ax25_len, ones_count, &(local_packet->stuffed_Info));
+ 80012a8:	68fb      	ldr	r3, [r7, #12]
+ 80012aa:	f503 5397 	add.w	r3, r3, #4832	; 0x12e0
+ 80012ae:	331c      	adds	r3, #28
+ 80012b0:	6818      	ldr	r0, [r3, #0]
+ 80012b2:	68fb      	ldr	r3, [r7, #12]
+ 80012b4:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 80012b8:	6819      	ldr	r1, [r3, #0]
+ 80012ba:	68fb      	ldr	r3, [r7, #12]
+ 80012bc:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 80012c0:	331c      	adds	r3, #28
+ 80012c2:	9300      	str	r3, [sp, #0]
+ 80012c4:	687b      	ldr	r3, [r7, #4]
+ 80012c6:	68ba      	ldr	r2, [r7, #8]
+ 80012c8:	f000 f87e 	bl	80013c8 <bitstuffing>
+ 80012cc:	6078      	str	r0, [r7, #4]
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_Info;
+ 80012ce:	68fb      	ldr	r3, [r7, #12]
+ 80012d0:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 80012d4:	3304      	adds	r3, #4
+ 80012d6:	681a      	ldr	r2, [r3, #0]
+ 80012d8:	68fb      	ldr	r3, [r7, #12]
+ 80012da:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 80012de:	331c      	adds	r3, #28
+ 80012e0:	681b      	ldr	r3, [r3, #0]
+ 80012e2:	441a      	add	r2, r3
+ 80012e4:	68fb      	ldr	r3, [r7, #12]
+ 80012e6:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 80012ea:	3304      	adds	r3, #4
+ 80012ec:	601a      	str	r2, [r3, #0]
+	ax25_len -= local_packet->Info_Len;
+ 80012ee:	68fb      	ldr	r3, [r7, #12]
+ 80012f0:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 80012f4:	681b      	ldr	r3, [r3, #0]
+ 80012f6:	68ba      	ldr	r2, [r7, #8]
+ 80012f8:	1ad3      	subs	r3, r2, r3
+ 80012fa:	60bb      	str	r3, [r7, #8]
+
+	local_packet->FCS += local_packet->bit_stuffed_zeros;
+ 80012fc:	68fb      	ldr	r3, [r7, #12]
+ 80012fe:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 8001302:	3304      	adds	r3, #4
+ 8001304:	681a      	ldr	r2, [r3, #0]
+ 8001306:	68fb      	ldr	r3, [r7, #12]
+ 8001308:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 800130c:	3304      	adds	r3, #4
+ 800130e:	681b      	ldr	r3, [r3, #0]
+ 8001310:	441a      	add	r2, r3
+ 8001312:	68fb      	ldr	r3, [r7, #12]
+ 8001314:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 8001318:	3304      	adds	r3, #4
+ 800131a:	601a      	str	r2, [r3, #0]
+	bitstuffing(local_packet->FCS,FCS_len, ax25_len, ones_count, &(local_packet->stuffed_FCS));
+ 800131c:	68fb      	ldr	r3, [r7, #12]
+ 800131e:	f503 5398 	add.w	r3, r3, #4864	; 0x1300
+ 8001322:	3304      	adds	r3, #4
+ 8001324:	6818      	ldr	r0, [r3, #0]
+ 8001326:	68fb      	ldr	r3, [r7, #12]
+ 8001328:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 800132c:	9300      	str	r3, [sp, #0]
+ 800132e:	687b      	ldr	r3, [r7, #4]
+ 8001330:	68ba      	ldr	r2, [r7, #8]
+ 8001332:	2110      	movs	r1, #16
+ 8001334:	f000 f848 	bl	80013c8 <bitstuffing>
+	local_packet->bit_stuffed_zeros += local_packet->stuffed_FCS;
+ 8001338:	68fb      	ldr	r3, [r7, #12]
+ 800133a:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 800133e:	3304      	adds	r3, #4
+ 8001340:	681a      	ldr	r2, [r3, #0]
+ 8001342:	68fb      	ldr	r3, [r7, #12]
+ 8001344:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 8001348:	681b      	ldr	r3, [r3, #0]
+ 800134a:	441a      	add	r2, r3
+ 800134c:	68fb      	ldr	r3, [r7, #12]
+ 800134e:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 8001352:	3304      	adds	r3, #4
+ 8001354:	601a      	str	r2, [r3, #0]
+
+	sprintf(uartData, "bit stuffed zeros = %d\n",local_packet->bit_stuffed_zeros);
+ 8001356:	68fb      	ldr	r3, [r7, #12]
+ 8001358:	f503 5399 	add.w	r3, r3, #4896	; 0x1320
+ 800135c:	3304      	adds	r3, #4
+ 800135e:	681b      	ldr	r3, [r3, #0]
+ 8001360:	461a      	mov	r2, r3
+ 8001362:	490b      	ldr	r1, [pc, #44]	; (8001390 <bit_stuff_fields+0x230>)
+ 8001364:	480b      	ldr	r0, [pc, #44]	; (8001394 <bit_stuff_fields+0x234>)
+ 8001366:	f005 facd 	bl	8006904 <siprintf>
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+ 800136a:	480a      	ldr	r0, [pc, #40]	; (8001394 <bit_stuff_fields+0x234>)
+ 800136c:	f7fe ff50 	bl	8000210 <strlen>
+ 8001370:	4603      	mov	r3, r0
+ 8001372:	b29a      	uxth	r2, r3
+ 8001374:	230a      	movs	r3, #10
+ 8001376:	4907      	ldr	r1, [pc, #28]	; (8001394 <bit_stuff_fields+0x234>)
+ 8001378:	4807      	ldr	r0, [pc, #28]	; (8001398 <bit_stuff_fields+0x238>)
+ 800137a:	f004 fb82 	bl	8005a82 <HAL_UART_Transmit>
+}
+ 800137e:	bf00      	nop
+ 8001380:	3710      	adds	r7, #16
  8001382:	46bd      	mov	sp, r7
- 8001384:	bdf0      	pop	{r4, r5, r6, r7, pc}
+ 8001384:	bd80      	pop	{r7, pc}
  8001386:	bf00      	nop
- 8001388:	080073d0 	.word	0x080073d0
- 800138c:	20001cd8 	.word	0x20001cd8
- 8001390:	20002b94 	.word	0x20002b94
- 8001394:	200000a0 	.word	0x200000a0
- 8001398:	080073d8 	.word	0x080073d8
+ 8001388:	200000d4 	.word	0x200000d4
+ 800138c:	200000a0 	.word	0x200000a0
+ 8001390:	080073dc 	.word	0x080073dc
+ 8001394:	20001cd8 	.word	0x20001cd8
+ 8001398:	20002b94 	.word	0x20002b94
 
 0800139c <bit_stuff>:
-
 
 void bit_stuff(bool* array,int bits_left){
  800139c:	b580      	push	{r7, lr}
