@@ -83,6 +83,15 @@ uint32_t next_time = 0;
 char array[100];
 uint32_t inputCaptureVal;
 uint32_t time;
+
+#define samp_per_bit 		2	//Will take the digital reading multiple times per bit length
+#define no_clk_max_cnt		8	//How many bit lengths can occur without disabling clock sync
+#define bit_sample_period 	SYMBOL_PERIOD / samp_per_bit
+
+uint8_t captured_bits_count = 0;	//How many captured bits since last clk sync
+bool	clk_sync = false;			//Are we synced with clock
+
+bool freq_pin_state = false;
 /* USER CODE END 0 */
 
 /**
@@ -122,7 +131,7 @@ int main(void)
   HAL_TIM_IC_Start_IT(&htim4, TIM_CHANNEL_1);
   uint32_t captureVal;
   time = HAL_GetTick();
-  uint32_t millis_wait = 50;
+  uint32_t millis_wait = 500;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -133,7 +142,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  if(HAL_GetTick() - time > millis_wait){
+	  if(HAL_GetTick() - time >= millis_wait){
 		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
 		  time = HAL_GetTick();
 	  }
@@ -352,7 +361,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0|LD2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|Ch2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -360,8 +369,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA0 LD2_Pin */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|LD2_Pin;
+  /*Configure GPIO pins : LD2_Pin Ch2_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|Ch2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -370,48 +379,36 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-bool DifferenceWithinWindow(uint32_t difference, uint8_t bit_number)
-{
-	// does the margin get multiplied, too?
 
-	//	uint32_t upper_bound = (((bit_number + 1) * SYMBOL_PERIOD) + SYMBOL_MARGIN);
-	//	uint32_t lower_bound = (((bit_number + 1) * SYMBOL_PERIOD) - SYMBOL_MARGIN);
-
-	uint32_t upper_bound = (((bit_number + 1) * (SYMBOL_PERIOD + SYMBOL_MARGIN)));
-	uint32_t lower_bound = (((bit_number + 1) * (SYMBOL_PERIOD - SYMBOL_MARGIN)));
-
-	if ((lower_bound < difference) && (difference < upper_bound))
-	{
-		return true;
-	}
-	return false;
-}
+// this function is automatically called whenever the input capture interrupt hits
 
 
-int IC_count4 = 0;
-
-uint32_t rising_capture = 0;	// stores the timer tick value of the most recent rising edge
-uint32_t falling_capture = 0;	// stores the timer tick value of the most recent falling edge
-bool rise_captured = false;		// these are used to ensure that we aren't trying to compute the difference
-bool fall_captured = false;		// before we have captured both a rising and falling edge
-bool signal_edge = RISING_EDGE;	// so we know what edge we are looking for (really, the opposite of the edge that was captured last
-uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
-uint8_t bit_num = 0;			// loop counter for difference timing correlator
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim->Instance == TIM4 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
+	static uint32_t rising_capture = 0;		// stores the timer tick value of the most recent rising edge
+	static uint32_t falling_capture = 0;	// stores the timer tick value of the most recent falling edge
+	static bool rise_captured = false;		// these are used to ensure that we aren't trying to compute the difference
+	static bool fall_captured = false;		// before we have captured both a rising and falling edge
+	static bool signal_edge = RISING_EDGE;	// so we know what edge we are looking for (really, the opposite of the edge that was captured last
+
+	uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
+
+	//Make sure this is the right timer and channel
+	if (htim->Instance == TIM4 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
-		//Used to keep track of times this callback occurs
-		IC_count4++;
+		//Reset roll-over value
+		captured_bits_count = 0;
+
+		//Grap pin state for OC timer
+		freq_pin_state = signal_edge;
 
 		//Rising Edge
-		if (signal_edge == RISING_EDGE)
+		if (signal_edge)
 		{
-			//Capture time that this interrupt occurs
-			rising_capture = HAL_TIM_ReadCapturedValue(&htim4, TIM_CHANNEL_1);		// read the captured value
-			rise_captured = true;
+			rising_capture = HAL_TIM_ReadCapturedValue(&htim4, TIM_CHANNEL_1); //Time-stamp interrupt
 			signal_edge = FALLING_EDGE;		// look for falling edge on next capture
+			rise_captured = true;
 
 			if (rise_captured && fall_captured)
 			{
@@ -420,10 +417,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			}
 		}
 
-		//Falling Edge
+		//Falling edge
 		else
 		{
-			falling_capture = HAL_TIM_ReadCapturedValue(&htim4, TIM_CHANNEL_1);		// read the captured value
+			falling_capture = HAL_TIM_ReadCapturedValue(&htim4, TIM_CHANNEL_1);		//Time-stamp interrupt
 			fall_captured = true;
 			signal_edge = RISING_EDGE;		// look for rising edge on next capture
 
@@ -434,43 +431,54 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			}
 		}
 
+		//Have now captured the transition period
+		//Can use this to align sampling clock
 		if (rise_captured && fall_captured)
 		{
-			// this may need to be adjusted to account for HDLC limitation of valid data to 6 consecutive 1 bits (6 bit periods without a transition)
-			// but works as is
-			for (bit_num = 0; bit_num < 8; bit_num ++)
-			{
-				if (DifferenceWithinWindow(capture_difference, bit_num))		// iteratively check to see if the difference between the last and current transition falls within any acceptable bit window
-				{
-					new_bit_period = (capture_difference / (bit_num + 1));		// if correlated, we calculate when we expect the next transition to theoretically fall, if the next bit period were the same as the current one
-																				// this configuration will generate a 600 Hz (1200 transition/second) clock on the output compare module/pin
-					next_capture_time = this_capture + new_bit_period;
-					next_time = next_capture_time;
-					__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_time);
-					// may need a break statement here?
-					// but works without it...
-				}
-				// probably need to do something in the event that we did not correlate with any of the acceptable windows
+			//Check if the transition was a valid transition period to use
+			if(SYMBOL_PERIOD-SYMBOL_MARGIN < capture_difference && capture_difference < SYMBOL_PERIOD+SYMBOL_MARGIN){
+
+				//Predict clock
+				uint32_t next_sampl = this_capture + bit_sample_period;
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);
+
+				//Have now synced with clock
+				clk_sync = true;
 			}
 		}
 	}
 
 	return;
-
 }
 
-int OC_count2 = 0;
+// this function is called automatically whenever the output compare interrupt hits
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim->Instance == TIM2 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
-		OC_count2++;
-		next_time = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1) + (new_bit_period);
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_time);
+
+		uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);
+		uint32_t next_sampl = this_capture + bit_sample_period;
+		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, (+ (new_bit_period))); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
+
+		//Check if this is valid data
+		if(clk_sync){
+			/* Use freq_pin_state to load values into a buffer.*/
+			bool bit = freq_pin_state;
+
+			HAL_GPIO_TogglePin(GPIOA,Ch2_Pin); //Toggle output when sampled
+		}
+
+		//Inc number of bits since last clock sync
+		captured_bits_count++;
+		if(captured_bits_count > samp_per_bit * no_clk_max_cnt){
+			clk_sync = false;	//Clock is no longer sync
+		}
 	}
 
 	return;
 }
+
 /* USER CODE END 4 */
 
 /**
