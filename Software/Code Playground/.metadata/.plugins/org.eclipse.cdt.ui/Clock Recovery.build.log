@@ -1,17 +1,14 @@
-10:00:30 **** Incremental Build of configuration Debug for project Clock Recovery ****
+11:45:56 **** Incremental Build of configuration Debug for project Clock Recovery ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:132:12: warning: unused variable 'captureVal' [-Wunused-variable]
+../Core/Src/main.c:109:12: warning: unused variable 'captureVal' [-Wunused-variable]
    uint32_t captureVal;
             ^~~~~~~~~~
 ../Core/Src/main.c: In function 'HAL_TIM_OC_DelayElapsedCallback':
-../Core/Src/main.c:467:9: warning: unused variable 'bit' [-Wunused-variable]
+../Core/Src/main.c:473:9: warning: unused variable 'bit' [-Wunused-variable]
     bool bit = freq_pin_state;
          ^~~
-../Core/Src/main.c:461:12: warning: unused variable 'next_sampl' [-Wunused-variable]
-   uint32_t next_sampl = this_capture + bit_sample_period;
-            ^~~~~~~~~~
 arm-none-eabi-gcc -o "Clock Recovery.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Clock Recovery.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Clock Recovery.elf
  
@@ -19,7 +16,7 @@ arm-none-eabi-objdump -h -S  Clock\ Recovery.elf  > "Clock Recovery.list"
 arm-none-eabi-objcopy  -O binary  Clock\ Recovery.elf  "Clock Recovery.bin"
 arm-none-eabi-size   Clock\ Recovery.elf 
    text	   data	    bss	    dec	    hex	filename
-  14860	     24	   1896	  16780	   418c	Clock Recovery.elf
+  14940	     24	   1800	  16764	   417c	Clock Recovery.elf
 Finished building: default.size.stdout
  
 Finished building: Clock Recovery.bin
@@ -27,5 +24,5 @@ Finished building: Clock Recovery.bin
 Finished building: Clock Recovery.list
  
 
-10:00:31 Build Finished. 0 errors, 3 warnings. (took 707ms)
+11:45:57 Build Finished. 0 errors, 2 warnings. (took 793ms)
 

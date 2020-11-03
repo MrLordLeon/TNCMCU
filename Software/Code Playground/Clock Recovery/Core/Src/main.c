@@ -41,7 +41,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim4;
+TIM_HandleTypeDef htim5;
 
 UART_HandleTypeDef huart2;
 
@@ -53,8 +53,8 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
-static void MX_TIM4_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
 
 #define RISING_EDGE	1
@@ -64,34 +64,11 @@ static void MX_TIM2_Init(void);
 const uint32_t SYMBOL_PERIOD = 33333;
 const uint32_t SYMBOL_MARGIN = 3333;
 
-// used to store the difference between transitions (in 40 MHz ticks)
-// does not need to be global, but it is anyway
-uint32_t capture_difference = 0;
-
-// needs to be global, as it is used by both the input capture and output compare callbacks
-uint32_t new_bit_period = 0;
-// doesn't need to be global, but it is anyway
-uint32_t next_capture_time = 0;
-
-uint32_t oc_wait_time = 500;
-uint32_t next_time = 0;
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-char array[100];
-uint32_t inputCaptureVal;
 uint32_t time;
-
-#define samp_per_bit 		2	//Will take the digital reading multiple times per bit length
-#define no_clk_max_cnt		8	//How many bit lengths can occur without disabling clock sync
-#define bit_sample_period 	SYMBOL_PERIOD / samp_per_bit
-
-uint8_t captured_bits_count = 0;	//How many captured bits since last clk sync
-bool	clk_sync = false;			//Are we synced with clock
-
-bool freq_pin_state = false;
 /* USER CODE END 0 */
 
 /**
@@ -123,15 +100,17 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  MX_TIM4_Init();
   MX_TIM2_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_IC_Start_IT(&htim4, TIM_CHANNEL_1);
+  HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
   uint32_t captureVal;
   time = HAL_GetTick();
   uint32_t millis_wait = 500;
+
+//  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,40000000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -255,46 +234,46 @@ static void MX_TIM2_Init(void)
 }
 
 /**
-  * @brief TIM4 Initialization Function
+  * @brief TIM5 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_TIM4_Init(void)
+static void MX_TIM5_Init(void)
 {
 
-  /* USER CODE BEGIN TIM4_Init 0 */
+  /* USER CODE BEGIN TIM5_Init 0 */
 
-  /* USER CODE END TIM4_Init 0 */
+  /* USER CODE END TIM5_Init 0 */
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_IC_InitTypeDef sConfigIC = {0};
 
-  /* USER CODE BEGIN TIM4_Init 1 */
+  /* USER CODE BEGIN TIM5_Init 1 */
 
-  /* USER CODE END TIM4_Init 1 */
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 2-1;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 65535;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  /* USER CODE END TIM5_Init 1 */
+  htim5.Instance = TIM5;
+  htim5.Init.Prescaler = 2-1;
+  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim5.Init.Period = 4294967295;
+  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
   {
     Error_Handler();
   }
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  if (HAL_TIM_ConfigClockSource(&htim5, &sClockSourceConfig) != HAL_OK)
   {
     Error_Handler();
   }
-  if (HAL_TIM_IC_Init(&htim4) != HAL_OK)
+  if (HAL_TIM_IC_Init(&htim5) != HAL_OK)
   {
     Error_Handler();
   }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
@@ -302,13 +281,13 @@ static void MX_TIM4_Init(void)
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
-  if (HAL_TIM_IC_ConfigChannel(&htim4, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+  if (HAL_TIM_IC_ConfigChannel(&htim5, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN TIM4_Init 2 */
+  /* USER CODE BEGIN TIM5_Init 2 */
 
-  /* USER CODE END TIM4_Init 2 */
+  /* USER CODE END TIM5_Init 2 */
 
 }
 
@@ -382,12 +361,22 @@ static void MX_GPIO_Init(void)
 
 // this function is automatically called whenever the input capture interrupt hits
 
+#define samp_per_bit 		1	//Will take the digital reading multiple times per bit length
+#define no_clk_max_cnt		8	//How many bit lengths can occur without disabling clock sync
+#define bit_sample_period 	SYMBOL_PERIOD / samp_per_bit
 
+uint8_t captured_bits_count = 0;	//How many captured bits since last clk sync
+bool clk_sync = false;			//Are we synced with clock
+uint8_t clk_sync_int = 0;
+bool freq_pin_state = false;
 
+int IC_count = 0;
+uint32_t global_next_sample;
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	static uint32_t rising_capture = 0;		// stores the timer tick value of the most recent rising edge
 	static uint32_t falling_capture = 0;	// stores the timer tick value of the most recent falling edge
+	static uint32_t capture_difference = 0;
 	static bool rise_captured = false;		// these are used to ensure that we aren't trying to compute the difference
 	static bool fall_captured = false;		// before we have captured both a rising and falling edge
 	static bool signal_edge = RISING_EDGE;	// so we know what edge we are looking for (really, the opposite of the edge that was captured last
@@ -395,7 +384,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 	uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
 
 	//Make sure this is the right timer and channel
-	if (htim->Instance == TIM4 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
+	if (htim->Instance == TIM5 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
 		//Reset roll-over value
 		captured_bits_count = 0;
@@ -406,7 +395,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 		//Rising Edge
 		if (signal_edge)
 		{
-			rising_capture = HAL_TIM_ReadCapturedValue(&htim4, TIM_CHANNEL_1); //Time-stamp interrupt
+			rising_capture = HAL_TIM_ReadCapturedValue(&htim5, TIM_CHANNEL_1); //Time-stamp interrupt
 			signal_edge = FALLING_EDGE;		// look for falling edge on next capture
 			rise_captured = true;
 
@@ -420,7 +409,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 		//Falling edge
 		else
 		{
-			falling_capture = HAL_TIM_ReadCapturedValue(&htim4, TIM_CHANNEL_1);		//Time-stamp interrupt
+			falling_capture = HAL_TIM_ReadCapturedValue(&htim5, TIM_CHANNEL_1);		//Time-stamp interrupt
 			fall_captured = true;
 			signal_edge = RISING_EDGE;		// look for rising edge on next capture
 
@@ -438,28 +427,45 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			//Check if the transition was a valid transition period to use
 			if(SYMBOL_PERIOD-SYMBOL_MARGIN < capture_difference && capture_difference < SYMBOL_PERIOD+SYMBOL_MARGIN){
 
+				IC_count++;
+
 				//Predict clock
 				uint32_t next_sampl = this_capture + bit_sample_period;
+				global_next_sample = next_sampl;
+
 				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);
+
 
 				//Have now synced with clock
 				clk_sync = true;
+
+				clk_sync_int = clk_sync;
 			}
 		}
+
+//		HAL_GPIO_TogglePin(GPIOA,Ch2_Pin); //Toggle output when sampled
 	}
 
 	return;
 }
 
+int OC_count = 0;
+uint32_t global_capture;
 // this function is called automatically whenever the output compare interrupt hits
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
+//	OC_count++;
 	if (htim->Instance == TIM2 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
-
+		OC_count++;
 		uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);
-		uint32_t next_sampl = this_capture + bit_sample_period;
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, (+ (new_bit_period))); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
+
+		if(this_capture>40000000){
+			global_capture = this_capture;
+			uint32_t next_sampl = this_capture + bit_sample_period;
+
+			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,next_sampl); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
+		}
 
 		//Check if this is valid data
 		if(clk_sync){
@@ -467,6 +473,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 			bool bit = freq_pin_state;
 
 			HAL_GPIO_TogglePin(GPIOA,Ch2_Pin); //Toggle output when sampled
+
 		}
 
 		//Inc number of bits since last clock sync
@@ -474,6 +481,8 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 		if(captured_bits_count > samp_per_bit * no_clk_max_cnt){
 			clk_sync = false;	//Clock is no longer sync
 		}
+
+		clk_sync_int = clk_sync;
 	}
 
 	return;
