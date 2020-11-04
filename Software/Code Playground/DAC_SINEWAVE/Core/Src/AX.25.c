@@ -286,7 +286,7 @@ bool receiving_AX25(){
 }
 
 void slide_bits(bool* array,int bits_left){
-	memcpy(array,array+1,bits_left*bool_size);
+	memmove(array,array+1,bits_left*bool_size);
 }
 
 void remove_bit_stuffing(){
@@ -294,20 +294,27 @@ void remove_bit_stuffing(){
 //	sprintf(uartData, "Removing bit stuffed zeros\n");
 //	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-	int one_count = 0;
+	int ones_count = 0;
 	bool curr;
 	for(int i = 0;i < rxBit_count;i++){
 		curr = local_packet->AX25_PACKET[i]; //iterate through all data received before seperating into subfields
 		if(curr){ //current bit is a 1
-			one_count++;
+			ones_count++;
+			if(oned_count > 5){
+				sprintf(uartData, "ERROR: SHOULD HAVE BEEN A ZERO AFTER FIFTH CONTIGIOUS ONE!\n");
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				return;
+			}
 		}
 		else{
-			if(one_count >= 5){
+			if(ones_count >= 5){
 				slide_bits(&local_packet->AX25_PACKET[i],rxBit_count-i);
 				i--;
 				rxBit_count--;
+				sprintf(uartData, "REMOVED BIT STUFFED ZERO!\n");
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 			}
-			one_count = 0;
+			ones_count = 0;
 		}
 	}
 	//transmit kiss

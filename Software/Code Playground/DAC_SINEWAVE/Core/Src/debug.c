@@ -5,7 +5,10 @@
  *      Author: monke
  */
 #include "debug.h"
-
+#include "AX.25.h"
+#include "FreqIO.h"
+//Printing Packets
+//****************************************************************************************************************
 void print_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int bytecnt = local_packet->byte_cnt;
@@ -274,3 +277,41 @@ void print_KISS(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 }
+//****************************************************************************************************************
+
+//Direct testing on subsystems
+//****************************************************************************************************************
+void test_remove_bitstuffing(bool *test_array,int size){
+	struct PACKET_STRUCT* local_packet = &global_packet;
+	bool *curr_mem = local_packet->AX25_PACKET;
+	memcpy(curr_mem,test_array,size);
+	rxBit_count = size;
+
+	sprintf(uartData, "\n Testing removal of bits, rxBit_count = %d\n",rxBit_count);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	sprintf(uartData, "\n AX.25 before bit stuff removal = \n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	for(int i = 0; i < rxBit_count; i++){
+		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	remove_bit_stuffing();
+
+	sprintf(uartData, "\n AX.25 after bit stuff removal = \n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	for(int i = 0; i < rxBit_count; i++){
+		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+	sprintf(uartData, "\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	sprintf(uartData, "\n End of removal of bits, rxBit_count = %d\n",rxBit_count);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+}
+
+//****************************************************************************************************************

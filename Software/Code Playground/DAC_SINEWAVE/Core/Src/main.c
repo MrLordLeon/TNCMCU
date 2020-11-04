@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "AX.25.h"
+#include "debug.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -121,43 +122,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		tx_rx();
-		/*
-		int time = htim4.Instance->CNT;
-		if(time >5800){
-			sprintf(uartData, "MAYBE A FLAG\n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-			HAL_Delay(10);
-		} else {
-			if(time >0){
-				sprintf(uartData, "time = %d\n",time);
-				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-				HAL_Delay(10);
-			}
-		}
-		*/
-		/*
-		int values_to_read=30;
-		int readVal[values_to_read];
+		//testing bit stuffing
+		bool test_array[] = {1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0};
+		int len = sizeof(test_array)/sizeof(bool);
+		test_remove_bitstuffing(test_array,len);
+//		tx_rx();
 
-		int readCnt;
-		int temp;
-		while(readCnt<values_to_read){
-			temp = readPeriodBuffer();
-			if(temp>0){
-				readVal[readCnt] = temp;
-				readCnt++;
-			}
-		}
-		sprintf(uartData, "exit loop\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		readCnt = 0;
-		for(int i = 0;i<values_to_read;i++){
-			sprintf(uartData, "readVal[%d] = %d\n",i,readVal[i]);
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-			readVal[i] = -1;
-		}
-		*/
 	}
   /* USER CODE END 3 */
 }
