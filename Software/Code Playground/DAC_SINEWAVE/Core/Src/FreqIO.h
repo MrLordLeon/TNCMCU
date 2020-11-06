@@ -53,13 +53,12 @@ void FreqCounterPinEXTI();
 
 //GENERATING FREQ
 //****************************************************************************************************************
-#define TIM2_AUTORELOAD_TX	100			//Timer2 period, used to control DAC and generate audio
+#define TIM2_AUTORELOAD_TX	400			//Timer2 period, used to control DAC and generate audio, assuming 40Mhz clk
 #define TIM3_AUTORELOAD_TX	828 		//Timer3 period, used to controller baudrate for TX
+#define TIM5_AUTORELOAD_RX	0			//Timer5 period, NOT USED IN THIS MODE
 
 #define PI 					3.1415926
-#define OUT_AMPL			100
-//#define OUT_AMPL			505			//Amplitude of outpute wave. 4096 -> 1.65V Peak
-//#define OUT_AMPL			4096
+#define OUT_AMPL			4096
 #define LOWF 				1200 		//This is the sample count for the low frequency , as configured maps to 1200Hz
 #define HIGHF				2200		//This is the sample count for the high frequency, as configured maps to 2200Hz
 
@@ -78,8 +77,9 @@ void initOUTData();
 //READING FREQ
 //****************************************************************************************************************
 #define	DECAY_TIME			8			//Decay count to set when valid frequency is detected.
-#define TIM2_AUTORELOAD_RX	10000		//Timer2 period, used for determining frequency
-#define TIM3_AUTORELOAD_RX	104			//Timer3 period, enters interrupt 8x per baud.
+#define TIM2_AUTORELOAD_RX	4294967295		//Timer2 period, max value for output compare to count up to
+#define TIM3_AUTORELOAD_RX	0				//Timer3 period, NOT USED IN THIS MODE
+#define TIM5_AUTORELOAD_RX	4294967295		//Timer5 period, input capture needs to have the same max count as tim2 output compare
 
 #define PCONVERT 		10000000		//f = 1/T, used for converting period to frequency
 #define HIGHFREQ 		2200			//Higher freq to detect w/ afsk

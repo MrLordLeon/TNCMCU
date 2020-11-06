@@ -340,7 +340,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|Ch2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|D1_Pin|D0_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, D2_Pin|D3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -348,12 +351,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD2_Pin Ch2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|Ch2_Pin;
+  /*Configure GPIO pins : LD2_Pin D1_Pin D0_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|D1_Pin|D0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : D2_Pin D3_Pin */
+  GPIO_InitStruct.Pin = D2_Pin|D3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 
@@ -362,16 +372,15 @@ static void MX_GPIO_Init(void)
 // this function is automatically called whenever the input capture interrupt hits
 
 #define samp_per_bit 		1	//Will take the digital reading multiple times per bit length
-#define no_clk_max_cnt		8	//How many bit lengths can occur without disabling clock sync
+#define no_clk_max_cnt		32	//How many bit lengths can occur without disabling clock sync
 #define bit_sample_period 	SYMBOL_PERIOD / samp_per_bit
 
 uint8_t captured_bits_count = 0;	//How many captured bits since last clk sync
 bool clk_sync = false;			//Are we synced with clock
-uint8_t clk_sync_int = 0;
-bool freq_pin_state = false;
 
-int IC_count = 0;
-uint32_t global_next_sample;
+bool freq_pin_state_curr = false;
+bool freq_pin_state_last = false;
+
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	static uint32_t rising_capture = 0;		// stores the timer tick value of the most recent rising edge
@@ -386,11 +395,8 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 	//Make sure this is the right timer and channel
 	if (htim->Instance == TIM5 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
-		//Reset roll-over value
-		captured_bits_count = 0;
-
 		//Grap pin state for OC timer
-		freq_pin_state = signal_edge;
+		freq_pin_state_curr = signal_edge;
 
 		//Rising Edge
 		if (signal_edge)
@@ -427,62 +433,65 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			//Check if the transition was a valid transition period to use
 			if(SYMBOL_PERIOD-SYMBOL_MARGIN < capture_difference && capture_difference < SYMBOL_PERIOD+SYMBOL_MARGIN){
 
-				IC_count++;
-
 				//Predict clock
-				uint32_t next_sampl = this_capture + bit_sample_period;
-				global_next_sample = next_sampl;
+				uint32_t next_sampl;
 
-				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);
-
+				if(!clk_sync){
+					next_sampl = this_capture + SYMBOL_PERIOD;
+					__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);
+				}
+				else {
+					next_sampl = this_capture + bit_sample_period;
+					__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);
+				}
+				//Reset roll-over value
+				captured_bits_count = 0;
 
 				//Have now synced with clock
 				clk_sync = true;
-
-				clk_sync_int = clk_sync;
 			}
 		}
-
-//		HAL_GPIO_TogglePin(GPIOA,Ch2_Pin); //Toggle output when sampled
 	}
 
 	return;
 }
 
-int OC_count = 0;
-uint32_t global_capture;
+bool hold_state,NRZI;
 // this function is called automatically whenever the output compare interrupt hits
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
-//	OC_count++;
 	if (htim->Instance == TIM2 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
-		OC_count++;
-		uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);
-
-		if(this_capture>40000000){
-			global_capture = this_capture;
-			uint32_t next_sampl = this_capture + bit_sample_period;
-
-			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,next_sampl); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
-		}
+		freq_pin_state_last = hold_state;
 
 		//Check if this is valid data
 		if(clk_sync){
-			/* Use freq_pin_state to load values into a buffer.*/
-			bool bit = freq_pin_state;
+			uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);
+			uint32_t next_sampl = this_capture + bit_sample_period;
+			NRZI = (freq_pin_state_curr==freq_pin_state_last) ? 1 : 0;
 
-			HAL_GPIO_TogglePin(GPIOA,Ch2_Pin); //Toggle output when sampled
+			HAL_GPIO_TogglePin(GPIOA,D0_Pin);//Interpreted clock
 
+			HAL_GPIO_WritePin(GPIOA,D1_Pin,freq_pin_state_curr);
+			HAL_GPIO_WritePin(GPIOB,D2_Pin,freq_pin_state_last);
+			HAL_GPIO_WritePin(GPIOB,D3_Pin,NRZI);
+
+			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,next_sampl); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
+		}
+		//Clock not syncd
+		else
+		{
+			//Turn off OC until syncd
+			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,0);
 		}
 
 		//Inc number of bits since last clock sync
 		captured_bits_count++;
-		if(captured_bits_count > samp_per_bit * no_clk_max_cnt){
+		if(captured_bits_count >= samp_per_bit * no_clk_max_cnt){
 			clk_sync = false;	//Clock is no longer sync
 		}
 
-		clk_sync_int = clk_sync;
+		hold_state = freq_pin_state_curr;
 	}
 
 	return;

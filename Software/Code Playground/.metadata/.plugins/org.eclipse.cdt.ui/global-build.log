@@ -1,107 +1,14 @@
-11:38:28 **** Incremental Build of configuration Debug for project Clock Recovery ****
+19:26:12 **** Incremental Build of configuration Debug for project CAPE-Interface ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:109:12: warning: unused variable 'captureVal' [-Wunused-variable]
-   uint32_t captureVal;
-            ^~~~~~~~~~
-../Core/Src/main.c: In function 'HAL_TIM_OC_DelayElapsedCallback':
-../Core/Src/main.c:473:9: warning: unused variable 'bit' [-Wunused-variable]
-    bool bit = freq_pin_state;
-         ^~~
-arm-none-eabi-gcc -o "Clock Recovery.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Clock Recovery.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Clock Recovery.elf
- 
-arm-none-eabi-objdump -h -S  Clock\ Recovery.elf  > "Clock Recovery.list"
-arm-none-eabi-objcopy  -O binary  Clock\ Recovery.elf  "Clock Recovery.bin"
-arm-none-eabi-size   Clock\ Recovery.elf 
+arm-none-eabi-size   CAPE-Interface.elf 
    text	   data	    bss	    dec	    hex	filename
-  14952	     24	   1800	  16776	   4188	Clock Recovery.elf
+   9660	     20	   1700	  11380	   2c74	CAPE-Interface.elf
 Finished building: default.size.stdout
  
-Finished building: Clock Recovery.bin
-Finished building: Clock Recovery.list
- 
- 
-11:38:32 **** Incremental Build of configuration Debug for project Clock Recovery ****
+19:26:16 **** Incremental Build of configuration Debug for project CAPE-Interface ****
 make -j8 all 
-arm-none-eabi-size   Clock\ Recovery.elf 
+arm-none-eabi-size   CAPE-Interface.elf 
    text	   data	    bss	    dec	    hex	filename
-  14952	     24	   1800	  16776	   4188	Clock Recovery.elf
+   9660	     20	   1700	  11380	   2c74	CAPE-Interface.elf
 Finished building: default.size.stdout
- 
-11:40:11 **** Incremental Build of configuration Debug for project Clock Recovery ****
-make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:109:12: warning: unused variable 'captureVal' [-Wunused-variable]
-   uint32_t captureVal;
-            ^~~~~~~~~~
-../Core/Src/main.c: In function 'HAL_TIM_OC_DelayElapsedCallback':
-../Core/Src/main.c:473:9: warning: unused variable 'bit' [-Wunused-variable]
-    bool bit = freq_pin_state;
-         ^~~
-arm-none-eabi-gcc -o "Clock Recovery.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Clock Recovery.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Clock Recovery.elf
- 
-arm-none-eabi-objdump -h -S  Clock\ Recovery.elf  > "Clock Recovery.list"
-arm-none-eabi-objcopy  -O binary  Clock\ Recovery.elf  "Clock Recovery.bin"
-arm-none-eabi-size   Clock\ Recovery.elf 
-   text	   data	    bss	    dec	    hex	filename
-  14944	     24	   1800	  16768	   4180	Clock Recovery.elf
-Finished building: default.size.stdout
- 
-Finished building: Clock Recovery.bin
- 
-Finished building: Clock Recovery.list
- 
-11:40:39 **** Incremental Build of configuration Debug for project Clock Recovery ****
-make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:109:12: warning: unused variable 'captureVal' [-Wunused-variable]
-   uint32_t captureVal;
-            ^~~~~~~~~~
-../Core/Src/main.c: In function 'HAL_TIM_OC_DelayElapsedCallback':
-../Core/Src/main.c:473:9: warning: unused variable 'bit' [-Wunused-variable]
-    bool bit = freq_pin_state;
-         ^~~
-arm-none-eabi-gcc -o "Clock Recovery.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Clock Recovery.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Clock Recovery.elf
- 
-arm-none-eabi-objdump -h -S  Clock\ Recovery.elf  > "Clock Recovery.list"
-arm-none-eabi-objcopy  -O binary  Clock\ Recovery.elf  "Clock Recovery.bin"
-arm-none-eabi-size   Clock\ Recovery.elf 
-   text	   data	    bss	    dec	    hex	filename
-  14944	     24	   1800	  16768	   4180	Clock Recovery.elf
-Finished building: default.size.stdout
- 
-Finished building: Clock Recovery.bin
- 
-Finished building: Clock Recovery.list
- 
-11:45:56 **** Incremental Build of configuration Debug for project Clock Recovery ****
-make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:109:12: warning: unused variable 'captureVal' [-Wunused-variable]
-   uint32_t captureVal;
-            ^~~~~~~~~~
-../Core/Src/main.c: In function 'HAL_TIM_OC_DelayElapsedCallback':
-../Core/Src/main.c:473:9: warning: unused variable 'bit' [-Wunused-variable]
-    bool bit = freq_pin_state;
-         ^~~
-arm-none-eabi-gcc -o "Clock Recovery.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\Clock Recovery\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Clock Recovery.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Clock Recovery.elf
- 
-arm-none-eabi-objdump -h -S  Clock\ Recovery.elf  > "Clock Recovery.list"
-arm-none-eabi-objcopy  -O binary  Clock\ Recovery.elf  "Clock Recovery.bin"
-arm-none-eabi-size   Clock\ Recovery.elf 
-   text	   data	    bss	    dec	    hex	filename
-  14940	     24	   1800	  16764	   417c	Clock Recovery.elf
-Finished building: default.size.stdout
- 
-Finished building: Clock Recovery.bin
- 
-Finished building: Clock Recovery.list
  
