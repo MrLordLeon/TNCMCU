@@ -73,14 +73,6 @@ uint8_t conv_BIN_to_HEX(bool *bin_byte_in){
 
 //General Program
 //****************************************************************************************************************
-void init_AX25(){
-	HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);
-	UART_packet.flags = 0;
-	UART_packet.got_packet = false;
-	UART_packet.rx_cnt = 0;
-	UART_packet.received_byte_cnt = 0;
-}
-
 void tx_rx() {
 	if (changeMode) {
 		changeMode = 0;
@@ -200,35 +192,6 @@ void output_KISS() {
 	//HAL_UART_Transmit(&huart2, local_UART_packet->HEX_KISS_PACKET, KISS_SIZE, 10);
 }
 
-//UART Handling data flow
-//****************************************************************************************************************
-void UART2_EXCEPTION_CALLBACK(){
-	HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);//Reset
-	UART_packet.got_packet = false;
-
-	  if(UART_packet.input==0xc0){
-		  UART_packet.flags++;
-	  }
-
-	  *(UART_packet.HEX_KISS_PACKET+UART_packet.rx_cnt) = UART_packet.input;
-	  UART_packet.rx_cnt++;
-
-	  if(UART_packet.flags>=2){
-		  if(!mode){
-			  changeMode = true;
-		  }
-		  UART_packet.flags = 0;
-		  UART_packet.got_packet = true;
-		  UART_packet.received_byte_cnt = UART_packet.rx_cnt;
-		  UART_packet.rx_cnt=0;
-
-	  }
-}
-
-
-//****************************************************************************************************************
-//END OF UART Handling data flow
-
 //AX.25 to KISS data flow
 //****************************************************************************************************************
 bool receiving_AX25(){
@@ -237,7 +200,7 @@ bool receiving_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
 	int packet_status;
-	packet_status = streamGet();
+//	packet_status = streamGet();
 
 	//Valid packet received
 	if(packet_status == 1){
@@ -300,7 +263,7 @@ void remove_bit_stuffing(){
 		curr = local_packet->AX25_PACKET[i]; //iterate through all data received before seperating into subfields
 		if(curr){ //current bit is a 1
 			ones_count++;
-			if(oned_count > 5){
+			if(ones_count > 5){
 				sprintf(uartData, "ERROR: SHOULD HAVE BEEN A ZERO AFTER FIFTH CONTIGIOUS ONE!\n");
 				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 				return;

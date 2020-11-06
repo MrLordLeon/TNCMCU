@@ -13,6 +13,7 @@ DAC_HandleTypeDef hdac;
 DMA_HandleTypeDef hdma_dac1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim5;
 UART_HandleTypeDef huart2;
 //Connectivity
 //****************************************************************************************************************
@@ -25,76 +26,72 @@ bool midbit = false;
 bool changeMode = false;
 
 void initProgram(bool modeStart) {
-	initOUTData();
 
 	//Set hardware properly
 	mode = modeStart;
 	toggleMode();
 	toggleMode();
 
-	if (mode) {
-		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
-	} else {
-		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
-	}
-
-	init_AX25();
+	init_UART();
 }
 
-
-
 void toggleMode() {
-	//Disable HW interrupt
-	HAL_NVIC_DisableIRQ(EXTI0_IRQn);
 
 	//Toggle mode
 	mode = !mode;
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, mode);
+
+	//Stop DAC
+	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 	midbit = false;
 
-	//Stop timer and reset count
+	//Stop Timers the Correct Way
+	HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
 	HAL_TIM_Base_Stop(&htim3);
+	HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
+
+	//Zero Timers
+	htim2.Instance->CNT = 0;
 	htim3.Instance->CNT = 0;
+	htim5.Instance->CNT = 0;
 
-	HAL_TIM_Base_Stop(&htim4);
-	htim4.Instance->CNT = 0;
-
+	//Transmission Mode
 	if (mode) {
-		//Set Timer periods
-		//htim2.Instance->ARR = TIM2_AUTORELOAD_TX; This is no longer used
+
+		//Set Timer Auto Reload Settings
+		htim2.Instance->ARR = TIM2_AUTORELOAD_TX_LOW;
 		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
+		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
 
-	} else {
-		//Set Timer Periods
-		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
-		HAL_TIM_Base_Start(&htim4);
-
-		//Enable tim3 interrupt
-		HAL_TIM_Base_Start_IT(&htim3);
-
-		//Stop DAC
-		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
-
-		//Enable HW interrupt
-		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+		//Start Timers the Correct Way
+		//Nothing to do here
 	}
 
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
+	//Receiving Mode
+	else {
+
+		//Set Timer Auto Reload Settings
+		htim2.Instance->ARR = TIM2_AUTORELOAD_TX_LOW;
+		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
+		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
+
+		//Start Timers the Correct Way
+		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
+		HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
+	}
 }
+
 bool bufffull = false;
-void loadPeriodBuffer(int timerCnt) {
+void loadBitBuffer(int bit_val) {
 	if(canWrite){
-		periodBuffer[periodSaveCount] = timerCnt;
-		periodSaveCount++;
-		if (periodSaveCount >= RX_BUFFERSIZE) {
-			periodSaveCount = 0;
+		bitBuffer[bitSaveCount] = bit_val;
+		bitSaveCount++;
+		if (bitSaveCount >= RX_BUFFERSIZE) {
+			bitSaveCount = 0;
 		}
 
 		//Buffer is full
-		if(periodSaveCount == periodReadCount){
+		if(bitSaveCount == bitReadCount){
 			canWrite = false;
 		}
 	} else {
@@ -103,12 +100,12 @@ void loadPeriodBuffer(int timerCnt) {
 	canRead = true;
 }
 
-int readPeriodBuffer(){
+int readBitBuffer(){
 	int returnVal = -1;
 
 	if(canRead){
 		//Extract buffer value
-		returnVal = periodBuffer[periodReadCount];
+		returnVal = bitBuffer[bitReadCount];
 
 		if(returnVal == -1){
 			sprintf(uartData, "End of incoming stream\n");
@@ -116,13 +113,13 @@ int readPeriodBuffer(){
 		}
 
 		//Update period read
-		periodReadCount++;
-		if (periodReadCount >= RX_BUFFERSIZE) {
-			periodReadCount = 0;
+		bitReadCount++;
+		if (bitReadCount >= RX_BUFFERSIZE) {
+			bitReadCount = 0;
 		}
 
 		//Buffer is empty
-		if(periodReadCount == periodSaveCount){
+		if(bitReadCount == bitSaveCount){
 			canRead = false;
 		}
 
@@ -131,71 +128,14 @@ int readPeriodBuffer(){
 //		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	if(bufffull){
-		sprintf(uartData, "periodBuffer is full; periodSaveCount = %d\n",periodSaveCount);
+		sprintf(uartData, "bitBuffer is full; bitSaveCount = %d\n",bitSaveCount);
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	bufffull = false;
 	canWrite = true;
 	return returnVal;
 }
-void Tim3IT() {
-	if (mode) {
-		midbit = false;
-	} else {
-		//If signal is determined to be invalid, load 0
-		if(signal_detect_decay <= 0){
-			if(signal_valid){
-				loadPeriodBuffer(-1);
-				HAL_TIM_Base_Stop(&htim4);
-				htim4.Instance->CNT = 0;
-			}
-			signal_valid = false;
-		}
 
-		else {
-			signal_detect_decay--;
-		}
-	}
-}
-int edges = 0;
-int gotVal = 0;
-int last_carrier_tone = 0;
-int carrier_tone = 0;
-
-void FreqCounterPinEXTI() {
-	//Measure time since last measurement
-	gotVal = htim2.Instance->CNT;
-	int freq = PCONVERT / (gotVal);
-	loadPeriodBuffer(gotVal);
-
-	last_carrier_tone = carrier_tone;
-
-	//2200Hz detected
-	if ( ((HIGHFREQ - FREQDEV) < freq) && (freq < (HIGHFREQ + FREQDEV)) ){
-		carrier_tone = HIGHFREQ;
-	}
-	//1200Hz detected
-	else if ( ((LOWFREQ - FREQDEV) < freq) && (freq < (LOWFREQ + FREQDEV)) ){
-		carrier_tone = LOWFREQ;
-	}
-	//Invalid freq
-	else{
-		carrier_tone = -1;
-//		sprintf(uartData, "bad frequency detected, frequency was %d\n",freq);
-//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	}
-
-	if(carrier_tone!=last_carrier_tone || carrier_tone == -1){
-		edges = 0;
-		htim4.Instance->CNT = 0;
-	} else {
-		edges++;
-	}
-
-	signal_valid = true;
-	signal_detect_decay = DECAY_TIME;
-	htim2.Instance->CNT = 0;
-}
 
 //GENERATING FREQ
 //****************************************************************************************************************
@@ -231,16 +171,14 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 		freqSelect = (changeFreq) ? freqSelect : !freqSelect;
 
 		if (freqSelect) {
-			htim2.Instance->ARR = 14;
+			htim2.Instance->ARR = TIM2_AUTORELOAD_TX_HIGH;
 			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * HIGHF) / (1.0 * LOWF);
 		}
 		else {
-			htim2.Instance->ARR = 27;
+			htim2.Instance->ARR = TIM2_AUTORELOAD_TX_LOW;
 			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * LOWF) / (1.0 * LOWF);
 		}
 
-		//htim2.Instance->CNT = 0;
-		//HAL_TIM_Base_Stop(&htim2);
 		HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (wave+wave_start), FREQ_SAMP, DAC_ALIGN_12B_R);
 		htim3.Instance->CNT = 0;
 		HAL_TIM_Base_Start_IT(&htim3);
@@ -259,245 +197,149 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 	HAL_TIM_Base_Stop(&htim3);
 	return wave_start;
 }
-void generateBitstream() {
-	bitStream[0] = 1;
-	bitStream[1] = 1;
-	bitStream[2] = 1;
-	bitStream[3] = 0;
-	bitStream[4] = 0;
-	bitStream[5] = 0;
-	bitStream[6] = 1;
-	bitStream[7] = 0;
-	bitStream[8] = 1;
-	bitStream[9] = 0;
-
-}
-void initOUTData() {
-	//edit_sineval(lowFrequency, 2 * LOWF_SAMP, 2, +0.995);
-	//edit_sineval(highFrequency, 2 * HIGHF_SAMP, 2, +0.99);
-	generateBitstream();
-}
 
 //READING FREQ
 //****************************************************************************************************************
-uint32_t periodBuffer[RX_BUFFERSIZE];
-uint32_t bitBuffer[RX_BUFFERSIZE];
+int bitBuffer[RX_BUFFERSIZE];
 bool		canWrite = true;
 bool		canRead  = false;
-uint16_t periodSaveCount = 0;
-uint16_t periodReadCount = 0;
+uint16_t bitSaveCount = 0;
+uint16_t bitReadCount = 0;
 uint16_t	signal_detect_decay = 0;			//Pseudo timer to detect if value is valid
 bool		signal_valid = false;					//Determines if frequency being read is a valid bit
 uint16_t trackBit = 0;
-uint16_t bitSaveCount = 0;
 
-int pertobit(uint32_t inputPeriod) {
-	int freq = PCONVERT / inputPeriod;
-
-//	sprintf(uartData, "Recieved frequency = %d\r\n",freq);
-//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-	//return freq;
-	if ((HIGHFREQ - FREQDEV < freq) && (freq < HIGHFREQ + FREQDEV)){
-		sprintf(uartData, "Recieved frequency = %d\r\n",freq);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		return 1;
-	}
-	else if ((LOWFREQ - FREQDEV < freq) && (freq < LOWFREQ + FREQDEV)){
-		sprintf(uartData, "Recieved frequency = %d\r\n",freq);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		return 0;
-	}
-	else
-//		sprintf(uartData, "Recieved frequency = %d\r\n",freq);
+//int loadOctet(bool* bufferptr) {
+//	int bit;
+//	bool myPtr[8];
+//	bool isFlag = true;
+//
+//	for (int i = 0; i < 8; i++) {
+//		bit = loadBit();
+//
+//		sprintf(uartData, "bit[%d] = %d \n",i,bit);
 //		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		return -1;
-}
-int loadBit(){
-	int startbit;
-	int currbit = -1;
-	int loopCount = 0;
-	int checkCount;
-	bool goodbit = false;
-
-	startbit = pertobit(periodBuffer[trackBit]);
-//	sprintf(uartData, "startbit = %d\n",startbit);
-//	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	//Increment trackBit
-	trackBit++;
-	if (trackBit >= RX_BUFFERSIZE)
-		trackBit = 0;
-
-	if(startbit==1){
-		checkCount = 3;
-	}
-	else if(startbit==0){
-		checkCount = 1;
-	}
-	else {
-		checkCount = 0;
-	}
-
-	//Valiate startbit value
-	while(loopCount<checkCount){
-		currbit = pertobit(periodBuffer[trackBit]);
-
-		//Good bit
-		if(startbit==currbit){
-			goodbit = true;
-		}
-		//Bad bit
-		else {
-			currbit = -1;
-			goodbit = false;
-			break;
-		}
-
-		//Increment trackBit
-		trackBit++;
-		if (trackBit >= RX_BUFFERSIZE)
-			trackBit = 0;
-		loopCount++;
-	}
-
-	//Increment bitSaveCount
-	bitSaveCount++;
-	if (bitSaveCount >= RX_BUFFERSIZE)
-		bitSaveCount = 0;
-
-	return currbit;
-}
-int loadOctet(bool* bufferptr) {
-	int bit;
-	bool myPtr[8];
-	bool isFlag = true;
-
-	for (int i = 0; i < 8; i++) {
-		bit = loadBit();
-
-		sprintf(uartData, "bit[%d] = %d \n",i,bit);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-        if(bit < 0){
-    		sprintf(uartData, "bit %d was bad\n",i);
-    		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-        	return -1;
-        }
-		myPtr[i] = bit;
-        if(myPtr[i] != AX25TBYTE[i]){
-        	isFlag = false;
-        }
-    }
-	//If this is not a flag, copy the values into the buffer pointer
-	if(!isFlag){
-		sprintf(uartData, "Printing octet [MSB:LSB]= ");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-		for(int i = 0;i<8;i++){
-			bufferptr[7-i] = (myPtr[7-i]==1)?true:false;
-			rxBit_count++;
-			sprintf(uartData, " %d ",bufferptr[7-i]);
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		}
-		sprintf(uartData, "\r\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-	}
-	return isFlag;
-}
-int streamGet() {
-	struct PACKET_STRUCT* local_packet = &global_packet;
-
-	int byteArray[8];
-	int max_octets = (int)(AX25_PACKET_MAX)/8;
-	int octet_count,good_octet;
-	bool gotflag;
-
-	//Just do this unless we need to toggle
-	while(!changeMode){
-		gotflag = false;
-
-		//Slide bits
-		for(int i = 0; i < 7; i++){
-			byteArray[i] = byteArray[i+1];
-		}
-		byteArray[7] = loadBit();
-//		if(byteArray[7]>=0){
-//			sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
+//
+//        if(bit < 0){
+//    		sprintf(uartData, "bit %d was bad\n",i);
+//    		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//        	return -1;
+//        }
+//		myPtr[i] = bit;
+//        if(myPtr[i] != AX25TBYTE[i]){
+//        	isFlag = false;
+//        }
+//    }
+//	//If this is not a flag, copy the values into the buffer pointer
+//	if(!isFlag){
+//		sprintf(uartData, "Printing octet [MSB:LSB]= ");
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//
+//		for(int i = 0;i<8;i++){
+//			bufferptr[7-i] = (myPtr[7-i]==1)?true:false;
+//			rxBit_count++;
+//			sprintf(uartData, " %d ",bufferptr[7-i]);
 //			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 //		}
-//		sprintf(uartData, "Current octet:");
+//		sprintf(uartData, "\r\n");
 //		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		//Detect AX25 flag bytes
-		for(int i = 0;i < 8; i++){
-//			sprintf(uartData, " %d ",byteArray[i]);
+//	}
+//	return isFlag;
+//}
+//int streamGet() {
+//	struct PACKET_STRUCT* local_packet = &global_packet;
+//
+//	int byteArray[8];
+//	int max_octets = (int)(AX25_PACKET_MAX)/8;
+//	int octet_count,good_octet;
+//	bool gotflag;
+//
+//	//Just do this unless we need to toggle
+//	while(!changeMode){
+//		gotflag = false;
+//
+//		//Slide bits
+//		for(int i = 0; i < 7; i++){
+//			byteArray[i] = byteArray[i+1];
+//		}
+//		byteArray[7] = loadBit();
+////		if(byteArray[7]>=0){
+////			sprintf(uartData, "Got bit %d\r\n",byteArray[7]);
+////			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+////		}
+////		sprintf(uartData, "Current octet:");
+////		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		//Detect AX25 flag bytes
+//		for(int i = 0;i < 8; i++){
+////			sprintf(uartData, " %d ",byteArray[i]);
+////			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//
+//			//If the byte isn't lined up, break loop
+//			if(byteArray[i]!=AX25TBYTE[i]) {
+//				gotflag = false;
+//				break;
+//			}
+//			//If the loop makes it to the lowest bit, the flag should be lined up
+//			else if(i==7){
+//				gotflag = true;
+//			}
+//		}
+////		sprintf(uartData, "\n");
+////		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//
+//
+//		//Got flag
+//		if(gotflag){
+//			sprintf(uartData, "Start AX.25 Flag Detected\r\n");
 //			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-			//If the byte isn't lined up, break loop
-			if(byteArray[i]!=AX25TBYTE[i]) {
-				gotflag = false;
-				break;
-			}
-			//If the loop makes it to the lowest bit, the flag should be lined up
-			else if(i==7){
-				gotflag = true;
-			}
-		}
-//		sprintf(uartData, "\n");
-//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-
-		//Got flag
-		if(gotflag){
-			sprintf(uartData, "Start AX.25 Flag Detected\r\n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-			octet_count  = 0;
-
-			//Until AX.25 buffer overflows, continue reading octets
-			good_octet = 0;
-			while( (good_octet==0) && (octet_count < max_octets) ){
-				good_octet = loadOctet(&local_packet->AX25_PACKET[octet_count*8]);
-				sprintf(uartData, "Loaded octet %d out of %d\r\n",octet_count,max_octets);
-				//sprintf(uartData, "good_octet: %d\r\n",good_octet);
-				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-				octet_count+=1;
-			}
-			//If an octet was bad, this was a bad packet
-			if(good_octet!=1){
-				sprintf(uartData, "Bad packet! Detected bad signal.\n\n",octet_count);
-				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-				//for(int i = 0;i<)
-				gotflag = false;
-			}
-			//If ax.25 buffer overflows
-			else if(octet_count >= max_octets){
-				sprintf(uartData, "Bad packet! Not enough octets\r\n\n",octet_count);
-				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-				gotflag = false;
-			}
-			//
-			else if(octet_count == 1){
-				sprintf(uartData, "Stop AX.25 Flag Detected\r\n");
-				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-				sprintf(uartData, "Bad packet! Not enough octetes.\r\n\n",octet_count);
-				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-				gotflag = false;
-			}
-			//If ax.25 buffer does not overflow, this was a good packet
-			else {
-				sprintf(uartData, "Stop AX.25 Flag Detected\r\n\n");
-				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-				gotflag = false;
-				return 1;
-			}
-		}
-		//Didn't get flag
-		else {
-			//sprintf(uartData, "Flag not detected\r\n");
-			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		}
-	}
-	//Break if mode needs to change
-	if(toggleMode)
-		return -1;
-}
+//			octet_count  = 0;
+//
+//			//Until AX.25 buffer overflows, continue reading octets
+//			good_octet = 0;
+//			while( (good_octet==0) && (octet_count < max_octets) ){
+//				good_octet = loadOctet(&local_packet->AX25_PACKET[octet_count*8]);
+//				sprintf(uartData, "Loaded octet %d out of %d\r\n",octet_count,max_octets);
+//				//sprintf(uartData, "good_octet: %d\r\n",good_octet);
+//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//
+//				octet_count+=1;
+//			}
+//			//If an octet was bad, this was a bad packet
+//			if(good_octet!=1){
+//				sprintf(uartData, "Bad packet! Detected bad signal.\n\n",octet_count);
+//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//				//for(int i = 0;i<)
+//				gotflag = false;
+//			}
+//			//If ax.25 buffer overflows
+//			else if(octet_count >= max_octets){
+//				sprintf(uartData, "Bad packet! Not enough octets\r\n\n",octet_count);
+//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//				gotflag = false;
+//			}
+//			//
+//			else if(octet_count == 1){
+//				sprintf(uartData, "Stop AX.25 Flag Detected\r\n");
+//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//				sprintf(uartData, "Bad packet! Not enough octetes.\r\n\n",octet_count);
+//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//				gotflag = false;
+//			}
+//			//If ax.25 buffer does not overflow, this was a good packet
+//			else {
+//				sprintf(uartData, "Stop AX.25 Flag Detected\r\n\n");
+//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//				gotflag = false;
+//				return 1;
+//			}
+//		}
+//		//Didn't get flag
+//		else {
+//			//sprintf(uartData, "Flag not detected\r\n");
+//			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		}
+//	}
+//	//Break if mode needs to change
+//	if(toggleMode)
+//		return -1;
+//}

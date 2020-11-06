@@ -16,6 +16,7 @@
 #include <assert.h>
 #include "math.h"
 #include "sine.h"
+#include "interrupt_services.h"
 
 //Needed uController Objects
 //****************************************************************************************************************
@@ -23,7 +24,7 @@ extern DAC_HandleTypeDef hdac;
 extern DMA_HandleTypeDef hdma_dac1;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
-extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim5;
 extern UART_HandleTypeDef huart2;
 //Connectivity
 //****************************************************************************************************************
@@ -42,32 +43,21 @@ extern bool mode;
 void initProgram(bool modeStart);
 void toggleMode();
 
-/*
- * 	Function to be ran at Tim3 interrupt
- */
-void Tim3IT();
-/*
- * 	Function to be ran at external trigger.
- */
-void FreqCounterPinEXTI();
+void loadBitBuffer(int bit_val);
+int readBitBuffer();
 
 //GENERATING FREQ
 //****************************************************************************************************************
-#define TIM2_AUTORELOAD_TX	400			//Timer2 period, used to control DAC and generate audio, assuming 40Mhz clk
-#define TIM3_AUTORELOAD_TX	828 		//Timer3 period, used to controller baudrate for TX
-#define TIM5_AUTORELOAD_RX	0			//Timer5 period, NOT USED IN THIS MODE
-
+#define TIM2_AUTORELOAD_TX_LOW	108			//Timer2 period, used to control DAC and generate 1200Hz, assuming 40Mhz clk
+#define TIM2_AUTORELOAD_TX_HIGH	56			//Timer2 period, used to control DAC and generate 2200Hz, assuming 40Mhz clk
 #define PI 					3.1415926
 #define OUT_AMPL			4096
 #define LOWF 				1200 		//This is the sample count for the low frequency , as configured maps to 1200Hz
 #define HIGHF				2200		//This is the sample count for the high frequency, as configured maps to 2200Hz
 
-extern bool bitStream[10];
-
 extern bool 	midbit;
 extern bool		changeMode;
 extern bool		freqSelect;						//Tracks lasts state of output freq for NRZI encoding
-
 
 void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPercent);
 int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start);
@@ -76,28 +66,16 @@ void initOUTData();
 
 //READING FREQ
 //****************************************************************************************************************
-#define	DECAY_TIME			8			//Decay count to set when valid frequency is detected.
-#define TIM2_AUTORELOAD_RX	4294967295		//Timer2 period, max value for output compare to count up to
-#define TIM3_AUTORELOAD_RX	0				//Timer3 period, NOT USED IN THIS MODE
-#define TIM5_AUTORELOAD_RX	4294967295		//Timer5 period, input capture needs to have the same max count as tim2 output compare
-
-#define PCONVERT 		10000000		//f = 1/T, used for converting period to frequency
-#define HIGHFREQ 		2200			//Higher freq to detect w/ afsk
-#define LOWFREQ			1200			//Lower freq to detect w/ afsk
-#define FREQDEV			300				//Max potential deviation in target frequency to detect
-
 #define	BUFFER_SCALE		1			//Scalar for buffer base
 #define BIT_BUFF_BASE		16			//Base amount of bits to store
-#define RX_BUFFERSIZE		DECAY_TIME * BIT_BUFF_BASE * BUFFER_SCALE
+#define RX_BUFFERSIZE		BIT_BUFF_BASE * BUFFER_SCALE
 
-extern uint32_t periodBuffer[RX_BUFFERSIZE];	//Stores the period values from interrupt
-extern uint32_t bitBuffer[RX_BUFFERSIZE];		//Stores bitstream values
-extern uint8_t	sampusecount;					//Used to determine old data
+extern int bitBuffer[RX_BUFFERSIZE];		//Stores bitstream values
 extern bool		canWrite;
 extern bool		canRead;
 extern bool 	bufffull;
-extern uint16_t periodSaveCount;				//Keep track of index to save period
-extern uint16_t periodReadCount;				//Keep track of index to read period
+extern uint16_t bitSaveCount;				//Keep track of index to save period
+extern uint16_t bitReadCount;				//Keep track of index to read period
 extern uint16_t	signal_detect_decay;			//Pseudo timer to detect if value is valid
 extern bool		signal_valid;					//Determines if frequency being read is a valid bit
 extern uint16_t trackBit;						//Tracks bits being loaded into bit buffer
