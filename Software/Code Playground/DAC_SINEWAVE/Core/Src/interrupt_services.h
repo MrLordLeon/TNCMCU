@@ -32,7 +32,7 @@ extern UART_HandleTypeDef huart2;
 #define TIM3_AUTORELOAD_RX	0				//Timer3 period, NOT USED IN THIS MODE
 #define TIM5_AUTORELOAD_RX	4294967295		//Timer5 period, input capture needs to have the same max count as tim2 output compare
 #define samp_per_bit 		1	//Will take the digital reading multiple times per bit length
-#define no_clk_max_cnt		32	//How many bit lengths can occur without disabling clock sync
+#define no_clk_max_cnt		64	//How many bit lengths can occur without disabling clock sync
 #define bit_sample_period 	SYMBOL_PERIOD / samp_per_bit
 
 extern uint8_t captured_bits;	//How many captured bits since last clk sync

@@ -28,14 +28,14 @@ bool NRZI;
 
 bool process_bit_buffer = false;
 int byteArray[8];
+bool got_flag_start = false;
+bool got_flag_end = false;
 
 //Timer 2 Output Compare Callback
 void Tim2_OC_Callback(){
 	static int save_cnt = 0;
 	static int flag_cnt = 0;
-	static bool isFlag = false;
-	static bool got_flag_start = false;
-	static bool got_flag_end = false;
+	bool isFlag = false;
 
 	freq_pin_state_last = hold_state;
 
@@ -43,12 +43,7 @@ void Tim2_OC_Callback(){
 	if(clk_sync){
 		NRZI = (freq_pin_state_curr==freq_pin_state_last) ? 1 : 0;
 
-		/* Debug pin toggles */
-//		HAL_GPIO_TogglePin(GPIOA,D0_Pin);//Interpreted clock
-//		HAL_GPIO_WritePin(GPIOB,D2_Pin,freq_pin_state_last);
-
-		HAL_GPIO_WritePin(GPIOA,D1_Pin,clk_sync);
-		HAL_GPIO_WritePin(GPIOB,D3_Pin,NRZI);
+		HAL_GPIO_WritePin(GPIOA,D0_Pin,NRZI);
 
 		//Shift byte array for next comparison
 //		memmove(&byteArray[1],&byteArray[0],7*sizeof(int));
@@ -80,14 +75,12 @@ void Tim2_OC_Callback(){
 				isFlag = true;
 			}
 		}
-
 		//If this is not a flag, copy the values into the buffer pointer
 		if(isFlag){
 			flag_cnt++;
 
 			//Not sure how many appending flags????????
-			if(flag_cnt==FLAG_END_COUNT){
-
+			if(flag_cnt>=FLAG_END_COUNT){
 				//If no start flag has occurred
 				if(!got_flag_start){
 					got_flag_start = true;
@@ -116,12 +109,12 @@ void Tim2_OC_Callback(){
 //			remove_bit_stuffing();
 			save_cnt = 0;
 		}
-		//
 		else if(got_flag_start){
-			HAL_GPIO_TogglePin(GPIOA,D0_Pin);
 			//Load the processed bit into the buffer
 //			save_cnt = loadBitBuffer(NRZI);
 		}
+		HAL_GPIO_WritePin(GPIOB,D2_Pin,got_flag_end);
+		HAL_GPIO_WritePin(GPIOB,D3_Pin,got_flag_start);
 
 		//Prepare OC for next sample
 		uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);
@@ -132,6 +125,7 @@ void Tim2_OC_Callback(){
 	//Clock not syncd
 	else
 	{
+		HAL_GPIO_TogglePin(GPIOA,D1_Pin);
 		got_flag_start = false;
 		got_flag_end = false;
 		flag_cnt = 0;
