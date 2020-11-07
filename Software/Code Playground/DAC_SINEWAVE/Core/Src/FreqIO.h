@@ -22,10 +22,6 @@
 //****************************************************************************************************************
 extern DAC_HandleTypeDef hdac;
 extern DMA_HandleTypeDef hdma_dac1;
-extern TIM_HandleTypeDef htim2;
-extern TIM_HandleTypeDef htim3;
-extern TIM_HandleTypeDef htim5;
-extern UART_HandleTypeDef huart2;
 //Connectivity
 //****************************************************************************************************************
 extern char uartData[3000];
@@ -43,8 +39,9 @@ extern bool mode;
 void initProgram(bool modeStart);
 void toggleMode();
 
-void loadBitBuffer(int bit_val);
+int loadBitBuffer(int bit_val);
 int readBitBuffer();
+void resetBitBuffer();
 
 //GENERATING FREQ
 //****************************************************************************************************************

@@ -1,6 +1,8 @@
 FreqIO.c:28:6:initProgram	16	static
 FreqIO.c:38:6:toggleMode	8	static
-FreqIO.c:85:6:loadBitBuffer	16	static
-FreqIO.c:103:5:readBitBuffer	24	static
-FreqIO.c:145:6:edit_sineval	64	static
-FreqIO.c:158:5:bitToAudio	48	static,ignoring_inline_asm
+FreqIO.c:85:5:loadBitBuffer	16	static
+FreqIO.c:104:5:readBitBuffer	24	static
+FreqIO.c:139:6:resetBitBuffer	4	static
+FreqIO.c:154:6:edit_sineval	64	static
+FreqIO.c:167:5:bitToAudio	48	static,ignoring_inline_asm
+FreqIO.c:259:5:streamGet	80	static

@@ -94,29 +94,29 @@ void tx_rx() {
 		}
 
 		//Output AFSK waveform for radio
-//		if(packet_converted) {
-//			output_AX25();
-////			print_AX25();
-//		}
-//		clear_AX25();
+		if(packet_converted) {
+			output_AX25();
+//			print_AX25();
+		}
+		clear_AX25();
 
-//		//Packet was not received properly
-//		if(!packet_received){
-//			sprintf(uartData, "Error receiving KISS packet\n");
-//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//		}
-//		//Packet was not converted properly
-//		else if(!packet_converted){
-//			sprintf(uartData, "Error converting KISS packet\n");
-//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//		}
-//		//Successful transmission!
-//		else {
-//			sprintf(uartData, "KISS packet received, converted, and transmitted to radio\n");
-//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//		}
+		//Packet was not received properly
+		if(!packet_received){
+			sprintf(uartData, "Error receiving KISS packet\n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+		//Packet was not converted properly
+		else if(!packet_converted){
+			sprintf(uartData, "Error converting KISS packet\n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+		//Successful transmission!
+		else {
+			sprintf(uartData, "KISS packet received, converted, and transmitted to radio\n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
 
-//		changeMode = true;
+		changeMode = true;
 	}
 
 	//Receiving Mode
@@ -205,7 +205,7 @@ bool receiving_AX25(){
 	//Valid packet received
 	if(packet_status == 1){
 		//Remove the bit stuffed zeros from received packet and reset packet type
-		//remove_bit_stuffing();
+		remove_bit_stuffing();
 		local_packet->i_frame_packet = false;
 
 		//Validate packet

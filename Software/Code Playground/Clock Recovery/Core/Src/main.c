@@ -381,6 +381,7 @@ bool clk_sync = false;			//Are we synced with clock
 bool freq_pin_state_curr = false;
 bool freq_pin_state_last = false;
 
+int IC_count = 0;
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	static uint32_t rising_capture = 0;		// stores the timer tick value of the most recent rising edge
@@ -395,6 +396,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 	//Make sure this is the right timer and channel
 	if (htim->Instance == TIM5 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
+		IC_count++;
 		//Grap pin state for OC timer
 		freq_pin_state_curr = signal_edge;
 
@@ -456,12 +458,14 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 	return;
 }
 
+int OC_count = 0;
 bool hold_state,NRZI;
 // this function is called automatically whenever the output compare interrupt hits
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim->Instance == TIM2 && htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
+		OC_count++;
 		freq_pin_state_last = hold_state;
 
 		//Check if this is valid data

@@ -107,7 +107,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if ((HAL_GetTick() - tnc_tx_timer) > 2000)
+	  if ((HAL_GetTick() - tnc_tx_timer) > 10000)
 	  {
 		  TNC_Tx(tnc_array, sizeof(tnc_array));
 

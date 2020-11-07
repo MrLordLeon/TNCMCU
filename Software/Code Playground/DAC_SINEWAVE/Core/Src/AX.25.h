@@ -16,6 +16,7 @@
 
 #define BROADCASTR		true
 //*************** AX.25 Fields******************************************************************************************
+#define FLAG_END_COUNT	2
 #define FLAG_SIZE		8
 #define address_len		112 //min number of bits in address field/224 bits is the max for digipeting
 #define control_len		8 //MIN number of bits in control field/MAX is 16 bits supposedly

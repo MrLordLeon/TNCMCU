@@ -11,7 +11,12 @@
 #include "main.h"
 #include "stdbool.h"
 
-#define RISING_EDGE	1
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim5;
+extern UART_HandleTypeDef huart2;
+
+#define RISING_EDGE		1
 #define FALLING_EDGE	0
 // this assumes that the timer is ticking at 40 MHz (80 MHz input with prescaler set to 1)
 // these values to be used with prescaler = 1

@@ -11,6 +11,14 @@
 
 uint8_t captured_bits_count = 0;	//How many captured bits since last clk sync
 bool clk_sync = false;			//Are we synced with clock
+int measure_val;
+
+uint32_t rising_capture = 0;		// stores the timer tick value of the most recent rising edge
+uint32_t falling_capture = 0;	// stores the timer tick value of the most recent falling edge
+uint32_t capture_difference = 0;
+bool rise_captured = false;		// these are used to ensure that we aren't trying to compute the difference
+bool fall_captured = false;		// before we have captured both a rising and falling edge
+bool signal_edge = RISING_EDGE;	// so we know what edge we are looking for (really, the opposite of the edge that was captured last
 
 bool freq_pin_state_curr = false;
 bool freq_pin_state_last = false;
@@ -18,29 +26,115 @@ bool freq_pin_state_last = false;
 bool hold_state;
 bool NRZI;
 
+bool process_bit_buffer = false;
+int byteArray[8];
+
 //Timer 2 Output Compare Callback
 void Tim2_OC_Callback(){
+	static int save_cnt = 0;
+	static int flag_cnt = 0;
+	static bool isFlag = false;
+	static bool got_flag_start = false;
+	static bool got_flag_end = false;
+
 	freq_pin_state_last = hold_state;
 
 	//Check if this is valid data
 	if(clk_sync){
-		uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);
-		uint32_t next_sampl = this_capture + bit_sample_period;
 		NRZI = (freq_pin_state_curr==freq_pin_state_last) ? 1 : 0;
 
-		HAL_GPIO_TogglePin(GPIOA,D0_Pin);//Interpreted clock
+		/* Debug pin toggles */
+//		HAL_GPIO_TogglePin(GPIOA,D0_Pin);//Interpreted clock
+//		HAL_GPIO_WritePin(GPIOB,D2_Pin,freq_pin_state_last);
 
-		HAL_GPIO_WritePin(GPIOA,D1_Pin,freq_pin_state_curr);
-		HAL_GPIO_WritePin(GPIOB,D2_Pin,freq_pin_state_last);
+		HAL_GPIO_WritePin(GPIOA,D1_Pin,clk_sync);
 		HAL_GPIO_WritePin(GPIOB,D3_Pin,NRZI);
 
+		//Shift byte array for next comparison
+//		memmove(&byteArray[1],&byteArray[0],7*sizeof(int));
+		for(int i = 7;i>0;i--){
+			byteArray[i] = byteArray[i-1];
+		}
+
+		byteArray[0] = NRZI;
+		//01234567
+		//00000000(byteArray will be filled with 0)
+		//00000000
+		//10000000
+		//11000000
+		//11100000
+		//11110000
+		//11111000
+		//11111100
+		//01111110
+
+
+		//Check if this is the flag
+		for (int i = 0; i < 8; i++) {
+			if(byteArray[i] != AX25TBYTE[i]){
+				isFlag = false;
+				break;
+			}
+			//Got to end of byte array
+			if(i==7){
+				isFlag = true;
+			}
+		}
+
+		//If this is not a flag, copy the values into the buffer pointer
+		if(isFlag){
+			flag_cnt++;
+
+			//Not sure how many appending flags????????
+			if(flag_cnt==FLAG_END_COUNT){
+
+				//If no start flag has occurred
+				if(!got_flag_start){
+					got_flag_start = true;
+				}
+				//If we have a start flag, this should be an end flag
+				else {
+					got_flag_end = true;
+				}
+
+				//Reset flag count
+				flag_cnt = 0;
+			}
+
+			//Reset flag var
+			isFlag = false;
+		}
+
+		//Found ending flag, now need to process bit buffer
+		else if(got_flag_end){
+			got_flag_start = false;
+
+			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
+			save_cnt -= (FLAG_SIZE*FLAG_END_COUNT);
+			rxBit_count = save_cnt;
+//			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
+//			remove_bit_stuffing();
+			save_cnt = 0;
+		}
+		//
+		else if(got_flag_start){
+			HAL_GPIO_TogglePin(GPIOA,D0_Pin);
+			//Load the processed bit into the buffer
+//			save_cnt = loadBitBuffer(NRZI);
+		}
+
+		//Prepare OC for next sample
+		uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);
+		uint32_t next_sampl = this_capture + bit_sample_period;
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,next_sampl); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
 	}
+
 	//Clock not syncd
 	else
 	{
-		//Turn off OC until syncd
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,0);
+		got_flag_start = false;
+		got_flag_end = false;
+		flag_cnt = 0;
 	}
 
 	//Inc number of bits since last clock sync
@@ -48,7 +142,6 @@ void Tim2_OC_Callback(){
 	if(captured_bits_count >= samp_per_bit * no_clk_max_cnt){
 		clk_sync = false;	//Clock is no longer sync
 	}
-
 	hold_state = freq_pin_state_curr;
 
 	return;
@@ -62,14 +155,8 @@ void Tim3_IT_Callback() {
 }
 //Timer 5 Input Capture Callback
 void Tim5_IC_Callback(){
-	static uint32_t rising_capture = 0;		// stores the timer tick value of the most recent rising edge
-	static uint32_t falling_capture = 0;	// stores the timer tick value of the most recent falling edge
-	static uint32_t capture_difference = 0;
-	static bool rise_captured = false;		// these are used to ensure that we aren't trying to compute the difference
-	static bool fall_captured = false;		// before we have captured both a rising and falling edge
-	static bool signal_edge = RISING_EDGE;	// so we know what edge we are looking for (really, the opposite of the edge that was captured last
-
 	uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
+
 	//Grap pin state for OC timer
 	freq_pin_state_curr = signal_edge;
 
@@ -111,14 +198,17 @@ void Tim5_IC_Callback(){
 			//Predict clock
 			uint32_t next_sampl;
 
+			//If clk was not sync, start sample one period later
 			if(!clk_sync){
+				resetBitBuffer();
 				next_sampl = this_capture + SYMBOL_PERIOD;
-				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);
 			}
+			//If clk was sync, sample at normal interval
 			else {
 				next_sampl = this_capture + bit_sample_period;
-				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);
 			}
+			//Prepare OC timer int
+			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);
 			//Reset roll-over value
 			captured_bits_count = 0;
 
