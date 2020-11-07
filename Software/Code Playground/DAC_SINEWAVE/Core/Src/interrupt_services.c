@@ -33,8 +33,8 @@ bool got_flag_end = false;
 
 //Timer 2 Output Compare Callback
 void Tim2_OC_Callback(){
-	static int save_cnt = 0;
-	static int flag_cnt = 0;
+	static int save_cnt;
+	static int flag_cnt;
 	bool isFlag = false;
 
 	freq_pin_state_last = hold_state;
@@ -79,15 +79,17 @@ void Tim2_OC_Callback(){
 		if(isFlag){
 			flag_cnt++;
 
+			//If we have a start flag, this is an end flag
+			if(got_flag_start){
+				got_flag_start = false;
+				got_flag_end = true;
+			}
+
 			//Not sure how many appending flags????????
-			if(flag_cnt>=FLAG_END_COUNT){
+			else if(flag_cnt>=FLAG_END_COUNT){
 				//If no start flag has occurred
 				if(!got_flag_start){
 					got_flag_start = true;
-				}
-				//If we have a start flag, this should be an end flag
-				else {
-					got_flag_end = true;
 				}
 
 				//Reset flag count
@@ -98,23 +100,58 @@ void Tim2_OC_Callback(){
 			isFlag = false;
 		}
 
+		else if(got_flag_start){
+			HAL_GPIO_TogglePin(GPIOB,D2_Pin);
+			//Load the processed bit into the buffer
+			save_cnt = loadBitBuffer(NRZI)+1;
+		}
+
 		//Found ending flag, now need to process bit buffer
-		else if(got_flag_end){
-			got_flag_start = false;
+		if(got_flag_end){
+			got_flag_end = false;
+			HAL_GPIO_TogglePin(GPIOB,D3_Pin);
+
+			//Disable Interrupts for data processing
+			HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
+			HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
 
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
-			save_cnt -= (FLAG_SIZE*FLAG_END_COUNT);
+			save_cnt -= FLAG_SIZE;
 			rxBit_count = save_cnt;
-//			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
-//			remove_bit_stuffing();
+			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
+
+//			sprintf(uartData, "Comparing bitbuffer and AX.25:\n");
+//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//
+//			for(int i = 0;i<rxBit_count;i++){
+//				bool bitBuff_curr = bitBuffer[i];
+//				bool AX25_curr = global_packet.AX25_PACKET[i];
+//				bool same = !(AX25_curr^bitBuff_curr);
+//				sprintf(uartData, "Comparing index %d ... Result: %d",i,same);
+//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//				if(!same){
+//					sprintf(uartData, "; bitBuffer value = %d; AX.25 value = %d",bitBuff_curr,AX25_curr);
+//					HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//				}
+//				sprintf(uartData, "\n");
+//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//			}
+//
+//			sprintf(uartData, "Done printing AX.25 buffer\n");
+//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+			remove_bit_stuffing();
+
+
+			//Receive data
+			receiving_AX25();
+
 			save_cnt = 0;
+
+			//Enable Interrupts since data processing is complete
+			HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
+			HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
 		}
-		else if(got_flag_start){
-			//Load the processed bit into the buffer
-//			save_cnt = loadBitBuffer(NRZI);
-		}
-		HAL_GPIO_WritePin(GPIOB,D2_Pin,got_flag_end);
-		HAL_GPIO_WritePin(GPIOB,D3_Pin,got_flag_start);
 
 		//Prepare OC for next sample
 		uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);

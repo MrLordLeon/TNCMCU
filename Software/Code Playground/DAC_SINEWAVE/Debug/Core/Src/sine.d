@@ -30,7 +30,7 @@ Core/Src/sine.o: ../Core/Src/sine.c ../Core/Src/sine.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Src/interrupt_services.h
+ ../Core/Src/AX.25.h ../Core/Src/interrupt_services.h
 
 ../Core/Src/sine.h:
 
@@ -97,5 +97,7 @@ Core/Src/sine.o: ../Core/Src/sine.c ../Core/Src/sine.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+
+../Core/Src/AX.25.h:
 
 ../Core/Src/interrupt_services.h:

@@ -199,52 +199,22 @@ bool receiving_AX25(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
-	int packet_status;
-//	packet_status = streamGet();
-
-	//Valid packet received
-	if(packet_status == 1){
-		//Remove the bit stuffed zeros from received packet and reset packet type
-		remove_bit_stuffing();
-		local_packet->i_frame_packet = false;
-
-		//Validate packet
-		bool AX25_IsValid = AX25_Packet_Validate();
+//	local_packet->i_frame_packet = false;
+	//Validate packet
+	bool AX25_IsValid = AX25_Packet_Validate();
 
 //		sprintf(uartData, "AX.25 frame valid check returned: %d\n",AX25_IsValid);
 //		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-		if(AX25_IsValid){
-			//Put data into KISS format and buffer
-			AX25_TO_KISS();
+	if(AX25_IsValid){
+		//Put data into KISS format and buffer
+		AX25_TO_KISS();
 
-			//Transmit KISS Packet that has been generated
-			//output_KISS();
+		//Transmit KISS Packet that has been generated
+		output_KISS();
 
-			//Clear AX.25 buffer
-			memset(local_packet->AX25_PACKET,0,AX25_PACKET_MAX);
-
-			//Loop back and begin receiving another message
-			receiving_AX25();
-		}
-		else{
-			sprintf(uartData, "Packet was not valid, restarting\n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-			receiving_AX25();
-		}
-	}
-	//Return code for toggleMode
-	else if(packet_status == -1){
-		sprintf(uartData, "Need to change mode\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
-		return false;
-	}
-	//Weird case of unknown return code toggles mode
-	else{
-		sprintf(uartData, "Packet status was unknown, restarting\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-		receiving_AX25();
+		//Clear AX.25 buffer
+		clear_AX25();
 	}
 }
 
@@ -287,12 +257,17 @@ bool AX25_Packet_Validate(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int fcs_val = 0;
 
+	sprintf(uartData,"Received packet bit count: %d\n",rxBit_count);
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 	if(rxBit_count < 120){ //invalid if packet is less than 136 bits - 2*8 bits (per flag)
-		sprintf(uartData,"Trash Packet");
+		sprintf(uartData,"Trash Packet, not enough bits\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		return false;
 	}
 	else if((rxBit_count)%8 != 0){ //invalid if packet is not octect aligned (divisible by 8)
-		sprintf(uartData,"Trash Packet");
+		sprintf(uartData,"Trash Packet, not octet aligned\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		return false;
 	}
 
@@ -300,7 +275,7 @@ bool AX25_Packet_Validate(){
 	else{
 		//Set packet pointers for AX25 to KISS operation
 		set_packet_pointer_AX25();
-		//return crc_check();
+//		return crc_check();
 		return true;
 	}
 

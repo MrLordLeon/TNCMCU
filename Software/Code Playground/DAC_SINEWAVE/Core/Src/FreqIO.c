@@ -82,7 +82,7 @@ void toggleMode() {
 }
 
 bool bufffull = false;
-int loadBitBuffer(int bit_val) {
+int loadBitBuffer(bool bit_val) {
 	if(canWrite){
 		bitBuffer[bitSaveCount] = bit_val;
 		bitSaveCount++;
@@ -209,7 +209,7 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 
 //READING FREQ
 //****************************************************************************************************************
-int bitBuffer[RX_BUFFERSIZE];
+bool bitBuffer[RX_BUFFERSIZE];
 bool		canWrite = true;
 bool		canRead  = false;
 uint16_t bitSaveCount = 0;
