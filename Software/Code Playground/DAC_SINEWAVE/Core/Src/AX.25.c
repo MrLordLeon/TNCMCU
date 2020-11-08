@@ -18,7 +18,7 @@ bool local_address[address_len/2];
 //*********************************************************************************************************************
 
 //**************** KISS *************************************************************************************************************
-bool KISS_FLAG[FLAG_SIZE] = { 1, 1, 0, 0, 0, 0, 0, 0 };
+bool KISS_FLAG[FLAG_SIZE] = { 0, 0, 0, 0, 0, 0, 1, 1 };
 
 //Conversion functions
 void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out, bool select_8_16){
@@ -188,8 +188,10 @@ void clear_AX25(){
 	local_packet->got_packet = false;
 }
 
-void output_KISS() {
-	//HAL_UART_Transmit(&huart2, local_UART_packet->HEX_KISS_PACKET, KISS_SIZE, 10);
+void output_HEX() {
+	struct UART_INPUT* local_UART_packet = &UART_packet;
+
+	HAL_UART_Transmit(&huart2, local_UART_packet->HEX_KISS_PACKET,local_UART_packet->received_byte_cnt , 10);
 }
 
 //AX.25 to KISS data flow
@@ -213,10 +215,12 @@ bool receiving_AX25(){
 		KISS_TO_HEX();
 
 		//Transmit KISS Packet that has been generated
-		output_KISS();
+		output_HEX();
 
 		//Clear AX.25 buffer
 		clear_AX25();
+//		clear_KISS();
+//		clear_HEX();
 	}
 }
 
@@ -327,34 +331,22 @@ void set_packet_pointer_AX25(int info_len_in){
 
 void AX25_TO_KISS(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
+	bool *curr_mem = local_packet->KISS_PACKET;
 
-//	set_packet_pointer_AX25();
-	print_AX25();
+	//Put a flag into KISS
+	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE);
+	curr_mem += FLAG_SIZE;
 
-	bool* cpy_from_ptr = (local_packet->AX25_PACKET+8);
+	//Set port info
+	memset(curr_mem,0,8);
+	curr_mem += 8;
 
-	memcpy(cpy_from_ptr,KISS_FLAG,FLAG_SIZE*bool_size);
-	cpy_from_ptr += FLAG_SIZE;
+	//Put AX25 packet into KISS w/o the FCS, HAVE AN ADDED 8 due to port info
+	memcpy(curr_mem,local_packet->AX25_PACKET,(local_packet->byte_cnt*8)-FCS_len);
+	curr_mem += (local_packet->byte_cnt*8)-FCS_len;
 
-	//copy in each byte MSB to LSB
-	for(int i = 0; i < address_len/8; i++){
-		memcpy(cpy_from_ptr,(local_packet->address + address_len - 8 - i*8),8*bool_size);
-		cpy_from_ptr += 8;
-	}
-
-	memcpy(cpy_from_ptr,local_packet->control,control_len*bool_size);
-	cpy_from_ptr += control_len;
-
-	memcpy(local_packet->AX25_PACKET,KISS_FLAG,FLAG_SIZE);
-	//copy in each byte MSB to LSB
-	for(int i = 0; i < local_packet->Info_Len/8; i++){
-		memcpy(cpy_from_ptr,(local_packet->Info + local_packet->Info_Len - 8 - i*8),8*bool_size); //copy in each byte MSB to LSB
-		cpy_from_ptr += 8;
-	}
-	memcpy(cpy_from_ptr,KISS_FLAG,FLAG_SIZE*bool_size);
-
-	memcpy(local_packet->control,cpy_from_ptr,control_len);
-	cpy_from_ptr += control_len;
+	//Put a flag into KISS
+	memcpy(curr_mem,KISS_FLAG,FLAG_SIZE);
 }
 
 //****************************************************************************************************************
@@ -549,10 +541,24 @@ void KISS_TO_HEX(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	struct UART_INPUT* local_UART_packet = &UART_packet;
 
-    for(int i = 0; i < local_packet->byte_cnt; i+=8){
-        bool *curr_mem = (local_packet->KISS_PACKET+i);
-        local_UART_packet->HEX_KISS_PACKET[i] = conv_BIN_to_HEX(curr_mem,1);
+	local_UART_packet->received_byte_cnt = local_packet->byte_cnt+1;
+	bool *curr_mem = local_packet->KISS_PACKET;
+	uint8_t curr_val;
+
+	sprintf(uartData, "Filling HEX buffer:\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+    for(int i = 0; i < local_UART_packet->received_byte_cnt; i++){
+    	curr_val = conv_BIN_to_HEX(curr_mem+(i*8),1);
+
+        sprintf(uartData, "HEX[%d] = %x\n",i,curr_val);
+    	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+        local_UART_packet->HEX_KISS_PACKET[i] = curr_val;
     }
+
+	sprintf(uartData, "HEX buffer filled\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 }
 //****************************************************************************************************************
 //END OF KISS to AX.25 data flow

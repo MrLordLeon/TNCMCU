@@ -108,7 +108,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	uart_gpio_init();
-	initProgram(false);
+//	initProgram(false);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,6 +122,9 @@ int main(void)
 //		int len = sizeof(test_array)/sizeof(bool);
 //		test_remove_bitstuffing(test_array,len);
 //		tx_rx();
+
+		char array[5] = {0,1,2,3,4};
+		HAL_UART_Transmit(&huart2, array, strlen(array), 10);
 
 	}
   /* USER CODE END 3 */
