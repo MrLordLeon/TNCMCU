@@ -62,9 +62,10 @@ void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out, bool select_8_16)
     //sprintf(uartData, "\n");
 	//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 }
-uint8_t conv_BIN_to_HEX(bool *bin_byte_in){
-	uint8_t acc = 0;
-	for(int i = 0; i < 8; i++){
+uint16_t conv_BIN_to_HEX(bool *bin_byte_in,bool select_8_16){
+	uint16_t acc = 0;
+	int bits = (select_8_16) ? 8 : 16;
+	for(int i = 0; i < bits; i++){
 		acc += ( *(bin_byte_in+i) )? pow(2,i) : 0;
 	}
 	return acc;
@@ -548,7 +549,7 @@ void KISS_TO_HEX(){
 
     for(int i = 0; i < KISS_SIZE; i+=8){
         bool *curr_mem = (local_packet->KISS_PACKET+i);
-        local_UART_packet->HEX_KISS_PACKET[i] = conv_BIN_to_HEX(curr_mem);
+        local_UART_packet->HEX_KISS_PACKET[i] = conv_BIN_to_HEX(curr_mem,1);
     }
 }
 //****************************************************************************************************************
@@ -599,12 +600,9 @@ void crc_generate(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Calculate CRC for address
-	curr_mem = (local_packet->address) + address_len - 8;//start at MS Byte(LSB)
-	for(int i = 0;i<(int)(address_len/8);i++){
-		for(int j = 0;j<8;j++){
-			crc_calc((int) *(curr_mem+j),crc_ptr,crc_count_ptr);
-		}
-		curr_mem -= 8;
+	curr_mem = (local_packet->address);//start at MS Byte(LSB)
+	for(int i = 0;i<address_len;i++){
+		crc_calc((int)local_packet->address[i],crc_ptr,crc_count_ptr);
 	}
 
 	//Calculate CRC for control
@@ -622,12 +620,9 @@ void crc_generate(){
 	}
 
 	//Calculate CRC for Info field
-	curr_mem = (local_packet->Info) + local_packet->Info_Len - 8;//start at MS Byte(LSB)
-	for(int i = 0;i<(int)(local_packet->Info_Len/8);i++){
-		for(int j = 0;j<8;j++){
-			crc_calc((int) *(curr_mem+j),crc_ptr,crc_count_ptr);
-		}
-		curr_mem -= 8;
+	curr_mem = (local_packet->Info);
+	for(int i = 0;i<local_packet->Info_Len;i++){
+		crc_calc((int)local_packet->Info[i],crc_ptr,crc_count_ptr);
 	}
 
 	sprintf(uartData, "rx_bitcnt = %d\n", rxBit_count);
@@ -641,15 +636,10 @@ void crc_generate(){
 bool crc_check(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	local_packet->check_crc = true;
-	int fcs_val = 0;
+	uint16_t fcs_val = 0;
 	bool valid_crc = false;
 
-	//FOR FCS ONLY, highest index == LSB
-	//FOR FCS ONLY, lowest index  == MSB
-	for(int i = FCS_len-1; i >= 0;i--){
-		//Convert FCS to HEX value (DOES NOT INCLUDE DECIMAL VALUES)
-		fcs_val += (local_packet->FCS[i]) ? pow(2,FCS_len-1-i) :0;
-	}
+	fcs_val = conv_BIN_to_HEX(local_packet->FCS,0);
 
 	//generate crc
 	crc_generate();

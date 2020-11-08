@@ -110,7 +110,7 @@ void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out,bool select_8_16);
  * 		C0 = 192
  * 		FF = 255
  */
-uint8_t conv_BIN_to_HEX(bool *bin_byte_in);
+uint16_t conv_BIN_to_HEX(bool *bin_byte_in,bool select_8_16);
 
 //General Program
 //****************************************************************************************************************
