@@ -53,7 +53,7 @@ struct UART_INPUT {
 	bool got_packet;
 
 	//HEX Members, includes frame end flags
-	char HEX_KISS_PACKET[KISS_SIZE_BYTES];//This is the buffer used to hold hex bits from UART
+	uint8_t HEX_KISS_PACKET[KISS_SIZE_BYTES];//This is the buffer used to hold hex bits from UART
 }UART_packet;
 
 struct PACKET_STRUCT {

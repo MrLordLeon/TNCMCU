@@ -100,11 +100,12 @@ int main(void)
 //	  tnc_array[i] = i;
 //  }
 
-  uint8_t tnc_array[8];
+  int arr_size = 256;
+  uint8_t tnc_array[arr_size];
 
-  for (uint8_t i = 0; i < 8; i ++)
+  for (int i = 0; i < arr_size; i ++)
   {
-	  tnc_array[i] = i;
+	  tnc_array[i] = 0x7E;
   }
 
   bool oc_running = false;

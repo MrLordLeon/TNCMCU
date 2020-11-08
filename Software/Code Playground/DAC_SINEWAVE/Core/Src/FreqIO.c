@@ -140,7 +140,7 @@ int readBitBuffer(){
 
 		if(returnVal == -1){
 			sprintf(uartData, "End of incoming stream\n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			debug_print_msg();
 		}
 
 		//Update period read
@@ -156,11 +156,11 @@ int readBitBuffer(){
 
 	} else {
 //		sprintf(uartData, "periodBuffer is empty\n");
-//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		debug_print_msg();
 	}
 	if(bufffull){
 		sprintf(uartData, "bitBuffer is full; bitSaveCount = %d\n",bitSaveCount);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	bufffull = false;
 	canWrite = true;
@@ -190,7 +190,7 @@ void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPerce
 		//formula in DAC Document
 		sinArray[i] = (sin((i * w) + phaseShift) + 1) * ampl;
 		sprintf(uartData, "sinArray[%d] = %d\n",i,sinArray[i]);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 }
 

@@ -5,6 +5,13 @@
  *      Author: monke
  */
 #include "debug.h"
+
+void debug_print_msg(){
+	if(debug_printing){
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+}
+
 //Printing Packets
 //****************************************************************************************************************
 void print_AX25(){
@@ -12,7 +19,7 @@ void print_AX25(){
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
 	sprintf(uartData, "\nPrinting AX25_PACKET... All fields printed [MSB:LSB]\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//Print Address Field
 	curr_mem = local_packet->AX25_PACKET;
@@ -21,62 +28,62 @@ void print_AX25(){
 	for(int i = 0;i<address_len/8;i++){
 
 		sprintf(uartData, "Address Field %d =",i+1);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
 			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			debug_print_msg();
 		}
 		curr_mem += 8;
 		sprintf(uartData, "\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 
 	//Print Control Field
 	sprintf(uartData, "Control Field   =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	for(int i = 0;i<8;i++){
 		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//PID
 	curr_mem += control_len;//Subtract 8 to start at the flag start
 	sprintf(uartData, "PID Field       =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	for(int i = 0;i<8;i++){
 		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	curr_mem += PID_len;
 
 	//Print Info Field
 	for(int i = 0;i<(local_packet->Info_Len/8);i++){
 		sprintf(uartData, "Info Field %d    =",i+1)	;
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
 			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			debug_print_msg();
 		}
 		curr_mem += 8;
 		sprintf(uartData, "\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 
 	sprintf(uartData, "FCS Field = ")	;
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	for(int i = 0;i<FCS_len;i++){
 		sprintf(uartData, " %d ",*(curr_mem+16-i-1));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 }
 
 void print_outAX25(){
@@ -84,99 +91,99 @@ void print_outAX25(){
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
 	sprintf(uartData, "\nPrinting AX25_PACKET being sent to radio\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	sprintf(uartData, "AX25 FLAG = ");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	curr_mem = AX25TBYTE;
 	for(int i = 0; i < 8; i++){
 		sprintf(uartData, " %d ",curr_mem[i]);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//Print Address Field
 	curr_mem = local_packet->address;
 	for(int i = 0;i<address_len/8;i++){
 		sprintf(uartData, "Address Field %d =",i+1);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
 			sprintf(uartData, " %d ",*(curr_mem+j));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			debug_print_msg();
 		}
 		curr_mem += 8;
 		sprintf(uartData, "\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 
 	//if address was bitstuffed then print rest of address field
 	sprintf(uartData, "Address Field extra = ");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	curr_mem += address_len;
 	if(local_packet->stuffed_address > 0){
 		for(int i = 0; i < local_packet->stuffed_address; i++){
 			sprintf(uartData, " %d ",*(curr_mem-i));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			debug_print_msg();
 		}
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//Print Control Field
 	curr_mem = local_packet->control;//Subtract 8 to start at the flag start
 	sprintf(uartData, "Control Field   =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	for(int i = 0;i<control_len + local_packet->stuffed_control;i++){
 		sprintf(uartData, " %d ",*(curr_mem+i));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//PID
 	curr_mem = local_packet->PID;//Subtract 8 to start at the flag start
 	sprintf(uartData, "PID Field       =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	for(int i = 0;i<PID_len + local_packet->stuffed_PID;i++){
 		sprintf(uartData, " %d ",*(curr_mem+i));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	sprintf(uartData, "Info Field = ");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	curr_mem = local_packet->Info;
 	for(int i = 0; i < local_packet->Info_Len + local_packet->stuffed_Info;i++){
 		sprintf(uartData, " %d ",*(curr_mem+i));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	curr_mem = local_packet->FCS;
 	sprintf(uartData, "FCS Field     =")	;
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	for(int i = 0;i<FCS_len+local_packet->stuffed_FCS;i++){
 		sprintf(uartData, " %d ",*(curr_mem+i));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	sprintf(uartData, "AX25 FLAG = ");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	curr_mem = AX25TBYTE;
 	for(int i = 0; i < 8; i++){
 		sprintf(uartData, " %d ",curr_mem[i]);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 
 
@@ -194,84 +201,84 @@ void print_KISS(){
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
 	sprintf(uartData, "\nPrinting KISS_PACKET... All fields printed [MSB:LSB]\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//Print Start Flag
 	curr_mem = (local_packet->address + address_len + 16 - 1);//start at the flag start
 	sprintf(uartData, "Start flag      =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	for(int i = 0;i<8;i++){
 		sprintf(uartData, " %d ",*(curr_mem-i));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	curr_mem = (local_packet->address) + address_len - 1;
 	for(int i = 0;i<address_len/8;i++){
 		sprintf(uartData, "Address Field %d =",i+1);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
 			sprintf(uartData, " %d ",*(curr_mem-j));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			debug_print_msg();
 		}
 		curr_mem -= 8;
 		sprintf(uartData, "\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 
 	//Print Control Field
 	curr_mem = (local_packet->control);//Subtract 8 to start at the flag start
 	sprintf(uartData, "Control Field   =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	for(int i = 0;i<8;i++){
 		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//PID
 	curr_mem = (local_packet->PID);//Subtract 8 to start at the flag start
 	sprintf(uartData, "PID Field       =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	for(int i = 0;i<8;i++){
 		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//Print Info Field
 	curr_mem = (local_packet->Info) + local_packet->Info_Len - 1;
 	for(int i = 0;i<(local_packet->Info_Len/8);i++){
 		sprintf(uartData, "Info Field %d    =",i+1)	;
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
 			sprintf(uartData, " %d ",*(curr_mem-j));
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			debug_print_msg();
 		}
 		curr_mem -= 8;
 		sprintf(uartData, "\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 
 	//Print Stop Flag
 	curr_mem = local_packet->KISS_PACKET;
 	sprintf(uartData, "Stop flag       =");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	for(int i = 0;i<8;i++){
 		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 }
 //****************************************************************************************************************
@@ -285,30 +292,30 @@ void test_remove_bitstuffing(bool *test_array,int size){
 	rxBit_count = size;
 
 	sprintf(uartData, "\n Testing removal of bits, rxBit_count = %d\n",rxBit_count);
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	sprintf(uartData, "\n AX.25 before bit stuff removal = \n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	for(int i = 0; i < rxBit_count; i++){
 		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	remove_bit_stuffing();
 
 	sprintf(uartData, "\n AX.25 after bit stuff removal = \n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 	for(int i = 0; i < rxBit_count; i++){
 		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	sprintf(uartData, "\n End of removal of bits, rxBit_count = %d\n",rxBit_count);
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 }
 
 //****************************************************************************************************************
@@ -321,7 +328,7 @@ void compareBoolBuffers(bool *array1, bool *array2,uint16_t size){
 	bool same;
 
 	sprintf(uartData, "Comparing buffers:\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 
 	//Iterate through array
 	for(int i=0;i<size;i++){
@@ -331,18 +338,18 @@ void compareBoolBuffers(bool *array1, bool *array2,uint16_t size){
 		same = !(arr1_curr^arr2_curr);
 
 		sprintf(uartData, "Comparing index %d ... Result: %d",i,same);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 
 		if(!same){
 			sprintf(uartData, "; bitBuffer value = %d; AX.25 value = %d",arr1_curr,arr2_curr);
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			debug_print_msg();
 		}
 		sprintf(uartData, "\n");
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		debug_print_msg();
 	}
 
 	sprintf(uartData, "Done comparing buffers!\n");
-	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	debug_print_msg();
 }
 //****************************************************************************************************************
 //End of compare buffers

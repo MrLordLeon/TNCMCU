@@ -116,12 +116,16 @@ void Tim2_OC_Callback(){
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
 			save_cnt -= FLAG_SIZE;
 			rxBit_count = save_cnt;
-			global_packet.byte_cnt = save_cnt/8;
+
+//			sprintf(uartData, "byte_cnt = %d\n",global_packet.byte_cnt);
+//			debug_print_msg();
+
 			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
 
 //			compareBoolBuffers(bitBuffer,global_packet.AX25_PACKET,rxBit_count);
 
 			remove_bit_stuffing();
+			global_packet.byte_cnt = rxBit_count/8;
 
 			//Receive data
 			receiving_AX25();
