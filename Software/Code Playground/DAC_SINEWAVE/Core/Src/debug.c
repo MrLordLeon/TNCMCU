@@ -5,8 +5,6 @@
  *      Author: monke
  */
 #include "debug.h"
-#include "AX.25.h"
-#include "FreqIO.h"
 //Printing Packets
 //****************************************************************************************************************
 void print_AX25(){
@@ -17,25 +15,26 @@ void print_AX25(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 	//Print Address Field
-	curr_mem = (local_packet->AX25_PACKET) + address_len - 1;
+	curr_mem = local_packet->AX25_PACKET;
+
+	//Output byte at a time
 	for(int i = 0;i<address_len/8;i++){
+
 		sprintf(uartData, "Address Field %d =",i+1);
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem-j));
+			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		curr_mem -= 8;
+		curr_mem += 8;
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 
 	//Print Control Field
-	curr_mem += address_len;//Subtract 8 to start at the flag start
 	sprintf(uartData, "Control Field   =");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-
 	for(int i = 0;i<8;i++){
 		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -57,25 +56,23 @@ void print_AX25(){
 	curr_mem += PID_len;
 
 	//Print Info Field
-	curr_mem += local_packet->Info_Len - 1;
 	for(int i = 0;i<(local_packet->Info_Len/8);i++){
 		sprintf(uartData, "Info Field %d    =",i+1)	;
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem-j));
+			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
 			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 		}
-		curr_mem -= 8;
+		curr_mem += 8;
 		sprintf(uartData, "\n");
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
-	curr_mem += local_packet->Info_Len;
 
 	sprintf(uartData, "FCS Field = ")	;
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	for(int i = 0;i<FCS_len;i++){
-		sprintf(uartData, " %d ",curr_mem[i])	;
+		sprintf(uartData, " %d ",*(curr_mem+16-i-1));
 		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	}
 	sprintf(uartData, "\n");
@@ -315,3 +312,37 @@ void test_remove_bitstuffing(bool *test_array,int size){
 }
 
 //****************************************************************************************************************
+
+//Compare buffers
+//****************************************************************************************************************
+void compareBoolBuffers(bool *array1, bool *array2,uint16_t size){
+	bool arr1_curr;
+	bool arr2_curr;
+	bool same;
+
+	sprintf(uartData, "Comparing buffers:\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//Iterate through array
+	for(int i=0;i<size;i++){
+
+		arr1_curr = *(array1+i);
+		arr2_curr = *(array2+i);
+		same = !(arr1_curr^arr2_curr);
+
+		sprintf(uartData, "Comparing index %d ... Result: %d",i,same);
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+		if(!same){
+			sprintf(uartData, "; bitBuffer value = %d; AX.25 value = %d",arr1_curr,arr2_curr);
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+		sprintf(uartData, "\n");
+		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+	}
+
+	sprintf(uartData, "Done comparing buffers!\n");
+	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+}
+//****************************************************************************************************************
+//End of compare buffers

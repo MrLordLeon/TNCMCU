@@ -18,6 +18,7 @@
 #include "sine.h"
 #include "AX.25.h"
 #include "interrupt_services.h"
+#include "FreqIO.h"
 
 //Needed uController Objects
 //****************************************************************************************************************

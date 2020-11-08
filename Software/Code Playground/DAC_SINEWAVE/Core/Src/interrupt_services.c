@@ -6,8 +6,6 @@
  */
 
 #include "interrupt_services.h"
-#include "FreqIO.h"
-#include "AX.25.h"
 
 uint8_t captured_bits_count = 0;	//How many captured bits since last clk sync
 bool clk_sync = false;			//Are we synced with clock
@@ -120,28 +118,24 @@ void Tim2_OC_Callback(){
 			rxBit_count = save_cnt;
 			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
 
-//			sprintf(uartData, "Comparing bitbuffer and AX.25:\n");
-//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//
-//			for(int i = 0;i<rxBit_count;i++){
-//				bool bitBuff_curr = bitBuffer[i];
-//				bool AX25_curr = global_packet.AX25_PACKET[i];
-//				bool same = !(AX25_curr^bitBuff_curr);
-//				sprintf(uartData, "Comparing index %d ... Result: %d",i,same);
-//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//				if(!same){
-//					sprintf(uartData, "; bitBuffer value = %d; AX.25 value = %d",bitBuff_curr,AX25_curr);
-//					HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//				}
-//				sprintf(uartData, "\n");
-//				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-//			}
-//
-//			sprintf(uartData, "Done printing AX.25 buffer\n");
-//			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//			compareBoolBuffers(bitBuffer,global_packet.AX25_PACKET,rxBit_count);
 
 			remove_bit_stuffing();
 
+			sprintf(uartData, "AX.25 Buffer: \n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			for(int i = 0;i<rxBit_count;i++){
+
+				if((i%8) == 0){
+					sprintf(uartData, "\n");
+					HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+				}
+
+				sprintf(uartData, "Bit %d = %d\n",i,global_packet.AX25_PACKET[i]);
+				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+			}
+			sprintf(uartData, "End of AX.25 Buffer\n");
+			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 			//Receive data
 			receiving_AX25();

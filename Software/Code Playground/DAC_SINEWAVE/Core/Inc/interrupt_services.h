@@ -10,6 +10,10 @@
 
 #include "main.h"
 #include "stdbool.h"
+#include "interrupt_services.h"
+#include "FreqIO.h"
+#include "AX.25.h"
+#include "debug.h"
 
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;

@@ -1,5 +1,5 @@
-Core/Src/sine.o: ../Core/Src/sine.c ../Core/Src/sine.h \
- ../Core/Src/FreqIO.h ../Core/Inc/main.h \
+Core/Src/sine.o: ../Core/Src/sine.c ../Core/Inc/sine.h \
+ ../Core/Inc/FreqIO.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -30,11 +30,12 @@ Core/Src/sine.o: ../Core/Src/sine.c ../Core/Src/sine.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Src/AX.25.h ../Core/Src/interrupt_services.h
+ ../Core/Inc/sine.h ../Core/Inc/AX.25.h ../Core/Inc/interrupt_services.h \
+ ../Core/Inc/debug.h
 
-../Core/Src/sine.h:
+../Core/Inc/sine.h:
 
-../Core/Src/FreqIO.h:
+../Core/Inc/FreqIO.h:
 
 ../Core/Inc/main.h:
 
@@ -98,6 +99,10 @@ Core/Src/sine.o: ../Core/Src/sine.c ../Core/Src/sine.h \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 
-../Core/Src/AX.25.h:
+../Core/Inc/sine.h:
 
-../Core/Src/interrupt_services.h:
+../Core/Inc/AX.25.h:
+
+../Core/Inc/interrupt_services.h:
+
+../Core/Inc/debug.h:

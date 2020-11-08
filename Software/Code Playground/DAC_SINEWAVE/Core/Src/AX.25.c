@@ -5,7 +5,6 @@
  *      Author: Kobe
  */
 #include "AX.25.h"
-#include "FreqIO.h"
 
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
@@ -274,7 +273,10 @@ bool AX25_Packet_Validate(){
 	//SHOULD BE VALID PACKET, JUST NEED TO C0MPARE CALCULATED CRC TO RECIEVED FCS
 	else{
 		//Set packet pointers for AX25 to KISS operation
-		set_packet_pointer_AX25();
+		uint16_t local_info_len = rxBit_count-INFO_offset_woFlag;
+		set_packet_pointer_AX25(local_info_len);
+		print_AX25();
+
 //		return crc_check();
 		return true;
 	}
@@ -283,9 +285,10 @@ bool AX25_Packet_Validate(){
 }
 
 
-void set_packet_pointer_AX25(){
+void set_packet_pointer_AX25(int info_len_in){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int not_info = FCS_len;
+	local_packet->Info_Len = info_len_in;
 
 	sprintf(uartData, "Setting packet pointer to AX25:\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
@@ -322,7 +325,7 @@ void set_packet_pointer_AX25(){
 void AX25_TO_KISS(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
-	set_packet_pointer_AX25();
+//	set_packet_pointer_AX25();
 	print_AX25();
 
 	bool* cpy_from_ptr = (local_packet->AX25_PACKET+8);
@@ -362,8 +365,9 @@ bool receiving_KISS(){
 
 	//Got a packet bounded by c0 over uart
 	if(local_UART_packet->got_packet){
-		sprintf(uartData, "\nGot a packet via UART of size %d, printing now...\n",local_UART_packet->received_byte_cnt);
-		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+//		sprintf(uartData, "\nGot a packet via UART of size %d, printing now...\n",local_UART_packet->received_byte_cnt);
+//		HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
 		int byte_cnt = local_UART_packet->received_byte_cnt;
 		for(int i = 0;i < byte_cnt;i++){
 			//Hex value from UART
@@ -377,23 +381,24 @@ bool receiving_KISS(){
 			//HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr,true);
-
-//			local_UART_packet->got_packet = false;
-			local_packet->got_packet = true;
 		}
 
+		local_UART_packet->got_packet = false;
+		local_packet->got_packet = true;
 		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
-		local_packet->Info_Len = (local_packet->byte_cnt-INFO_offset)*8;
 
 		return true;
 	}
 	return false;
 }
 
-void set_packet_pointer_KISS(){
+void set_packet_pointer_KISS(int info_len_in){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	sprintf(uartData, "Setting packet pointer to KISS\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+
+	//Update info len since we received a message over UART
+	local_packet->Info_Len =info_len_in;
 
 	bool *curr_mem = (local_packet->KISS_PACKET+(local_packet->byte_cnt-2)*8);//starting kiss packet skipping 2 bytes
 
@@ -416,14 +421,14 @@ bool KISS_TO_AX25(){
 	sprintf(uartData, "Before KISS -> AX.25 conversion\n");
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
-	set_packet_pointer_KISS();
+	uint16_t local_info_len = local_packet->byte_cnt*8-INFO_offset_wFlag_woFCS;
+	set_packet_pointer_KISS(local_info_len);
 	print_KISS();
 
 	bool* cpy_from_ptr = (local_packet->KISS_PACKET+(local_packet->byte_cnt-2)*8);//starting kiss packet skipping 2 bytes
 
 	//Update packet pointers to AX25 members
-	set_packet_pointer_AX25();
-
+	set_packet_pointer_AX25(local_info_len);
 	cpy_from_ptr -= address_len;
 	memcpy(local_packet->address,cpy_from_ptr,address_len);
 

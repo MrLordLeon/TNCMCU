@@ -10,9 +10,9 @@
 #ifndef SRC_AX_25_H_
 #define SRC_AX_25_H_
 #include "main.h"
-#include "FreqIO.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include "FreqIO.h"
 
 #define BROADCASTR		true
 //*************** AX.25 Fields******************************************************************************************
@@ -27,8 +27,10 @@
 #define bool_size		sizeof(bool) //size of a boolean data type, in case you didn't know
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
-#define AX25_PACKET_MAX		address_len + control_len + PID_len + MAX_INFO +FCS_len	+ MAX_Stuffed		//max bits in a packet, not including flags
-#define INFO_offset			(int)((FLAG_SIZE+address_len+control_len+PID_len+FLAG_SIZE+8)/8)
+#define AX25_PACKET_MAX			address_len + control_len + PID_len + MAX_INFO +FCS_len	+ MAX_Stuffed		//max bits in a packet, not including flags
+#define INFO_offset_woFlag		(address_len+control_len+PID_len+FCS_len);					//Subtract from packet bit count w/o flags and FCS to get number of info bits
+#define INFO_offset_wFlag_woFCS	FLAG_SIZE+8+address_len+control_len+PID_len+FLAG_SIZE;		//Subtract from packet bit count with flags and port info to get number of info bits
+
 
 extern int rxBit_count; 							//keeps count of the temp buffer index
 extern bool AX25TBYTE[FLAG_SIZE];							//Array to store AX.25 terminate flag in binary

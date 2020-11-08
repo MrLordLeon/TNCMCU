@@ -93,9 +93,16 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t tnc_array[0xFF];
+//  uint8_t tnc_array[0xFF];
+//
+//  for (uint8_t i = 0; i < 0xFF; i ++)
+//  {
+//	  tnc_array[i] = i;
+//  }
 
-  for (uint8_t i = 0; i < 0xFF; i ++)
+  uint8_t tnc_array[8];
+
+  for (uint8_t i = 0; i < 8; i ++)
   {
 	  tnc_array[i] = i;
   }

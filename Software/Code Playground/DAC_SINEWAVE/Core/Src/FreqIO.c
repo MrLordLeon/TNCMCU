@@ -5,7 +5,6 @@
  *      Author: monke
  */
 #include "FreqIO.h"
-#include "AX.25.h"
 
 //Needed uController Objects
 //****************************************************************************************************************
@@ -81,13 +80,44 @@ void toggleMode() {
 	}
 }
 
+/*
+ * Transmitting	: 				0x73 = 0111 0011 -> sent in this order [firstbit:lastbit] -> 11001110
+ * Receiving[firstrx:lastrx] :	11001110 -> reverse it -> [MSB:LSB] 0111 0011
+ *
+ * Shifting method
+ * 01234567
+ * --------
+ * 00000000
+ * 10000000
+ * 11000000
+ * 01100000
+ * 00110000
+ * 10011000
+ * 11001100
+ * 11100110
+ * 01110011
+ *
+ * Incrementing method
+ * 01234567
+ * --------
+ * 00000000
+ * 10000000
+ * 11000000
+ * 11000000
+ * 11000000
+ * 11001000
+ * 11001100
+ * 11001110
+ * 11001110
+ */
+
 bool bufffull = false;
 int loadBitBuffer(bool bit_val) {
 	if(canWrite){
 		bitBuffer[bitSaveCount] = bit_val;
 		bitSaveCount++;
 		if (bitSaveCount >= RX_BUFFERSIZE) {
-			bitSaveCount = 0;
+			canWrite = false;
 		}
 
 		//Buffer is full
@@ -116,7 +146,7 @@ int readBitBuffer(){
 		//Update period read
 		bitReadCount++;
 		if (bitReadCount >= RX_BUFFERSIZE) {
-			bitReadCount = 0;
+			canRead = false;
 		}
 
 		//Buffer is empty
