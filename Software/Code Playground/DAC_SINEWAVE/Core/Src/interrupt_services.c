@@ -116,26 +116,12 @@ void Tim2_OC_Callback(){
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
 			save_cnt -= FLAG_SIZE;
 			rxBit_count = save_cnt;
+			global_packet.byte_cnt = save_cnt/8;
 			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
 
 //			compareBoolBuffers(bitBuffer,global_packet.AX25_PACKET,rxBit_count);
 
 			remove_bit_stuffing();
-
-			sprintf(uartData, "AX.25 Buffer: \n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-			for(int i = 0;i<rxBit_count;i++){
-
-				if((i%8) == 0){
-					sprintf(uartData, "\n");
-					HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-				}
-
-				sprintf(uartData, "Bit %d = %d\n",i,global_packet.AX25_PACKET[i]);
-				HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
-			}
-			sprintf(uartData, "End of AX.25 Buffer\n");
-			HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 
 			//Receive data
 			receiving_AX25();

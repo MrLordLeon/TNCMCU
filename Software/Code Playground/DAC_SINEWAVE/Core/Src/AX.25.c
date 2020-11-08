@@ -199,7 +199,6 @@ bool receiving_AX25(){
 	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
-//	local_packet->i_frame_packet = false;
 	//Validate packet
 	bool AX25_IsValid = AX25_Packet_Validate();
 
@@ -209,6 +208,9 @@ bool receiving_AX25(){
 	if(AX25_IsValid){
 		//Put data into KISS format and buffer
 		AX25_TO_KISS();
+
+		//Put data into HEX buffer
+		KISS_TO_HEX();
 
 		//Transmit KISS Packet that has been generated
 		output_KISS();
@@ -278,8 +280,8 @@ bool AX25_Packet_Validate(){
 		set_packet_pointer_AX25(local_info_len);
 		print_AX25();
 
-//		return crc_check();
-		return true;
+		return crc_check();
+//		return true;
 	}
 
 //	return true; //valid packet
@@ -547,7 +549,7 @@ void KISS_TO_HEX(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	struct UART_INPUT* local_UART_packet = &UART_packet;
 
-    for(int i = 0; i < KISS_SIZE; i+=8){
+    for(int i = 0; i < local_packet->byte_cnt; i+=8){
         bool *curr_mem = (local_packet->KISS_PACKET+i);
         local_UART_packet->HEX_KISS_PACKET[i] = conv_BIN_to_HEX(curr_mem,1);
     }
@@ -560,6 +562,7 @@ void KISS_TO_HEX(){
 //CRC Calculations
 void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
 	struct PACKET_STRUCT* local_packet = &global_packet;
+	int max_bits = rxBit_count-FCS_len;
 	int out_bit;
 	int roll_bit = *crc_ptr_in & 0x0001;
     int poly = 0x8408;             			//reverse order of 0x1021
@@ -572,7 +575,7 @@ void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
 
     //End condition
 //	if(*crc_count_ptr_in >= rxBit_count){
-	if(*crc_count_ptr_in >= rxBit_count){
+	if(*crc_count_ptr_in >= max_bits){
     	*crc_ptr_in ^= 0xFFFF;//Complete CRC by XOR with all ones (one's complement)
   	    sprintf(uartData, "Convert CRC to FCS (hex) = %x\n",local_packet->crc);
     	HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
