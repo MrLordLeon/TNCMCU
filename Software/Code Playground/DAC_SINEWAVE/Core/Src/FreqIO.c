@@ -38,7 +38,6 @@ void toggleMode() {
 
 	//Toggle mode
 	mode = !mode;
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, mode);
 
 	//Stop DAC
 	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
@@ -74,7 +73,7 @@ void toggleMode() {
 		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
 		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
 
-//		//Start Timers the Correct Way
+		//Start Timers the Correct Way
 		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
 		HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
 	}
@@ -194,6 +193,7 @@ void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPerce
 	}
 }
 
+int global_counter;
 int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 	bool changeFreq;
 	int waveoffset = wave_start;
@@ -205,28 +205,39 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 			changeFreq = bitStream[arraySize - i - 1];
 		}
 
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, changeFreq);
+//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, changeFreq);
+
+		//NRZ Encoding
 		//freqSelect = changeFreq;
+
+		//NRZI Encoding
 		freqSelect = (changeFreq) ? freqSelect : !freqSelect;
 
-		if (freqSelect) {
+		//Select period for DAC DMA, will control output frequency
+		if (freqSelect) {//High freq
 			htim2.Instance->ARR = TIM2_AUTORELOAD_TX_HIGH;
+
+			//Predict wave offset
 			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * HIGHF) / (1.0 * LOWF);
 		}
-		else {
+		else {//Low freq
 			htim2.Instance->ARR = TIM2_AUTORELOAD_TX_LOW;
+
+			//Predict wave offset
 			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * LOWF) / (1.0 * LOWF);
 		}
 
 		HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (wave+wave_start), FREQ_SAMP, DAC_ALIGN_12B_R);
 		htim3.Instance->CNT = 0;
 		HAL_TIM_Base_Start_IT(&htim3);
+		HAL_TIM_Base_Start_IT(&htim4);
 
 		//Calculate ending point for wave
 		wave_start = (wave_start+waveoffset+1)%FREQ_SAMP;
 
 		midbit = true;
 		while (midbit){
+			global_counter = htim3.Instance->CNT;
 			//In the future this leaves the CPU free for scheduling or something
 			__NOP();
 		}

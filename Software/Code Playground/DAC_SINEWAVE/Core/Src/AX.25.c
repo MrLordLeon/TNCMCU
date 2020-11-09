@@ -74,58 +74,35 @@ uint16_t conv_BIN_to_HEX(bool *bin_byte_in,bool select_8_16){
 //General Program
 //****************************************************************************************************************
 void tx_rx() {
-	if (changeMode) {
-		changeMode = 0;
+	if(changeMode){
 		toggleMode();
+		changeMode = false;
 	}
 
 	//Transmission Mode
-	if (mode) {
-		bool packet_received = false;
-		bool packet_converted = false;
+	if (mode&&UART_packet.got_packet){
 
-		//Run receiving KISS
-		packet_received = receiving_KISS();
+		//Disable Interrupts for data processing
+		HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
+		HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
 
-		if(packet_received){
-			//Convert KISS packet to AX.25 packet
-			packet_converted = KISS_TO_AX25();
-			//Upon exit, have a perfectly good AX.25 packet
-		}
+		//Reset the uart flag
+		UART_packet.got_packet = false;
 
-		//Output AFSK waveform for radio
-		if(packet_converted) {
-			output_AX25();
-//			print_AX25();
-		}
-		clear_AX25();
+		//Transmit packet received
+		receiving_KISS();
 
-		//Packet was not received properly
-		if(!packet_received){
-			sprintf(uartData, "Error receiving KISS packet\n");
-			debug_print_msg();
-		}
-		//Packet was not converted properly
-		else if(!packet_converted){
-			sprintf(uartData, "Error converting KISS packet\n");
-			debug_print_msg();
-		}
-		//Successful transmission!
-		else {
-			sprintf(uartData, "KISS packet received, converted, and transmitted to radio\n");
-			debug_print_msg();
-		}
-
+		//Signal to change mode
 		changeMode = true;
+
+		//Enable Interrupts since data processing is complete
+		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
+		HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
 	}
 
 	//Receiving Mode
 	else {
-		bool change = receiving_AX25();
-		if(!change){
-			sprintf(uartData, "Changing mode due to request\n");
-			debug_print_msg();
-		}
+
 	}
 }
 
@@ -137,10 +114,13 @@ void output_AX25(){
 
 	int wave_start = 0;
 	freqSelect = true;
-	bool dumbbits[3] = { 0, 1, 1 };
-	//Init dac playing some frequency, shouldn't be read by radio
-	wave_start = bitToAudio(dumbbits, 3,1,wave_start);
+	bool dumbbits[7] = { 0, 0, 0,0,0,0,0 };
 
+	//Init dac playing some frequency, shouldn't be read by radio
+	wave_start = bitToAudio(dumbbits, 7,1,wave_start);
+
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
 
 	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
@@ -157,6 +137,7 @@ void output_AX25(){
 	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_RESET); //stop transmitting
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 
 	sprintf(uartData, "Ending AFSK transmission\n");
 	debug_print_msg();
@@ -363,34 +344,31 @@ void AX25_TO_KISS(){
 bool receiving_KISS(){
 	struct UART_INPUT* local_UART_packet = &UART_packet;
 	struct PACKET_STRUCT* local_packet = &global_packet;
+	int byte_cnt = local_UART_packet->received_byte_cnt;
 
-	//Got a packet bounded by c0 over uart
-	if(local_UART_packet->got_packet){
-		sprintf(uartData, "\nGot a packet via UART of size %d, printing now...\n",local_UART_packet->received_byte_cnt);
-		debug_print_msg();
+	//Iterate through all bytes in HEX buffer
+	for(int i = 0;i < byte_cnt;i++){
 
-		int byte_cnt = local_UART_packet->received_byte_cnt;
-		for(int i = 0;i < byte_cnt;i++){
-			//Hex value from UART
-			 //start from LS Byte = Highest index
-			uint8_t hex_byte_val=local_UART_packet->HEX_KISS_PACKET[byte_cnt-1-i];
+		//Hex value from UART
+		uint8_t hex_byte_val=local_UART_packet->HEX_KISS_PACKET[byte_cnt-1-i];
 
-			//Bool pointer for KISS array
-			bool *bin_byte_ptr = &local_packet->KISS_PACKET[i*8];
+		//Bool pointer for KISS array
+		bool *bin_byte_ptr = &local_packet->KISS_PACKET[i*8];
 
-			//sprintf(uartData, "Byte[%d] = %d\n",i,hex_byte_val);
-			//debug_print_msg();
-
-			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr,true);
-		}
-
-		local_UART_packet->got_packet = false;
-		local_packet->got_packet = true;
-		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
-
-		return true;
+		//Convert HEX val and place into bin buffer, selecting 8 bit type
+		conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr,true);
 	}
-	return false;
+
+	//Put data into AX.25 format
+	KISS_TO_AX25();
+
+	//Output the converted packet
+	output_AX25();
+
+	//Clear data buffers
+	clear_AX25();
+//	clear_KISS();
+//	clear_HEX();
 }
 
 void set_packet_pointer_KISS(int info_len_in){

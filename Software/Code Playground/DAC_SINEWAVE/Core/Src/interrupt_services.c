@@ -37,6 +37,8 @@ void Tim2_OC_Callback(){
 
 	freq_pin_state_last = hold_state;
 
+	HAL_GPIO_WritePin(GPIOA,D1_Pin,clk_sync);
+
 	//Check if this is valid data
 	if(clk_sync){
 		NRZI = (freq_pin_state_curr==freq_pin_state_last) ? 1 : 0;
@@ -112,19 +114,19 @@ void Tim2_OC_Callback(){
 			//Disable Interrupts for data processing
 			HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
 			HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
+			HAL_UART_AbortReceive(&huart2);
 
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
 			save_cnt -= FLAG_SIZE;
 			rxBit_count = save_cnt;
 
-//			sprintf(uartData, "byte_cnt = %d\n",global_packet.byte_cnt);
-//			debug_print_msg();
-
+			//Move data into AX.25 buffer
 			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
 
-//			compareBoolBuffers(bitBuffer,global_packet.AX25_PACKET,rxBit_count);
-
+			//Remove bit stuffed zeros
 			remove_bit_stuffing();
+
+			//Use final value of received bits
 			global_packet.byte_cnt = rxBit_count/8;
 
 			//Receive data
@@ -135,6 +137,7 @@ void Tim2_OC_Callback(){
 			//Enable Interrupts since data processing is complete
 			HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
 			HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
+			HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);
 		}
 
 		//Prepare OC for next sample
@@ -143,30 +146,23 @@ void Tim2_OC_Callback(){
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,next_sampl); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
 	}
 
-	//Clock not syncd
-	else
-	{
-		HAL_GPIO_TogglePin(GPIOA,D1_Pin);
-		got_flag_start = false;
-		got_flag_end = false;
-		flag_cnt = 0;
-	}
-
 	//Inc number of bits since last clock sync
 	captured_bits_count++;
 	if(captured_bits_count >= samp_per_bit * no_clk_max_cnt){
 		clk_sync = false;	//Clock is no longer sync
+		got_flag_start = false;
+		got_flag_end = false;
+		flag_cnt = 0;
 	}
 	hold_state = freq_pin_state_curr;
 
 	return;
 }
+
+int TI_count = 0;
 void Tim3_IT_Callback() {
-	if (mode) {
-		midbit = false;
-	}
-	//Timer 3 does nothing in RX
-	else {}
+	TI_count++;
+	midbit = false;
 }
 //Timer 5 Input Capture Callback
 void Tim5_IC_Callback(){
@@ -241,24 +237,33 @@ void init_UART(){
 	UART_packet.received_byte_cnt = 0;
 }
 void UART2_Exception_Callback(){
-	HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);//Reset
 	UART_packet.got_packet = false;
 
-	  if(UART_packet.input==0xc0){
-		  UART_packet.flags++;
-	  }
+	//Got a flag
+	if(UART_packet.input==0xc0){
+	  UART_packet.flags++;
+	}
 
-	  *(UART_packet.HEX_KISS_PACKET+UART_packet.rx_cnt) = UART_packet.input;
-	  UART_packet.rx_cnt++;
+	//Put byte into HEX buffer
+	*(UART_packet.HEX_KISS_PACKET+UART_packet.rx_cnt) = UART_packet.input;
+	UART_packet.rx_cnt++;
 
-	  if(UART_packet.flags>=2){
-		  if(!mode){
-			  changeMode = true;
-		  }
-		  UART_packet.flags = 0;
-		  UART_packet.got_packet = true;
-		  UART_packet.received_byte_cnt = UART_packet.rx_cnt;
-		  UART_packet.rx_cnt=0;
+	//Got a complete packet over UART
+	if(UART_packet.flags>=2){
 
-	  }
+		//Get byte cnt
+		UART_packet.received_byte_cnt = UART_packet.rx_cnt;
+		global_packet.byte_cnt = UART_packet.received_byte_cnt;
+
+		//Reset uart struct info
+		UART_packet.flags = 0;
+		UART_packet.rx_cnt=0;
+
+		//Signal for main to process this packet
+		UART_packet.got_packet = true;
+		changeMode = true;
+	}
+	HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);//Reset interrupt
+
+	return;
 }

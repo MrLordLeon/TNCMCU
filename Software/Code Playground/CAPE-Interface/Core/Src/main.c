@@ -105,7 +105,7 @@ int main(void)
 
   for (int i = 0; i < arr_size; i ++)
   {
-	  tnc_array[i] = 0x7E;
+	  tnc_array[i] = i;
   }
 
   bool oc_running = false;
@@ -115,7 +115,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if ((HAL_GetTick() - tnc_tx_timer) > 10000)
+	  if ((HAL_GetTick() - tnc_tx_timer) > 4000)
 	  {
 		  TNC_Tx(tnc_array, sizeof(tnc_array));
 

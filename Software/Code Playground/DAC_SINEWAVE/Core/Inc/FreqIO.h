@@ -39,7 +39,7 @@ extern char uartData[3000];
 extern bool mode;
 
 void initProgram(bool modeStart);
-void toggleMode();
+void setHardwareMode(bool mode_in);
 
 int loadBitBuffer(bool bit_val);
 int readBitBuffer();
