@@ -83,7 +83,7 @@ void toggleMode() {
  * Transmitting	: 				0x73 = 0111 0011 -> sent in this order [firstbit:lastbit] -> 11001110
  * Receiving[firstrx:lastrx] :	11001110 -> reverse it -> [MSB:LSB] 0111 0011
  *
- * Shifting method
+ * Shifting method (Not using this method, just being analyzed)
  * 01234567
  * --------
  * 00000000
@@ -96,7 +96,7 @@ void toggleMode() {
  * 11100110
  * 01110011
  *
- * Incrementing method
+ * Incrementing method (Using this method)
  * 01234567
  * --------
  * 00000000
@@ -230,7 +230,6 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 		HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (wave+wave_start), FREQ_SAMP, DAC_ALIGN_12B_R);
 		htim3.Instance->CNT = 0;
 		HAL_TIM_Base_Start_IT(&htim3);
-		HAL_TIM_Base_Start_IT(&htim4);
 
 		//Calculate ending point for wave
 		wave_start = (wave_start+waveoffset+1)%FREQ_SAMP;
