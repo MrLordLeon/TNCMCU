@@ -62,7 +62,7 @@ void toggleMode() {
 		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
 
 		//Start Timers the Correct Way
-		//Nothing to do here
+		HAL_TIM_Base_Start(&htim2);
 	}
 
 	//Receiving Mode
@@ -213,6 +213,9 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 		//NRZI Encoding
 		freqSelect = (changeFreq) ? freqSelect : !freqSelect;
 
+		//Debug digital output
+		HAL_GPIO_WritePin(GPIOB,D4_Pin,freqSelect);
+
 		//Select period for DAC DMA, will control output frequency
 		if (freqSelect) {//High freq
 			htim2.Instance->ARR = TIM2_AUTORELOAD_TX_HIGH;
@@ -227,6 +230,7 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * LOWF) / (1.0 * LOWF);
 		}
 
+		HAL_TIM_Base_Start(&htim2);
 		HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (wave+wave_start), FREQ_SAMP, DAC_ALIGN_12B_R);
 		htim3.Instance->CNT = 0;
 		HAL_TIM_Base_Start_IT(&htim3);

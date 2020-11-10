@@ -11,7 +11,7 @@
 #include "main.h"
 #include "AX.25.h"
 
-#define debug_printing 	true
+#define debug_printing 	false
 #define BROADCASTR		true
 
 //Printing Packets
