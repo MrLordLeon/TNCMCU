@@ -28,8 +28,6 @@ extern UART_HandleTypeDef huart2;
 #define SYMBOL_MARGIN 3333
 
 //Timer TX reload definitions
-#define TIM2_AUTORELOAD_TX_LOW	108			//Timer2 period, used to control DAC and generate 1200Hz, assuming 40Mhz clk
-#define TIM2_AUTORELOAD_TX_HIGH	56			//Timer2 period, used to control DAC and generate 2200Hz, assuming 40Mhz clk
 #define TIM3_AUTORELOAD_TX		828 		//Timer3 period, used to controller baudrate for TX
 #define TIM5_AUTORELOAD_TX		0			//Timer5 period, NOT USED IN THIS MODE
 

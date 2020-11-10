@@ -38,8 +38,8 @@ extern char uartData[3000];
  */
 extern bool mode;
 
-void initProgram();
-void setHardwareMode(int mode);
+void initProgram(bool modeStart);
+void toggleMode();
 
 int loadBitBuffer(bool bit_val);
 int readBitBuffer();
@@ -47,6 +47,8 @@ void resetBitBuffer();
 
 //GENERATING FREQ
 //****************************************************************************************************************
+#define TIM2_AUTORELOAD_TX_LOW	108			//Timer2 period, used to control DAC and generate 1200Hz, assuming 40Mhz clk
+#define TIM2_AUTORELOAD_TX_HIGH	56			//Timer2 period, used to control DAC and generate 2200Hz, assuming 40Mhz clk
 #define PI 					3.1415926
 #define OUT_AMPL			4096
 #define LOWF 				1200 		//This is the sample count for the low frequency , as configured maps to 1200Hz

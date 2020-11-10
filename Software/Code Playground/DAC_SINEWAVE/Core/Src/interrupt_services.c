@@ -111,26 +111,32 @@ void Tim2_OC_Callback(){
 			got_flag_end = false;
 			HAL_GPIO_TogglePin(GPIOB,D3_Pin);
 
+			//Disable Interrupts for data processing
+			HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
+			HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
+
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
 			save_cnt -= FLAG_SIZE;
 			rxBit_count = save_cnt;
 
-			//Set hardware to rx mode
-			setHardwareMode(0);
+//			sprintf(uartData, "byte_cnt = %d\n",global_packet.byte_cnt);
+//			debug_print_msg();
 
-			//Move data into AX.25 buffer
 			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
 
-			//Remove bit stuffed zeros
-			remove_bit_stuffing();
+//			compareBoolBuffers(bitBuffer,global_packet.AX25_PACKET,rxBit_count);
 
-			//Use final value of received bits
+			remove_bit_stuffing();
 			global_packet.byte_cnt = rxBit_count/8;
 
 			//Receive data
 			receiving_AX25();
 
 			save_cnt = 0;
+
+			//Enable Interrupts since data processing is complete
+			HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
+			HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
 		}
 
 		//Prepare OC for next sample
@@ -138,18 +144,6 @@ void Tim2_OC_Callback(){
 		uint32_t next_sampl = this_capture + bit_sample_period;
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,next_sampl); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
 	}
-
-//	//Inc number of bits since last clock sync
-//	captured_bits_count++;
-//	if(captured_bits_count >= samp_per_bit * no_clk_max_cnt){
-//		clk_sync = false;	//Clock is no longer sync
-//		got_flag_start = false;
-//		got_flag_end = false;
-//		flag_cnt = 0;
-//	}
-//	hold_state = freq_pin_state_curr;
-//
-//	return;
 
 	//Clock not syncd
 	else
@@ -168,13 +162,13 @@ void Tim2_OC_Callback(){
 
 	return;
 }
-
-int TI_count = 0;
 void Tim3_IT_Callback() {
-	TI_count++;
-	midbit = false;
+	if (mode) {
+		midbit = false;
+	}
+	//Timer 3 does nothing in RX
+	else {}
 }
-
 //Timer 5 Input Capture Callback
 void Tim5_IC_Callback(){
 	uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
@@ -248,40 +242,24 @@ void init_UART(){
 	UART_packet.received_byte_cnt = 0;
 }
 void UART2_Exception_Callback(){
+	HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);//Reset
 	UART_packet.got_packet = false;
 
-	//Got a flag
-	if(UART_packet.input==0xc0){
-	  UART_packet.flags++;
-	}
+	  if(UART_packet.input==0xc0){
+		  UART_packet.flags++;
+	  }
 
-	//Put byte into HEX buffer
-	*(UART_packet.HEX_KISS_PACKET+UART_packet.rx_cnt) = UART_packet.input;
-	UART_packet.rx_cnt++;
+	  *(UART_packet.HEX_KISS_PACKET+UART_packet.rx_cnt) = UART_packet.input;
+	  UART_packet.rx_cnt++;
 
-	//Got a complete packet over UART
-	if(UART_packet.flags>=2){
+	  if(UART_packet.flags>=2){
+		  if(!mode){
+			  changeMode = true;
+		  }
+		  UART_packet.flags = 0;
+		  UART_packet.got_packet = true;
+		  UART_packet.received_byte_cnt = UART_packet.rx_cnt;
+		  UART_packet.rx_cnt=0;
 
-		//Get byte cnt
-		UART_packet.received_byte_cnt = UART_packet.rx_cnt;
-		global_packet.byte_cnt = UART_packet.received_byte_cnt;
-
-		//Reset uart struct info
-		UART_packet.flags = 0;
-		UART_packet.rx_cnt=0;
-
-		//Set hardware to tx mode
-		setHardwareMode(1);
-
-		//Transmit packet received
-		receiving_KISS();
-
-		//Set hardware to rx mode
-		setHardwareMode(0);
-	}
-
-	//Reset UART interrupt
-	HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);
-
-	return;
+	  }
 }

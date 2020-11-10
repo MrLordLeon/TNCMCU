@@ -101,16 +101,14 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_DAC_Init();
-  MX_USART2_UART_Init();
-  MX_TIM5_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
+  MX_USART2_UART_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 
 	uart_gpio_init();
-	initProgram(0);
-//	HAL_TIM_Base_Start(&htim2);
-
+	initProgram(false);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,9 +121,12 @@ int main(void)
 //		bool test_array[] = {1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0};
 //		int len = sizeof(test_array)/sizeof(bool);
 //		test_remove_bitstuffing(test_array,len);
+//		tx_rx();
+
 	}
   /* USER CODE END 3 */
 }
+
 
 /**
   * @brief System Clock Configuration
@@ -444,7 +445,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, D2_Pin|D3_Pin|D4_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, D2_Pin|D3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -466,8 +467,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(PTT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : D2_Pin D3_Pin D4_Pin */
-  GPIO_InitStruct.Pin = D2_Pin|D3_Pin|D4_Pin;
+  /*Configure GPIO pins : D2_Pin D3_Pin */
+  GPIO_InitStruct.Pin = D2_Pin|D3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

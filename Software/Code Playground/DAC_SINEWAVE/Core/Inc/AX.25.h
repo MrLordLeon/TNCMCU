@@ -13,8 +13,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "FreqIO.h"
-#include "debug.h"
 
+#define BROADCASTR		true
 //*************** AX.25 Fields******************************************************************************************
 #define FLAG_END_COUNT	2
 #define FLAG_SIZE		8
