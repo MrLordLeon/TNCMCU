@@ -108,8 +108,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	uart_gpio_init();
-	initProgram(false);
-	HAL_TIM_Base_Start(&htim2);
+	initProgram(0);
+//	HAL_TIM_Base_Start(&htim2);
 
   /* USER CODE END 2 */
 
@@ -123,16 +123,6 @@ int main(void)
 //		bool test_array[] = {1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0};
 //		int len = sizeof(test_array)/sizeof(bool);
 //		test_remove_bitstuffing(test_array,len);
-
-
-
-		//Main Program
-		/*
-		 * Runs in main and mostly just waits to serve interrupts
-		 *
-		 */
-		tx_rx();
-
 	}
   /* USER CODE END 3 */
 }

@@ -24,20 +24,57 @@ bool mode;
 bool midbit = false;
 bool changeMode = false;
 
-void initProgram(bool modeStart) {
+void initProgram() {
 
-	//Set hardware properly
-	mode = modeStart;
-	toggleMode();
-	toggleMode();
+	//Set hardware for receiving
+	setHardwareMode(1);
+	setHardwareMode(0);
 
+	//Setup UART
 	init_UART();
 }
 
-void toggleMode() {
-
-	//Toggle mode
-	mode = !mode;
+void setHardwareMode(int mode) {
+//
+//	//Zero Timers
+//	htim2.Instance->CNT = 0;
+//	htim3.Instance->CNT = 0;
+//	htim5.Instance->CNT = 0;
+//
+//	//Transmission Mode
+//	if (mode==1) {
+//
+//		//Stop Timers the Correct Way
+//		HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
+//		HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
+//
+//		//Set Timer Auto Reload Settings
+//		htim2.Instance->ARR = TIM2_AUTORELOAD_TX_LOW;
+//		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
+//		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
+//
+//		//Start Timers the Correct Way
+//		HAL_TIM_Base_Start(&htim2);
+//	}
+//
+//	//Receiving Mode
+//	else if (mode==0) {
+//
+//		//Stop DAC if it was running
+//		HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
+//
+//		//Stop Timers the Correct Way
+//		HAL_TIM_Base_Stop(&htim2);
+//
+//		//Set Timer Auto Reload Settings
+//		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
+//		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
+//		htim5.Instance->ARR = TIM5_AUTORELOAD_RX;
+//
+//		//Start Timers the Correct Way
+//		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
+//		HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
+//	}
 
 	//Stop DAC
 	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
@@ -62,7 +99,7 @@ void toggleMode() {
 		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
 
 		//Start Timers the Correct Way
-		HAL_TIM_Base_Start(&htim2);
+		//Nothing to do here
 	}
 
 	//Receiving Mode
@@ -73,7 +110,7 @@ void toggleMode() {
 		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
 		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
 
-		//Start Timers the Correct Way
+//		//Start Timers the Correct Way
 		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
 		HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
 	}
@@ -193,19 +230,24 @@ void edit_sineval(uint32_t *sinArray, int arraySize, int waves, float shiftPerce
 	}
 }
 
-int global_counter;
 int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
+	//Bit val
 	bool changeFreq;
+
+	//Get wavestart
 	int waveoffset = wave_start;
+
+	//Reset midbit for DAC output
+	midbit = false;
+
+	//Iterate through array
 	for (int i = 0; i < arraySize; i++) {
-		//Check if freq needs to be changed for NRZI
-		if(direction){
+		//Check index based off direction
+		if(direction){//Forward
 			changeFreq = bitStream[i];
-		} else {
+		} else {//Reverse
 			changeFreq = bitStream[arraySize - i - 1];
 		}
-
-//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, changeFreq);
 
 		//NRZ Encoding
 		//freqSelect = changeFreq;
@@ -230,8 +272,10 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * LOWF) / (1.0 * LOWF);
 		}
 
-		HAL_TIM_Base_Start(&htim2);
+		//Start DAC
 		HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1, (wave+wave_start), FREQ_SAMP, DAC_ALIGN_12B_R);
+
+		//Start timer3 interrupt
 		htim3.Instance->CNT = 0;
 		HAL_TIM_Base_Start_IT(&htim3);
 
@@ -240,14 +284,16 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 
 		midbit = true;
 		while (midbit){
-			global_counter = htim3.Instance->CNT;
 			//In the future this leaves the CPU free for scheduling or something
 			__NOP();
 		}
 
 	}
 
-	HAL_TIM_Base_Stop(&htim3);
+	//Stop global interrupt
+	HAL_TIM_Base_Stop_IT(&htim3);
+
+	//Return next wave start
 	return wave_start;
 }
 

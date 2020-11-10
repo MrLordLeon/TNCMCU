@@ -74,36 +74,6 @@ uint16_t conv_BIN_to_HEX(bool *bin_byte_in,bool select_8_16){
 //General Program
 //****************************************************************************************************************
 void tx_rx() {
-	if(changeMode){
-		toggleMode();
-		changeMode = false;
-	}
-
-	//Transmission Mode
-	if (mode&&UART_packet.got_packet){
-
-		//Disable Interrupts for data processing
-		HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
-		HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
-
-		//Reset the uart flag
-		UART_packet.got_packet = false;
-
-		//Transmit packet received
-		receiving_KISS();
-
-		//Signal to change mode
-		changeMode = true;
-
-		//Enable Interrupts since data processing is complete
-		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
-		HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
-	}
-
-	//Receiving Mode
-	else {
-
-	}
 }
 
 void output_AX25(){
@@ -363,7 +333,7 @@ bool receiving_KISS(){
 	KISS_TO_AX25();
 
 	//Output the converted packet
-	output_AX25();
+//	output_AX25();
 
 	//Clear data buffers
 	clear_AX25();

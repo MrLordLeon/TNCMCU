@@ -35,9 +35,9 @@ void Tim2_OC_Callback(){
 	static int flag_cnt;
 	bool isFlag = false;
 
-	freq_pin_state_last = hold_state;
-
 	HAL_GPIO_WritePin(GPIOA,D1_Pin,clk_sync);
+
+	freq_pin_state_last = hold_state;
 
 	//Check if this is valid data
 	if(clk_sync){
@@ -111,14 +111,12 @@ void Tim2_OC_Callback(){
 			got_flag_end = false;
 			HAL_GPIO_TogglePin(GPIOB,D3_Pin);
 
-			//Disable Interrupts for data processing
-			HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
-			HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
-			HAL_UART_AbortReceive(&huart2);
-
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
 			save_cnt -= FLAG_SIZE;
 			rxBit_count = save_cnt;
+
+			//Set hardware to rx mode
+			setHardwareMode(0);
 
 			//Move data into AX.25 buffer
 			memcpy(global_packet.AX25_PACKET,bitBuffer,save_cnt);
@@ -133,11 +131,6 @@ void Tim2_OC_Callback(){
 			receiving_AX25();
 
 			save_cnt = 0;
-
-			//Enable Interrupts since data processing is complete
-			HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
-			HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
-			HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);
 		}
 
 		//Prepare OC for next sample
@@ -146,13 +139,30 @@ void Tim2_OC_Callback(){
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1,next_sampl); // if we have not received a transition to the input capture module, we want to refresh the output compare module with the last known bit period
 	}
 
+//	//Inc number of bits since last clock sync
+//	captured_bits_count++;
+//	if(captured_bits_count >= samp_per_bit * no_clk_max_cnt){
+//		clk_sync = false;	//Clock is no longer sync
+//		got_flag_start = false;
+//		got_flag_end = false;
+//		flag_cnt = 0;
+//	}
+//	hold_state = freq_pin_state_curr;
+//
+//	return;
+
+	//Clock not syncd
+	else
+	{
+		got_flag_start = false;
+		got_flag_end = false;
+		flag_cnt = 0;
+	}
+
 	//Inc number of bits since last clock sync
 	captured_bits_count++;
 	if(captured_bits_count >= samp_per_bit * no_clk_max_cnt){
 		clk_sync = false;	//Clock is no longer sync
-		got_flag_start = false;
-		got_flag_end = false;
-		flag_cnt = 0;
 	}
 	hold_state = freq_pin_state_curr;
 
@@ -164,6 +174,7 @@ void Tim3_IT_Callback() {
 	TI_count++;
 	midbit = false;
 }
+
 //Timer 5 Input Capture Callback
 void Tim5_IC_Callback(){
 	uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
@@ -259,11 +270,18 @@ void UART2_Exception_Callback(){
 		UART_packet.flags = 0;
 		UART_packet.rx_cnt=0;
 
-		//Signal for main to process this packet
-		UART_packet.got_packet = true;
-		changeMode = true;
+		//Set hardware to tx mode
+		setHardwareMode(1);
+
+		//Transmit packet received
+		receiving_KISS();
+
+		//Set hardware to rx mode
+		setHardwareMode(0);
 	}
-	HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);//Reset interrupt
+
+	//Reset UART interrupt
+	HAL_UART_Receive_IT(&huart2, &(UART_packet.input), UART_RX_IT_CNT);
 
 	return;
 }
