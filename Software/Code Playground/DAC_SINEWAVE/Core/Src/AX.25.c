@@ -74,11 +74,6 @@ uint16_t conv_BIN_to_HEX(bool *bin_byte_in,bool select_8_16){
 //General Program
 //****************************************************************************************************************
 void tx_rx() {
-	if (changeMode) {
-		changeMode = 0;
-		setHardwareMode(!mode);
-	}
-
 	//Transmission Mode
 	if (mode) {
 		bool packet_received = false;
@@ -116,7 +111,7 @@ void tx_rx() {
 			debug_print_msg();
 		}
 
-		changeMode = true;
+		setHardwareMode(0);
 	}
 
 	//Receiving Mode
@@ -132,12 +127,15 @@ void output_AX25(){
 
 	int wave_start = 0;
 	freqSelect = true;
-	bool dumbbits[3] = { 0, 1, 1 };
-	//Init dac playing some frequency, shouldn't be read by radio
-	wave_start = bitToAudio(dumbbits, 3,1,wave_start);
 
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
+
+	bool dumbbits[4] = { 0, 0, 0, 0 };
+	//Init dac playing 4*8 zeros to help receiver sync
+	for(int i = 0;i<8;i++){
+		wave_start = bitToAudio(dumbbits,4,1,wave_start);
+	}
 
 	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
 

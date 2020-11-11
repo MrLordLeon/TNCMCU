@@ -35,7 +35,7 @@ void initProgram(bool modeStart) {
 
 void setHardwareMode(int set_mode) {
 
-	//Toggle mode
+	//Set mode
 	mode = set_mode;
 
 	//Stop DAC
