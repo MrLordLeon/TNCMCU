@@ -456,7 +456,7 @@ bool KISS_TO_AX25(){
 
 	//USE CRC HERE TO GENERATE FCS FIELD
 	rxBit_count = address_len + control_len + PID_len + local_packet->Info_Len;
-	crc_generate();
+	crc_generate(true);
 	print_AX25();
 
 //	sprintf(uartData, "\n line Printing AX25 = \n");
@@ -585,9 +585,9 @@ void KISS_TO_HEX(){
 //---------------------- FCS Generation -----------------------------------------------------------------------------------------------
 
 //CRC Calculations
-void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
+void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in, bool tx_rx){
 	struct PACKET_STRUCT* local_packet = &global_packet;
-	int max_bits = rxBit_count-FCS_len;
+	int max_bits = (tx_rx) ? rxBit_count : rxBit_count-FCS_len;
 	int out_bit;
 	int roll_bit = *crc_ptr_in & 0x0001;
     int poly = 0x8408;             			//reverse order of 0x1021
@@ -611,7 +611,7 @@ void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in){
     }
 }
 
-void crc_generate(){
+void crc_generate(bool tx_rx){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	uint16_t * crc_ptr = &(local_packet->crc);
 	int * crc_count_ptr = &(local_packet->crc_count);
@@ -629,27 +629,27 @@ void crc_generate(){
 	//Calculate CRC for address
 	curr_mem = (local_packet->address);//start at MS Byte(LSB)
 	for(int i = 0;i<address_len;i++){
-		crc_calc((int)local_packet->address[i],crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->address[i],crc_ptr,crc_count_ptr,tx_rx);
 	}
 
 	//Calculate CRC for control
 	curr_mem = local_packet->control;
 	for(int i = 0; i < control_len; i++){
 		//Call crc_calc per bit
-		crc_calc((int)local_packet->control[i],crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->control[i],crc_ptr,crc_count_ptr,tx_rx);
 	}
 
 //	//Calculate CRC for PID (if packet is of type i-frame)
 	curr_mem = local_packet->PID;
 	for(int i = 0; i < PID_len; i++){
 		//Call crc_calc per bit
-		crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->PID[i],crc_ptr,crc_count_ptr,tx_rx);
 	}
 
 	//Calculate CRC for Info field
 	curr_mem = (local_packet->Info);
 	for(int i = 0;i<local_packet->Info_Len;i++){
-		crc_calc((int)local_packet->Info[i],crc_ptr,crc_count_ptr);
+		crc_calc((int)local_packet->Info[i],crc_ptr,crc_count_ptr,tx_rx);
 	}
 
 	sprintf(uartData, "rx_bitcnt = %d\n", rxBit_count);
@@ -669,7 +669,7 @@ bool crc_check(){
 	fcs_val = conv_BIN_to_HEX(local_packet->FCS,0);
 
 	//generate crc
-	crc_generate();
+	crc_generate(false);
 
 	//compare crc
 	valid_crc = (local_packet->crc==fcs_val) ? true : false;
