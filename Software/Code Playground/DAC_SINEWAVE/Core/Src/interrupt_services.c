@@ -264,9 +264,12 @@ void UART2_Exception_Callback(){
 		  if(!mode){
 			  changeMode = true;
 		  }
-		  UART_packet.flags = 0;
 		  UART_packet.got_packet = true;
 		  UART_packet.received_byte_cnt = UART_packet.rx_cnt;
+
+
+
+		  UART_packet.flags = 0;
 		  UART_packet.rx_cnt=0;
 
 	  }

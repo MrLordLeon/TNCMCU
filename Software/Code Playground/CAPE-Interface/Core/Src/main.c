@@ -117,7 +117,7 @@ int main(void)
   {
 	  if ((HAL_GetTick() - tnc_tx_timer) > 4000)
 	  {
-		  TNC_Tx(tnc_array, sizeof(tnc_array));
+//		  TNC_Tx(tnc_array, sizeof(tnc_array));
 
 
 		  tnc_tx_timer = HAL_GetTick();

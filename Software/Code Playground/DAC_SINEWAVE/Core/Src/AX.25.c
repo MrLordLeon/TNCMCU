@@ -116,7 +116,7 @@ void tx_rx() {
 			debug_print_msg();
 		}
 
-//		changeMode = true;
+		changeMode = true;
 	}
 
 	//Receiving Mode
@@ -160,7 +160,7 @@ void output_AX25(){
 
 	//Debugging mode that will repeat send message. Must restart to stop or change message
 	if(BROADCASTR){
-		const int millis = 2000;
+		const int millis = 8000;
 		sprintf(uartData, "BROADCASTING WILL REPEAT IN A %d MILLISSECOND",millis);
 		debug_print_msg();
 
@@ -392,8 +392,8 @@ bool receiving_KISS(){
 			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr,true);
 		}
 
-//		local_UART_packet->got_packet = false;
-//		local_packet->got_packet = true;
+		local_UART_packet->got_packet = false;
+		local_packet->got_packet = true;
 		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
 
 		print_array_octet(local_packet->KISS_PACKET,local_packet->byte_cnt*8);
