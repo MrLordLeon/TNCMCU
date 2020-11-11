@@ -17,6 +17,7 @@
 
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim4;
 extern TIM_HandleTypeDef htim5;
 extern UART_HandleTypeDef huart2;
 
@@ -28,12 +29,16 @@ extern UART_HandleTypeDef huart2;
 #define SYMBOL_MARGIN 3333
 
 //Timer TX reload definitions
+#define TIM2_AUTORELOAD_TX		0			//Timer2 period, NOT USED IN THIS MODE
 #define TIM3_AUTORELOAD_TX		828 		//Timer3 period, used to controller baudrate for TX
+#define TIM4_AUTORELOAD_TX_LOW	108			//Timer4 period, used to control DAC and generate 1200Hz, assuming 40Mhz clk
+#define TIM4_AUTORELOAD_TX_HIGH	59			//Timer4 period, used to control DAC and generate 2200Hz, assuming 40Mhz clk
 #define TIM5_AUTORELOAD_TX		0			//Timer5 period, NOT USED IN THIS MODE
 
 //Timer RX reload definitions
 #define TIM2_AUTORELOAD_RX	4294967295		//Timer2 period, max value for output compare to count up to
 #define TIM3_AUTORELOAD_RX	0				//Timer3 period, NOT USED IN THIS MODE
+#define TIM4_AUTORELOAD_RX	0				//Timer4 period, NOT USED IN THIS MODE
 #define TIM5_AUTORELOAD_RX	4294967295		//Timer5 period, input capture needs to have the same max count as tim2 output compare
 #define samp_per_bit 		1	//Will take the digital reading multiple times per bit length
 #define no_clk_max_cnt		64	//How many bit lengths can occur without disabling clock sync

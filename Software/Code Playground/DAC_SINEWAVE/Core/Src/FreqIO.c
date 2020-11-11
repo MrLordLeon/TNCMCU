@@ -28,17 +28,15 @@ void initProgram(bool modeStart) {
 
 	//Set hardware properly
 	mode = modeStart;
-	toggleMode();
-	toggleMode();
+	setHardwareMode(modeStart);
 
 	init_UART();
 }
 
-void toggleMode() {
+void setHardwareMode(int set_mode) {
 
 	//Toggle mode
-	mode = !mode;
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, mode);
+	mode = set_mode;
 
 	//Stop DAC
 	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
@@ -47,6 +45,7 @@ void toggleMode() {
 	//Stop Timers the Correct Way
 	HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
 	HAL_TIM_Base_Stop(&htim3);
+	HAL_TIM_Base_Stop(&htim4);
 	HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
 
 	//Zero Timers
@@ -58,21 +57,23 @@ void toggleMode() {
 	if (mode) {
 
 		//Set Timer Auto Reload Settings
-		htim2.Instance->ARR = TIM2_AUTORELOAD_TX_LOW;
+		htim2.Instance->ARR = TIM2_AUTORELOAD_TX;
 		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
+		htim4.Instance->ARR = TIM4_AUTORELOAD_TX_LOW;
 		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
 
 		//Start Timers the Correct Way
-		//Nothing to do here
+		HAL_TIM_Base_Start(&htim4);
 	}
 
 	//Receiving Mode
 	else {
 
 		//Set Timer Auto Reload Settings
-		htim2.Instance->ARR = TIM2_AUTORELOAD_TX_LOW;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_TX;
-		htim5.Instance->ARR = TIM5_AUTORELOAD_TX;
+		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
+		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
+		htim4.Instance->ARR = TIM4_AUTORELOAD_RX;
+		htim5.Instance->ARR = TIM5_AUTORELOAD_RX;
 
 //		//Start Timers the Correct Way
 		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
@@ -205,16 +206,21 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 			changeFreq = bitStream[arraySize - i - 1];
 		}
 
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, changeFreq);
-		//freqSelect = changeFreq;
+		//NRZ
+		//freqSelect = !changeFreq;
+
+		//NRZI
 		freqSelect = (changeFreq) ? freqSelect : !freqSelect;
 
+		HAL_GPIO_WritePin(GPIOB, D4_Pin, changeFreq);
+//		HAL_GPIO_WritePin(GPIOB, D4_Pin, freqSelect);
+
 		if (freqSelect) {
-			htim2.Instance->ARR = TIM2_AUTORELOAD_TX_HIGH;
+			htim4.Instance->ARR = TIM4_AUTORELOAD_TX_HIGH;
 			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * HIGHF) / (1.0 * LOWF);
 		}
 		else {
-			htim2.Instance->ARR = TIM2_AUTORELOAD_TX_LOW;
+			htim4.Instance->ARR = TIM4_AUTORELOAD_TX_LOW;
 			waveoffset = (1.0 * FREQ_SAMP) * (1.0 * LOWF) / (1.0 * LOWF);
 		}
 

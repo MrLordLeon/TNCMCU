@@ -30,28 +30,33 @@ void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out, bool select_8_16)
     sprintf(uartData, "\nByte value            = %d\nBinary value[LSB:MSB] =",hex_byte_in);
 	debug_print_msg();
 
+	//8 bits
     if(select_8_16){
 		for(int i = 0; i < 8; i++){
 			temp = hex_byte_in >> i;
 			temp = temp%2;
 
-			//sprintf(uartData, " %d ",temp);
-			//debug_print_msg();
+			sprintf(uartData, " %d ",temp);
+			debug_print_msg();
 
 			*(bin_byte_out+i) = temp;
 		}
+		sprintf(uartData, "\n ");
+		debug_print_msg();
     }
+
+    //16 bits
     else{
 	   sprintf(uartData, "\nByte value            = %x\nBinary value[LSB:MSB] =",hex_byte_in);
 		debug_print_msg();
 		for(int i = 0; i < 16; i++){
 			temp = hex_byte_in >> i;
-			sprintf(uartData, " b=%d ",temp);
-			debug_print_msg();
-			temp = temp%2;
-
-			sprintf(uartData, " a=%d ",temp);
-			debug_print_msg();
+//			sprintf(uartData, " b=%d ",temp);
+//			debug_print_msg();
+//			temp = temp%2;
+//
+//			sprintf(uartData, " a=%d ",temp);
+//			debug_print_msg();
 
 			*(bin_byte_out + 16 - 1 - i) = temp; //MSB is at lowest index
 		}
@@ -76,7 +81,7 @@ uint16_t conv_BIN_to_HEX(bool *bin_byte_in,bool select_8_16){
 void tx_rx() {
 	if (changeMode) {
 		changeMode = 0;
-		toggleMode();
+		setHardwareMode(!mode);
 	}
 
 	//Transmission Mode
@@ -92,40 +97,35 @@ void tx_rx() {
 			packet_converted = KISS_TO_AX25();
 			//Upon exit, have a perfectly good AX.25 packet
 		}
+//
+//		//Output AFSK waveform for radio
+//		if(packet_converted) {
+//			output_AX25();
+////			print_AX25();
+//		}
+//		clear_AX25();
+//
+//		//Packet was not received properly
+//		if(!packet_received){
+//			sprintf(uartData, "Error receiving KISS packet\n");
+//			debug_print_msg();
+//		}
+//		//Packet was not converted properly
+//		else if(!packet_converted){
+//			sprintf(uartData, "Error converting KISS packet\n");
+//			debug_print_msg();
+//		}
+//		//Successful transmission!
+//		else {
+//			sprintf(uartData, "KISS packet received, converted, and transmitted to radio\n");
+//			debug_print_msg();
+//		}
 
-		//Output AFSK waveform for radio
-		if(packet_converted) {
-			output_AX25();
-//			print_AX25();
-		}
-		clear_AX25();
-
-		//Packet was not received properly
-		if(!packet_received){
-			sprintf(uartData, "Error receiving KISS packet\n");
-			debug_print_msg();
-		}
-		//Packet was not converted properly
-		else if(!packet_converted){
-			sprintf(uartData, "Error converting KISS packet\n");
-			debug_print_msg();
-		}
-		//Successful transmission!
-		else {
-			sprintf(uartData, "KISS packet received, converted, and transmitted to radio\n");
-			debug_print_msg();
-		}
-
-		changeMode = true;
+//		changeMode = true;
 	}
 
 	//Receiving Mode
 	else {
-		bool change = receiving_AX25();
-		if(!change){
-			sprintf(uartData, "Changing mode due to request\n");
-			debug_print_msg();
-		}
 	}
 }
 
@@ -141,6 +141,7 @@ void output_AX25(){
 	//Init dac playing some frequency, shouldn't be read by radio
 	wave_start = bitToAudio(dumbbits, 3,1,wave_start);
 
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_SET); //START PTT
 
 	wave_start = bitToAudio(AX25TBYTE, FLAG_SIZE,1,wave_start); //start flag
@@ -156,6 +157,7 @@ void output_AX25(){
 
 	HAL_DAC_Stop_DMA(&hdac, DAC_CHANNEL_1);
 
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(PTT_GPIO_Port, PTT_Pin, GPIO_PIN_RESET); //stop transmitting
 
 	sprintf(uartData, "Ending AFSK transmission\n");
@@ -373,7 +375,7 @@ bool receiving_KISS(){
 		for(int i = 0;i < byte_cnt;i++){
 			//Hex value from UART
 			 //start from LS Byte = Highest index
-			uint8_t hex_byte_val=local_UART_packet->HEX_KISS_PACKET[byte_cnt-1-i];
+			uint8_t hex_byte_val=local_UART_packet->HEX_KISS_PACKET[i];
 
 			//Bool pointer for KISS array
 			bool *bin_byte_ptr = &local_packet->KISS_PACKET[i*8];
@@ -381,12 +383,15 @@ bool receiving_KISS(){
 			//sprintf(uartData, "Byte[%d] = %d\n",i,hex_byte_val);
 			//debug_print_msg();
 
+			//Selecting 8 bit
 			conv_HEX_to_BIN(hex_byte_val, bin_byte_ptr,true);
 		}
 
-		local_UART_packet->got_packet = false;
+//		local_UART_packet->got_packet = false;
 		local_packet->got_packet = true;
 		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
+
+		print_array_octet(local_packet->KISS_PACKET,local_packet->byte_cnt*8);
 
 		return true;
 	}
@@ -400,43 +405,53 @@ void set_packet_pointer_KISS(int info_len_in){
 
 	//Update info len since we received a message over UART
 	local_packet->Info_Len =info_len_in;
+//	sprintf(uartData, "Setting info length to %d\n",local_packet->Info_Len);
+//	debug_print_msg();
 
-	bool *curr_mem = (local_packet->KISS_PACKET+(local_packet->byte_cnt-2)*8);//starting kiss packet skipping 2 bytes
+	bool *curr_mem = (local_packet->KISS_PACKET+(8*2));//starting kiss packet skipping 2 bytes of flag and port info
 
-	curr_mem -= address_len;
+	//Assign Address Pointer
 	local_packet->address = curr_mem;
+	curr_mem += address_len;
 
-	curr_mem -= control_len;
+	//Assign Control Pointer
 	local_packet->control = curr_mem;
+	curr_mem += control_len;
 
-	curr_mem -= PID_len;
+	//Assign PID Pointer
 	local_packet->PID = curr_mem;
+	curr_mem += PID_len;
 
-	curr_mem -= local_packet->Info_Len;
+	//Assign INFO Pointer
 	local_packet->Info = curr_mem;
 }
 
 bool KISS_TO_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 
-	uint16_t local_info_len = local_packet->byte_cnt*8-INFO_offset_wFlag_woFCS;
+	int local_info_len = local_packet->byte_cnt*8-INFO_offset_wFlag_woFCS;
+
 	set_packet_pointer_KISS(local_info_len);
 	print_KISS();
 
-	bool* cpy_from_ptr = (local_packet->KISS_PACKET+(local_packet->byte_cnt-2)*8);//starting kiss packet skipping 2 bytes
+	bool* cpy_from_ptr = local_packet->KISS_PACKET+16;//starting kiss packet skipping 2 bytes
 
 	//Update packet pointers to AX25 members
 	set_packet_pointer_AX25(local_info_len);
-	cpy_from_ptr -= address_len;
+
+	//Copy address
 	memcpy(local_packet->address,cpy_from_ptr,address_len);
+	cpy_from_ptr += address_len;
 
-	cpy_from_ptr -= control_len;
+	//Copy control
 	memcpy(local_packet->control,cpy_from_ptr,control_len);
+	cpy_from_ptr += control_len;
 
-	cpy_from_ptr -= PID_len;
+	//Copy PID
 	memcpy(local_packet->PID,cpy_from_ptr,PID_len);
+	cpy_from_ptr += PID_len;
 
-	cpy_from_ptr -= local_packet->Info_Len;
+	//Info
 	memcpy(local_packet->Info,cpy_from_ptr,local_packet->Info_Len);
 
 	//USE CRC HERE TO GENERATE FCS FIELD
@@ -444,26 +459,27 @@ bool KISS_TO_AX25(){
 	crc_generate();
 	print_AX25();
 
-	sprintf(uartData, "\n line Printing AX25 = \n");
-	debug_print_msg();
-	for(int i = 0; i < rxBit_count + FCS_len; i++){
-		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
-		debug_print_msg();
-	}
-	sprintf(uartData, "\n");
-	debug_print_msg();
+//	sprintf(uartData, "\n line Printing AX25 = \n");
+//	debug_print_msg();
+//	for(int i = 0; i < rxBit_count + FCS_len; i++){
+//		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
+//		debug_print_msg();
+//	}
+//	sprintf(uartData, "\n");
+//	debug_print_msg();
 
 	//BIT STUFFING NEEDED
 	bit_stuff_fields();
 
-	sprintf(uartData, "\n line Printing AX25 = \n");
-	debug_print_msg();
-	for(int i = 0; i < rxBit_count + FCS_len + local_packet->bit_stuffed_zeros; i++){
-		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
-		debug_print_msg();
-	}
-	sprintf(uartData, "\n");
-	debug_print_msg();
+//	sprintf(uartData, "\n line Printing AX25 = \n");
+//	debug_print_msg();
+//	for(int i = 0; i < rxBit_count + FCS_len + local_packet->bit_stuffed_zeros; i++){
+//		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
+//		debug_print_msg();
+//	}
+//	sprintf(uartData, "\n");
+//	debug_print_msg();
+
 	rxBit_count = 0;
 //	Print the ax25 packet
 	print_outAX25();

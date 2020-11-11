@@ -18,7 +18,7 @@ void print_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
-	sprintf(uartData, "\nPrinting AX25_PACKET... All fields printed [MSB:LSB]\n");
+	sprintf(uartData, "\nPrinting AX25_PACKET... All fields printed [LSB:MSB]\n");
 	debug_print_msg();
 
 	//Print Address Field
@@ -31,7 +31,7 @@ void print_AX25(){
 		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
+			sprintf(uartData, " %d ",*(curr_mem+j));
 			debug_print_msg();
 		}
 		curr_mem += 8;
@@ -43,7 +43,7 @@ void print_AX25(){
 	sprintf(uartData, "Control Field   =");
 	debug_print_msg();
 	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
@@ -55,7 +55,7 @@ void print_AX25(){
 	debug_print_msg();
 
 	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
@@ -68,7 +68,7 @@ void print_AX25(){
 		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem+8-j-1));
+			sprintf(uartData, " %d ",*(curr_mem+j));
 			debug_print_msg();
 		}
 		curr_mem += 8;
@@ -79,7 +79,7 @@ void print_AX25(){
 	sprintf(uartData, "FCS Field = ")	;
 	debug_print_msg();
 	for(int i = 0;i<FCS_len;i++){
-		sprintf(uartData, " %d ",*(curr_mem+16-i-1));
+		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
@@ -200,70 +200,70 @@ void print_KISS(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	int bytecnt = local_packet->byte_cnt;
 	bool *curr_mem;
-	sprintf(uartData, "\nPrinting KISS_PACKET... All fields printed [MSB:LSB]\n");
+	sprintf(uartData, "\nPrinting KISS_PACKET... All fields printed [LSB:MSB]\n");
 	debug_print_msg();
 
 	//Print Start Flag
-	curr_mem = (local_packet->address + address_len + 16 - 1);//start at the flag start
+	curr_mem = local_packet->KISS_PACKET;//start at the flag start
 	sprintf(uartData, "Start flag      =");
 	debug_print_msg();
 
 	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem-i));
+		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
 	debug_print_msg();
 
-	curr_mem = (local_packet->address) + address_len - 1;
+	//Print address
+	curr_mem = local_packet->address;
 	for(int i = 0;i<address_len/8;i++){
 		sprintf(uartData, "Address Field %d =",i+1);
 		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem-j));
+			sprintf(uartData, " %d ",*(curr_mem+j));
 			debug_print_msg();
 		}
-		curr_mem -= 8;
+		curr_mem += 8;
 		sprintf(uartData, "\n");
 		debug_print_msg();
 	}
 
 	//Print Control Field
-	curr_mem = (local_packet->control);//Subtract 8 to start at the flag start
+	curr_mem = (local_packet->control);
 	sprintf(uartData, "Control Field   =");
 	debug_print_msg();
-
 	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
 	debug_print_msg();
 
 	//PID
-	curr_mem = (local_packet->PID);//Subtract 8 to start at the flag start
+	curr_mem = (local_packet->PID);
 	sprintf(uartData, "PID Field       =");
 	debug_print_msg();
-
 	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
 	debug_print_msg();
 
 	//Print Info Field
-	curr_mem = (local_packet->Info) + local_packet->Info_Len - 1;
+	curr_mem = local_packet->Info;
+
 	for(int i = 0;i<(local_packet->Info_Len/8);i++){
 		sprintf(uartData, "Info Field %d    =",i+1)	;
 		debug_print_msg();
 
 		for(int j = 0;j<8;j++){
-			sprintf(uartData, " %d ",*(curr_mem-j));
+			sprintf(uartData, " %d ",*(curr_mem+j));
 			debug_print_msg();
 		}
-		curr_mem -= 8;
+		curr_mem += 8;
 		sprintf(uartData, "\n");
 		debug_print_msg();
 	}
@@ -274,7 +274,7 @@ void print_KISS(){
 	debug_print_msg();
 
 	for(int i = 0;i<8;i++){
-		sprintf(uartData, " %d ",*(curr_mem+8-i-1));
+		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
@@ -353,3 +353,25 @@ void compareBoolBuffers(bool *array1, bool *array2,uint16_t size){
 }
 //****************************************************************************************************************
 //End of compare buffers
+
+void print_array_octet(bool* array,int array_size){
+	sprintf(uartData, "Printing array:\n");
+	debug_print_msg();
+
+	//Byte at a time
+	for(int i = 0;i<array_size/8;i++){
+		sprintf(uartData, "Byte %d:",i);
+		debug_print_msg();
+
+		//Print each bit
+		for(int j = 0;j<8;j++){
+			sprintf(uartData, " %d ",*(array+(i*8)+j));
+			debug_print_msg();
+		}
+		sprintf(uartData, "\n");
+		debug_print_msg();
+	}
+
+	sprintf(uartData, "Finished Printing Array\n");
+	debug_print_msg();
+}
