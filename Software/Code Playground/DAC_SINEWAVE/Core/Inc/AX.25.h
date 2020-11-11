@@ -28,7 +28,7 @@
 
 //*************** variables for detecting and validating  AX.25  ******************************************************
 #define AX25_PACKET_MAX			address_len + control_len + PID_len + MAX_INFO +FCS_len	+ MAX_Stuffed		//max bits in a packet, not including flags
-#define INFO_offset_woFlag		address_len+control_len+PID_len+FCS_len					//Subtract from packet bit count w/o flags and FCS to get number of info bits
+#define INFO_offset_woFlag		144		//Subtract from packet bit count w/o flags and FCS to get number of info bits
 #define INFO_offset_wFlag_woFCS	152		//Subtract from packet bit count with flags and port info to get number of info bits
 
 
@@ -176,14 +176,14 @@ int bitstuffing(bool* packet,int len,int bits_left, int ones_count,int *stuff);
 /*
  * 	Helper function to generate CRC. Simply computes CRC from one bit
  */
-void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in);
+void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in, bool tx_rx);
 
 /*
  *	Generates CRC from KISS Packet ot AX.25 packet.
  *	If given a true input, will generate from AX.25 Data Fields
  *	If given a false input, will generate from Kiss Data Fields
  */
-void crc_generate();
+void crc_generate(bool tx_rx);
 
 /*
  * 	Helper function to validate the fcs field of received packet from radio.

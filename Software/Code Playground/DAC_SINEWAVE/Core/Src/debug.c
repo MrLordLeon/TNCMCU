@@ -39,6 +39,21 @@ void print_AX25(){
 		debug_print_msg();
 	}
 
+	//Check if address is stuffed
+	if(local_packet->stuffed_address>0){
+		sprintf(uartData, "Stuffed Address:");
+		debug_print_msg();
+
+		for(int i = 0;i<local_packet->stuffed_address;i++){
+			sprintf(uartData, "%d",*(curr_mem+i));
+			debug_print_msg();
+		}
+		sprintf(uartData, "\n");
+		debug_print_msg();
+
+		curr_mem+=local_packet->stuffed_address;
+	}
+
 	//Print Control Field
 	sprintf(uartData, "Control Field   =");
 	debug_print_msg();
@@ -48,9 +63,24 @@ void print_AX25(){
 	}
 	sprintf(uartData, "\n");
 	debug_print_msg();
+	curr_mem += control_len;//Subtract 8 to start at the flag start
+
+	//Check if control is stuffed
+	if(local_packet->stuffed_control>0){
+		sprintf(uartData, "Stuffed Control:");
+		debug_print_msg();
+
+		for(int i = 0;i<local_packet->stuffed_control;i++){
+			sprintf(uartData, "%d",*(curr_mem+i));
+			debug_print_msg();
+		}
+		sprintf(uartData, "\n");
+		debug_print_msg();
+
+		curr_mem+=local_packet->stuffed_control;
+	}
 
 	//PID
-	curr_mem += control_len;//Subtract 8 to start at the flag start
 	sprintf(uartData, "PID Field       =");
 	debug_print_msg();
 
@@ -61,6 +91,21 @@ void print_AX25(){
 	sprintf(uartData, "\n");
 	debug_print_msg();
 	curr_mem += PID_len;
+
+	//Check if PID is stuffed
+	if(local_packet->stuffed_control>0){
+		sprintf(uartData, "Stuffed PID:");
+		debug_print_msg();
+
+		for(int i = 0;i<local_packet->stuffed_PID;i++){
+			sprintf(uartData, "%d",*(curr_mem+i));
+			debug_print_msg();
+		}
+		sprintf(uartData, "\n");
+		debug_print_msg();
+
+		curr_mem+=local_packet->stuffed_PID;
+	}
 
 	//Print Info Field
 	for(int i = 0;i<(local_packet->Info_Len/8);i++){
@@ -75,15 +120,45 @@ void print_AX25(){
 		sprintf(uartData, "\n");
 		debug_print_msg();
 	}
+	//Check if INFO is stuffed
+	if(local_packet->stuffed_Info>0){
+		sprintf(uartData, "Stuffed INFO:");
+		debug_print_msg();
+
+		for(int i = 0;i<local_packet->stuffed_Info;i++){
+			sprintf(uartData, "%d",*(curr_mem+i));
+			debug_print_msg();
+		}
+		sprintf(uartData, "\n");
+		debug_print_msg();
+
+		curr_mem+=local_packet->stuffed_Info;
+	}
 
 	sprintf(uartData, "FCS Field = ")	;
 	debug_print_msg();
+	curr_mem = local_packet->FCS;
 	for(int i = 0;i<FCS_len;i++){
 		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
 	sprintf(uartData, "\n");
 	debug_print_msg();
+
+	//Check if FCS is stuffed
+	if(local_packet->stuffed_FCS>0){
+		sprintf(uartData, "Stuffed FCS:");
+		debug_print_msg();
+
+		for (int i = 0; i < local_packet->stuffed_FCS;i++){
+			sprintf(uartData, "%d",*(curr_mem+i));
+			debug_print_msg();
+		}
+		sprintf(uartData, "\n");
+		debug_print_msg();
+
+		curr_mem+=local_packet->stuffed_FCS;
+	}
 }
 
 void print_outAX25(){
@@ -157,7 +232,25 @@ void print_outAX25(){
 	sprintf(uartData, "Info Field = ");
 	debug_print_msg();
 	curr_mem = local_packet->Info;
-	for(int i = 0; i < local_packet->Info_Len + local_packet->stuffed_Info;i++){
+	for(int i = 0; i < local_packet->Info_Len;i++){
+		if(i%8==0){
+			sprintf(uartData, " \n ");
+			debug_print_msg();
+		}
+		sprintf(uartData, " %d ",*(curr_mem+i));
+		debug_print_msg();
+	}
+	sprintf(uartData, "\n");
+	debug_print_msg();
+	curr_mem+=local_packet->Info_Len;
+
+	sprintf(uartData, "Stuffed Info Field = ");
+	debug_print_msg();
+	for(int i = 0;i<local_packet->stuffed_Info;i++){
+		if(i%8==0){
+			sprintf(uartData, " \n ");
+			debug_print_msg();
+		}
 		sprintf(uartData, " %d ",*(curr_mem+i));
 		debug_print_msg();
 	}
@@ -165,7 +258,7 @@ void print_outAX25(){
 	debug_print_msg();
 
 	curr_mem = local_packet->FCS;
-	sprintf(uartData, "FCS Field     =")	;
+	sprintf(uartData, "FCS Field     =");
 	debug_print_msg();
 	for(int i = 0;i<FCS_len+local_packet->stuffed_FCS;i++){
 		sprintf(uartData, " %d ",*(curr_mem+i));
@@ -184,16 +277,6 @@ void print_outAX25(){
 	}
 	sprintf(uartData, "\n");
 	debug_print_msg();
-
-
-
-	//reset bitstuff members
-	local_packet->stuffed_address = 0;
-	local_packet->stuffed_control = 0;
-	local_packet->stuffed_PID = 0;
-	local_packet->stuffed_Info = 0;
-	local_packet->stuffed_FCS = 0;
-	local_packet->bit_stuffed_zeros = 0;
 }
 
 void print_KISS(){

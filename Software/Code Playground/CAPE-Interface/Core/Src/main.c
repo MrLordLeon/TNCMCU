@@ -100,7 +100,7 @@ int main(void)
 //	  tnc_array[i] = i;
 //  }
 
-  int arr_size = 256;
+  int arr_size = 2;
   uint8_t tnc_array[arr_size];
 
   for (int i = 0; i < arr_size; i ++)

@@ -117,7 +117,7 @@ void Tim2_OC_Callback(){
 
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
 			save_cnt -= FLAG_SIZE;
-			rxBit_count = save_cnt;
+			rxBit_count = save_cnt;//Must be before remove_bit_stuffing
 
 //			sprintf(uartData, "byte_cnt = %d\n",global_packet.byte_cnt);
 //			debug_print_msg();
@@ -126,7 +126,15 @@ void Tim2_OC_Callback(){
 
 //			compareBoolBuffers(bitBuffer,global_packet.AX25_PACKET,rxBit_count);
 
+			sprintf(uartData, "rxBit_count (before bit destuff) = %d\n",rxBit_count);
+			debug_print_msg();
+
 			remove_bit_stuffing();
+
+			sprintf(uartData, "rxBit_count (after bit destuff) = %d\n",rxBit_count);
+			debug_print_msg();
+
+
 			global_packet.byte_cnt = rxBit_count/8;
 
 			//Receive data

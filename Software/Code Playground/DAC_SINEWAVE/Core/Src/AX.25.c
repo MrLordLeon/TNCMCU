@@ -51,14 +51,9 @@ void conv_HEX_to_BIN(uint16_t hex_byte_in, bool *bin_byte_out, bool select_8_16)
 		debug_print_msg();
 		for(int i = 0; i < 16; i++){
 			temp = hex_byte_in >> i;
-//			sprintf(uartData, " b=%d ",temp);
-//			debug_print_msg();
-//			temp = temp%2;
-//
-//			sprintf(uartData, " a=%d ",temp);
-//			debug_print_msg();
+			temp = temp%2;
 
-			*(bin_byte_out + 16 - 1 - i) = temp; //MSB is at lowest index
+			*(bin_byte_out + i) = temp; //MSB is at lowest index
 		}
 		sprintf(uartData, "\n ");
 		debug_print_msg();
@@ -97,29 +92,29 @@ void tx_rx() {
 			packet_converted = KISS_TO_AX25();
 			//Upon exit, have a perfectly good AX.25 packet
 		}
-//
-//		//Output AFSK waveform for radio
-//		if(packet_converted) {
-//			output_AX25();
-////			print_AX25();
-//		}
-//		clear_AX25();
-//
-//		//Packet was not received properly
-//		if(!packet_received){
-//			sprintf(uartData, "Error receiving KISS packet\n");
-//			debug_print_msg();
-//		}
-//		//Packet was not converted properly
-//		else if(!packet_converted){
-//			sprintf(uartData, "Error converting KISS packet\n");
-//			debug_print_msg();
-//		}
-//		//Successful transmission!
-//		else {
-//			sprintf(uartData, "KISS packet received, converted, and transmitted to radio\n");
-//			debug_print_msg();
-//		}
+
+		//Output AFSK waveform for radio
+		if(packet_converted) {
+			output_AX25();
+//			print_AX25();
+		}
+		clear_AX25();
+
+		//Packet was not received properly
+		if(!packet_received){
+			sprintf(uartData, "Error receiving KISS packet\n");
+			debug_print_msg();
+		}
+		//Packet was not converted properly
+		else if(!packet_converted){
+			sprintf(uartData, "Error converting KISS packet\n");
+			debug_print_msg();
+		}
+		//Successful transmission!
+		else {
+			sprintf(uartData, "KISS packet received, converted, and transmitted to radio\n");
+			debug_print_msg();
+		}
 
 //		changeMode = true;
 	}
@@ -177,6 +172,8 @@ void output_AX25(){
 		}
 		sprintf(uartData, "\n\n");
 		debug_print_msg();
+
+		print_AX25();
 		output_AX25();
 	}
 }
@@ -185,6 +182,14 @@ void clear_AX25(){
 	struct PACKET_STRUCT* local_packet = &global_packet;
 	sprintf(uartData, "Clearing AX.25 packet info\n");
 	debug_print_msg();
+
+	//reset bitstuff members
+	local_packet->stuffed_address = 0;
+	local_packet->stuffed_control = 0;
+	local_packet->stuffed_PID = 0;
+	local_packet->stuffed_Info = 0;
+	local_packet->stuffed_FCS = 0;
+	local_packet->bit_stuffed_zeros = 0;
 
 	memcpy(local_packet->AX25_PACKET,0,AX25_PACKET_MAX);
 	local_packet->got_packet = false;
@@ -293,7 +298,7 @@ bool AX25_Packet_Validate(){
 		//Set packet pointers for AX25 to KISS operation
 		uint16_t local_info_len = rxBit_count-INFO_offset_woFlag;
 		set_packet_pointer_AX25(local_info_len);
-//		print_AX25();
+		print_AX25();
 
 		return crc_check();
 	}
@@ -388,7 +393,7 @@ bool receiving_KISS(){
 		}
 
 //		local_UART_packet->got_packet = false;
-		local_packet->got_packet = true;
+//		local_packet->got_packet = true;
 		local_packet->byte_cnt = local_UART_packet->received_byte_cnt;
 
 		print_array_octet(local_packet->KISS_PACKET,local_packet->byte_cnt*8);
@@ -459,26 +464,8 @@ bool KISS_TO_AX25(){
 	crc_generate(true);
 	print_AX25();
 
-//	sprintf(uartData, "\n line Printing AX25 = \n");
-//	debug_print_msg();
-//	for(int i = 0; i < rxBit_count + FCS_len; i++){
-//		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
-//		debug_print_msg();
-//	}
-//	sprintf(uartData, "\n");
-//	debug_print_msg();
-
 	//BIT STUFFING NEEDED
 	bit_stuff_fields();
-
-//	sprintf(uartData, "\n line Printing AX25 = \n");
-//	debug_print_msg();
-//	for(int i = 0; i < rxBit_count + FCS_len + local_packet->bit_stuffed_zeros; i++){
-//		sprintf(uartData, " %d ",(local_packet->AX25_PACKET)[i]);
-//		debug_print_msg();
-//	}
-//	sprintf(uartData, "\n");
-//	debug_print_msg();
 
 	rxBit_count = 0;
 //	Print the ax25 packet
@@ -603,11 +590,11 @@ void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in, bool tx_rx){
     	*crc_ptr_in ^= 0xFFFF;//Complete CRC by XOR with all ones (one's complement)
   	    sprintf(uartData, "Convert CRC to FCS (hex) = %x\n",local_packet->crc);
     	debug_print_msg();
-    	if(local_packet->check_crc == false){
+    	if(tx_rx){
     		//REMEBER TO CHECK THIS CRC conversion FOR ACCURACY LATER
-    		conv_HEX_to_BIN(*crc_ptr_in,local_packet->FCS,false);
-    		local_packet->crc = 0xFFFF;
+			conv_HEX_to_BIN(*crc_ptr_in,local_packet->FCS,false);
     	}
+    	local_packet->crc = 0xFFFF;
     }
 }
 

@@ -77,34 +77,6 @@ extern uint16_t	signal_detect_decay;			//Pseudo timer to detect if value is vali
 extern bool		signal_valid;					//Determines if frequency being read is a valid bit
 extern uint16_t trackBit;						//Tracks bits being loaded into bit buffer
 extern uint16_t bitSaveCount;					//Tracks bits being saved into bit buffer
-/*
- *	Function to convert freq to bitstream:
- *		returns 1 if detect higher freq within threshold
- *		returns 0 if detect lower freq within threshold
- *		return if frequency is outside afsk set range
- */
-int pertobit(uint32_t inputPeriod);
-/*
- *	Function to take period buffer values and loads the next bit into bit buffer.
- *	Also returns the determined bitvalue
- *	0 	= 1200Hz
- *	1  	= 2200Hz
- *	-1	= Invalid frequency
- */
-int loadBit();
-/*
- *	Loads an octet at a time.
- *	Returns -1 if an invalid frequency is detected
- *	Returns 0 if the octet is valid and not an ax.25 flag
- *	Returns 1 if the octet is the ax.25 flag
- */
-int loadOctet(bool* bufferptr);
-/*
- *	Fills the ax.25 buffer with octets excluding the flags
- *	Returns -1 if need to change mode
- *	Returns 1 if the packet was valid frequencies
- */
-int streamGet();
 
 
 #endif /* SRC_FREQIO_H_ */
