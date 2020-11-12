@@ -46,8 +46,8 @@ MCUTNC.bin \
 all: MCUTNC.elf secondary-outputs
 
 # Tool invocations
-MCUTNC.elf: $(OBJS) $(USER_OBJS) C:\GitHub\TNCMCU\Software\MCUTNC\STM32F446RETX_FLASH.ld
-	arm-none-eabi-gcc -o "MCUTNC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\MCUTNC\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MCUTNC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+MCUTNC.elf: $(OBJS) $(USER_OBJS) C:\Users\13372\Documents\GitHub\TNCMCU\Software\MCUTNC\STM32F446RETX_FLASH.ld
+	arm-none-eabi-gcc -o "MCUTNC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\13372\Documents\GitHub\TNCMCU\Software\MCUTNC\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MCUTNC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
