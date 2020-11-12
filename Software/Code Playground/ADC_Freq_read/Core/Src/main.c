@@ -65,9 +65,10 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int adcval;
-double freq;
+uint32_t adcval,prev_adc;
+double freq,angle_speed;
 char uartData[3000];
+double x1,x2;
 /* USER CODE END 0 */
 
 /**
@@ -104,7 +105,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_2);
   __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2,SAMP_COUNT);
-	 sprintf(uartData,"Starting Program\n");
+	 sprintf(uartData,"Starting...\n");
 	  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
   /* USER CODE END 2 */
 
@@ -330,23 +331,43 @@ static void MX_GPIO_Init(void)
 
 }
 
+int time_prev;
+uint32_t this_capture;
+int curr_time, prev_time,diff_time;
+uint32_t adc_buffer[1024];
+int count = 0;
 /* USER CODE BEGIN 4 */
 void TIM_OC_Callback(){
+	prev_time = curr_time;
+
+	prev_adc = adcval;
 	HAL_ADC_Start(&hadc1);
-	int prev_adc = adcval;
-	adcval = HAL_ADC_GetValue(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1,5);
+	adc_buffer[count] = HAL_ADC_GetValue(&hadc1);
 
-	double x1 = (((double)adcval) - 2048)/2048;
-	double x2 = (((double)prev_adc) - 2048)/2048;
+	if(count==1023){
+		count = 0;
+		for(int i = 0; i < 1023; i++){
+			 sprintf(uartData,"adc %d = %d\n",i,adc_buffer[i]);
+			  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 10);
+		}
+	}
+	else{
+		count++;
+	}
+	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
+	curr_time = htim2.Instance->CNT;
 
-	double angle_speed = (asin(x1)-asin(x2))/SAMP_PERIOD;
-	freq = abs((int)(angle_speed/(2*PI)));
+//	x1 = ((double)adcval - 2048.0)/2048.0;
+//	x2 = ((double)prev_adc - 2048.0)/2048.0;
 
+	diff_time = curr_time-prev_time;
+//	angle_speed = (asin(x1)-asin(x2))/((double)diff_time);
+//	freq = (angle_speed/(2*PI));
 
-	uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_2);
-	uint32_t next_sampl = this_capture + SAMP_COUNT;
-
+	uint32_t next_sampl = curr_time + SAMP_COUNT;
 	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2,next_sampl);
+
 }
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
