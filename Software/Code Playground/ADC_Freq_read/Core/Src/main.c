@@ -33,8 +33,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define PI 				3.14159265
-#define SAMP_COUNT		227272
-#define SAMP_PERIOD		SAMP_COUNT * (2/90000000)
+#define SAMP_COUNT		2500
+#define SAMP_PERIOD		.0025
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -235,7 +235,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 2-1;
+  htim2.Init.Prescaler = 90-1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 4294967295;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -336,14 +336,13 @@ void TIM_OC_Callback(){
 	int prev_adc = adcval;
 	adcval = HAL_ADC_GetValue(&hadc1);
 
-	double w1 = (((double)adcval) - 2048)/2048;
-	double w2 = (((double)prev_adc) - 2048)/2048;
+	double x1 = (((double)adcval) - 2048)/2048;
+	double x2 = (((double)prev_adc) - 2048)/2048;
 
-	double angle_speed = (asin(w1)-asin(w2))/.005;
-	freq = angle_speed/(2*PI);
+	double angle_speed = (asin(x1)-asin(x2))/SAMP_PERIOD;
+	freq = abs((int)(angle_speed/(2*PI)));
 
-	 sprintf(uartData,"Frequency = %d\n",abs((int)freq));
-	  HAL_UART_Transmit(&huart2, uartData, strlen(uartData), 1);
+
 	uint32_t this_capture = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_2);
 	uint32_t next_sampl = this_capture + SAMP_COUNT;
 
