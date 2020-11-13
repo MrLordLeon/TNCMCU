@@ -177,9 +177,77 @@ void Tim3_IT_Callback() {
 	//Timer 3 does nothing in RX
 	else {}
 }
-//Timer 5 Input Capture Callback
-void Tim5_IC_Callback(){
-	uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
+
+const int SAMP_COUNT = 90;
+const int freq_deviation = 400;
+
+double phase_curr,phase_prev;
+double freq_rad;
+double x1,x2;
+
+int curr_time,prev_time,diff_time;
+int freq;
+float buffer[1024];
+int count = 0;
+//Timer 5 Output Capture Callback
+void Tim5_OC_Callback(){
+	//Log Values
+	prev_time = curr_time;
+	phase_prev = phase_curr;
+
+	//Get ADC Val
+	HAL_ADC_Start(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1,5);
+	int adcval = HAL_ADC_GetValue(&hadc1);
+
+	//Capture time
+	curr_time = htim5.Instance->CNT;
+	diff_time = curr_time-prev_time;
+
+	//Calculate freq
+	phase_curr = asin(((double)adcval-2048.0)/2048.0);
+	freq_rad = (phase_curr-phase_prev)*1000000.0/diff_time;
+	freq = freq_rad/(2*PI*1.0);
+
+	HAL_GPIO_WritePin(GPIOA,Freq_Detect_Pin,0);
+	HAL_GPIO_WritePin(GPIOA,Freq_Invalid_Pin,0);
+
+	//+ Low frequency
+	if(1200-freq_deviation <freq && freq < 1200+freq_deviation ){
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
+		HAL_GPIO_WritePin(GPIOA,Freq_Detect_Pin,0);
+
+	}
+	//- Low frequency
+	else if(-1200-freq_deviation <freq && freq < -1200+freq_deviation ){
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
+		HAL_GPIO_WritePin(GPIOA,Freq_Detect_Pin,0);
+
+	}
+	//+ High frequency
+	else if(2200-freq_deviation <freq && freq < 2200+freq_deviation ){
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
+		HAL_GPIO_WritePin(GPIOA,Freq_Detect_Pin,1);
+
+	}
+	//- High frequency
+	else if(-2200-freq_deviation <freq && freq < -2200+freq_deviation ){
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
+		HAL_GPIO_WritePin(GPIOA,Freq_Detect_Pin,1);
+
+	}
+	else {
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
+		HAL_GPIO_WritePin(GPIOA,Freq_Invalid_Pin,1);
+
+	}
+
+	uint32_t next_sampl = curr_time + SAMP_COUNT;
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1,next_sampl);
+	return;
+}
+void FreqEdgeDetection(int edgeTime){
+	uint32_t this_capture = 0;
 
 	//Grap pin state for OC timer
 	freq_pin_state_curr = signal_edge;
@@ -187,7 +255,7 @@ void Tim5_IC_Callback(){
 	//Rising Edge
 	if (signal_edge)
 	{
-		rising_capture = HAL_TIM_ReadCapturedValue(&htim5, TIM_CHANNEL_1); //Time-stamp interrupt
+		rising_capture = edgeTime; //Time-stamp interrupt
 		signal_edge = FALLING_EDGE;		// look for falling edge on next capture
 		rise_captured = true;
 
@@ -201,7 +269,7 @@ void Tim5_IC_Callback(){
 	//Falling edge
 	else
 	{
-		falling_capture = HAL_TIM_ReadCapturedValue(&htim5, TIM_CHANNEL_1);		//Time-stamp interrupt
+		falling_capture = edgeTime;		//Time-stamp interrupt
 		fall_captured = true;
 		signal_edge = RISING_EDGE;		// look for rising edge on next capture
 

@@ -73,12 +73,14 @@ void Error_Handler(void);
 #define D1_GPIO_Port GPIOA
 #define D0_Pin GPIO_PIN_9
 #define D0_GPIO_Port GPIOA
+#define Freq_Detect_Pin GPIO_PIN_10
+#define Freq_Detect_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define SWO_Pin GPIO_PIN_3
-#define SWO_GPIO_Port GPIOB
+#define Freq_Invalid_Pin GPIO_PIN_3
+#define Freq_Invalid_GPIO_Port GPIOB
 #define D3_Pin GPIO_PIN_4
 #define D3_GPIO_Port GPIOB
 #define D4_Pin GPIO_PIN_5

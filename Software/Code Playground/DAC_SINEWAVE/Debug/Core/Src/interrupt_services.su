@@ -1,5 +1,6 @@
 interrupt_services.c:33:6:Tim2_OC_Callback	32	static
 interrupt_services.c:173:6:Tim3_IT_Callback	4	static
-interrupt_services.c:181:6:Tim5_IC_Callback	16	static
-interrupt_services.c:245:6:init_UART	8	static
-interrupt_services.c:252:6:UART2_Exception_Callback	8	static
+interrupt_services.c:193:6:Tim5_OC_Callback	24	static
+interrupt_services.c:249:6:FreqEdgeDetection	24	static
+interrupt_services.c:313:6:init_UART	8	static
+interrupt_services.c:320:6:UART2_Exception_Callback	8	static

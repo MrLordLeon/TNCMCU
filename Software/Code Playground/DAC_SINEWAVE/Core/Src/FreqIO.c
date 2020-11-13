@@ -29,7 +29,7 @@ void initProgram(bool modeStart) {
 	//Set hardware properly
 	mode = modeStart;
 	setHardwareMode(modeStart);
-
+	gen_asin();
 	init_UART();
 }
 
@@ -43,10 +43,10 @@ void setHardwareMode(int set_mode) {
 	midbit = false;
 
 	//Stop Timers the Correct Way
-	HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
-	HAL_TIM_Base_Stop(&htim3);
-	HAL_TIM_Base_Stop(&htim4);
-	HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
+//	HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
+//	HAL_TIM_Base_Stop(&htim3);
+//	HAL_TIM_Base_Stop(&htim4);
+//	HAL_TIM_OC_Stop_IT(&htim5, TIM_CHANNEL_1);
 
 	//Zero Timers
 	htim2.Instance->CNT = 0;
@@ -70,14 +70,15 @@ void setHardwareMode(int set_mode) {
 	else {
 
 		//Set Timer Auto Reload Settings
-		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
-		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
-		htim4.Instance->ARR = TIM4_AUTORELOAD_RX;
-		htim5.Instance->ARR = TIM5_AUTORELOAD_RX;
+//		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
+//		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
+//		htim4.Instance->ARR = TIM4_AUTORELOAD_RX;
+//		htim5.Instance->ARR = TIM5_AUTORELOAD_RX;
 
 //		//Start Timers the Correct Way
 		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
-		HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
+		HAL_TIM_OC_Start_IT(&htim5, TIM_CHANNEL_1);
+		__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1,1000);
 	}
 }
 
