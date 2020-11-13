@@ -65,26 +65,22 @@ void Error_Handler(void);
 #define B1_EXTI_IRQn EXTI15_10_IRQn
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
+#define D2_Pin GPIO_PIN_7
+#define D2_GPIO_Port GPIOA
 #define PTT_Pin GPIO_PIN_4
 #define PTT_GPIO_Port GPIOC
-#define D2_Pin GPIO_PIN_10
-#define D2_GPIO_Port GPIOB
+#define D4_Pin GPIO_PIN_7
+#define D4_GPIO_Port GPIOC
 #define D1_Pin GPIO_PIN_8
 #define D1_GPIO_Port GPIOA
 #define D0_Pin GPIO_PIN_9
 #define D0_GPIO_Port GPIOA
-#define Freq_Detect_Pin GPIO_PIN_10
-#define Freq_Detect_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define Freq_Invalid_Pin GPIO_PIN_3
-#define Freq_Invalid_GPIO_Port GPIOB
-#define D3_Pin GPIO_PIN_4
+#define D3_Pin GPIO_PIN_6
 #define D3_GPIO_Port GPIOB
-#define D4_Pin GPIO_PIN_5
-#define D4_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

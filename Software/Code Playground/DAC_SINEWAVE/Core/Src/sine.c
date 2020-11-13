@@ -88,10 +88,10 @@
 		 1876,1919,1962,2005,2048,
 };
 
+int asin_lut[4096];
 void gen_asin(){
     for(int i = 0;i<4096;i++){
         double phase = asin((i-2048.0)/2048.0);
         asin_lut[i] = phase*1000000;
     }
 }
-uint32_t asin_lut;

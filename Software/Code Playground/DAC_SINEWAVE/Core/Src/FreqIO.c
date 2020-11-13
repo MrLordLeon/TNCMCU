@@ -43,10 +43,10 @@ void setHardwareMode(int set_mode) {
 	midbit = false;
 
 	//Stop Timers the Correct Way
-//	HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
-//	HAL_TIM_Base_Stop(&htim3);
-//	HAL_TIM_Base_Stop(&htim4);
-//	HAL_TIM_OC_Stop_IT(&htim5, TIM_CHANNEL_1);
+	HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
+	HAL_TIM_Base_Stop(&htim3);
+	HAL_TIM_Base_Stop(&htim4);
+	HAL_TIM_OC_Stop_IT(&htim5, TIM_CHANNEL_1);
 
 	//Zero Timers
 	htim2.Instance->CNT = 0;
@@ -70,10 +70,10 @@ void setHardwareMode(int set_mode) {
 	else {
 
 		//Set Timer Auto Reload Settings
-//		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
-//		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
-//		htim4.Instance->ARR = TIM4_AUTORELOAD_RX;
-//		htim5.Instance->ARR = TIM5_AUTORELOAD_RX;
+		htim2.Instance->ARR = TIM2_AUTORELOAD_RX;
+		htim3.Instance->ARR = TIM3_AUTORELOAD_RX;
+		htim4.Instance->ARR = TIM4_AUTORELOAD_RX;
+		htim5.Instance->ARR = TIM5_AUTORELOAD_RX;
 
 //		//Start Timers the Correct Way
 		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
@@ -213,7 +213,7 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 		//NRZI
 		freqSelect = (changeFreq) ? freqSelect : !freqSelect;
 
-		HAL_GPIO_WritePin(GPIOB, D4_Pin, changeFreq);
+//		HAL_GPIO_WritePin(GPIOB, D4_Pin, changeFreq);
 //		HAL_GPIO_WritePin(GPIOB, D4_Pin, freqSelect);
 
 		if (freqSelect) {
