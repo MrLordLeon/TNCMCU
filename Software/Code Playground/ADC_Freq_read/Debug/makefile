@@ -46,8 +46,8 @@ ADC_Freq_read.bin \
 all: ADC_Freq_read.elf secondary-outputs
 
 # Tool invocations
-ADC_Freq_read.elf: $(OBJS) $(USER_OBJS) C:\Users\13372\Documents\GitHub\TNCMCU\Software\Code\ Playground\ADC_Freq_read\STM32F446RETX_FLASH.ld
-	arm-none-eabi-gcc -o "ADC_Freq_read.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\13372\Documents\GitHub\TNCMCU\Software\Code Playground\ADC_Freq_read\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_Freq_read.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+ADC_Freq_read.elf: $(OBJS) $(USER_OBJS) C:\GitHub\TNCMCU\Software\Code\ Playground\ADC_Freq_read\STM32F446RETX_FLASH.ld
+	arm-none-eabi-gcc -o "ADC_Freq_read.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\GitHub\TNCMCU\Software\Code Playground\ADC_Freq_read\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ADC_Freq_read.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

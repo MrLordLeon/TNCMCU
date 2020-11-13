@@ -60,6 +60,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define DH_Out_Pin GPIO_PIN_8
+#define DH_Out_GPIO_Port GPIOA
+#define DL_Out_Pin GPIO_PIN_9
+#define DL_Out_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

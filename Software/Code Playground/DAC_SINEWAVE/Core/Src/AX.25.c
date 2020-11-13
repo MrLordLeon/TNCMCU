@@ -158,7 +158,7 @@ void output_AX25(){
 
 	//Debugging mode that will repeat send message. Must restart to stop or change message
 	if(BROADCASTR){
-		const int millis = 8000;
+		const int millis = 4000;
 		sprintf(uartData, "BROADCASTING WILL REPEAT IN A %d MILLISSECOND",millis);
 		debug_print_msg();
 

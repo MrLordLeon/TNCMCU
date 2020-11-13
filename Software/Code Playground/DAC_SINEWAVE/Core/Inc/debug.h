@@ -12,7 +12,7 @@
 #include "AX.25.h"
 
 #define debug_printing 	false
-#define BROADCASTR		false
+#define BROADCASTR		true
 
 //Printing Packets
 //****************************************************************************************************************
