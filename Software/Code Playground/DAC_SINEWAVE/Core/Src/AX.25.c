@@ -222,6 +222,10 @@ bool receiving_AX25(){
 //		debug_print_msg();
 
 	if(AX25_IsValid){
+
+		sprintf(uartData, "Packet is valid af\n");
+		debug_print_msg();
+
 		//Put data into KISS format and buffer
 		AX25_TO_KISS();
 
@@ -592,7 +596,7 @@ void crc_calc(int in_bit, int * crc_ptr_in, int * crc_count_ptr_in, bool tx_rx){
     		//REMEBER TO CHECK THIS CRC conversion FOR ACCURACY LATER
 			conv_HEX_to_BIN(*crc_ptr_in,local_packet->FCS,false);
     	}
-    	local_packet->crc = 0xFFFF;
+//    	local_packet->crc = 0xFFFF;
     }
 }
 
@@ -658,5 +662,8 @@ bool crc_check(){
 
 	//compare crc
 	valid_crc = (local_packet->crc==fcs_val) ? true : false;
+
+	sprintf(uartData, "CRC is %s\n",(valid_crc)?"valid, boi!":"not valid, boi :'(");
+	debug_print_msg();
 	return valid_crc;
 }

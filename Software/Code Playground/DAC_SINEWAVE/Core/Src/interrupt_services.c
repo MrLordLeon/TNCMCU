@@ -29,11 +29,14 @@ int byteArray[8];
 bool got_flag_start = false;
 bool got_flag_end = false;
 
+const int samp_per_bit_margin = SYMBOL_MARGIN/samp_per_bit;
+
 //Timer 2 Output Compare Callback
 void Tim2_OC_Callback(){
 	static int save_cnt;
 	static int flag_cnt;
 	bool isFlag = false;
+	HAL_GPIO_TogglePin(GPIOB,D5_Pin);
 
 	HAL_GPIO_WritePin(GPIOC,D4_Pin,clk_sync);
 
@@ -101,7 +104,7 @@ void Tim2_OC_Callback(){
 		}
 
 		else if(got_flag_start){
-//			HAL_GPIO_TogglePin(GPIOB,D2_Pin);
+			HAL_GPIO_TogglePin(GPIOA,D0_Pin);
 			//Load the processed bit into the buffer
 			save_cnt = loadBitBuffer(NRZI)+1;
 		}
@@ -109,11 +112,11 @@ void Tim2_OC_Callback(){
 		//Found ending flag, now need to process bit buffer
 		if(got_flag_end){
 			got_flag_end = false;
-//			HAL_GPIO_TogglePin(GPIOB,D3_Pin);
+			HAL_GPIO_TogglePin(GPIOA,D1_Pin);
 
 			//Disable Interrupts for data processing
 			HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
-			HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
+			HAL_TIM_OC_Stop_IT(&htim5, TIM_CHANNEL_1);
 
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
 			save_cnt -= FLAG_SIZE;
@@ -144,7 +147,7 @@ void Tim2_OC_Callback(){
 
 			//Enable Interrupts since data processing is complete
 			HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
-			HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
+			HAL_TIM_OC_Start_IT(&htim5, TIM_CHANNEL_1);
 		}
 
 		//Prepare OC for next sample
@@ -179,7 +182,7 @@ void Tim3_IT_Callback() {
 }
 
 #define PI 				3.14159265
-const int SAMP_COUNT = 25;
+const int SAMP_COUNT = 775;
 const int freq_deviation = 2382;
 
 double phase_curr,phase_prev;
@@ -221,13 +224,13 @@ void Tim5_OC_Callback(){
 	phase_curr = asin_lut[adcval];
 	freq_rad = (phase_curr-phase_prev)/(curr_time-prev_time);
 
-	HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
-	HAL_GPIO_WritePin(GPIOA,D1_Pin,0);
+//	HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
+//	HAL_GPIO_WritePin(GPIOA,D1_Pin,0);
 
 	//+ Low frequency
 	if(7539-freq_deviation <freq_rad && freq_rad < 7539+freq_deviation ){
 		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
-		HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
+//		HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
 
 		//Reset invalid
 		invalid_freq_count = 0;
@@ -247,7 +250,7 @@ void Tim5_OC_Callback(){
 	//- Low frequency
 	else if(-7539-freq_deviation <freq_rad && freq_rad < -7539+freq_deviation ){
 		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
-		HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
+//		HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
 
 		//Reset invalid
 		invalid_freq_count = 0;
@@ -267,7 +270,7 @@ void Tim5_OC_Callback(){
 	//+ High frequency
 	else if(13823-freq_deviation <freq_rad && freq_rad < 13823+freq_deviation ){
 		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
-		HAL_GPIO_WritePin(GPIOA,D0_Pin,1);
+//		HAL_GPIO_WritePin(GPIOA,D0_Pin,1);
 
 		//Reset invalid
 		invalid_freq_count = 0;
@@ -287,7 +290,7 @@ void Tim5_OC_Callback(){
 	//- High frequency
 	else if(-13823-freq_deviation <freq_rad && freq_rad < -13823+freq_deviation ){
 		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
-		HAL_GPIO_WritePin(GPIOA,D0_Pin,1);
+//		HAL_GPIO_WritePin(GPIOA,D0_Pin,1);
 
 		//Reset invalid
 		invalid_freq_count = 0;
@@ -307,7 +310,7 @@ void Tim5_OC_Callback(){
 	//Invalid frequencies
 	else {
 		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
-		HAL_GPIO_WritePin(GPIOA,D1_Pin,1);
+//		HAL_GPIO_WritePin(GPIOA,D1_Pin,1);
 
 		invalid_freq_count++;
 		if(invalid_freq_count>=max_invalid){
@@ -326,6 +329,7 @@ void Tim5_OC_Callback(){
 	uint32_t next_sampl = curr_time + SAMP_COUNT;
 	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1,next_sampl);
 }
+
 void FreqEdgeDetection(int edgeTime){
 	uint32_t this_capture = 0;
 
@@ -373,11 +377,11 @@ void FreqEdgeDetection(int edgeTime){
 			//If clk was not sync, start sample one period later
 			if(!clk_sync){
 				resetBitBuffer();
-				next_sampl = this_capture + SYMBOL_PERIOD;
+				next_sampl = this_capture + SYMBOL_PERIOD/2;
 			}
 			//If clk was sync, sample at normal interval
 			else {
-				next_sampl = this_capture + bit_sample_period;
+				next_sampl = this_capture + bit_sample_period/2;
 			}
 			//Prepare OC timer int
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);

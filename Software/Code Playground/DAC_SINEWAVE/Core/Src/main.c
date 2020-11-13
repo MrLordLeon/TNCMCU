@@ -127,7 +127,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-//		tx_rx();
+		tx_rx();
 	}
   /* USER CODE END 3 */
 }
@@ -434,7 +434,7 @@ static void MX_TIM5_Init(void)
 
   /* USER CODE END TIM5_Init 1 */
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 80-1;
+  htim5.Init.Prescaler = 2-1;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.Period = 4294967295;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -548,7 +548,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, PTT_Pin|D4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, D5_Pin|D3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -570,12 +570,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : D3_Pin */
-  GPIO_InitStruct.Pin = D3_Pin;
+  /*Configure GPIO pins : D5_Pin D3_Pin */
+  GPIO_InitStruct.Pin = D5_Pin|D3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(D3_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);

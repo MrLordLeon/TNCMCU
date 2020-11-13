@@ -92,6 +92,6 @@ int asin_lut[4096];
 void gen_asin(){
     for(int i = 0;i<4096;i++){
         double phase = asin((i-2048.0)/2048.0);
-        asin_lut[i] = phase*1000000;
+        asin_lut[i] = phase*40000000;
     }
 }
