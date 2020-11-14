@@ -101,7 +101,7 @@ void Tim2_OC_Callback(){
 		}
 
 		else if(got_flag_start){
-			HAL_GPIO_TogglePin(GPIOA,D0_Pin);
+//			HAL_GPIO_TogglePin(GPIOA,D0_Pin);
 			//Load the processed bit into the buffer
 			save_cnt = loadBitBuffer(NRZI)+1;
 		}
@@ -109,7 +109,7 @@ void Tim2_OC_Callback(){
 		//Found ending flag, now need to process bit buffer
 		if(got_flag_end){
 			got_flag_end = false;
-			HAL_GPIO_TogglePin(GPIOA,D1_Pin);
+			HAL_GPIO_TogglePin(GPIOA,D0_Pin);
 
 			//Disable Interrupts for data processing
 			HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
@@ -202,6 +202,7 @@ bool invalid_freq = false;
 //Timer 5 Output Capture Callback
 void Tim5_OC_Callback(){
 	prev_freq_state = curr_freq_state;
+//	HAL_GPIO_WritePin(GPIOA,D0_Pin,curr_freq_state);
 	//Log Values
 	prev_time = curr_time;
 	phase_prev = phase_curr;
@@ -292,7 +293,7 @@ void Tim5_OC_Callback(){
 	}
 	//Invalid frequencies
 	else {
-
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
 		invalid_freq_count++;
 		if(invalid_freq_count>=max_invalid){
 			invalid_freq = true;
@@ -300,6 +301,7 @@ void Tim5_OC_Callback(){
 			valid_freq_low_count = 0;
 		}
 	}
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,!invalid_freq);
 
 	//Should look like binary
 	if(curr_freq_state!=prev_freq_state){
