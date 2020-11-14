@@ -29,13 +29,13 @@ int byteArray[8];
 bool got_flag_start = false;
 bool got_flag_end = false;
 
+const int samp_per_bit_margin = SYMBOL_MARGIN/samp_per_bit;
+
 //Timer 2 Output Compare Callback
 void Tim2_OC_Callback(){
 	static int save_cnt;
 	static int flag_cnt;
 	bool isFlag = false;
-
-	HAL_GPIO_WritePin(GPIOA,D1_Pin,clk_sync);
 
 	freq_pin_state_last = hold_state;
 
@@ -43,7 +43,7 @@ void Tim2_OC_Callback(){
 	if(clk_sync){
 		NRZI = (freq_pin_state_curr==freq_pin_state_last) ? 1 : 0;
 
-		HAL_GPIO_WritePin(GPIOA,D0_Pin,NRZI);
+//		HAL_GPIO_WritePin(GPIOB,D3_Pin,NRZI);
 
 		//Shift byte array for next comparison
 //		memmove(&byteArray[1],&byteArray[0],7*sizeof(int));
@@ -101,7 +101,7 @@ void Tim2_OC_Callback(){
 		}
 
 		else if(got_flag_start){
-			HAL_GPIO_TogglePin(GPIOB,D2_Pin);
+//			HAL_GPIO_TogglePin(GPIOA,D0_Pin);
 			//Load the processed bit into the buffer
 			save_cnt = loadBitBuffer(NRZI)+1;
 		}
@@ -109,11 +109,11 @@ void Tim2_OC_Callback(){
 		//Found ending flag, now need to process bit buffer
 		if(got_flag_end){
 			got_flag_end = false;
-			HAL_GPIO_TogglePin(GPIOB,D3_Pin);
+			HAL_GPIO_TogglePin(GPIOA,D0_Pin);
 
 			//Disable Interrupts for data processing
 			HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
-			HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
+			HAL_TIM_OC_Stop_IT(&htim5, TIM_CHANNEL_1);
 
 			//Buffer will be filled with ending flags, dont want this in ax.25 buffer
 			save_cnt -= FLAG_SIZE;
@@ -144,7 +144,7 @@ void Tim2_OC_Callback(){
 
 			//Enable Interrupts since data processing is complete
 			HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
-			HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
+			HAL_TIM_OC_Start_IT(&htim5, TIM_CHANNEL_1);
 		}
 
 		//Prepare OC for next sample
@@ -174,12 +174,145 @@ void Tim3_IT_Callback() {
 	if (mode) {
 		midbit = false;
 	}
-	//Timer 3 does nothing in RX
-	else {}
 }
-//Timer 5 Input Capture Callback
-void Tim5_IC_Callback(){
-	uint32_t this_capture = 0;		// simply stores either the rising or falling capture, based on which state we are in (avoids duplicate code)
+
+#define PI 3.14159265
+const int SAMP_COUNT = 775;
+const int freq_deviation = 2382;
+
+double phase_curr,phase_prev;
+int freq_rad;
+double x1,x2;
+
+int curr_time,prev_time,diff_time;
+int freq;
+float buffer[1024];
+int count = 0;
+int adc_val;
+
+const int max_invalid = 3;
+const int min_valid = 3;
+int valid_freq_low_count = 0;
+int valid_freq_high_count = 0;
+int invalid_freq_count = 0;
+bool prev_freq_state = false;
+bool curr_freq_state = false;		//Interpreted freq
+bool invalid_freq = false;
+
+//Timer 5 Output Capture Callback
+void Tim5_OC_Callback(){
+	prev_freq_state = curr_freq_state;
+//	HAL_GPIO_WritePin(GPIOA,D0_Pin,curr_freq_state);
+	//Log Values
+	prev_time = curr_time;
+	phase_prev = phase_curr;
+
+	//Get ADC Val
+	HAL_ADC_Start(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1,5);
+	int adcval = HAL_ADC_GetValue(&hadc1);
+
+	//Capture time
+	curr_time = htim5.Instance->CNT;
+
+	//Calculate freq
+	phase_curr = asin_lut[adcval];
+	freq_rad = (phase_curr-phase_prev)/(curr_time-prev_time);
+
+	//+ Low frequency
+	if(7539-freq_deviation <freq_rad && freq_rad < 7539+freq_deviation ){
+
+		//Reset invalid
+		invalid_freq_count = 0;
+
+		//Inc number of low frequencies
+		valid_freq_low_count++;
+		//Got enough valid frequencies to probably call this a low
+		if(valid_freq_low_count>=min_valid){
+			//Reset high count
+			valid_freq_high_count = 0;
+
+			//Set frequency status
+			curr_freq_state  = false;
+			invalid_freq = false;
+		}
+	}
+	//- Low frequency
+	else if(-7539-freq_deviation <freq_rad && freq_rad < -7539+freq_deviation ){
+
+		//Reset invalid
+		invalid_freq_count = 0;
+
+		//Inc number of low frequencies
+		valid_freq_low_count++;
+		//Got enough valid frequencies to probably call this a low
+		if(valid_freq_low_count>=min_valid){
+			//Reset high count
+			valid_freq_high_count = 0;
+
+			//Set frequency status
+			curr_freq_state  = false;
+			invalid_freq = false;
+		}
+	}
+	//+ High frequency
+	else if(13823-freq_deviation <freq_rad && freq_rad < 13823+freq_deviation ){
+
+		//Reset invalid
+		invalid_freq_count = 0;
+
+		//Inc number of low frequencies
+		valid_freq_high_count++;
+		//Got enough valid frequencies to probably call this a low
+		if(valid_freq_high_count>=min_valid){
+			//Reset low count
+			valid_freq_low_count = 0;
+
+			//Set frequency status
+			curr_freq_state  = true;
+			invalid_freq = false;
+		}
+	}
+	//- High frequency
+	else if(-13823-freq_deviation <freq_rad && freq_rad < -13823+freq_deviation ){
+
+		//Reset invalid
+		invalid_freq_count = 0;
+
+		//Inc number of low frequencies
+		valid_freq_high_count++;
+		//Got enough valid frequencies to probably call this a low
+		if(valid_freq_high_count>=min_valid){
+			//Reset low count
+			valid_freq_low_count = 0;
+
+			//Set frequency status
+			curr_freq_state  = true;
+			invalid_freq = false;
+		}
+	}
+	//Invalid frequencies
+	else {
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
+		invalid_freq_count++;
+		if(invalid_freq_count>=max_invalid){
+			invalid_freq = true;
+			valid_freq_high_count = 0;
+			valid_freq_low_count = 0;
+		}
+	}
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,!invalid_freq);
+
+	//Should look like binary
+	if(curr_freq_state!=prev_freq_state){
+		FreqEdgeDetection(curr_time);
+	}
+
+	uint32_t next_sampl = curr_time + SAMP_COUNT;
+	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1,next_sampl);
+}
+void FreqEdgeDetection(int edgeTime){
+	uint32_t this_capture = 0;
 
 	//Grap pin state for OC timer
 	freq_pin_state_curr = signal_edge;
@@ -187,7 +320,7 @@ void Tim5_IC_Callback(){
 	//Rising Edge
 	if (signal_edge)
 	{
-		rising_capture = HAL_TIM_ReadCapturedValue(&htim5, TIM_CHANNEL_1); //Time-stamp interrupt
+		rising_capture = edgeTime; //Time-stamp interrupt
 		signal_edge = FALLING_EDGE;		// look for falling edge on next capture
 		rise_captured = true;
 
@@ -201,7 +334,7 @@ void Tim5_IC_Callback(){
 	//Falling edge
 	else
 	{
-		falling_capture = HAL_TIM_ReadCapturedValue(&htim5, TIM_CHANNEL_1);		//Time-stamp interrupt
+		falling_capture = edgeTime;		//Time-stamp interrupt
 		fall_captured = true;
 		signal_edge = RISING_EDGE;		// look for rising edge on next capture
 
@@ -225,11 +358,11 @@ void Tim5_IC_Callback(){
 			//If clk was not sync, start sample one period later
 			if(!clk_sync){
 				resetBitBuffer();
-				next_sampl = this_capture + SYMBOL_PERIOD;
+				next_sampl = this_capture + SYMBOL_PERIOD/2;
 			}
 			//If clk was sync, sample at normal interval
 			else {
-				next_sampl = this_capture + bit_sample_period;
+				next_sampl = this_capture + bit_sample_period/2;
 			}
 			//Prepare OC timer int
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, next_sampl);

@@ -29,7 +29,7 @@ void initProgram(bool modeStart) {
 	//Set hardware properly
 	mode = modeStart;
 	setHardwareMode(modeStart);
-
+	gen_asin();
 	init_UART();
 }
 
@@ -46,7 +46,7 @@ void setHardwareMode(int set_mode) {
 	HAL_TIM_OC_Stop_IT(&htim2, TIM_CHANNEL_1);
 	HAL_TIM_Base_Stop(&htim3);
 	HAL_TIM_Base_Stop(&htim4);
-	HAL_TIM_IC_Stop_IT(&htim5, TIM_CHANNEL_1);
+	HAL_TIM_OC_Stop_IT(&htim5, TIM_CHANNEL_1);
 
 	//Zero Timers
 	htim2.Instance->CNT = 0;
@@ -77,7 +77,8 @@ void setHardwareMode(int set_mode) {
 
 //		//Start Timers the Correct Way
 		HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
-		HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1);
+		HAL_TIM_OC_Start_IT(&htim5, TIM_CHANNEL_1);
+		__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1,1000);
 	}
 }
 
@@ -212,7 +213,7 @@ int bitToAudio(bool *bitStream, int arraySize, bool direction,int wave_start) {
 		//NRZI
 		freqSelect = (changeFreq) ? freqSelect : !freqSelect;
 
-		HAL_GPIO_WritePin(GPIOB, D4_Pin, changeFreq);
+//		HAL_GPIO_WritePin(GPIOB, D4_Pin, changeFreq);
 //		HAL_GPIO_WritePin(GPIOB, D4_Pin, freqSelect);
 
 		if (freqSelect) {

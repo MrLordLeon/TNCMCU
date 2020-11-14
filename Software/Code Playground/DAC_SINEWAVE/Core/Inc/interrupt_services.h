@@ -15,6 +15,7 @@
 #include "AX.25.h"
 #include "debug.h"
 
+extern ADC_HandleTypeDef hadc1;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim4;
@@ -56,6 +57,8 @@ extern bool NRZI;
  * 	Function to be ran at Tim3 interrupt
  */
 void Tim3_IT_Callback();
+
+void FreqEdgeDetection(int edgeTime);
 
 void init_UART();
 void UART2_Exception_Callback();

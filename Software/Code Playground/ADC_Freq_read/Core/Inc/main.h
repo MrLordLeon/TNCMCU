@@ -60,6 +60,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define Frequency_Status_Pin GPIO_PIN_7
+#define Frequency_Status_GPIO_Port GPIOA
+#define Freq_Invalid_Pin GPIO_PIN_7
+#define Freq_Invalid_GPIO_Port GPIOC
+#define Freq_Valid_Pin GPIO_PIN_9
+#define Freq_Valid_GPIO_Port GPIOA
+#define Toggle_Pin GPIO_PIN_6
+#define Toggle_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
