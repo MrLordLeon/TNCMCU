@@ -20,6 +20,3 @@ This guide will also step you through the process of creating a simple code to b
   - This file defines methods for handling interrupt callbacks. Interrupt corresponding macro definitions are found here.
 - **sine.h**
   - This file defines LUTs for the controller. A sine wave LUT is saved and a arcsin LUT are saved.
-
-![Timer Interrupts-1]("/images/System-Interrupts-1.png")
-![Timer Interrupts-2]("/images/System-Interrupts-2.png")
