@@ -36,9 +36,6 @@ void Tim2_OC_Callback(){
 	static int save_cnt;
 	static int flag_cnt;
 	bool isFlag = false;
-	HAL_GPIO_TogglePin(GPIOB,D5_Pin);
-
-	HAL_GPIO_WritePin(GPIOC,D4_Pin,clk_sync);
 
 	freq_pin_state_last = hold_state;
 
@@ -46,7 +43,7 @@ void Tim2_OC_Callback(){
 	if(clk_sync){
 		NRZI = (freq_pin_state_curr==freq_pin_state_last) ? 1 : 0;
 
-		HAL_GPIO_WritePin(GPIOB,D3_Pin,NRZI);
+//		HAL_GPIO_WritePin(GPIOB,D3_Pin,NRZI);
 
 		//Shift byte array for next comparison
 //		memmove(&byteArray[1],&byteArray[0],7*sizeof(int));
@@ -177,11 +174,9 @@ void Tim3_IT_Callback() {
 	if (mode) {
 		midbit = false;
 	}
-	//Timer 3 does nothing in RX
-	else {}
 }
 
-#define PI 				3.14159265
+#define PI 3.14159265
 const int SAMP_COUNT = 775;
 const int freq_deviation = 2382;
 
@@ -216,7 +211,6 @@ void Tim5_OC_Callback(){
 	HAL_ADC_PollForConversion(&hadc1,5);
 	int adcval = HAL_ADC_GetValue(&hadc1);
 
-//	HAL_GPIO_TogglePin(GPIOB,Toggle_Pin);
 	//Capture time
 	curr_time = htim5.Instance->CNT;
 
@@ -224,13 +218,8 @@ void Tim5_OC_Callback(){
 	phase_curr = asin_lut[adcval];
 	freq_rad = (phase_curr-phase_prev)/(curr_time-prev_time);
 
-//	HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
-//	HAL_GPIO_WritePin(GPIOA,D1_Pin,0);
-
 	//+ Low frequency
 	if(7539-freq_deviation <freq_rad && freq_rad < 7539+freq_deviation ){
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
-//		HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
 
 		//Reset invalid
 		invalid_freq_count = 0;
@@ -249,8 +238,6 @@ void Tim5_OC_Callback(){
 	}
 	//- Low frequency
 	else if(-7539-freq_deviation <freq_rad && freq_rad < -7539+freq_deviation ){
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
-//		HAL_GPIO_WritePin(GPIOA,D0_Pin,0);
 
 		//Reset invalid
 		invalid_freq_count = 0;
@@ -269,8 +256,6 @@ void Tim5_OC_Callback(){
 	}
 	//+ High frequency
 	else if(13823-freq_deviation <freq_rad && freq_rad < 13823+freq_deviation ){
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
-//		HAL_GPIO_WritePin(GPIOA,D0_Pin,1);
 
 		//Reset invalid
 		invalid_freq_count = 0;
@@ -289,8 +274,6 @@ void Tim5_OC_Callback(){
 	}
 	//- High frequency
 	else if(-13823-freq_deviation <freq_rad && freq_rad < -13823+freq_deviation ){
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
-//		HAL_GPIO_WritePin(GPIOA,D0_Pin,1);
 
 		//Reset invalid
 		invalid_freq_count = 0;
@@ -309,8 +292,6 @@ void Tim5_OC_Callback(){
 	}
 	//Invalid frequencies
 	else {
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
-//		HAL_GPIO_WritePin(GPIOA,D1_Pin,1);
 
 		invalid_freq_count++;
 		if(invalid_freq_count>=max_invalid){
@@ -321,7 +302,6 @@ void Tim5_OC_Callback(){
 	}
 
 	//Should look like binary
-	HAL_GPIO_WritePin(GPIOA,D2_Pin,curr_freq_state);
 	if(curr_freq_state!=prev_freq_state){
 		FreqEdgeDetection(curr_time);
 	}
@@ -329,7 +309,6 @@ void Tim5_OC_Callback(){
 	uint32_t next_sampl = curr_time + SAMP_COUNT;
 	__HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_1,next_sampl);
 }
-
 void FreqEdgeDetection(int edgeTime){
 	uint32_t this_capture = 0;
 
